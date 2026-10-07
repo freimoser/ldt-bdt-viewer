@@ -1,0 +1,2116 @@
+{
+ "F001": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "nnnnn",
+  "expl": "Format der Abrechnungs-VKNR",
+  "page": 74
+ },
+ "F002": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "JJJJMMTT",
+  "expl": "Format Datum\nTT = Tag, MM = Monat, JJJJ = Jahr",
+  "page": 74
+ },
+ "F003": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "JJJJMMTT",
+  "expl": "Format Geburtsdatum eines Patienten\nTT = Tag, MM = Monat, JJJJ = Jahr\nzusätzlich erlaubter Wertebereich: JJJJMM00, JJJJ0000, 00000000",
+  "page": 74
+ },
+ "F004": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "ann, ann.n, ann.nn, ann.n-, ann.-",
+  "expl": "Format ICD-Code\nHinweis:\nICD-Codes im Format “ann.-“ dürfen nicht in Abrechnungsdateien\nverwendet werden.",
+  "page": 74
+ },
+ "F005": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "WWT",
+  "expl": "Format Woche/Tag\nWW = Wochen, T = Tag (Wertebereich 0 – 6)",
+  "page": 74
+ },
+ "F006": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "hhmm",
+  "expl": "Format Zeitdauer\nhh = Stunde, mm = Minute\nhh = 00 – 99\nmm = 00 – 59",
+  "page": 74
+ },
+ "F007": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "LDTn.n.n, LDTn.n.nn, LDTn.n.nnn,\nLDTn.n.nnnn, LDTn.nn.n, LDTn.nn.nn,\nLDTn.nn.nnn, LDTn.nn.nnnn",
+  "expl": "Format Versionsnummer der Datensatzbeschreibung",
+  "page": 75
+ },
+ "F009": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "nnnnn, nnnnn[G-alpha]",
+  "expl": "G-alpha ::= A|B|...|Z\nn ::= 0|1|...|9",
+  "page": 75
+ },
+ "F010": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "kknnnnnmm",
+  "expl": "Format BSNR\nkk = erlaubter Inhalt gemäß Regel E014\nnnnnn = Seriennummer\nmm = [undefiniert]",
+  "page": 75
+ },
+ "F011": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "nnnnnnmff",
+  "expl": "Format LANR\nm = Prüfziffer *\nff = erlaubter Inhalt gemäß Anlage 35 des BAR-Schlüsselverzeichnisses,\ntolerierter Ersatzwert für die Ziffern 8 – 9: 00\n999999900 = Ärzte ohne LANR\n* Die Prüfziffer wird dazu verwendet um zu prüfen, ob die eingetragene Ziffer\nformal korrekt ist.\nDiese Prüfziffer wird mittels des Modulo 10 – Verfahrens der Stellen 1 bis 6 der\nArztnummer ermittelt. Bei diesem Verfahren werden die Ziffern 1 bis 6 von links\nnach rechts abwechselnd mit 4 und 9 multipliziert. Die Summe dieser Produkte\nwird Modulo 10 berechnet. Die Prüfziffer ergibt sich aus der Differenz dieser Zahl\nzu 10 (ist die Differenz 10, so ist die Prüfziffer 0).",
+  "page": 75
+ },
+ "F012": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "a/nn/JJMM/MM/aaa",
+  "expl": "Format KBV-Prüfnummer\nA = [V, X, Y, Z]\nnn = [00-99]\nJJMM = Jahr/Monat\nMM = Dauer in Monaten\naaa = Systemident (alphanumerisch)",
+  "page": 75
+ },
+ "F013": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "annnnnnnnP",
+  "expl": "Format Versicherten-ID\na = A-Z (ohne Umlaute)\nn = numerisch\nP = Prüfziffer, numerisch (Verfahren zur Bestimmung der Prüfziffer vgl.\nErläuterung der FK 3119 in Feldtabelle)",
+  "page": 76
+ },
+ "F014": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00nnnnnnP",
+  "expl": "Format ASV-Teamnummer\n00 = ASV-ID-Kürzel\nnnnnnn = eindeutige Nummer\nP = Prüfziffer *\n* Die Prüfziffer wird mittels des Modulo 10 – Verfahrens der Stellen 3 bis 8 der\nASV-Teamnummer ermittelt. Bei diesem Verfahren werden die Ziffern 3 bis 8 von\nlinks nach rechts abwechselnd mit 4 und 9 multipliziert. Die Summe dieser\nProdukte wird Modulo 10 berechnet. Die Prüfziffer ergibt sich aus der Differenz\ndieser Zahl zu 10.",
+  "page": 76
+ },
+ "F015": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "nnn/nnn",
+  "expl": "Format Blutdruck",
+  "page": 76
+ },
+ "F016": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "hhmmss(ms)",
+  "expl": "Format Uhrzeit\nhh = Stunden (00 – 23)\nmm = Minuten (00 – 59)\nss = Sekunden (00 – 59)\nms = Millisekunden (000 – 999)",
+  "page": 76
+ },
+ "F017": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "JJJJ",
+  "expl": "Format Jahreszahl",
+  "page": 76
+ },
+ "F018": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "JJJJMMTT",
+  "expl": "Format Datum\nTT = Tag, MM = Monat, JJJJ = Jahr\nzusätzlich erlaubter Wertebereich: JJJJMM00, JJJJ0000",
+  "page": 76
+ },
+ "F020": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "nnnnnnnP",
+  "expl": "Format der Pharmazentralnummer (PZN)\nnnnnnnn = Nummer\nP = Prüfziffer",
+  "page": 76
+ },
+ "F021": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "35kknnnnn",
+  "expl": "Format BSNR Terminservicestelle (Anlage 28 BMV-Ä)\n35 = Kennzeichnung ambulante Behandlung im Krankenhaus\nkk = erlaubter Inhalt gemäß Regel E014\nnnnnn = Seriennummer",
+  "page": 77
+ },
+ "F022": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "555555nff",
+  "expl": "Pseudo-LANR für Krankenhausärzte im Rahmen der ASV-Abrechnung\n(ASV-AV Anlage 3 Fachgruppencodierungen)\n555555 = Pseudo-Arztnummer für Krankenhausärzte im Rahmen der\nASV-Abrechnung\nn = Ordnungsnummer (zulässige Werte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)\nff = Fachgruppencode gemäß der jeweils gültigen Anlage 2 der Richtlinie",
+  "page": 77
+ },
+ "F023": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "n, nn, n-n, n-nn, nn-nn",
+  "expl": "Format für Angabe des Zeitraums in Monaten\n(Bsp.: 2 Monate, 3-6 Monate, 10-12 Monate)",
+  "page": 77
+ },
+ "F024": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "HPV-Typ-Nummer | ( [ Gruppenname ':' ]\nHPV-Typ-Nummer ( ('/' | '_' ) HPV-Typ-\nNummer )+ )",
+  "expl": "EBNF*-Format für entweder eine einzelne HPV-Typ-Nummer oder eine\nGruppe von mehreren HPV-Typ-Nummern mit optional vorangestelltem\ngerätespezifischen Gruppennamen. HPV-Typ-Nummer und\nGruppenname besitzen ein alphanumerisches Format. (Bsp.: 18,\nG1:31/33/52/58)\n* Erweiterte Backus-Naur-Form",
+  "page": 77
+ },
+ "E001": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "LDT3.2.20",
+  "expl": "zulässiger Inhalt für FK 0001",
+  "page": 78
+ },
+ "E002": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "1, 3, 5",
+  "expl": "1 = Mitglied\n3 = Familienversicherter\n5 = Rentner",
+  "page": 78
+ },
+ "E003": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "002-999",
+  "expl": "",
+  "page": 78
+ },
+ "E004": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "8220, 8221, 8230, 8231, 8205, 8215",
+  "expl": "",
+  "page": 78
+ },
+ "E005": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Bei numerischen Werten:\nN, H, +, HH, ++, L, -, LL, --, !H, !+, !L, !-\nBei nicht numerischen Werten:\nN, A, AA",
+  "expl": "Bei numerischen Werten:\n- „N“ = im Normalbereich\n- “H” oder „+“ = schwach erhöht,\n- “HH” oder „++“ = stark erhöht,\n- “L” oder „-“ = schwach erniedrigt,\n- “LL” oder „–“ = stark erniedrigt,\n- „!H“ oder „!+“ = Wert extrem erhöht,\n- „!L“ oder „!-„ = Wert extrem erniedrigt.\nBei nicht numerischen Werten:\n- “N” = normal (anzuwenden bei nicht numerischen Werten),\n- “A” = auffällig (anzuwenden bei nicht numerischen Werten),\n- “AA” = sehr auffällig (anzuwenden bei nicht numerischen Werten).",
+  "page": 78
+ },
+ "E006": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Auftrag nicht abgeschlossen\n2 = Auftrag abgeschlossen",
+  "page": 78
+ },
+ "E007": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12",
+  "expl": "01 = keine gesicherte Information\nEs ist keine gesicherte Information zum Ergebnis verfügbar oder abzubilden und\nes wird auch keine Information dazu ausgegeben oder angegeben werden\nkönnen.\n02 = Ergebnis folgt\nEs liegt eine Untersuchungsanforderung vor, für die es aktuell noch kein Ergebnis\ngibt.\n03 = Ergebnis\nEin technisch validiertes Ergebnis ist ermittelt.\n04 = Ergebnis korrigiert\nEin technisch validiertes Ergebnis wurde korrigiert. Die Korrektur ist zu\ndokumentieren. Es erfolgt keine weitere Abrechnung.\n05 = Ergebnis ermittelt\nEin ärztlich validiertes Ergebnis liegt vor, allerdings läuft die Analytik zur\nAbsicherung noch weiter. In Einzelfällen können sich noch Veränderungen\nergeben. Es folgt dann ein korrigiertes Ergebnis.\n06 = Befundergebnis\nDie Analytik dieser Untersuchungsanforderung ist abgeschlossen und ein\närztlich validiertes Ergebnis liegt vor.\n07 = Befundergebnis bereits berichtet\nDas Befundergebnis ist unverändert schon mindestens einmal übermittelt\nworden (keine Abrechnung!).\n08 = Befundergebnis korrigiert\nDas schon übermittelte Befundergebnis ist korrigiert worden. Damit hat nur noch\ndieses korrigierte Befundergebnis Gültigkeit und alle bisherigen\nBefundergebnisse zu dieser Untersuchungsanforderung verlieren Ihre Gültigkeit.\nDie Korrektur ist zu dokumentieren. Es erfolgt keine weitere Abrechnung.\n09 = Ergebnis fehlt\nDas Ergebnis ist nicht vorhanden oder kann nicht mehr ermittelt werden. Weil\ndas Ergebnis fehlt, kann auch kein Befundergebnis erstellt werden.\n10 = Erweiterte Analytik erforderlich\nEine erweiterte Untersuchungsanalytik zur besseren Beurteilung und\nAbsicherung des bisher ermittelten ärztlich validierten Befundes ist erforderlich.\nDie weiteren Ergebnisse werden in folgenden Befundberichten ergänzt.\nKommentar: Diese Ergebnisse werden zu Befunden (einer Leistung). Der\nBefundbericht vor Einleitung der erweiterten Analytik kann nur den Status\n„Auftrag nicht abgeschlossen“ haben. Sollte dies nicht zutreffen ist ein neuer\nAuftrag zu erstellen“!\n11 = Material fehlt\nFür die Untersuchungsanforderung ist kein Material für die Analytik vorhanden.\n12 = Storniert\nDie Untersuchungsanforderung wurde storniert.",
+  "page": 78
+ },
+ "E008": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4",
+  "expl": "0 = EBM\n1 = BMÄ\n2 = EGO\n3 = GOÄ\n4 = BG Tarif",
+  "page": 80
+ },
+ "E009": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "21, 23, 24, 27, 28",
+  "expl": "21 = Auftragsleistungen\n23 = Konsiliaruntersuchung\n24 = Mit-/Weiterbehandlung\n27 = Überweisungsschein für Laboratoriumsuntersuchungen als\n00 = Auftragsleistung (Muster 10)\n28 = Anforderungsschein für Laboratoriumsuntersuchungen bei\n00 = Laborgemeinschaften (Muster 10A)",
+  "page": 80
+ },
+ "E010": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00",
+  "expl": "",
+  "page": 80
+ },
+ "E011": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1",
+  "expl": "1 = ja",
+  "page": 80
+ },
+ "E012": {
+  "cat": "Basis",
+  "status": "F",
+  "check": ">0",
+  "expl": "",
+  "page": 80
+ },
+ "E013": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4, 5, 6",
+  "expl": "0 = Papier\n1 = Telefon\n2 = Fax\n3 = E-Mail\n4 = DFÜ\n5 = Tourpost\n6 = KV-Connect",
+  "page": 80
+ },
+ "E014": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "01-03, 06-21, 24, 25, 27, 28, 31, 37-73, 78-\n81, 83, 85-88, 93-96, 98, 99",
+  "expl": "Zulässige UKV/OKV-Kennungen in den Arztnummern und\nKnappschaftskennung",
+  "page": 80
+ },
+ "E015": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00, 01, 02, 03, 04, 05, 06, 07, 08, 09",
+  "expl": "00 = Primärabrechnung\n01 = Sozialversicherungsabkommen (SVA)\n02 = Bundesversorgungsgesetz (BVG)\n03 = Bundesentschädigungsgesetz (BEG)\n04 = Grenzgänger (GG)\n05 = Rheinschiffer (RHS)\n06 = Sozialhilfeträger, ohne Asylstellen (SHT)\n07 = Bundesvertriebenengesetz (BVFG)\n08 = Asylstellen (AS)\n09 = Schwangerschaftsabbrüche",
+  "page": 80
+ },
+ "E016": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Keim\n2 = Pilz",
+  "page": 81
+ },
+ "E017": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = Privat\n2 = Post B\n3 = KVB",
+  "page": 81
+ },
+ "E018": {
+  "cat": "SV",
+  "status": "F",
+  "check": "M, W, D, X",
+  "expl": "M = männlich\nW = weiblich\nD = divers\nX = unbestimmt",
+  "page": 81
+ },
+ "E019": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "M, W, D, X, U",
+  "expl": "M = männlich\nW = weiblich\nD = divers\nX = unbestimmt\nU = unbekannt",
+  "page": 81
+ },
+ "E020": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10,\n11, 12, 13, 30, 31, 32, 33, 34, 35, 36, 37,\n38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,\n49, 50, 51, 52, 53, 54, 55, 56, 57, 58",
+  "expl": "00 = nicht gesetzt keine Angabe\n01 = DM2 Diabetes mellitus Typ 2\n02 = BRK Brustkrebs\n03 = KHK Koronare Herzkrankheit\n04 = DM1 Diabetes mellitus Typ 1\n05 = Asthma bronchiale\n06 = COPD (chronic obstructive pulmo-nary disease)\n07 = HI Chronische Herzinsuffizienz\n08 = Depression\n09 = Rueckenschmerz Rückenschmerz\n10 = Rheuma\n11 = Osteoporose\n12 = Adipositas Erwachsene\n13 = Adipositas Kinder und Jugendliche\n30 = Diabetes Typ 2 und KHK\n31 = Asthma und Diabetes Typ 2\n32 = COPD und Diabetes Typ 2\n33 = COPD und KHK\n34 = COPD, Diabetes Typ 2 und KHK\n35 = Asthma und KHK\n36 = Asthma, Diabetes Typ 2 und KHK\n37 = Brustkrebs und Diabetes Typ 2\n38 = Diabetes Typ 1 und KHK\n39 = Asthma und Diabetes Typ 1\n40 = Asthma und Brustkrebs\n41 = Brustkrebs und KHK\n42 = Brustkrebs und COPD\n43 = COPD und Diabetes Typ 1\n44 = Brustkrebs, Diabetes Typ 2 und KHK\n45 = Asthma, Brustkrebs und Diabetes Typ 2\n46 = Brustkrebs und Diabetes Typ 1\n47 = COPD, Diabetes Typ 1 und KHK\n48 = Brustkrebs, COPD und Diabetes Typ 2\n49 = Asthma, Diabetes Typ 1 und KHK\n50 = Asthma, Brustkrebs und KHK\n51 = Brustkrebs, COPD und KHK\n52 = Brustkrebs, COPD, Diabetes Typ 2 und KHK\n53 = Asthma, Brustkrebs, Diabetes Typ 2 und KHK\n54 = Brustkrebs, Diabetes Typ 1 und KHK\n55 = Asthma, Brustkrebs und Diabetes Typ 1\n56 = Asthma, Brustkrebs, Diabetes Typ 1 und KHK\n57 = Brustkrebs, COPD und Diabetes Typ 1\n58 = Brustkrebs, COPD, Diabetes Typ 1 und KHK",
+  "page": 81
+ },
+ "E021": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00, 04, 06, 07, 08, 09",
+  "expl": "00 = keine Angabe\n04 = BSHG (Bundessozialhilfegesetz) § 264 SGB V\n06 = SER (Soziales Entschädigungsrecht)\n07 = SVA-Kennzeichnung für zwischenstaatliches\n00 = Krankenversicherungsrecht: Personen mit Wohnsitz im Inland,\n00 = Abrechnung nach Aufwand\n08 = SVA-Kennzeichnung, pauschal\n09 = Empfänger von Gesundheitsleistungen nach den §§ 4, 6 AsylbLG",
+  "page": 82
+ },
+ "E022": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "00, 01, 02, 03, 17, 20, 38, 46, (47), (48), (49),\n(50), 51, 52, (55), (60), (61), (62), 71, 72, 73,\n78, 83, 88, 93, 98",
+  "expl": "00 = Dummy bei eGK\n01 = Schleswig-Holstein\n02 = Hamburg\n03 = Bremen\n17 = Niedersachsen\n20 = Westfalen-Lippe\n38 = Nordrhein\n46 = Hessen\n(47 = Koblenz)\n(48 = Rheinhessen)\n49 = Pfalz)\n(50 = Trier)\n51 = Rheinland-Pfalz\n52 = Baden-Württemberg\n(55 = Nordbaden)\n(60 = Südbaden)\n(61 = Nordwürttemberg)\n(62 = Südwürttemberg)\n71 = Bayern\n72 = Berlin\n73 = Saarland\n74 = KBV\n78 = Mecklenburg-Vorpommern\n83 = Brandenburg\n88 = Sachsen-Anhalt\n93 = Thüringen\n98 = Sachsen\n( ) fusioniert, teilweise aber noch in Gebrauch",
+  "page": 83
+ },
+ "E023": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 11, 12, 14, 15,\n16 oder 17",
+  "expl": "01 = Erstveranlasser\n02 = Einsender Arzt\n03 = Einsender sonstige\n04 = Versicherter\n05 = Rechnungsempfänger\n06 = Bevollmächtigter\n07 = Laborarzt/Befundersteller\n08 = Leistungserbringer\n11 = Halter (eines Tieres)\n12 = Patient\n14 = Überweiser\n15 = staatliche Einrichtung\n16 = sonstige juristische Person\n17 = sonstige medizinische Einrichtung",
+  "page": 83
+ },
+ "E024": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Abrechnung Laborfacharzt\n2 = Abrechnung Privat-LG",
+  "page": 84
+ },
+ "E025": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "S, I, R, N",
+  "expl": "S = Sensibel bei Standardexposition\nI = Sensibel bei erhöhter Exposition\nR = Resistent\nN = IE (keine Interpretation)\nsiehe http://www.eucast.org/clinical_breakpoints/ und http://www.nak-\ndeutschland.org/",
+  "page": 84
+ },
+ "E026": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4",
+  "expl": "0 = nicht nachweisbar / kein Wachstum\n1 = spärlich,\n2 = mäßig/vereinzelt,\n3 = reichlich,\n4 = massenhaft",
+  "page": 84
+ },
+ "E027": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12,\n14,16, 17 oder 18",
+  "expl": "01 = Erstveranlasser\n02 = Einsender Arzt\n03 = Einsender sonstige\n04 = Versicherter\n05 = Rechnungsempfänger\n06 = Bevollmächtigter\n07 = Laborarzt/Befundersteller\n08 = Leistungserbringer\n09 = Softwareverantwortlicher\n10 = Zusätzlicher Befundempfänger\n11 = Halter (eines Tieres)\n12 = Patient\n14 = Überweiser\n16 = sonstige juristische Person\n17 = Medizinisch-technische/r Assistent/in (MTA)\n18 = Medizinische/r Fachangestellte/r (MFA)",
+  "page": 84
+ },
+ "E028": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Zulässige Werte siehe „Erläuterungen zur\nRegel E028“ am Ende dieser Regeltabelle",
+  "expl": "",
+  "page": 85
+ },
+ "E029": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "02, 03, 04, 05, 06, 11, 12, 15, 16 oder 90",
+  "expl": "02 = Einsender Arzt\n03 = Einsender sonstige\n04 = Versicherter\n05 = Rechnungsempfänger\n06 = Bevollmächtigter\n11 = Halter (eines Tieres)\n12 = Patient\n15 = staatliche Einrichtung\n16 = sonstige juristische Person\n90 = sonstige medizinische Einrichtung",
+  "page": 85
+ },
+ "E030": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3 , 4, 5",
+  "expl": "0 = nicht getestet\n1 = sensibel/wirksam\n2 = mäßig sensibel/schwach wirksam\n3 = resistent/unwirksam\n4 = wirksam in hohen Konzentrationen\n5 = natürliche Resistenz",
+  "page": 85
+ },
+ "E031": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Verdacht auf infektiös\n2 = gesichert infektiös",
+  "page": 85
+ },
+ "E032": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Notfall/intraoperativ\nEs besteht der Verdacht bzw. der Patient ist vital bedroht oder der Befund ist für\ndas weitere operative Vorgehen maßgeblich. Für die Differentialdiagnostik ist die\nunverzügliche Erbringung und Übermittlung der Laborbefunde unabdingbar (z.B.\nTroponin zum Ausschluss akuter Myokardinfarkt, PTH bei Nebenschilddrüsen-\nOP, histologische Schnellschnitte bei Ablation mammae).\n2 = Eilig\nDer Patient ist nicht vital bedroht, aber eine routinemäßige Abarbeitung der\nProben beeinträchtigt das therapeutische Vorgehen (z.B. Quick bei Marcumar-\nEinstellung). Die Ergebnisse werden schnellstmöglich nach Probeneingang im\nLabor an den Einsender übermittelt. Einsender und Labor sollten sich über die\nFrist einigen.",
+  "page": 85
+ },
+ "E033": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = organisch\n2 = anorganisch",
+  "page": 86
+ },
+ "E034": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = tierisch\n2 = pflanzlich\n3 = nicht bestimmbar",
+  "page": 86
+ },
+ "E035": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = Wasser\n2 = Luft\n3 = nicht bestimmbar\n4 = sonstiges",
+  "page": 86
+ },
+ "E036": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Feld kann ohne Inhalt übertragen werden",
+  "expl": "Damit wird die Formatierung von zu übertragenden Texten mit Leerzeilen\nermöglicht.",
+  "page": 86
+ },
+ "E037": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "G, A, V, Z",
+  "expl": "G = gesicherte Diagnose\nA = Ausschluss\nV = Verdacht auf\nZ = Zustand nach",
+  "page": 86
+ },
+ "E038": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "R, L, B",
+  "expl": "R = rechts\nL = links\nB = beiderseits",
+  "page": 86
+ },
+ "E039": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = kurativ\n2 = präventiv\n3 = Empfängnisregelung, Sterilisation, Schwangerschaftsabbruch\n4 = belegärztliche Behandlung",
+  "page": 86
+ },
+ "E040": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1",
+  "expl": "0 = Nein\n1 = Ja",
+  "page": 86
+ },
+ "E041": {
+  "cat": "SV",
+  "status": "F",
+  "check": "0, 1, 2",
+  "expl": "0 = Nicht eingeschrieben\n1 = Eingeschrieben\n2 = Einschreibung beantragt",
+  "page": 86
+ },
+ "E042": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Physischer Ort\n2 = Postanschrift",
+  "page": 87
+ },
+ "E044": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = eigen\n2 = fremd",
+  "page": 87
+ },
+ "E046": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4, 5 oder 6",
+  "expl": "1 = Arztpraxis\n2 = Laborarztpraxis\n3 = Laborgemeinschaft\n4 = sonstige medizinische Einrichtung\n5 = Hauptbetriebsstätte\n6 = Nebenbetriebsstätte",
+  "page": 87
+ },
+ "E047": {
+  "cat": "SV",
+  "status": "F",
+  "check": "2, 3, 4, 5, 6, 7, 9",
+  "expl": "2 = IK des Arztes\n3 = Telematik-ID\n4 = ID für GEVK-Verträge\n5 = ID für HÄVG-Verträge\n6 = ID für MEDI-Verträge\n7 = Selektivvertrag\n9 = Sonstige",
+  "page": 87
+ },
+ "E048": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1",
+  "expl": "1 = Zellmaterial nicht verwertbar",
+  "page": 87
+ },
+ "E049": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4, 5, 6, 7",
+  "expl": "1 = Pathologisch auffälliger Befund\n2 = Lebensbedrohlicher Zustand\n3 = Wiedervorstellung empfohlen\n4 = Probenmaterial nicht verwendbar\n5 = Probenmaterial unvollständig\n6 = Meldung nach KFRG* erfolgt\n7 = Meldung nach IfSG** erfolgt\n* Krebsfrüherkennungs- und -registergesetz\n** Infektionsschutzgesetz\nHinweis:\nDie Information zur erfolgten Meldung nach KFRG bzw. IfSG erfolgt\nimmer im Obj_0026, welches sich in dem Untersuchungsergebnis\nbefindet, dass die Meldepflicht begründet.",
+  "page": 87
+ },
+ "E050": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,\n16, 17, 99",
+  "expl": "1 = GKV Laborfacharzt\n2 = GKV LG\n3 = PKV Laborfacharzt\n4 = PKV LG\n5 = Selektivvertrag\n6 = IgeL\n7 = Sonstige Kostenübernahme\n8 = ASV\n9 = GKV Laborfacharzt präventiv\n10 = GKV LG präventiv\n11 = keine Zuordnung (nur zulässig im Obj_0027)\n12 = PräOP (Präoperative Laborleistungen**)\n13 = GKV Krankenhaus\n14 = PKV Krankenhaus\n15 = GKV Muster 6 / 39\n16 = GKV Muster 10C\n17 = ÖGD\n99 = storniert (nur in Satzart 8215-Nachforderung zulässig)*\n* der Workflow einer Stornierung muss zwischen Einsender und Labor definiert werden\n** Laborleistungen, die dazu dienen, den Patienten auf eine ambulante oder belegärztliche\nOperation vorzubereiten, werden dem einsendenden Arzt in Rechnung gestellt und können\nnicht über die Kassenärztliche Vereinigung abgerechnet werden (vgl. Abschnitt 31.1 des\nEBM)",
+  "page": 88
+ },
+ "E051": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = Laborgemeinschaft\n2 = Facharztlabor\n3 = Leistungserbringergemeinschaft\n4 = Eigenlabor",
+  "page": 88
+ },
+ "E052": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27,\n28, 30",
+  "expl": "10 = Methodenspezifische Standards nach WHO\n11 = Methodenspezifische Standards nach IFCC (u.a. serologische Verfahren)\n12 = Methodenspezifische Standards nach DGKL\n13 = Sonstige Standards 1)\n20 = Patientenspezifische Einflussgröße „Alter“ betreffend\n21 = Patientenspezifische Einflussgröße „Geschlecht“ betreffend\n22 = Patientenspezifische Einflussgröße „Alter + Geschlecht“ betreffend\n23 = Patientenspezifische Einflussgröße „SSW“ betreffend\n24 = Patientenspezifische Einflussgröße „Alter + SSW“ betreffend\n25 = weitere patientenspezifische Einflussgrößen (z.B. Medikation) 1)\n26 = Information zu Patientenspezifischer Einflussgröße „Alter“ fehlte\n27 = Information zu Patientenspezifischer Einflussgröße „Geschlecht“ fehlte\n28 = Information zu Patientenspezifischer Einflussgröße „Alter“ und\n29 = „Geschlecht“ fehlte\n30 = Funktionsprofile 1)\n1) Zur weiteren Spezifikation FK 8167 verwenden.",
+  "page": 88
+ },
+ "E053": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "006, 010, 10A, 039, 090, 091, 092, 093, 094,\n100, 101, 102, 103, 110, 120, 150, 160, 200,\n250, 251, 252, 253, 254, 255, 256, 257, 258,\n300, 301, 400, 500, 900, 999",
+  "expl": "006 = Muster 6\n010 = Muster 10\n10A = Muster 10A\n039 = Muster 39\n090 = Auftragsdokument PKV-FA\n091 = Auftragsdokument PKV-LG\n092 = Auftragsdokument IGeL\n093 = Auftragsdokument Sonstige Kostenübernahme\n094 = Auftragsdokument Selektivvertrag\n100 = Laborbefund\n101 = Mutterpass\n102 = Impfpass\n103 = Notfallausweis\n110 = Patientenbefund\n120 = Medikationsplan\n150 = Verlaufsbericht\n160 = Behandlungsbericht\n200 = Einverständniserklärung lt. GenDG (Gen-Diagnostik-Gesetz)\n250 = weitere laborspezifische Dokumente\n251 = Allergie/RAST\n252 = Molekulardiagnostik\n253 = Endokrinologie\n254 = Virologie\n255 = Mikrobiologie\n256 = Funktionsdiagnostik\n257 = Infektionsserologie\n258 = Kinderwunsch\n300 = Meldung gemäß IfSG (Infektionsschutz-Gesetz)\n301 = Meldung Krebsregister\n400 = Normbereichsgrafik\n500 = Rechnung\n900 = LDT-Datensatz\n999 = sonstige\nHinweis: Werte 001 bis 089 reserviert für Muster der vertragsärztlichen\nVersorgung",
+  "page": 89
+ },
+ "E054": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4 ,5",
+  "expl": "1 = positiv\n2 = negativ\n3 = unspezifisch\n4 = in Abklärung\n5 = Abklärung empfohlen",
+  "page": 90
+ },
+ "E055": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4",
+  "expl": "0 = negativ\n1 = 1-fach positiv\n2 = 2-fach positiv\n3 = 3-fach positiv\n4 = 4-fach positiv",
+  "page": 90
+ },
+ "E056": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1",
+  "expl": "0 = Nothilfepass nur bei Nachweis Erythrozytenantikörper ausfüllen\n1 = Nothilfepass ausstellen",
+  "page": 90
+ },
+ "E057": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = LOINC\n2 = LDT ELV\n3 = LVZ sonstige\n4 = sonstige mit URL",
+  "page": 90
+ },
+ "E058": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 99",
+  "expl": "01 = numerisch (exponentielle Darstellung möglich)\n02 = numerisch mit Messwertuntergrenze\n03 = numerisch mit Messwertobergrenze\n04 = alpha-numerisch\n05 = Titer\n06 = Titer mit Untergrenze\n07 = Titer mit Obergrenze\n08 = trinäres Testergebnis: 1 | 2 | 3 **\n99 = Sonstige\nBeispiele\n01: 47.85, 5.00E+07, 1x10^6\n02: <100, <1.00E+04\n03: >2000, >5.00E+04\n04: positiv, negativ, A positiv *\n05: 1:2\n06: <1:2\n07: >1:2\n08: 1, 2, 3 **\n* für die Übertragung von Blutgruppen ist vorzugsweise das Obj_0055 zu verwenden\n** Abbildung der Regel E169",
+  "page": 90
+ },
+ "E059": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4, 5",
+  "expl": "0 = kein Antibiogramm erstellt\n1 = Agardiffusion\n2 = Agardilution\n3 = PCR + Hybridisierung\n4 = sonstige\n5 = Breakpoint-Methode",
+  "page": 91
+ },
+ "E060": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = vorhanden\n2 = nicht vorhanden",
+  "page": 91
+ },
+ "E061": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = nach Entzündungsbehandlung\n2 = nach Oestrogenbehandlung",
+  "page": 91
+ },
+ "E062": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = positiv\n2 = negativ\n3 = invalid",
+  "page": 91
+ },
+ "E063": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = positiv\n2 = negativ\n3 = nicht auswertbar\n4 = suspekt",
+  "page": 91
+ },
+ "E064": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2",
+  "expl": "0 = nicht nachweisbar\n1 = zweifelhaft/unspezifisch\n2 = nachweisbar",
+  "page": 91
+ },
+ "E065": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = CLSI\n2 = EUCAST\n3 = CA-FMS",
+  "page": 92
+ },
+ "E066": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Obj_0001, Obj_0002, Obj_0003, Obj_0004,\nObj_0005, Obj_0006, Obj_0007, Obj_0008,\nObj_0009, Obj_0010, Obj_0011, Obj_0013,\nObj_0014, Obj_0017, Obj_0019, Obj_0022,\nObj_0026, Obj_0027, Obj_0031, Obj_0032,\nObj_0034, Obj_0035, Obj_0036, Obj_0037,\nObj_0040, Obj_0041, Obj_0042, Obj_0043,\nObj_0045, Obj_0047, Obj_0048, Obj_0050,\nObj_0051, Obj_0053, Obj_0054, Obj_0055,\nObj_0056, Obj_0058, Obj_0059, Obj_0060,\nObj_0061, Obj_0062, Obj_0063, Obj_0068,\nObj_0069, Obj_0070, Obj_0071, Obj_0072,\nObj_0073, Obj_0100",
+  "expl": "Obj_0001 = Obj_Abrechnungsinformationen\nObj_0002 = Obj_Abrechnung GKV\nObj_0003 = Obj_Abrechnung PKV\nObj_0004 = Obj_Abrechnung Ige-Leistungen\nObj_0005 = Obj_Abrechnung sonstige Kostenübernahme\nObj_0006 = Obj_Abrechnung Selektivvertrag\nObj_0007 = Obj_Anschrift\nObj_0008 = Obj_Adressat\nObj_0009 = Obj_Abrechnung OEGD\nObj_0010 = Obj_Anhang\nObj_0011 = Obj_Antibiogramm\nObj_0013 = Obj_Auftragsinformation\nObj_0014 = Obj_Arztidentifikation\nObj_0017 = Obj_Befundinformationen\nObj_0019 = Obj_Betriebsstaette\nObj_0022 = Obj_Einsenderidentifikation\nObj_0026 = Obj_Fehlermeldung/Aufmerksamkeit\nObj_0027 = Obj_Veranlassungsgrund\nObj_0031 = Obj_Kommunikationsdaten\nObj_0032 = Obj_Kopfdaten\nObj_0034 = Obj_Krebsfrueherkennung Zervix-Karzinom (Muster39)\nObj_0035 = Obj_Laborergebnisbericht\nObj_0036 = Obj_Laborkennung\nObj_0037 = Obj_Material\nObj_0040 = Obj_Mutterschaft\nObj_0041 = Obj_Namenskennung\nObj_0042 = Obj_Normalwert\nObj_0043 = Obj_Organisation\nObj_0045 = Obj_Patient\nObj_0047 = Obj_Person\nObj_0048 = Obj_RgEmpfaenger\nObj_0050 = Obj_Schwangerschaft\nObj_0051 = Obj_Sendendes System\nObj_0053 = Obj_Tier/Sonstiges\nObj_0054 = Obj_Timestamp\nObj_0055 = Obj_Blutgruppenzugehoerigkeit\nObj_0056 = Obj_Tumor\nObj_0058 = Obj_Untersuchungsabrechnung\nObj_0059 = Obj_Untersuchungsanforderung\nObj_0060 = Obj_Untersuchungsergebnis Klinische Chemie\nObj_0061 = Obj_Untersuchungsergebnis Mikrobiologie\nObj_0062 = Obj_Untersuchungsergebnis Krebsfrueherkennung Zervix-Karzinom\nObj_0063 = Obj_Untersuchungsergebnis Zytologie\nObj_0068 = Obj_Fließtext\nObj_0069 = Obj_Koerperkenngroessen\nObj_0070 = Obj_Medikament\nObj_0071 = Obj_Wirkstoff\nObj_0072 = Obj_BAK\nObj_0073 = Obj_Sonstige_Untersuchungsergebnisse\nObj_0100 = Obj_Diagnose",
+  "page": 92
+ },
+ "E067": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = Primärsystem\n2 = Order Entry\n3 = Scansystem",
+  "page": 93
+ },
+ "E068": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2, 3 oder 4",
+  "expl": "1 = Sekunden\n2 = Minuten\n3 = Tage\n4 = Jahre",
+  "page": 93
+ },
+ "E069": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3, 4, 5, 6, 7",
+  "expl": "0 = sonstige, wenn Erreger + Resistenz angefordert\n1 = Antigen-Nachweis\n2 = PCR\n3 = Mikroskopie\n4 = Aglutination\n5 = Kultur\n6 = Biochemische Identifikation (z.B. Vitek)\n7 = Maldi-Tof",
+  "page": 93
+ },
+ "E070": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 9",
+  "expl": "1 = SI-Einheit\n2 = abweichende Einheit\n9 = dimensionslose Größe",
+  "page": 93
+ },
+ "E071": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnungsinformation",
+  "expl": "Inhalt des Objektattributes",
+  "page": 93
+ },
+ "E072": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_GKV",
+  "expl": "Inhalt des Objektattributes",
+  "page": 93
+ },
+ "E073": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_PKV",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E074": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_IGEL",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E075": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_Sonstige_Kostenuebernahme",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E076": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_Selektivvertrag",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E077": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Anschrift",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E078": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Adressat",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E079": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Anhang",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E080": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Antibiogramm",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E081": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Auftragsinformation",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E082": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Befundinformationen",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E083": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abweichender_Befundweg",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E084": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Betriebsstaette",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E085": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Einsenderidentifikation",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E086": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Fehlermeldung_Aufmerksamkeit",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E087": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Veranlassungsgrund",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E088": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Kommunikationsdaten",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E089": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Kopfdaten",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E090": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Krebsfrueherkennung_Zervix-Karzinom",
+  "expl": "Inhalt des Objektattributes",
+  "page": 94
+ },
+ "E091": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Laborergebnisbericht",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E092": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Laborkennung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E093": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Material",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E094": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Mutterschaft",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E095": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Namenskennung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E096": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Normalwert",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E097": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Organisation",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E098": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Patient",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E099": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Person",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E100": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "RgEmpfaenger",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E101": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Schwangerschaft",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E102": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Sendendes_System",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E103": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Tier_Sonstiges",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E104": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E105": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Blutgruppenzugehoerigkeit",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E106": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Tumor",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E107": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Untersuchungsabrechnung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E108": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Untersuchungsanforderung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 95
+ },
+ "E109": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UE_Klinische_Chemie",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E110": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UE_Mikrobiologie",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E111": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UE_Krebsfrueherkennung_Zervix-Karzinom",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E112": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UE_Zytologie",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E113": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Zusaetzliche_Informationen",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E114": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Fliesstext",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E115": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "base64-kodierte_Anlage",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E116": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Akutdiagnose",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E118": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Softwareverantwortlicher",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E119": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Erstellung_Untersuchungs-\nanforderung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E120": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Auftragserteilung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E121": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Auftragseingang",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E122": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Befunderstellung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E123": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Praezisierung_Veranlassungsgrund",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E124": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Erstellung_Datensatz",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E125": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Materialabnahme_entnahme",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E126": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Eingangserfassung_Material",
+  "expl": "Inhalt des Objektattributes",
+  "page": 96
+ },
+ "E127": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Erstellung_\nLaborergebnisbericht",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E128": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Beginn_Analytik",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E129": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Ergebniserstellung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E130": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_QM_Erfassung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E131": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Messung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E132": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Gueltig_ab",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E133": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Gueltig_bis",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E134": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wohnanschrift",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E135": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Anschrift_Arbeitsstelle",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E136": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Rechnungsanschrift",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E137": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Temporaere_Anschrift",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E138": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Private_Kommunikationsdaten",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E139": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Geschaeftliche_Kommunikationsdaten",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E141": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Person_zum_Timestamp",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E142": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Testbezogene_Hinweise",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E143": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Ergebnistext",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E144": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Auftragsbezogene_Hinweise",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E145": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Laborbezeichnung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 97
+ },
+ "E146": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11",
+  "expl": "01 = Vorsorge\n02 = Verlaufskontrolle\n03 = Zustand vor\n04 = Zustand nach\n05 = Ausschluss\n06 = Bestätigung\n07 = gezielte Suche\n08 = ungezielte Suche\n09 = Erfolgskontrolle\n10 = Abschlusskontrolle\n11 = Immunität/Impferfolg",
+  "page": 98
+ },
+ "E147": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12",
+  "expl": "01 = Eingriff\n02 = Medikamentengabe\n03 = unklares Fieber\n04 = Infektion\n05 = Rheuma\n06 = Allergie\n07 = Herz/Kreislauf\n08 = Tumor\n09 = Impfungen\n10 = Reisen\n11 = Immunität nach Infektion\n12 = Sonstiges",
+  "page": 98
+ },
+ "E149": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Arztidentifikation",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E150": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Ueberweisung_von_anderen_Aerzten",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E151": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Ueberweisung_an",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E152": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Medikament",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E153": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Koerperkenngroessen",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E154": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Timestamp_Zeitpunkt\n_Medikamenteneinnahme",
+  "expl": "Inhalt des Objektattributes",
+  "page": 98
+ },
+ "E155": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wirkstoff",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E156": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = Akutmedikation\n2 = Bedarfsmedikation\n3 = Dauermedikation\n4 = Selbstmedikation",
+  "page": 99
+ },
+ "E157": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Der Prüfwert wird mit dem Algorithmus SHA-\n1 berechnet. Der SHA-1 Wert wird aus allen\nZeichen vor der Zeile der Feldkennung 9300\ngeneriert.",
+  "expl": "Dient der Sicherstellung der Integrität der Daten in der Datei.",
+  "page": 99
+ },
+ "E158": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "BAK",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E159": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "BAK-Ergebnis",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E160": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "BAK-Ergebniswertbezogene_Hinweise",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E161": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Diagnostische_Bewertung_Empfehlung",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E162": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UE_Sonstige_Untersuchungsergebnisse",
+  "expl": "Inhalt des Objektattributes",
+  "page": 99
+ },
+ "E163": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "UTC−12, UTC−11, UTC−10, UTC−9:30,\nUTC−9, UTC−8, UTC−7, UTC−6, UTC−5,\nUTC−4, UTC−3:30, UTC−3, UTC−2,\nUTC−1, UTC, UTC+1, UTC+2, UTC+3,\nUTC+3:30, UTC+4, UTC+4:30, UTC+5,\nUTC+5:30, UTC+5:45, UTC+6, UTC+6:30,\nUTC+7, UTC+8, UTC+8:30, UTC+9,\nUTC+9:30, UTC+10, UTC+10:30, UTC+11,\nUTC+12, UTC+12:45, UTC+13,\nUTC+13:45, UTC+14",
+  "expl": "Die koordinierte Weltzeit, kurz UTC, ist die heute gültige Weltzeit.\nEingeführt wurde sie 1972. Aus einer Zeitangabe in UTC ergibt sich die\nentsprechende, in Deutschland, Österreich und anderen\nmitteleuropäischen Staaten geltende Mitteleuropäische Zeit (MEZ), indem\nman eine Stunde addiert. Die im Sommer geltende Mitteleuropäische\nSommerzeit (MESZ) erhält man, indem man zwei Stunden addiert.\nUTC+1 entspricht MEZ\nUTC+2 entspricht MESZ",
+  "page": 99
+ },
+ "E164": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 2, 3",
+  "expl": "0 = Sonstige*\n1 = Pathologie\n2 = Humangenetik\n3 = Molekulargenetik\n* zur Bezeichnung des Fachgebietes die FK 8167 im Obj_0073 verwenden",
+  "page": 99
+ },
+ "E165": {
+  "cat": "SV",
+  "status": "F",
+  "check": "0, 1, 2, 3",
+  "expl": "0 = unbekannt\n1 = weiblich\n2 = männlich\n3 = unbestimmt",
+  "page": 100
+ },
+ "E166": {
+  "cat": "SV",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = kastriert\n2 = sterilisiert",
+  "page": 100
+ },
+ "E167": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = 20-29 Jahre\n2 = 30-34 Jahre\n3 = ab 35 Jahre",
+  "page": 100
+ },
+ "E168": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = vollständig\n2 = unvollständig\n3 = keine\n4 = unklar",
+  "page": 100
+ },
+ "E169": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = positiv\n2 = negativ\n3 = nicht verwertbar",
+  "page": 100
+ },
+ "E170": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Abrechnung_OEGD",
+  "expl": "Inhalt des Objektattributes",
+  "page": 100
+ },
+ "E171": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2",
+  "expl": "1 = Ersttestung\n2 = weitere Testung",
+  "page": 100
+ },
+ "E172": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 3, 4",
+  "expl": "1 = Test nach § 2 TestV Kontaktpersonen, nachweislich Infizierte,\nVoraufenthalt Virusvariantengebiet\n3 = Test nach § 3 TestV Ausbruchsgeschehen\n4 = Test nach § 4 Abs. 1 Nr. 1 und 2 TestV Verhütung der Verbreitung",
+  "page": 100
+ },
+ "E173": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3, 4",
+  "expl": "1 = Medizinischen Einrichtungen\n2 = Pflege- und anderen Wohneinrichtungen\n3 = Gemeinschaftseinrichtungen\n4 = Sonstigen Einrichtungen",
+  "page": 100
+ },
+ "E174": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "2",
+  "expl": "2 = Diagnostische Abklärung",
+  "page": 101
+ },
+ "E175": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1, 2, 3",
+  "expl": "1 = TestV\n2 = Regionale Sondervereinbarung\n3 = Selbstzahler",
+  "page": 101
+ },
+ "E176": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1",
+  "expl": "0 = unauffällig\n1 = auffällig",
+  "page": 101
+ },
+ "E177": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "P, A",
+  "expl": "P = Primärscreening\nA = Abklärungsdiagnostik",
+  "page": 101
+ },
+ "E178": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Zyto, HPV, KoTest",
+  "expl": "Zyto = Zytologie\nHPV = HPV-Test\nKoTest = Ko-Testung (Zyt.+HPV)",
+  "page": 101
+ },
+ "E179": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "0, 1, 9",
+  "expl": "0 = nein\n1 = ja\n9 = nicht differenzierbar",
+  "page": 101
+ },
+ "E180": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1",
+  "expl": "1 = Bestätigungs-PCR nach § 4b Satz 1 TestV nach positivem Antigentest",
+  "page": 101
+ },
+ "E181": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "1\nHauptgruppe",
+  "expl": "1 = Varianten-PCR nach § 4b Satz 2 TestV nach positivem PCR-Test\nUntergruppe",
+  "page": 101
+ },
+ "K001": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Entweder FK 6305 oder FK 8242 ist\nvorhanden.",
+  "expl": "",
+  "page": 103
+ },
+ "K002": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Feldinhalt von FK 8419 = 1 oder 2,\nmuss FK 8421 vorkommen.\nWenn Feldinhalt von FK 8419 = 9, darf FK\n8421 nicht vorkommen.",
+  "expl": "Wenn zu einem Ergebniswert Maßeinheit angegeben wird, muss\nangegeben werden, ob es sich bei der Maßeinheit um eine konventionelle\noder SI-Einheit handelt. Wenn zu einem Ergebniswert keine Maßeinheit\nangegeben wird, muss angegeben werden, dass es sich bei dem\nErgebniswert um eine sogenannte „dimensionslose Größe“ handelt.",
+  "page": 103
+ },
+ "K003": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Feldinhalt von FK 7303 = 1, 8 oder 9\nist und FK 8410 vorhanden, muss auch FK\n8411 vorhanden sein.",
+  "expl": "Wird die FK 8410 (Test-Ident) im Kontext mit der Überweisung von\nLaborleistungen an einen Laborfacharzt verwendet, muss die FK 8411\n(Testbezeichnung) im Datensatz vorkommen (mit Inhalt der FK 8411\nmuss das Auftragsfeld des digitalen Musters 10 befüllt werden)",
+  "page": 103
+ },
+ "K005": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Feldinhalt von FK 8000 = 8205 und\nder Inhalt FK 8401 = 1, darf FK 4121 nicht\nvorhanden sein.\nWenn Feldinhalt von FK 8000 = 8205 und\nder Inhalt FK 8401 = 2, kann FK 4121\nvorhanden sein",
+  "expl": "In Befunden mit dem Status “Auftrag nicht abgeschlossen” dürfen keine\nAbrechnungsinformationen übertragen werden.\nNur in Befunden mit dem Status “Auftrag abgeschlossen” können\nAbrechnungsinformationen übertragen werden.",
+  "page": 103
+ },
+ "K006": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 8428 oder FK 8430 oder FK 8429\nvorhanden ist, kann FK 8431 vorhanden\nsein.",
+  "expl": "",
+  "page": 103
+ },
+ "K008": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn der Inhalt von FK 8002 = Obj_0058\n(Obj_Untersuchungsabrechnung) und der\nInhalt FK 7303 = 1, 2, 8, 9 oder 10 dann sind\nals Inhalte FK 4121 nur 0, 1, 2 oder 3 erlaubt.",
+  "expl": "Für die Abrechnung von Leistungen, die im Bereich der kassenärztlichen\nVersorgung (Laborfacharzt, Laborgemeinschaft und ASV) erbracht\nwurden, können nur der EBM, BMÄ, EGO oder GOÄ als\nGebührenordnung angegeben werden.",
+  "page": 103
+ },
+ "K009": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn der Inhalt von FK 8002 = Obj_0035\n(Obj_Laborergebnisbericht), dann muss\nmindestens eine FK 8002 mit den Werten\nObj_0060(Obj_Untersuchungsergebnis\nKlinische Chemie),\nObj_0061(Obj_Untersuchungsergebnis\nMikrobiologie),\nObj_0062(Obj_Untersuchungsergebnis\nKrebsfrueherkennung Zervix-Karzinom),\nObj_0063(Obj_Untersuchungsergebnis\nZytologie),\nObj_0073(Sonstige\nUntersuchungsergebnisse) oder\nObj_0055(Obj_Blutgruppenzugehoerigkeit)\nvorhanden sein.",
+  "expl": "",
+  "page": 103
+ },
+ "K010": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 8002 = Obj_0059\n(Obj_Untersuchungsanforderung) oder\nFK 8002 = Obj_0061\n(Obj_Untersuchungsergebnis\nMikrobiologie), dann muss FK 8410 oder\nFK 7260 oder FK 8434 vorhanden sein (FK\n8410 und FK 7260 dürfen nicht gemeinsam\nvorhanden sein).",
+  "expl": "Es wird entweder auf Katalog anforderbarer Leistungen oder auf Test-\nIdent referenziert. Sind keine dieser Angaben verfügbar, können die\nAnforderungen auch als Freitext mit der FK 8434 übertragen werden.",
+  "page": 104
+ },
+ "K011": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8000 = 8215 und\nFK 8002 = Obj_0059\n(Obj_Untersuchungsanforderung) und\nFK 7303 = 2 oder 10 dann muss FK 8410\nvorhanden sein und FK 7260 darf nicht\nvorhanden sein.",
+  "expl": "",
+  "page": 104
+ },
+ "K012": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4239 = 27 oder 28, dann\nmuss das FK 4221 vorhanden sein.\nFK 4221 darf nicht vorhanden sein, wenn\nInhalt von FK 4239 ≠ 27 oder 28 ist.",
+  "expl": "",
+  "page": 104
+ },
+ "K014": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Nur wenn FK 4239 = 27, können die\nfolgenden Kombinationen vorhanden sein:\n- FK 4217 und FK 4241 oder\n- FK 4225 und FK 4241 oder\n- FK 4225 und FK 4248.",
+  "expl": "Weiterüberweisungen dürfen nur durch Laborfachärzte durchgeführt\nwerden.",
+  "page": 104
+ },
+ "K015": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Nur wenn FK 4239 = 27 oder 28, kann FK\n4229 vorhanden sein.",
+  "expl": "",
+  "page": 105
+ },
+ "K016": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4239 ≠ 27, 28, dann\nmuss FK 8241 vorhanden sein.",
+  "expl": "",
+  "page": 105
+ },
+ "K017": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 3112 und/oder FK 3121 muss vorhanden\nsein.\nAusnahmen:\nNur wenn FK 3114 vorhanden und der\nFeldinhalt ungleich „D“ ist, dann gilt:\nIst die FK 4109 vorhanden, dann muss die\nFK 3112 nicht vorhanden sein.\nNur wenn FK 3124 vorhanden und der\nFeldinhalt ungleich „D“ ist, dann gilt:\nIst die FK 4109 vorhanden, dann muss die\nFK 3121 nicht vorhanden sein.",
+  "expl": "Diese Regel beschreibt die mindestens erforderlichen Angaben im\nObj_0007 (Anschrift). Grundlage für diese Regel bilden die Vorgaben des\nKVDT.",
+  "page": 105
+ },
+ "K019": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4121 = 0, 1 oder 2, dann\ngilt für den Inhalt FK 5001 die Regel F009.",
+  "expl": "",
+  "page": 105
+ },
+ "K020": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt FK 8002 = Obj_0002\n(Obj_Abrechnung GKV) und FK 0201 in\nSatzart 8230 oder 8215 vorhanden, dann\nmuss auch FK 0212 oder FK 0223 in\nSatzart 8230 oder 8215 vorhanden sein.",
+  "expl": "Die Angabe der BSNR und der LANR ist bei Anforderungen, die im\nKontext der kassenärztlichen Versorgung beauftragt werden, obligat.",
+  "page": 105
+ },
+ "K021": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4239 = 28, dann muss\nInhalt von FK 4221 ungleich 3 sein.",
+  "expl": "",
+  "page": 105
+ },
+ "K022": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4131 = „07” oder „08“,\ndann muss Inhalt von FK 4106 = „01“ sein.",
+  "expl": "",
+  "page": 105
+ },
+ "K023": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4131 = „06”, dann\nmuss Inhalt von FK 4106 = „02“ sein.",
+  "expl": "",
+  "page": 105
+ },
+ "K024": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4131 = „04”, dann\nmuss Inhalt von FK 4106 = „00“ sein.",
+  "expl": "",
+  "page": 106
+ },
+ "K025": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8000 = 8215, dann gilt:\nFalls FK 4109 vorhanden ist, muss\nmindestens FK 3105 oder FK 3119\nvorhanden sein.",
+  "expl": "",
+  "page": 106
+ },
+ "K027": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8000 = 8215, dann\nmuss im\nObj_0001(Obj_Abrechnungsinformationen)\nmindestens einmal eine Feldkennung aus\nnachfolgender Liste vorhanden sein:\n8102, 8103, 8104, 8105, 8106, 8109.",
+  "expl": "",
+  "page": 106
+ },
+ "K029": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7421 = 15, 16 oder 90\ndann muss FK 8143 vorhanden sein.",
+  "expl": "",
+  "page": 106
+ },
+ "K030": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7421 = 02, 03, 04, 05,\n06, 11 oder 12 muss FK 8147 im Obj_0048\n(Obj_RgEmpfaenger) vorhanden sein.",
+  "expl": "",
+  "page": 106
+ },
+ "K031": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn in der Satzart 8215 mehrere Objekte\nmit FK 8002 = Obj_0002 (Obj_Abrechnung\nGKV) vorhanden sind, dann müssen sich\ndiese in der Kombination der Inhalte der FK\n4239/FK 4221 unterscheiden.",
+  "expl": "Beispiel:\nFK 4239 = 27/FK 4221 = 1\nFK 4239 = 27/FK 4221 = 3\nFK 4239 = 28/FK 4221 = 1\nFK 4239 = 28/FK 4221 = 2",
+  "page": 106
+ },
+ "K032": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Für Satzart 8215 gilt:\nWenn Inhalt von FK 7303 = 1 muss FK 4239\n= 27 vorhanden sein.\nWenn Inhalt von FK 7303 = 2 muss FK 4239\n= 28 vorhanden sein.\nWenn Inhalt von FK 7303 = 9 muss FK 4239\n= 27 in Kombination mit FK 4221 = 2\nvorhanden sein.\nWenn Inhalt von FK 7303 = 10 muss FK\n4239 = 28 in Kombination mit FK 4221 = 2\nvorhanden sein.",
+  "expl": "Abhängigkeit der Abrechnungsinformation von den Abrechnungsobjekten\nund deren Inhalten",
+  "page": 106
+ },
+ "K033": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in der Satzart 8215 mehrere Objekte\nmit FK 8002 = Obj_0003 (Obj_Abrechnung\nPKV) vorhanden sind, muss Inhalt von FK\n7362 jeweils einen anderen Wert aufweisen.",
+  "expl": "",
+  "page": 107
+ },
+ "K034": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7303 = 3 muss FK 7362\n= 1 vorhanden sein.\nWenn Inhalt von FK 7303 = 4 muss FK 7362\n= 2 vorhanden sein.",
+  "expl": "",
+  "page": 107
+ },
+ "K037": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8434 in Obj_0059\n(Obj_Untersuchungsanforderung) kann nur\nvorkommen, wenn FK 8410 und FK 7260\nnicht vorhanden sind.",
+  "expl": "",
+  "page": 107
+ },
+ "K038": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7310 = 1, dann kann FK\n7311 vorhanden sein und FK 7312 darf nicht\nvorhanden sein.\nWenn Inhalt von FK 7310 = 2, dann kann FK\n7312 vorhanden sein und FK 7311 darf nicht\nvorhanden sein.",
+  "expl": "",
+  "page": 107
+ },
+ "K039": {
+  "cat": "SV",
+  "status": "F",
+  "check": "FK 7310 kann nur vorhanden sein, wenn\nObj_0053 (Obj_Tier/Sonstiges) vorhanden.",
+  "expl": "",
+  "page": 107
+ },
+ "K041": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 4239 = 27 und FK\n8240 vorhanden, dann muss eine der\nfolgenden Kombinationen vorhanden sein:\n- FK 4217 und FK 4241 oder\n- FK 4225 und FK 4241 oder\n- FK 4225 und FK 4248.",
+  "expl": "Unterüberweisung",
+  "page": 107
+ },
+ "K042": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Obj_0022 (Obj_Einsenderidentifikation) in\nSatzart 8215 muss nur dann verwendet\nwerden, wenn die Inhalte des Obj_0022\n(Obj_Einsenderidentifikation) von denen in\nSatzart 8230 abweichen.",
+  "expl": "Abbildung von Unterüberweisungen im LDT-Datensatz",
+  "page": 108
+ },
+ "K043": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn FK 0204 im Obj_0019\n(Obj_Betriebsstätte) nur einmal vorkommt,\nmuss der Inhalt der FK 0204 = 1, 2, 3 oder 4\nsein.\nWenn FK 0204 im Obj_0019\n(Obj_Betriebsstätte) zweimal vorkommt,\nmuss der Inhalt der FK 0204 einmal mit 1, 2,\n3 oder 4 und einmal mit 5 oder 6 gefüllt sein.\nIm Obj_0019 (Obj_Betriebsstätte) darf die\nFK 0204 maximal zweimal vorkommen.",
+  "expl": "Im Obj_0019 (Obj_Betriebsstätte) ist mit der FK 0204 (Status der\nBetriebsstätte) zwingend anzugeben, ob es sich bei der Betriebsstätte um\neine Arztpraxis (1), eine Laborarztpraxis (2), eine Laborgemeinschaft (3)\noder eine sonstige medizinische Einrichtung (4) handelt.\nErgänzend kann mit einem zweiten Vorkommen der FK 0204 (Status der\nBetriebsstätte) angegeben werden, ob es sich bei der oben\nbeschriebenen Betriebsstätte um eine Hauptbetriebsstätte (5) oder eine\nNebenbetriebsstätte (6) handelt.\nDie Feldkennung FK 0204 (Status der Betriebsstätte) darf maximal\nzweimal im Obj_Betriebsstätte vorkommen.",
+  "page": 108
+ },
+ "K044": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 0200 oder FK 0201 müssen vorhanden\nsein.",
+  "expl": "",
+  "page": 108
+ },
+ "K045": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7321 = 03, 04, 05, 06,\n08, 11, 12, 14 oder 16 ist, dann muss FK\n8147 vorhanden sein.",
+  "expl": "",
+  "page": 108
+ },
+ "K046": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7321 = 01, 02, 07, 08,\n14 oder 17, dann muss FK 8119 vorhanden\nsein.",
+  "expl": "",
+  "page": 108
+ },
+ "K047": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7321 = 03, 15 oder 16,\ndarf FK 8119 nicht vorhanden sein.",
+  "expl": "In Obj_0022 (Obj_Einsenderidentifikation) ist Obj_0019\n(Obj_Betriebsstaette) nur dann zu verwenden, wenn es sich um eine\nmedizinische Einrichtung handelt.",
+  "page": 108
+ },
+ "K048": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7321 = 03, 15 oder 16,\nmuss FK 8143 im Obj_0022\n(Obj_Einsenderidentifikation) vorhanden\nsein.",
+  "expl": "",
+  "page": 108
+ },
+ "K050": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8002 = Obj_0002\n(Obj_Abrechnung GKV) vorhanden, dann\nmuss FK 0105 und FK 4239 vorhanden sein.",
+  "expl": "",
+  "page": 109
+ },
+ "K053": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7260 = 4 muss FK 7352\nvorhanden sein.",
+  "expl": "Angabe der URL des Leistungsverzeichnisses (LVZ) notwendig, wenn auf\nLVZ mit URL verwiesen wird.",
+  "page": 109
+ },
+ "K054": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Obj_0042 (Obj_Normalwert) mehr-\nfach im Obj_0060\n(Obj_Untersuchungsergebnis Klinische\nChemie) bzw. Obj_0061\n(Obj_Untersuchungsergebnis\nMikrobiologie) vorkommt, darf der Wert 13\nin der FK 8424 mehrfach vorkommen, alle\nanderen Werte dürfen nur jeweils einmal\nvorkommen.",
+  "expl": "Falls für ein Untersuchungsergebnis verschiedene Normalwerte\nangegeben werden, müssen sich die Normalwerte innerhalb eines\nUntersuchungsergebnisses hinsichtlich der Normalwertspezifikation\nunterscheiden. Ausgenommen davon sind die Normalwertspezifikationen,\ndie auf „Sonstige Standards“ referenzieren.",
+  "page": 109
+ },
+ "K055": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8460 oder FK 8461 oder FK 8462 oder\nFK 7316 muss vorhanden sein.",
+  "expl": "",
+  "page": 109
+ },
+ "K056": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "FK 3108 muss nur vorhanden sein, wenn der\nInhalt von FK 7303 = 1, 2, 8, 9 oder 10 ist.",
+  "expl": "",
+  "page": 109
+ },
+ "K057": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "FK 0222 muss vorhanden sein, wenn in\nmindestens einem Obj_0059\n(Obj_Untersuchungsanforderung) die FK\n7303 mit dem Inhalt 8 vorhanden ist.",
+  "expl": "Die ASV-Teamnummer ist anzugeben, wenn Leistungen im Rahmen der\nASV (Ambulante Spezialfachärztliche Versorgung) entsprechend § 116b\ndes SGB V beauftragt werden.",
+  "page": 109
+ },
+ "K059": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Mindestens eine der FK 7330, FK 7331, FK\n7332, FK 7333, FK 7334 oder FK 7335 muss\nvorhanden sein.",
+  "expl": "",
+  "page": 109
+ },
+ "K060": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Inhalt von FK 7303 = 11 darf nur im\nObj_0027 (Obj_Veranlassungsgrund)\nvorkommen",
+  "expl": "Bezieht sich die Angabe des Veranlassungsgrundes bzw. der\naufgeführten Diagnose auf den kompletten Auftrag, kann der Wert 11\n(keine Zuordnung) eingesetzt werden.",
+  "page": 109
+ },
+ "K063": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "In Satzart 8215 darf im Obj_0037\n(Obj_Material) FK 8220 nicht vorkommen.",
+  "expl": "",
+  "page": 110
+ },
+ "K069": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 8137\nvorhanden ist, müssen die FK 8113 und FK\n8159 vorhanden sein.",
+  "expl": "Use Case: Übergabe eines LDT – Datensatzes ohne Angaben zu Material\nund Anforderungen.",
+  "page": 110
+ },
+ "K070": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 8102, FK 8103,\nFK 8104, FK 8106 oder FK 8109\nvorkommen, muss auch FK 8145 vorhanden\nsein.",
+  "expl": "",
+  "page": 110
+ },
+ "K071": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8158 kann im Obj_0055 nur vorhanden\nsein, wenn FK 3412, FK 3413, FK 3414, FK\n3415, FK 3416, FK 3417, FK 3418 oder FK\n3419 vorhanden ist.",
+  "expl": "Use Case: Analytik konnte nicht durchgeführt werden.",
+  "page": 110
+ },
+ "K075": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 9970 = 999, dann muss\nFK 6327 vorkommen.",
+  "expl": "Wird beim Dokumententyp „sonstige“ angegeben, muss das Dokument\nmittels der FK 6327 näher beschrieben werden.",
+  "page": 110
+ },
+ "K076": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8418 ≠ 01 oder 02 oder\n09 oder 11 oder 12 ist, dann muss FK 8225\nmindestens einmal vorkommen.",
+  "expl": "Der Zeitpunkt der Messung muss immer angegeben werden, außer bei\nfehlendem oder unvollständigem Material, fehlendem Wert oder einer\nStornierung.",
+  "page": 110
+ },
+ "K078": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 3412, FK 3413, FK 3414, FK 3415,\nFK 3416, FK 3417, FK 3418 oder FK 3419\nvorhanden sind, dann muss FK 8225\nmindestens einmal im Obj_0055\nvorkommen.",
+  "expl": "",
+  "page": 110
+ },
+ "K080": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8158 kann im Obj_0063 nur vorhanden\nsein, wenn FK 7368 nicht vorhanden ist.",
+  "expl": "Use Case: Analytik konnte nicht durchgeführt werden.",
+  "page": 110
+ },
+ "K081": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 7368 im Obj_0063 nicht\nvorhanden ist, muss FK 8225 mindestens\neinmal im Obj_0063 vorkommen.",
+  "expl": "Wenn das eingesandte Untersuchungsmaterial zu verarbeiten war, muss\nder Timestamp der Messung angegeben werden.",
+  "page": 110
+ },
+ "K082": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8418 = 11 oder FK 7368\nvorhanden ist, muss FK 8126 im Obj_0037\nvorhanden sein.",
+  "expl": "Wenn auf Grund von fehlendem bzw. nicht verwertbarem Material die\nAnalytik nicht durchgeführt werden konnte, muss der Einsender im Befund\ndarauf aufmerksam gemacht werden.",
+  "page": 111
+ },
+ "K083": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn in Satzart 8220 oder 8205 die FK\n7266 mit den Inhalten 1 oder 2 vorkommt,\nmuss in Satzart 8205 die FK 8145\nvorkommen, die FK 8153 darf nicht\nvorkommen.",
+  "expl": "",
+  "page": 111
+ },
+ "K084": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in Satzart 8220 oder 8205 die FK\n7266 mit den Inhalten 1 oder 2 vorkommt,\nmuss in Satzart 8205 die FK 8145 oder FK\n8153 vorkommen.",
+  "expl": "",
+  "page": 111
+ },
+ "K085": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8111 kann nur vorkommen, wenn FK\n7286 mit Inhalt ≠ 0 vorkommt.",
+  "expl": "",
+  "page": 111
+ },
+ "K086": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 7293 kann nur vorkommen, wenn Inhalt\nvon FK 7286 = 1 oder 2 ist.",
+  "expl": "",
+  "page": 111
+ },
+ "K087": {
+  "cat": "KBV",
+  "status": "I",
+  "check": "Falls eine Versichertenkarte eingelesen\nwurde, dann muss die FK 4109 vorhanden\nsein.",
+  "expl": "",
+  "page": 111
+ },
+ "K088": {
+  "cat": "KBV",
+  "status": "I",
+  "check": "Falls die Werte der Feldkennungen FK\n4110 und FK 3116 bekannt sind, dann\nmüssen die Felder übertragen werden.",
+  "expl": "",
+  "page": 111
+ },
+ "K089": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Eine der FK 7319 oder FK 7313 oder FK\n7314 muss vorhanden sein.",
+  "expl": "",
+  "page": 111
+ },
+ "K090": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Falls die FK 4109 vorhanden ist und der\nFeldinhalt >= „01.01.2015“ sowie der Inhalt\nder Stellen 3 – 5 der FK 4104 >= 800, dann\nmuss entweder die FK 3105 oder FK 3119\nund sowie die FK 4110 vorhanden sein.",
+  "expl": "Da seit dem 01.01.2015 nur noch bei „originären“ SKT die KVKs\nzulässig sind, können Behandlungen auf Basis der eingelesen KVKs nur\nbei „originären“ SKT durchgeführt werden.\nZum 01.01.2025 gibt die Heilfürsorge der Bundespolizei als erster\nSonstiger Kostenträger eGKs für seine Versicherten aus.",
+  "page": 111
+ },
+ "K091": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Falls die FK 4109 vorhanden ist und der\nFeldinhalt >= „01.01.2015“ sowie der Inhalt\nder Stellen 3 – 5 der FK 4104 < 800, dann\nmüssen die FK 3119 und FK 4133\nvorhanden sein.",
+  "expl": "Da seit dem 01.01.2015 im Bereich der GKV-Kostenträgern KVKs nicht\nmehr zulässig sind, können Behandlungen auf Basis von eingelesen\nKVKs bei GKV-Kostenträgern nicht durchgeführt werden.",
+  "page": 112
+ },
+ "K092": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "In Satzart 8220 muss einmal die FK 8147\nvorkommen.",
+  "expl": "Das Labor muss mindestens einen Ansprechpartner mitteilen.",
+  "page": 112
+ },
+ "K093": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7362 = 2, dann darf\nInhalt FK 7421 im Obj_0048 nur der Wert\n02 sein.",
+  "expl": "Leistungen im Rahmen der Privat-LG werden dem einsendenden Arzt in\nRechnung gestellt.",
+  "page": 112
+ },
+ "K094": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7420 = 12 und FK\n7303 mit den Werten 1, 2, 3, 8, 9 oder 10 in\njeweiliger Satzart 8205 oder 8215\nvorkommen, dann müssen die FK 3103, FK\n3110 und FK 8228 vorhanden sein.",
+  "expl": "Handelt es sich bei der Person um einen Patienten und kommen in der\njeweiligen Satzart „Auftrag“ oder „Befund“ die Werte für Abrechnungsinfo\nzur Untersuchung 1, 2, 3, 8, 9 oder 10 vor, müssen die Angaben zum\nGeburtsdatum, Geschlecht und Wohnort vorhanden sein.\nDiese Regel ermöglicht es, Aufträge bzw. Befunde zu übertragen, bei\ndenen die Angaben zum Geschlecht, Geburtsdatum bzw. Wohnort des\nPatienten nicht oder nicht komplett vorhanden sind.",
+  "page": 112
+ },
+ "K095": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 7368 im Obj_0073 nicht\nvorhanden ist, muss FK 8225 mindestens\neinmal im Obj_0073 vorkommen.",
+  "expl": "Wenn das eingesandte Untersuchungsmaterial zu verarbeiten war, muss\nder Timestamp der Messung angegeben werden.",
+  "page": 112
+ },
+ "K096": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 8401 = 2, darf der\nInhalt von FK 8418 nicht 02, 05 oder 10\nsein.",
+  "expl": "In einem Befund mit dem Status „Auftrag abgeschlossen“ werden keine\nfehlenden oder vorläufigen Werte übertragen.",
+  "page": 112
+ },
+ "K097": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 7303 mit den\nInhalten 1, 2, 8, 9, 10, 13, 15 oder 16\nvorkommt, muss die FK 8102 mindestens\neinmal vorhanden sein.",
+  "expl": "Wenn Untersuchungen im kassenärztlichen Kontext abgerechnet wer-\nden sollen, muss das Obj_0002 (Abrechnung_GKV) vorhanden sein.",
+  "page": 112
+ },
+ "K098": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 7303 mit den\nInhalten 3, 4 oder 14 vorkommt, muss die\nFK 8103 mindestens einmal vorhanden\nsein.",
+  "expl": "Wenn Untersuchungen im privatärztlichen Kontext abgerechnet werden\nsollen, muss das Obj_0003 (Abrechnung_PKV) vorhanden sein.",
+  "page": 113
+ },
+ "K099": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn der Inhalt der FK 8422 = !L oder !-\noder !H oder !+ ist, muss FK 8126 der FK\n8422 folgen.",
+  "expl": "Obj_Fehlermeldung/Aufmerksamkeit muss bei Extremwerten eingesetzt\nwerden, um den Befundempfänger auf die Werte hinzuweisen.",
+  "page": 113
+ },
+ "K100": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 8002 = Obj_0068 der FK 8242\nfolgt, muss FK 6329 in diesem Objekt\nvorkommen und FK 3564 darf nicht\nvorkommen.\nWenn FK 8002 = Obj_0068 den FK 8167,\nFK 8217, FK 8236, FK 8237 oder FK 8238\nfolgt, muss FK 3564 in diesem Objekt\nvorkommen und FK 6329 darf nicht\nvorkommen.",
+  "expl": "",
+  "page": 113
+ },
+ "K101": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "In Obj_0008 (Obj_Adressat) muss\nentweder FK 8143 oder FK 8147\nvorkommen.",
+  "expl": "Der Adressat kann nur eine Person oder eine Organisation sein.",
+  "page": 113
+ },
+ "K102": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 7303 mit dem\nInhalt 6 vorkommt, muss die FK 8104\nvorhanden sein.",
+  "expl": "Wenn Untersuchungen im Kontext der individuellen\nGesundheitsleistungen (IgeL) abgerechnet werden sollen, muss das\nObj_0004 (Abrechnung_IgeL) vorhanden sein.",
+  "page": 113
+ },
+ "K103": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 7303 mit dem\nInhalt 5 vorkommt, muss die FK 8106\nvorhanden sein.",
+  "expl": "Wenn Untersuchungen im Kontext eines Selektivvertrages abgerechnet\nwerden sollen, muss das Obj_0006 (Abrechnung_Selektivvertrag)\nvorhanden sein.",
+  "page": 113
+ },
+ "K104": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn FK 8147 im Obj_0045 (Patient)\nvorkommt, dann muss der Inhalt der FK\n7420 der Wert 12 sein.",
+  "expl": "Bei Verwendung des Objektes Person im Objekt Patient muss der\nStatus „Patient“ verwendet werden.",
+  "page": 113
+ },
+ "K105": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn in Satzart 8215 die FK 7303 mit dem\nInhalt 7 vorkommt, muss die FK 8105\nvorhanden sein.",
+  "expl": "Wenn Untersuchungen außerhalb der GKV, der PKV, der IgeL, der\nSelektivverträge oder ASV abgerechnet werden sollen, muss das\nObj_0005 (Abrechnung_sonstige_Kostenuebernahme) vorhanden sein.",
+  "page": 114
+ },
+ "K106": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Im Obj_0060 muss entweder die FK 7260\noder die FK 8410 vorkommen",
+  "expl": "Im Untersuchungsergebnis „Klinische Chemie“ wird entweder auf den\nKatalog anforderbare Leistungen und das darin definierte Kürzel der\nangeforderten Leistung oder auf ein Test-Ident verwiesen.",
+  "page": 114
+ },
+ "K107": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn Inhalt von FK 7321 = 01, 02 oder 07\nist, dann muss FK 8114 vorhanden sein.",
+  "expl": "Ist der Einsender ein Arzt, muss das Obj_Arztidentifikation vorhanden\nsein.",
+  "page": 114
+ },
+ "K112": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Die FK 8310 muss nur dann vorkommen,\nwenn der Inhalt der FK 8310 im Auftrag\nübermittelt wurde.",
+  "expl": "Die Auftragsnummer des Einsenders muss vom Labor im Befund nur\ndann zurückübermittelt werden, wenn der Einsender diese bei der\nBeauftragung übermittelt hat.",
+  "page": 114
+ },
+ "K113": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn der Inhalt von FK 7303 = 99, muss\nInhalt von FK 8000 = 8215 vorkommen.",
+  "expl": "Die Stornierung einer Untersuchungsanforderung wird nur in der Satzart\n„Auftrag“ erlaubt.",
+  "page": 114
+ },
+ "K114": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn der Inhalt von FK 8000 = 8215 und der\nInhalt von FK 7303 in mindestens einem\nObj_0059 mit dem Wert 99 vorkommt, muss\nim Obj_0013 die FK 8313 vorkommen.",
+  "expl": "Änderung eines Auftrages ist nur mittels einer Nachforderung möglich.",
+  "page": 114
+ },
+ "K115": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Entweder die FK 0212 oder die FK 0223\nmuss jeweils mindestens einmal\nvorkommen.",
+  "expl": "",
+  "page": 114
+ },
+ "K116": {
+  "cat": "KBV",
+  "status": "F",
+  "check": "Wenn Feldinhalt von FK 4239 ≠ 28 und wenn\nFK 0222 vorhanden ist, dann muss\nentweder FK 0212 oder FK 0223 vorhanden\nsein.\nWenn Feldinhalt von FK 4239 = 28 und\nwenn FK 0222 vorhanden ist, dann muss ein\nFK 0212 vorhanden sein. Die FK 0223 darf\nnicht vorhanden sein.",
+  "expl": "Es ist ausgeschlossen, dass ein Krankenhausarzt im Rahmen seiner\nASV-Berechtigung Mitglied einer Laborgemeinschaft ist und in diesem\nZusammenhang Laborleistungen auf Muster 10A anfordert, gemäß § 25\nAbs. 3 S. 7 BMV-Ä.",
+  "page": 114
+ },
+ "K117": {
+  "cat": "SV",
+  "status": "F",
+  "check": "Wenn FK 8147 im Obj_Tier/Sonstiges\nvorkommt, muss im folgenden Obj_0047 der\nInhalt der FK 7420 = 11 oder 16 sein.",
+  "expl": "Damit kann die Person im Obj_Tier/Sonstiges übertragen werden, die in\neiner gewissen Beziehung zu dem zu untersuchenden Material steht (z.B.\nTierhalter, Eigentümer des eingesandten Materials).",
+  "page": 115
+ },
+ "K118": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Die FK 8512 muss nur dann vorkommen,\nwenn der Inhalt der FK 8512 im Auftrag\nübermittelt wurde.",
+  "expl": "Der Inhalt der Feldkennung muss nur übermittelt werden, wenn im Auftrag\nder 1. Tag des letzten Zyklus übermittelt wurde.",
+  "page": 115
+ },
+ "K119": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Im Obj_0063 muss entweder die FK 7260\noder die FK 8410 vorkommen",
+  "expl": "Im Untersuchungsergebnis „Zytologie“ wird entweder auf den Katalog\nanforderbare Leistungen und das darin definierte Kürzel der\nangeforderten Leistung oder auf ein Test-Ident verwiesen.",
+  "page": 115
+ },
+ "K120": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Im Obj_0073 muss entweder die FK 7260\noder die FK 8410 vorkommen",
+  "expl": "Im Untersuchungsergebnis „Sonstige Untersuchungsergebnisse“ wird\nentweder auf den Katalog anforderbare Leistungen und das darin\ndefinierte Kürzel der angeforderten Leistung oder auf ein Test-Ident\nverwiesen.",
+  "page": 115
+ },
+ "K121": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8158 kann im Obj_0073 nur vorhanden\nsein, wenn FK 7368 nicht vorhanden ist.",
+  "expl": "Use Case: Analytik konnte nicht durchgeführt werden.",
+  "page": 115
+ },
+ "K122": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 3317 kann nur vorhanden sein, wenn\nInhalt FK 3316 im Obj_0062 = 1 ist.",
+  "expl": "Das Feld “HPV-Typ 16/18” darf nur dann gesetzt werden, wenn das\nErgebnis des “HPV-HR-Tests” positiv ist.",
+  "page": 115
+ },
+ "K123": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 3320 kann nur vorhanden sein, wenn FK\n7415 oder FK 7417 oder FK 3318 oder FK\n3319 vorhanden sind, und FK 3321 nicht\nvorhanden ist.",
+  "expl": "",
+  "page": 115
+ },
+ "K124": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 3321 kann nur vorhanden sein, wenn FK\n7415 oder FK 7417 oder FK 3318 oder FK\n3319 vorhanden sind, und FK 3320 nicht\nvorhanden ist.",
+  "expl": "",
+  "page": 115
+ },
+ "K125": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8158 kann im Obj_0062 nur vorhanden\nsein, wenn die FK 7414 vorkommt und der\nInhalt von FK 7414 ≠ 0 ist oder die FK 3316\nvorkommt und der Inhalt von FK 3316 ≠ 3 ist.",
+  "expl": "Use Case: Analytik konnte nicht durchgeführt werden.",
+  "page": 115
+ },
+ "K126": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 8225 muss im Obj_0062 mindestens\neinmal vorkommen, wenn Inhalt von FK\n7414 ≠ 0.",
+  "expl": "",
+  "page": 116
+ },
+ "K128": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "FK 3316 darf nur vorhanden sein, wenn\nInhalt von FK 3314 = 1 im Obj_0034\nvorhanden ist.",
+  "expl": "Das Feld “HPV-HR-Testergebnis” darf nur gesetzt werden, wenn ein\n“HPV-HR-Test” vorliegt.",
+  "page": 116
+ },
+ "K130": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Es kann entweder die FK 8618 oder FK\n8619 vorhanden sein.\nBeide Feldkennungen dürfen nicht\ngleichzeitig vorhanden sein.",
+  "expl": "",
+  "page": 116
+ },
+ "K131": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Wenn Inhalt von FK 8626 = 2, muss\nentweder FK 8627 oder FK 4111\nvorhanden sein. Beide Feldkennungen\ndürfen gleichzeitig vorhanden sein.\nWenn Inhalt von FK 8626 = 1 oder 3, darf\nFK 8627 und FK 4111 nicht vorhanden\nsein.\nWenn Inhalt von FK 8626 = 3, darf FK\n8617, 8618, 8619 und 8620 nicht\nvorhanden sein.",
+  "expl": "",
+  "page": 116
+ },
+ "K132": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Wenn Inhalt von FK 8626 = 1, muss\ninnerhalb des entsprechenden Objektes\nmin. die FK 8617 oder die FK 8631\nvorhanden sein. Es kann eine beliebige\nKombination der zwei Feldkennungen\nvorhanden sein.",
+  "expl": "",
+  "page": 116
+ },
+ "K133": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Wenn Inhalt von FK 7303 im Obj_0027\n(Obj_Veranlassungsgrund) = 2 oder 10 ist,\ndann kann die FK 4209 vorhanden sein.",
+  "expl": "",
+  "page": 116
+ },
+ "K134": {
+  "cat": "Basis",
+  "status": "F",
+  "check": "Wenn im Obj_0062 die FK 7414 vorkommt\nund der Inhalt von FK 7414 ungleich 0 ist,\ndann müssen die FK 7405, FK 7406, FK\n7407, FK 7408, FK 7409, FK 7410, FK\n7411 und FK 7412 vorkommen.\nWenn im Obj_0062 die FK 7414 nicht\nvorkommt, dann dürfen die FK 7405, FK\n7406, FK 7407, FK 7408, FK 7409, FK\n7410, FK 7411 und FK 7412 nicht\nvorkommen.",
+  "expl": "",
+  "page": 117
+ },
+ "K135": {
+  "cat": "Basis",
+  "status": "W",
+  "check": "Die FK 8632 darf im Obj_0009 und\nObj_0017 nicht vorhanden sein.",
+  "expl": "Um Fehler aufgrund einer inkompatiblen Änderung der LDT 3\nSpezifikation ohne Stichtagsregelung zu verhindern, wird in einem ersten\nSchritt die FK 8632 noch nicht entfernt und soll mit dieser Regel bewarnt\nwerden, falls sie noch in den Datensätzen vorhanden ist.",
+  "page": 117
+ }
+}

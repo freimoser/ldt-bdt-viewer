@@ -1,0 +1,3250 @@
+{
+ "0001": {
+  "name": "Version XDT",
+  "len": "≤ 12",
+  "type": "alnum",
+  "rules": "F007 E001",
+  "desc": "Angabe der Version der LDT-Satzbeschreibung, nach der der Datensatz erstellt wurde",
+  "page": 38
+ },
+ "0080": {
+  "name": "ID der Fallakte oder Studie",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Organisationsübergreifende ID, frei wählbar unter den Beteiligten",
+  "page": 38
+ },
+ "0081": {
+  "name": "Bezeichnung der Fallakte oder Studie",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Durch die organisationsübergreifend festgelegte Bezeichnung soll der Zweck der Fallakte oder der Studie ausgedrückt werden.",
+  "page": 38
+ },
+ "0103": {
+  "name": "Software/Name der Software",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: Muster-PVS",
+  "page": 38
+ },
+ "0105": {
+  "name": "KBV-Prüfnummer",
+  "len": "16",
+  "type": "alnum",
+  "rules": "F012 K050",
+  "desc": "Eindeutige Nummer / Kennung, die bei der Systemprüfung (Zertifizierung) von der KBV vergeben wird (http://www.kbv.de)",
+  "page": 38
+ },
+ "0132": {
+  "name": "Version/Releasestand der Software",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 38
+ },
+ "0200": {
+  "name": "Betriebsstätten-ID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K044",
+  "desc": "Einrichtungen zu denen der Arzt gehört (beliebiger Identifier, falls (N)BSNR nicht existiert, eindeutige alphanumerische Kennung z.B. bei Privatpraxen)",
+  "page": 38
+ },
+ "0201": {
+  "name": "Betriebs- (BSNR) oder Nebenbetriebsstättennum mer (NBSNR)",
+  "len": "9",
+  "type": "num",
+  "rules": "F010 F021 K020 K044",
+  "desc": "Die Betriebsstättennummer, kurz BSNR, ist eine eindeutige Nummer, die im Rahmen der vertragsärztlichen Versorgung den Ort der Leistungserbringung (Betriebsstätte) eindeutig identifiziert. Weitere Orte der Leistungserbringung werden mit einer Nebenbetriebsstättennummer (NBSNR) belegt.",
+  "page": 38
+ },
+ "0203": {
+  "name": "(N)BSNR-Bezeichnung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bezeichnung der Betriebsstätte (Name) oder (N)BSNR-Bezeichnung als Freitext",
+  "page": 38
+ },
+ "0204": {
+  "name": "Status der Betriebsstätte",
+  "len": "1",
+  "type": "num",
+  "rules": "E046 K043",
+  "desc": "",
+  "page": 38
+ },
+ "0212": {
+  "name": "Lebenslange Arztnummer (LANR)",
+  "len": "9",
+  "type": "num",
+  "rules": "F011 K020 K115 K116",
+  "desc": "Die lebenslange Arztnummer, kurz LANR, ist eine neunstellige Nummer, die die zuständige Kassenärztliche Vereinigung bundesweit an jeden Arzt vergibt, der an der vertragsärztlichen Versorgung (siehe auch GKV) teilnimmt. Sie ist durch das Vertragsarztrechtsänderungsgesetz (VändG) zusammen mit der Betriebsstättennummer (BSNR) für jede kassenärztliche Praxis in Deutschland gesetzlich vorgeschrieben und durch die Flexibilisierung der vertragsärztlichen Tätigkeit notwendig geworden.",
+  "page": 39
+ },
+ "0213": {
+  "name": "Institutionskennzeichen (IK) (der Betriebsstätte)",
+  "len": "9",
+  "type": "num",
+  "rules": "",
+  "desc": "Gemäß § 293 SGB V wird bei der Datenübermittlung zwischen den gesetzlichen Krankenkassen und den Leistungserbringern ein IK als eindeutige Identifizierung verwendet.",
+  "page": 39
+ },
+ "0222": {
+  "name": "ASV-Teamnummer",
+  "len": "9",
+  "type": "num",
+  "rules": "F014 K057 K116",
+  "desc": "Die ambulante spezialfachärztliche Versorgung (§ 116 b SGB V) umfasst die Diagnostik und Behandlung komplexer, schwer therapierbarer Krankheiten, die je nach Krankheit eine spezielle Qualifikation, eine interdisziplinäre Zusammenarbeit und besondere Ausstattungen erfordern. Durch die ASV-Servicestelle erhält das ASV-Team (Teamleiter, Kernteam, hinzuzuziehende Fachärzte) eine Teamnummer.",
+  "page": 39
+ },
+ "0223": {
+  "name": "Pseudo-LANR für Krankenhausärzte im Rahmen der ASV- Abrechnung",
+  "len": "9",
+  "type": "num",
+  "rules": "F022 K020 K115 K116",
+  "desc": "Pseudo-LANR für Krankenhausärzte im Rahmen der ASV-Abrechnung (ASV-AV Anlage 3 Fachgruppencodierungen)",
+  "page": 39
+ },
+ "0306": {
+  "name": "Vertrags-ID des behandelnden Arztes",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Nur bei Selektivverträgen zu verwenden.",
+  "page": 39
+ },
+ "0307": {
+  "name": "Arzt-ID eines Arztes",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige ID, über welche der Einsender in seiner Eigenschaft als Arzt zusätzlich zu einer LANR verfügt",
+  "page": 39
+ },
+ "0308": {
+  "name": "Typ der Arzt-ID",
+  "len": "1",
+  "type": "num",
+  "rules": "E047",
+  "desc": "",
+  "page": 39
+ },
+ "0600": {
+  "name": "Name der Einrichtung des Auftraggebers",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K029",
+  "desc": "Freitext, z.B. Gesundheitsamt Musterstadt",
+  "page": 39
+ },
+ "1202": {
+  "name": "Adresstyp",
+  "len": "1",
+  "type": "num",
+  "rules": "E042",
+  "desc": "",
+  "page": 39
+ },
+ "1250": {
+  "name": "Organisation/Firma",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Organisation zu der die Person gehört oder Organisationsadresse ohne Personenzuordnung",
+  "page": 39
+ },
+ "1251": {
+  "name": "Rechtsform der Organisation",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: „e.V.“, „GmbH“",
+  "page": 40
+ },
+ "1252": {
+  "name": "Funktionsbezeichnung oder Titel der Person innerhalb der Organisation",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: „Geschäftsführer“",
+  "page": 40
+ },
+ "3000": {
+  "name": "Patientennummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige Patientenkennung des Primärsystems",
+  "page": 40
+ },
+ "3100": {
+  "name": "Namenszusatz",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Namenszusätze sind vor oder hinter dem Namen einer Person, einer geographischen Bezeichnung oder einer Sache vermerkte Beifügungen. (z.B. Graf, Fürst oder Baron.) Tabelle der gültigen Namenszusätze unter: https://www.gkvdatenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschrei ben.jsp Anlage 07",
+  "page": 40
+ },
+ "3101": {
+  "name": "Nachname",
+  "len": "≤ 45",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Ein Familienname (auch Nachname, Zuname, im Rechtsbereich der Bundesrepublik Deutschland amtsdeutsch einfach Name) dient als Ergänzung zum Vornamen der besseren Unterscheidbarkeit von Personen. Mit dem Familiennamen wird die Zugehörigkeit des Individuums zu einer Familie ausgedrückt. Der Geburtsname drückt die Zugehörigkeit zur Elternfamilie aus, der Ehename die Zugehörigkeit zur Familie des Ehepartners und der Doppelname, wenn er nicht vererbt wurde, die Zugehörigkeit zu beiden Familien der Ehepartner aus.",
+  "page": 40
+ },
+ "3102": {
+  "name": "Vorname",
+  "len": "≤ 45",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Der Vorname einer Person bezeichnet den Teil des Namens, der nicht die Zugehörigkeit zu einer Familie bezeichnet. Eine Person kann mehrere Vornamen haben. Im Deutschen stehen die Vornamen (als individuelle Namen) vor dem Familiennamen (von regionalen Ausnahmen abgesehen).",
+  "page": 40
+ },
+ "3103": {
+  "name": "Geburtsdatum",
+  "len": "8",
+  "type": "num",
+  "rules": "F003 K094",
+  "desc": "Datum der Geburt",
+  "page": 40
+ },
+ "3104": {
+  "name": "Titel",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Hier im Sinne von akademischen Graden. Ein System von Abschlussbezeichnungen, die von Hochschulen aufgrund eines erfolgreich abgeschlossenen Studiums oder aufgrund einer besonderen wissenschaftlichen Leistung vergeben werden. Ein akademischer Grad wird nach einem mit Hochschulprüfung abgeschlossenen Studium durch eine Urkunde verliehen (Graduierung).",
+  "page": 40
+ },
+ "3105": {
+  "name": "Versichertennummer",
+  "len": "6 – 12",
+  "type": "num",
+  "rules": "K025 K090",
+  "desc": "Die Krankenversichertennummer ist Bestandteil der Daten, die auf der Krankenversicherungskarte (nicht eGK) enthalten sind und wird benötigt, damit Leistungserbringer mit der zuständigen Krankenkasse abrechnen können.",
+  "page": 41
+ },
+ "3107": {
+  "name": "Straße",
+  "len": "≤ 46",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Straßenbezeichnung als Freitext",
+  "page": 41
+ },
+ "3108": {
+  "name": "Versichertenart",
+  "len": "1",
+  "type": "num",
+  "rules": "E002 K056",
+  "desc": "Letzter Stand im Bezugszeitraum, Art der Versicherung des Patienten basierend auf dem Beschäftigungsstatus und dem Verhältnis zum Versicherten.",
+  "page": 41
+ },
+ "3109": {
+  "name": "Hausnummer",
+  "len": "≤ 9",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eine Hausnummer ist die Bezeichnung, die ein bestimmtes Gebäude in einer Straße oder einem Ort eindeutig identifiziert. Sie dient der Adressierung, Orientierung und der Auffindbarkeit eines Gebäudes.",
+  "page": 41
+ },
+ "3110": {
+  "name": "Geschlecht",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E019 K094",
+  "desc": "Geschlecht der Person",
+  "page": 41
+ },
+ "3112": {
+  "name": "Postleitzahl (PLZ)",
+  "len": "≤ 10",
+  "type": "alnum",
+  "rules": "K017",
+  "desc": "",
+  "page": 41
+ },
+ "3113": {
+  "name": "Ort",
+  "len": "≤ 40",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bezeichnung des Ortes",
+  "page": 41
+ },
+ "3114": {
+  "name": "Wohnsitzländercode",
+  "len": "≤ 3",
+  "type": "alnum",
+  "rules": "K017",
+  "desc": "Offizielle Kurzbezeichnung des Wohnsitzstaates (z.B. D = Deutschland, A = Österreich) Codierung gemäß DEÜV (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften): https://www.gkvdatenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschrei ben.jsp Anlage 08",
+  "page": 41
+ },
+ "3115": {
+  "name": "Anschriftenzusatz",
+  "len": "≤ 40",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Ergänzender Freitext zur Adresse (z.B. Hinterhaus)",
+  "page": 41
+ },
+ "3116": {
+  "name": "WOP",
+  "len": "2",
+  "type": "num",
+  "rules": "E022 K088",
+  "desc": "Abrechnungskennzeichen für den Arzt.(z.B. „01“ für „Schleswig-Holstein“)",
+  "page": 41
+ },
+ "3119": {
+  "name": "Versicherten_ID",
+  "len": "10",
+  "type": "alnum",
+  "rules": "F013 K025 K091",
+  "desc": "10-stellige unveränderliche (Versicherten-ID) der eGK-Krankenversichertennummer Die Berechnung der Prüfziffer der Versicherten-ID erfolgt nach dem Schema der Anlage 1 der Richtlinie „Organisatorische und technische Richtlinien zur Nutzung der Versicherungsnummer nach §147 SGB VI bei Einführung einer neuen Krankenversichertennummer nach § 290 SGB V, Version 1.5“. Die Prüfziffer wird mit einem Modulo-10-Verfahren ermittelt. Der Buchstabe wird dabei durch eine zweistellige Zahl ersetzt, das A mit 01, das B mit 02, …, und das Z mit 26. Die Ziffern werden von links nach rechts abwechselnd mit 1 und 2 multipliziert. Es erfolgt eine Quersummenbildung der einzelnen Produkte, mit anschließender Summenbildung der Quersummen. Die Prüfziffer ergibt sich aus der Differenz dieser Zahl zu 10 bzw. zum nächsten Vielfachen von 10. Beim Ersatzverfahren oder beim Scannen von gedruckten Patientenstammdaten (z. B. Überweisungsschein im Labor) kann eine Überprüfung zur Vermeidung von Tipp- bzw. Lesefehlern (OCR) erfolgen.",
+  "page": 42
+ },
+ "3120": {
+  "name": "Vorsatzwort",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "",
+  "desc": "von, van etc. sind Vorsatzworte zum Nachnamen. Tabelle der gültigen Vorsatzworte unter: https://www.gkvdatenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschrei ben.jsp Anlage 06 Sie gehören nicht zum Familiennamen. Beispiel: Peter von der Höhe trägt den Nachnamen „Höhe“, das „von der“ sind Vorsatzworte.",
+  "page": 42
+ },
+ "3121": {
+  "name": "PostfachPLZ",
+  "len": "≤ 10",
+  "type": "alnum",
+  "rules": "K017",
+  "desc": "Postleitzahl des Postfaches",
+  "page": 42
+ },
+ "3122": {
+  "name": "PostfachOrt",
+  "len": "≤ 40",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Ortsbezeichnung des Postfaches",
+  "page": 42
+ },
+ "3123": {
+  "name": "Postfach",
+  "len": "≤ 8",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Ein Postfach ist eine Einrichtung, bei der der Empfänger seine Post in einem abschließbaren Fach in einer Postfiliale abholen kann.",
+  "page": 42
+ },
+ "3124": {
+  "name": "PostfachWohnsitzlaenderc ode",
+  "len": "≤ 3",
+  "type": "alnum",
+  "rules": "K017",
+  "desc": "offizielle Kurzbezeichnung des Wohnsitzstaates für das Postfach (z.B. D = Deutschland, A = Österreich)",
+  "page": 42
+ },
+ "3130": {
+  "name": "Einschreibestatus Selektivverträge",
+  "len": "1",
+  "type": "num",
+  "rules": "E041",
+  "desc": "",
+  "page": 43
+ },
+ "3131": {
+  "name": "Teilnahme von",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 43
+ },
+ "3132": {
+  "name": "Teilnahme bis",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 43
+ },
+ "3133": {
+  "name": "Datum der Antragstellung",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 43
+ },
+ "3134": {
+  "name": "Bezeichnung des Selektivvertrages",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Die Möglichkeit zum Abschluss von Selektivverträgen besteht im Wesentlichen in der hausarztzentrierten Versorgung (§ 73 b SGB V), bei strukturierten Behandlungsprogrammen für chronische Erkrankungen (Disease-Management-Programme) (§ 137 f SGB V) und in der Integrierten Versorgung (§§ 140ff SGB V).",
+  "page": 43
+ },
+ "3313": {
+  "name": "HPV-Impfung",
+  "len": "1",
+  "type": "num",
+  "rules": "E168",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3314": {
+  "name": "HPV-HR-Test",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K128",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3316": {
+  "name": "HPV-HR-Testergebnis",
+  "len": "1",
+  "type": "num",
+  "rules": "E169 K122 K128",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3317": {
+  "name": "HPV-Typ 16/18",
+  "len": "1",
+  "type": "num",
+  "rules": "K122 E179",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3318": {
+  "name": "HPV-Test",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K123 K124",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3319": {
+  "name": "Ko-Test",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K123 K124",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3320": {
+  "name": "Zeitraum sofort",
+  "len": "1",
+  "type": "num",
+  "rules": "E011 K123 K124",
+  "desc": "Muster 39",
+  "page": 43
+ },
+ "3321": {
+  "name": "Zeitraum in Monaten",
+  "len": "1 - 5",
+  "type": "alnum",
+  "rules": "F023 K123 K124",
+  "desc": "Muster 39",
+  "page": 44
+ },
+ "3322": {
+  "name": "Alterskategorie",
+  "len": "1",
+  "type": "num",
+  "rules": "E167",
+  "desc": "Muster 39",
+  "page": 44
+ },
+ "3412": {
+  "name": "Blutgruppe-Eurocode",
+  "len": "6",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "!Rnnnn (n= 0-9); Regeln unter Punkt 4.5 in Technische Spezifikation Eurocode unter http://www.eurocode.org/guides/structures/EurocodeTechnicalSpecification-2-0-0.pdf",
+  "page": 44
+ },
+ "3413": {
+  "name": "Antikörpersuchtest (gegen Erythrozytenantigene)",
+  "len": "1",
+  "type": "num",
+  "rules": "E054 K071 K078",
+  "desc": "",
+  "page": 44
+ },
+ "3414": {
+  "name": "Spezifität weitere Erythrozytenantigene",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "Freitext",
+  "page": 44
+ },
+ "3415": {
+  "name": "Spezifität Erythrozytenantikörper",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "Freitext",
+  "page": 44
+ },
+ "3416": {
+  "name": "Spezifität HLA-, HPA-, HNA-Antigene",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "Freitext",
+  "page": 44
+ },
+ "3417": {
+  "name": "Spezifität HLA-, HPA-, HNA-Antikörper",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "Freitext",
+  "page": 44
+ },
+ "3418": {
+  "name": "Direkter Coombstest (DCT)",
+  "len": "1",
+  "type": "num",
+  "rules": "E055 K071 K078",
+  "desc": "",
+  "page": 44
+ },
+ "3419": {
+  "name": "Ergebnis Kreuzprobe",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K071 K078",
+  "desc": "Präparatenummer in Eurocode-Format 0-20 Stellen alphanumerisch sowie Freitext Resultat",
+  "page": 44
+ },
+ "3420": {
+  "name": "Anforderung NHP",
+  "len": "1",
+  "type": "num",
+  "rules": "E056",
+  "desc": "NHP = Nothilfepass",
+  "page": 44
+ },
+ "3424": {
+  "name": "Therapiebeginn",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 44
+ },
+ "3425": {
+  "name": "Therapieende",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 44
+ },
+ "3471": {
+  "name": "Entbindungstermin (errechnet)",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 45
+ },
+ "3473": {
+  "name": "Untersuchungsergebnis durch Auftragslaboratorium erstellt",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "Umsetzung der Vorgaben der DIN EN ISO 15189:2014, Pkt. 5.8.3c und der Richtlinie der Bundesärztekammer zur Qualitätssicherung laboratoriumsmedizinischer Untersuchungen (Rili-BÄK) Pkt. 7.4.1 und 7.4.2 zur Kennzeichnung von Untersuchungsergebnissen, die von Auftragslaboratorien erbracht wurden",
+  "page": 45
+ },
+ "3564": {
+  "name": "Text",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "E036 K100",
+  "desc": "Zur Darstellung von Texten oder Textbausteinen",
+  "page": 45
+ },
+ "3622": {
+  "name": "Größe des Patienten",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "desc": "Die Körpergröße eines Menschen bezeichnet die Größe des aufrecht stehenden Menschen von der Fußsohle bis zum Scheitel. Einheit: Zentimeter [cm]",
+  "page": 45
+ },
+ "3623": {
+  "name": "Gewicht des Patienten",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "desc": "Das Körpergewicht bezeichnet die physikalische Masse eines Menschen. Einheit: Kilogramm [kg]",
+  "page": 45
+ },
+ "3628": {
+  "name": "Muttersprache",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Muttersprache ist die in der frühen Kindheit ohne formalen Unterricht erlernte Sprache.",
+  "page": 45
+ },
+ "3664": {
+  "name": "Anzahl Geburten",
+  "len": "2",
+  "type": "num",
+  "rules": "",
+  "desc": "Inklusive Fehlgeburten",
+  "page": 45
+ },
+ "3666": {
+  "name": "Anzahl Kinder",
+  "len": "2",
+  "type": "num",
+  "rules": "",
+  "desc": "Selbst geborene Kinder",
+  "page": 45
+ },
+ "3668": {
+  "name": "Anzahl Schwangerschaften",
+  "len": "2",
+  "type": "num",
+  "rules": "",
+  "desc": "",
+  "page": 45
+ },
+ "3689": {
+  "name": "Status der Medikation",
+  "len": "1",
+  "type": "num",
+  "rules": "E156",
+  "desc": "Akutmedikation / Bedarfsmedikation / Dauermedikation",
+  "page": 45
+ },
+ "4104": {
+  "name": "Abrechnungs-VKNR",
+  "len": "5",
+  "type": "num",
+  "rules": "F001 K090 K091",
+  "desc": "Den Kassen sind Vertragskassennummern (VKNR) zugeordnet. Hier ist die 5-stellige VKNR der KKen zu verwenden, die aus der Kostenträgerstammdatei aufgrund des Institutionskennzeichens der Krankenkassen (IK) ermittelt wird.",
+  "page": 45
+ },
+ "4106": {
+  "name": "Kostenträger- Abrechnungsbereich (KTAB)",
+  "len": "2",
+  "type": "num",
+  "rules": "E015 K022 K023 K024",
+  "desc": "Kostenträgerabrechnungsbereich (KTAB): gibt die vertragliche Vereinbarung oder gesetzliche Bestimmung an, nach der eine Abrechnung vollzogen wird. In Verbindung mit der VKNR bildet der KTAB ein eindeutiges Identifizierungsmerkmal eines Kostenträgers.",
+  "page": 46
+ },
+ "4108": {
+  "name": "Zulassungsnummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Zulassungsnummer des mobilen Kartenlesegerätes",
+  "page": 46
+ },
+ "4109": {
+  "name": "Letzter Einlesetag der Versichertenkarte im Quartal",
+  "len": "8",
+  "type": "date",
+  "rules": "F002 K017 K025 K087 K090 K091",
+  "desc": "Letzter Tag an dem die aktuelle Karte im aktuellen Quartal verwendet wurde.",
+  "page": 46
+ },
+ "4110": {
+  "name": "Versicherungsschutz- Ende",
+  "len": "8",
+  "type": "date",
+  "rules": "F002 K087 K090 K088",
+  "desc": "Bezeichnet das Ende der Gültigkeit der Versichertenkarte",
+  "page": 46
+ },
+ "4111": {
+  "name": "Kostenträger-Kennung",
+  "len": "9",
+  "type": "num",
+  "rules": "",
+  "desc": "Kostenträger des Versicherten (bundesweitgültige Institutionskennzeichen (IK) des jeweiligen Kostenträgers)",
+  "page": 46
+ },
+ "4121": {
+  "name": "Gebührenordnung",
+  "len": "1",
+  "type": "num",
+  "rules": "E008 K005 K008 K019",
+  "desc": "Definiert die Gebührenordnung, nach der die Abrechnung der erbrachten Leistungen erfolgt.",
+  "page": 46
+ },
+ "4122": {
+  "name": "Abrechnungsgebiet",
+  "len": "2",
+  "type": "num",
+  "rules": "E010",
+  "desc": "Gibt an, zu welchem Abrechnungsgebiet eine erbrachte Leistung eines Arztes gehört. Die Eingruppierung hat Auswirkungen auf den Abrechnungsprozess. Jede KV legt fest, welche Leistung zu welchem Abrechnungsgebiet gehört. 00= kein besonderes Abrechnungsgebiet",
+  "page": 46
+ },
+ "4124": {
+  "name": "SKT-Zusatzangaben",
+  "len": "",
+  "type": "alnum",
+  "rules": "",
+  "desc": "5 ≤ 60 Bei „Sonstigen Kostenträgern“ (SKT) –Patienten (z. B. Sozialämter, Zivildienst, Polizei, Bundeswehr usw.) ist die Eingabe zusätzlicher Angaben vorgeschrieben, wenn die Patienten keine eGK vorlegen.",
+  "page": 46
+ },
+ "4126": {
+  "name": "SKT-Zusatzbemerkung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bemerkungen zu SKT-Zusatzangaben",
+  "page": 47
+ },
+ "4131": {
+  "name": "Besondere Personengruppen",
+  "len": "2",
+  "type": "num",
+  "rules": "E021 K022 K023 K024",
+  "desc": "",
+  "page": 47
+ },
+ "4132": {
+  "name": "DMP_Kennzeichnung",
+  "len": "2",
+  "type": "num",
+  "rules": "E020",
+  "desc": "Disease Management Program (DMP) bezeichnet die Behandlung von Patienten anhand standardisierter Vorgaben. Diese richten sich an einzelnen Krankheitsbildern aus. Wird beispielsweise festgestellt, dass ein Patient an Diabetes leidet, ergeben sich aus der Diagnose vorgegebene Behandlungsschritte.",
+  "page": 47
+ },
+ "4133": {
+  "name": "Versicherungsschutz- Beginn",
+  "len": "8",
+  "type": "date",
+  "rules": "F002 K091",
+  "desc": "Anfangszeitpunkt der Laufzeit eines Versicherungsvertrags (auf eGK gespeichert)",
+  "page": 47
+ },
+ "4134": {
+  "name": "Kostentraegername",
+  "len": "≤ 45",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Name der Krankenversicherung",
+  "page": 47
+ },
+ "4202": {
+  "name": "Unfall, Unfallfolgen",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 47
+ },
+ "4204": {
+  "name": "Eingeschränkter Leistungsanspruch gemäß §16 Abs. 3a SGB V",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "Dieses Feld dient zur Kennzeichnung von Fällen mit „eingeschränktem Leistungsanspruch gemäß § 16 Absatz 3a SGB V“. Der überweisende Vertragsarzt muss dieses Feld ankreuzen, um den Arzt, der auf Überweisung tätig wird, über den eingeschränkten Leistungsanspruch zu informieren.",
+  "page": 47
+ },
+ "4207": {
+  "name": "Diagnose / Verdachtsdiagnose",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 47
+ },
+ "4208": {
+  "name": "Befund / Medikation",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bisher durchgeführte Maßnahmen (z.B. Medikation)",
+  "page": 47
+ },
+ "4209": {
+  "name": "Zusätzliche Angaben zu Untersuchungen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K133",
+  "desc": "",
+  "page": 47
+ },
+ "4210": {
+  "name": "SER",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 47
+ },
+ "4217": {
+  "name": "(N)BSNR des Erstveranlassers",
+  "len": "9",
+  "type": "num",
+  "rules": "F010 K014 K041",
+  "desc": "Diese Nummer ist nur einzutragen, wenn vom ersten Überweisungsempfänger (Labor) weiterüberwiesen wird.",
+  "page": 48
+ },
+ "4221": {
+  "name": "Kurativ / Präventiv / ESS / bei belegärztl. Behandlung",
+  "len": "1",
+  "type": "num",
+  "rules": "E039 K012 K021 K031 K032",
+  "desc": "Art bzw. Anlass der Behandlung",
+  "page": 48
+ },
+ "4225": {
+  "name": "ASV-Teamnummer des Erstveranlassers",
+  "len": "9",
+  "type": "num",
+  "rules": "K014 K041",
+  "desc": "",
+  "page": 48
+ },
+ "4229": {
+  "name": "Knappschaftskennziffer",
+  "len": "5",
+  "type": "num",
+  "rules": "K015",
+  "desc": "",
+  "page": 48
+ },
+ "4231": {
+  "name": "Kontrolluntersuchung einer bekannten Infektion",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "Werden direkte oder indirekte Nachweise von Krankheitserregern im Rahmen einer Kontrolluntersuchung bei einer bereits bekannten Infektion beauftragt, ist das Feld „Kontrolluntersuchung einer bekannten Infektion“ zu nutzen. Im Feld 4208 „Befund/Medikation“ ist zudem der Sachverhalt zu erläutern. Erkrankungen mit Meldepflicht sind § 7 Infektionsschutzgesetz zu entnehmen.",
+  "page": 48
+ },
+ "4239": {
+  "name": "Scheinuntergruppe",
+  "len": "2",
+  "type": "num",
+  "rules": "E009 K012 K014 K015 K016 K021 K031 K032 K041 K050 K116",
+  "desc": "Die Angabe der Scheinuntergruppe zur Kennzeichnung um welche Art der Überweisung, des Notfalls, der Belegärztlichen oder Originalen Behandlung es sich handelt, wird unter anderem für die Abbildung des EBM Regelwerks benötigt.",
+  "page": 48
+ },
+ "4241": {
+  "name": "Lebenslange Arztnummer (LANR) des Erstveranlassers",
+  "len": "9",
+  "type": "num",
+  "rules": "F011 K014 K041",
+  "desc": "",
+  "page": 48
+ },
+ "4248": {
+  "name": "Pseudo-LANR für Krankenhausärzte im Rahmen der ASV-Abrechnung des Erstveranlassers",
+  "len": "9",
+  "type": "num",
+  "rules": "F022 K014",
+  "desc": "",
+  "page": 49
+ },
+ "5001": {
+  "name": "Gebührennummer (GNR)",
+  "len": "",
+  "type": "alnum",
+  "rules": "F009 K019",
+  "desc": "≤ 9 oder 5, 6 F eldlänge ≤ 9 anwendbar bei Gebührennummern aus der GOÄ, Feldlänge 5 und 6 anwendbar bei Gebührennummern aus dem EBM",
+  "page": 49
+ },
+ "5005": {
+  "name": "Multiplikator",
+  "len": "3",
+  "type": "num",
+  "rules": "E003",
+  "desc": "Wurden Leistungen mehrfach erbracht, können diese durch einen Multiplikator zur Gebührenziffer gekennzeichnet werden.",
+  "page": 49
+ },
+ "5009": {
+  "name": "freier Begründungstext",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Die Abrechnung einiger Gebührennummern bedingt eine Begründung. Über das Feld 5009 kann ein freier Begründungstext angegeben werden. Die Dokumentation muss \"hinter\" der entsprechenden GNR erfolgen.",
+  "page": 49
+ },
+ "6001": {
+  "name": "ICD-Code",
+  "len": "3, 5, 6",
+  "type": "alnum",
+  "rules": "F004",
+  "desc": "Entsprechend: International Classification of Diseases – German Modification (Internationale statistische Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, deutschsprachige Ausgabe)",
+  "page": 49
+ },
+ "6003": {
+  "name": "Diagnosesicherheit",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E037",
+  "desc": "Angabe der Diagnosesicherheit",
+  "page": 49
+ },
+ "6004": {
+  "name": "Lokalisation",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E038",
+  "desc": "Angabe der Lokalisation der Diagnose",
+  "page": 49
+ },
+ "6006": {
+  "name": "Diagnoseerläuterung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Freitext zur Erläuterung der Diagnosen",
+  "page": 49
+ },
+ "6008": {
+  "name": "Diagnoseausnahmetatbes tand",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Der Diagnoseausnahmetatbestand muss angegeben werden, wenn der ICD Code trotz aufgetretenem Regelwerksfehler dennoch übertragen werden soll. Beispiel: Es wird ein ICD 10 Code angegeben, welcher nur für weibliche Patienten gilt. Patient ist männlich. Sofern der Code verwendet werden soll, muss ein Diagnoseausnahmetatbestand angegeben werden.",
+  "page": 49
+ },
+ "6206": {
+  "name": "Pharmazentralnummer (PZN)",
+  "len": "8",
+  "type": "num",
+  "rules": "F020",
+  "desc": "In Deutschland werden PZNs von der Informationsstelle für Arzneispezialitäten (IFA) vergeben.",
+  "page": 49
+ },
+ "6207": {
+  "name": "Rezeptur",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beschreibung der Rezeptur",
+  "page": 49
+ },
+ "6208": {
+  "name": "Handelsname des Arzneimittels",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 50
+ },
+ "6212": {
+  "name": "Arzneimittelwirkstoff / Wirkstoff",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 50
+ },
+ "6214": {
+  "name": "Wirkstoff-Klassifikation (Code-System)",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Der in Wirkstoff-Code hinterlegte, einen Wirkstoff bezeichnende Code, wird vollständig qualifiziert, indem der Code dem hier angegeben Code-System zugeordnet wird. Als mögliche Code-Systeme sind derzeit „WG14“, „atcgm2013“, „atcgm2014“, „atcgm2015“ und „ASK“ gestattet.",
+  "page": 50
+ },
+ "6221": {
+  "name": "Kennzeichnung Fremdbefund",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 50
+ },
+ "6224": {
+  "name": "Wirkstoff-Code",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 50
+ },
+ "6303": {
+  "name": "Dateiformat",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Externes Dateiformat aus Sicht des Betriebssystems (z.B. „PDF“)",
+  "page": 50
+ },
+ "6305": {
+  "name": "Verweis auf die Datei",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K001",
+  "desc": "Uniform Resource Locator, z.B. WWW-Adresse, UNC-Pfad. Beispiel: \\\\FS1\\TEST\\BILD1.PDF. Dateiname, wie er an die Datenstelle kommuniziert wurde/wird",
+  "page": 50
+ },
+ "6327": {
+  "name": "Bildinhalt / Dokumenteninhalt",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K075",
+  "desc": "Beschreibung des Bild/Dokumenteninhalts in Freitext",
+  "page": 50
+ },
+ "6328": {
+  "name": "Dateicodierung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: „ISO 10646“",
+  "page": 50
+ },
+ "6329": {
+  "name": "Inhalt der Datei als base64-kodierte Anlage",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K001 K100",
+  "desc": "Inhalt des Dokuments (der Anlage) in Form von Base64-kodierten Zeilen",
+  "page": 50
+ },
+ "7251": {
+  "name": "Bezeichnung des verwendeten Kataloges",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: LVZ MVZ Musterstadt",
+  "page": 50
+ },
+ "7253": {
+  "name": "Kostenübernahmeerklärun g des Auftraggebers liegt vor",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 50
+ },
+ "7258": {
+  "name": "ID Katalog durchgeführte Leistungen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Wird vom Labor vergeben",
+  "page": 51
+ },
+ "7259": {
+  "name": "ID Katalog abrechenbare Leistungen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Wird vom Labor vergeben",
+  "page": 51
+ },
+ "7260": {
+  "name": "ID Katalog anforderbare Leistungen",
+  "len": "1",
+  "type": "num",
+  "rules": "E057 K037 K106",
+  "desc": "",
+  "page": 51
+ },
+ "7261": {
+  "name": "Sonstige Versicherungsnummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: Versicherungsnummer Haustier",
+  "page": 51
+ },
+ "7263": {
+  "name": "Test-ID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige ID des Test-Idents. Für eine Verlaufsdarstellung von Laborwerten aus unterschiedlichen Laboren muss jedes Test-Ident mit einer OID eindeutig zugeordnet werden können.",
+  "page": 51
+ },
+ "7264": {
+  "name": "Test-Gerät-UID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige Untersuchungs-ID (UID), dient zur Rückführung auf Untersucher (Hersteller), das Gerät und den Zeitpunkt (wird vom Gerät erzeugt).",
+  "page": 51
+ },
+ "7265": {
+  "name": "Absender des Datensatzes",
+  "len": "1",
+  "type": "num",
+  "rules": "E067",
+  "desc": "",
+  "page": 51
+ },
+ "7266": {
+  "name": "Laborart",
+  "len": "1",
+  "type": "num",
+  "rules": "E051 K083 K084",
+  "desc": "",
+  "page": 51
+ },
+ "7267": {
+  "name": "ID des Auftraggebers",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "ID, die Auftraggeber vom Auftragnehmer erhalten hat",
+  "page": 51
+ },
+ "7268": {
+  "name": "Fachrichtung oder Stationskennung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 51
+ },
+ "7272": {
+  "name": "Freitext zum Timestamp",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Erläuterungstext zum Timestamp",
+  "page": 51
+ },
+ "7273": {
+  "name": "Zeitzone",
+  "len": "3, 5, 8, 9",
+  "type": "alnum",
+  "rules": "E163",
+  "desc": "Um die Zeitangabe im Timestamp auf die jeweilige Zeitzone zu referenzieren, muss diese angegeben werden. Laut Empfehlung der ISO 8601wird nach einer zusammenhängenden Datums- und Zeitangabe die Differenz zur Koordinierten Weltzeit (UTC) angegeben. Das Format ist „±hh:mm“ oder „±hh“ und berücksichtigt damit sowohl die Zeitzone als auch die Sommerzeit. Um aus einer lokalen Zeitangabe die Zeit in UTC zu bestimmen, muss der Wert nach einem „+“ subtrahiert, der nach einem „−“ addiert werden.",
+  "page": 51
+ },
+ "7275": {
+  "name": "ID verwendeter Terminologie",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Referenz auf eine allgemein übliche Terminologie oder einen allgemein üblichen Standard",
+  "page": 52
+ },
+ "7276": {
+  "name": "ID verwendeter Nummernpool",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Nummernkreise, auf die referenziert werden kann",
+  "page": 52
+ },
+ "7278": {
+  "name": "Datum des Timestamp",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 52
+ },
+ "7279": {
+  "name": "Uhrzeit des Timestamp",
+  "len": "6, 9",
+  "type": "num",
+  "rules": "F016",
+  "desc": "",
+  "page": 52
+ },
+ "7280": {
+  "name": "Grund der Benachrichtigung",
+  "len": "1",
+  "type": "num",
+  "rules": "E049",
+  "desc": "",
+  "page": 52
+ },
+ "7281": {
+  "name": "Nachweisverfahren",
+  "len": "1",
+  "type": "num",
+  "rules": "E069",
+  "desc": "Dokumentation des Untersuchungsverfahrens",
+  "page": 52
+ },
+ "7285": {
+  "name": "Keim-Nummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 52
+ },
+ "7286": {
+  "name": "Resistenz-Methode",
+  "len": "1",
+  "type": "num",
+  "rules": "E059 K085 K086",
+  "desc": "",
+  "page": 52
+ },
+ "7287": {
+  "name": "Wirkstoff-Ident",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 52
+ },
+ "7288": {
+  "name": "Wirkstoff-Generic- Nummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 52
+ },
+ "7289": {
+  "name": "MHK/Breakpoint-Wert",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 52
+ },
+ "7290": {
+  "name": "Resistenz-Interpretation",
+  "len": "1",
+  "type": "num",
+  "rules": "E030",
+  "desc": "",
+  "page": 52
+ },
+ "7292": {
+  "name": "Lokalisation Probenmaterial",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 52
+ },
+ "7293": {
+  "name": "Einheit der Mengenangabe",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K086",
+  "desc": "Tabellarische Auflistung: Abh. vom Material z.B.: Interpretation der Mengenangaben bei Sproßpilzen: massenhaft > 100000 /g Stuhl reichlich 1000 - 100000 /g Stuhl mäßig 100 - 1000 /g Stuhl spärlich < 100 /g Stuhl",
+  "page": 53
+ },
+ "7296": {
+  "name": "Wiederholungsuntersuchu ng",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 53
+ },
+ "7297": {
+  "name": "Datum der letzten Untersuchung",
+  "len": "8",
+  "type": "num",
+  "rules": "F018",
+  "desc": "",
+  "page": 53
+ },
+ "7301": {
+  "name": "Ergebnis",
+  "len": "1",
+  "type": "num",
+  "rules": "E064",
+  "desc": "",
+  "page": 53
+ },
+ "7302": {
+  "name": "Testmethode",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Angabe der Testmethode Beispiel: ELISA/Hersteller, Standard-Kultur/Hersteller, Multiplex-PCR/Hersteller/Nachweisgrenze, Gen-Sonde, Auramin-Färbung",
+  "page": 53
+ },
+ "7303": {
+  "name": "Abrechnungsinfo zur Untersuchung",
+  "len": "≤ 2",
+  "type": "num",
+  "rules": "E050 K003 K008 K011 K032 K034 K056 K057 K060 K097 K098 K102 K103 K105 K113 K114",
+  "desc": "Festlegung der Abrechnungsart",
+  "page": 53
+ },
+ "7304": {
+  "name": "Ergebnis-ID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige ID des jeweiligen Untersuchungsergebnisses (wird durch Labor generiert).",
+  "page": 54
+ },
+ "7305": {
+  "name": "Befund-ID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige ID des Befundes zu einem Laborauftrag (wird durch Labor generiert). ID muss über den gesamten Workflow der Abarbeitung des Auftrages gleich bleiben. Anhand der ID und des Timestamp der Erstellung des Datensatzes (FK 8218) bekommt das empfangende System die Möglichkeit, immer den aktuellen Befund seinem Nutzer zu präsentieren",
+  "page": 54
+ },
+ "7306": {
+  "name": "Darstellung Ergebniswerte",
+  "len": "2",
+  "type": "num",
+  "rules": "E058",
+  "desc": "Definition der Darstellung der folgenden Ergebniswerte",
+  "page": 54
+ },
+ "7310": {
+  "name": "Art des Materials",
+  "len": "1",
+  "type": "num",
+  "rules": "E033 K038 K039",
+  "desc": "",
+  "page": 54
+ },
+ "7311": {
+  "name": "Organisches Material",
+  "len": "1",
+  "type": "num",
+  "rules": "E034 K038",
+  "desc": "",
+  "page": 54
+ },
+ "7312": {
+  "name": "Anorganisches Material",
+  "len": "1",
+  "type": "num",
+  "rules": "E035 K038",
+  "desc": "",
+  "page": 54
+ },
+ "7313": {
+  "name": "Art / Rasse / Material",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K089",
+  "desc": "",
+  "page": 54
+ },
+ "7314": {
+  "name": "Name / Kennung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K089",
+  "desc": "",
+  "page": 54
+ },
+ "7315": {
+  "name": "Alter",
+  "len": "≤ 10",
+  "type": "num",
+  "rules": "",
+  "desc": "",
+  "page": 54
+ },
+ "7316": {
+  "name": "Normalwert Listenbezeichnung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K055",
+  "desc": "Die Feldkennungen 7316 und 7317 sollen für eine semistrukturierte Darstellung von Normalwerten verwendet werden. Die Feldkennung 7316 dient als Überschrift einer Auflistung von Normalwerten.",
+  "page": 54
+ },
+ "7317": {
+  "name": "Normalwert Listenzeile",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: prämenopausal 1.-2. ZT 15 - 70 ng/l 3.-5. ZT 45 – 120 ng/l späte Follikelphase 30 - 90 ng/l Ovulation 80 – 200 ng/l Lutealphase < 50 ng/l postmenopausal < 10 ng/l",
+  "page": 54
+ },
+ "7318": {
+  "name": "Nahrungsaufnahme zum Zeitpunkt der Materialentnahme",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bei der Beauftragung von Funktionstests wird diese Information benötigt.",
+  "page": 55
+ },
+ "7319": {
+  "name": "Identifikationsnummer der Quelle",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K089",
+  "desc": "Identifikationsnummer in Verwaltungssoftware (z.B. einer Veterinärpraxis)",
+  "page": 55
+ },
+ "7320": {
+  "name": "Recall empfohlen",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 55
+ },
+ "7321": {
+  "name": "Status Einsender",
+  "len": "2",
+  "type": "num",
+  "rules": "E023 K045 K046 K047 K107",
+  "desc": "",
+  "page": 55
+ },
+ "7326": {
+  "name": "Alter in",
+  "len": "1",
+  "type": "num",
+  "rules": "E068",
+  "desc": "",
+  "page": 55
+ },
+ "7328": {
+  "name": "Zusätzliche Namenszeile",
+  "len": "≤ 10",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 55
+ },
+ "7329": {
+  "name": "Normalbereichsrelevantes Geschlecht",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E018",
+  "desc": "Wird aus medizinischen Gründen im Sinne der Patienten benötigt, um Fehlinterpretationen zu minimieren.",
+  "page": 55
+ },
+ "7330": {
+  "name": "Telefonnummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "+LK_Vorwahl_Rufnummer",
+  "page": 55
+ },
+ "7331": {
+  "name": "Mobiltelefonnummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "+LK_Vorwahl_Rufnummer",
+  "page": 55
+ },
+ "7332": {
+  "name": "Alternative elektronische Postadresse",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "Beispiel:Twitter-Acount",
+  "page": 55
+ },
+ "7333": {
+  "name": "Faxnummer",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "+LK_Vorwahl_Rufnummer",
+  "page": 55
+ },
+ "7334": {
+  "name": "Webadresse",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "Beispiel: www.musterarzt.de",
+  "page": 55
+ },
+ "7335": {
+  "name": "E-Mail-Adresse",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K059",
+  "desc": "",
+  "page": 56
+ },
+ "7336": {
+  "name": "Gyn. OP, Strahlen oder Chemotherapie des Genitals",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 56
+ },
+ "7337": {
+  "name": "Gyn. OP, Strahlen oder Chemotherapie des Genitales – Welche?",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 56
+ },
+ "7338": {
+  "name": "Gyn. OP, Strahlen oder Chemotherapie des Genitales - Wann?",
+  "len": "8",
+  "type": "num",
+  "rules": "F018",
+  "desc": "",
+  "page": 56
+ },
+ "7339": {
+  "name": "Gravidität",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 56
+ },
+ "7340": {
+  "name": "Spezifizierung der alternativen elektronischen Postadresse",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 56
+ },
+ "7351": {
+  "name": "Geburtsdatum",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "Datum der Geburt des Tieres",
+  "page": 56
+ },
+ "7352": {
+  "name": "URL Katalog",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: www.ihreaerzte.de/lvz",
+  "page": 56
+ },
+ "7354": {
+  "name": "Keim/Pilz-Identifizierung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Isolierte Keim-Referenzierung im Antibiogramm „01“, „02“, ….(wird vom Labor vergeben)",
+  "page": 56
+ },
+ "7355": {
+  "name": "Keim/Pilz -Name",
+  "len": "≤ 120",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: Beta-hämolysierende Streptokokken, Gruppe B (Streptococcus agalactiae)",
+  "page": 56
+ },
+ "7356": {
+  "name": "Keim-OID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Referenzkatalog",
+  "page": 56
+ },
+ "7357": {
+  "name": "Wachstum",
+  "len": "1",
+  "type": "num",
+  "rules": "E026",
+  "desc": "",
+  "page": 56
+ },
+ "7358": {
+  "name": "Name im Klartext",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: Katrin Mustermann",
+  "page": 56
+ },
+ "7359": {
+  "name": "Wirkstoff-OID",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: ATC-Code",
+  "page": 56
+ },
+ "7361": {
+  "name": "Keim-ID im Katalog",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 57
+ },
+ "7362": {
+  "name": "Abrechnungsart PKV",
+  "len": "1",
+  "type": "num",
+  "rules": "E024 K033 K034 K093",
+  "desc": "",
+  "page": 57
+ },
+ "7363": {
+  "name": "Alarmwert untere Grenze",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "",
+  "desc": "Unterer Alarmwert des aktuellen Normalbereiches",
+  "page": 57
+ },
+ "7364": {
+  "name": "Probengefäß-Ident",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Es wird eine eineindeutige Identifikation des Probengefäßes empfohlen (siehe auch Rili-BÄK vom September 2014 Abschnitt: 6.1.5 (2 f)). Hierfür kann sowohl eine maschinenlesbare Nummerierung (z.B. Barcode), wie auch eine manuell aufgetragene Nummer verwendet werden.",
+  "page": 57
+ },
+ "7365": {
+  "name": "Analysen-ID",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Hier wird die ID für die Leistung entsprechend des verwendeten Kataloges eingetragen. Beispiel: Na, Test12Z, B84123, etc.",
+  "page": 57
+ },
+ "7366": {
+  "name": "Langbezeichnung der angeforderten Leistung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Hier wird die Langbezeichnung der Leistung eingetragen. Beispiel: Natrium, Kalium, Calcium, etc.",
+  "page": 57
+ },
+ "7367": {
+  "name": "Sensitivität",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E025",
+  "desc": "",
+  "page": 57
+ },
+ "7368": {
+  "name": "Zellmaterial nicht verwertbar",
+  "len": "1",
+  "type": "num",
+  "rules": "E048 K080 K081 K082",
+  "desc": "",
+  "page": 57
+ },
+ "7369": {
+  "name": "MHK-Einheit",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 57
+ },
+ "7370": {
+  "name": "Wirkstoff- oder Handelsname",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 57
+ },
+ "7371": {
+  "name": "Alarmwert obere Grenze",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "",
+  "desc": "Oberer Alarmwert des aktuellen Normalbereiches",
+  "page": 57
+ },
+ "7372": {
+  "name": "Tumorklassifikation",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 57
+ },
+ "7373": {
+  "name": "Grading",
+  "len": "≤ 5",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: G1, G2, G3",
+  "page": 58
+ },
+ "7374": {
+  "name": "Stadium",
+  "len": "≤ 5",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Beispiel: I, II, Iia",
+  "page": 58
+ },
+ "7375": {
+  "name": "Jahr der Tumordiagnose",
+  "len": "4",
+  "type": "num",
+  "rules": "F017",
+  "desc": "",
+  "page": 58
+ },
+ "7376": {
+  "name": "Lokalisation Tumor",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 58
+ },
+ "7377": {
+  "name": "Maße",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 58
+ },
+ "7378": {
+  "name": "Farbe",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 58
+ },
+ "7379": {
+  "name": "Infiltrationstiefe",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 58
+ },
+ "7380": {
+  "name": "Ausfluss / pathologische Blutung",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 58
+ },
+ "7382": {
+  "name": "IUP",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 58
+ },
+ "7383": {
+  "name": "Einnahme von Ovulationshemmer / sonstige Hormon- Anwendung",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 58
+ },
+ "7384": {
+  "name": "Klinischer Befund",
+  "len": "1",
+  "type": "num",
+  "rules": "E176",
+  "desc": "",
+  "page": 58
+ },
+ "7400": {
+  "name": "HPV-Befund",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 58
+ },
+ "7401": {
+  "name": "High-Risk",
+  "len": "1",
+  "type": "num",
+  "rules": "E169",
+  "desc": "",
+  "page": 58
+ },
+ "7402": {
+  "name": "High Risk Typ",
+  "len": "≤ 120",
+  "type": "alnum",
+  "rules": "F024",
+  "desc": "Beispiele: Einzelwert = 18, Wertegruppe = G1:31/33/52/58",
+  "page": 58
+ },
+ "7403": {
+  "name": "Low-Risk",
+  "len": "1",
+  "type": "num",
+  "rules": "E169",
+  "desc": "",
+  "page": 58
+ },
+ "7404": {
+  "name": "Low Risk Typ",
+  "len": "≤ 120",
+  "type": "alnum",
+  "rules": "F024",
+  "desc": "Beispiel: Einzelwert = 42",
+  "page": 58
+ },
+ "7405": {
+  "name": "Endozervikale Zellen",
+  "len": "1",
+  "type": "num",
+  "rules": "E060 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7406": {
+  "name": "Proliferationsgrad",
+  "len": "≤ 10",
+  "type": "alnum",
+  "rules": "K134",
+  "desc": "Beispiel: 3-4",
+  "page": 59
+ },
+ "7407": {
+  "name": "Döderleinflora",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7408": {
+  "name": "Mischflora",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7409": {
+  "name": "Kokkenflora",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7410": {
+  "name": "Trichomonaden",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7411": {
+  "name": "Candida",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7412": {
+  "name": "Gardnerella",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K134",
+  "desc": "",
+  "page": 59
+ },
+ "7413": {
+  "name": "Codierung der Gruppe",
+  "len": "≤ 4",
+  "type": "alnum",
+  "rules": "E028",
+  "desc": "Ergebnis der Krebsfrüherkennung codiert als Zahlenwert. Beispiel: 6,1 für das Ergebnis Iva-p in FK7414",
+  "page": 59
+ },
+ "7414": {
+  "name": "Gruppe",
+  "len": "≤ 5",
+  "type": "alnum",
+  "rules": "E028 K134 K125 K126",
+  "desc": "Ergebnis der Krebsfrüherkennung als Gruppe im Klartext (früher als PAP-Gruppe bezeichnet). Beispiel: IVa-p",
+  "page": 59
+ },
+ "7415": {
+  "name": "Zytologische Kontrolle",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K123 K124",
+  "desc": "",
+  "page": 59
+ },
+ "7416": {
+  "name": "Grund der Nachkontrolle",
+  "len": "1",
+  "type": "num",
+  "rules": "E061",
+  "desc": "",
+  "page": 59
+ },
+ "7417": {
+  "name": "Abklärungskolposkopie",
+  "len": "1",
+  "type": "num",
+  "rules": "E040 K123 K124",
+  "desc": "",
+  "page": 60
+ },
+ "7418": {
+  "name": "p16/Ki67",
+  "len": "1",
+  "type": "num",
+  "rules": "E062",
+  "desc": "",
+  "page": 60
+ },
+ "7419": {
+  "name": "L1",
+  "len": "1",
+  "type": "num",
+  "rules": "E062",
+  "desc": "",
+  "page": 60
+ },
+ "7420": {
+  "name": "Status Person",
+  "len": "2",
+  "type": "num",
+  "rules": "E027 K094 K104",
+  "desc": "",
+  "page": 60
+ },
+ "7421": {
+  "name": "Status Rechnungsempfänger",
+  "len": "2",
+  "type": "num",
+  "rules": "E029 K029 K093",
+  "desc": "",
+  "page": 60
+ },
+ "7422": {
+  "name": "Chlamydien",
+  "len": "1",
+  "type": "num",
+  "rules": "E062",
+  "desc": "",
+  "page": 60
+ },
+ "7423": {
+  "name": "Erläuterungen",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Nur für Obj_0034 zu verwenden.",
+  "page": 60
+ },
+ "7424": {
+  "name": "Resistenz erstellt nach",
+  "len": "1",
+  "type": "num",
+  "rules": "E065",
+  "desc": "",
+  "page": 60
+ },
+ "7425": {
+  "name": "Extragynäkologische Zytologie",
+  "len": "1",
+  "type": "num",
+  "rules": "E063",
+  "desc": "z.B. Mammapunktat, Rektumabstrich",
+  "page": 60
+ },
+ "7426": {
+  "name": "Neisseria Gonorrhoeae",
+  "len": "1",
+  "type": "num",
+  "rules": "E062",
+  "desc": "",
+  "page": 60
+ },
+ "7427": {
+  "name": "Art",
+  "len": "1",
+  "type": "num",
+  "rules": "E016",
+  "desc": "",
+  "page": 60
+ },
+ "7428": {
+  "name": "Geschlecht des Tieres",
+  "len": "1",
+  "type": "num",
+  "rules": "E165",
+  "desc": "",
+  "page": 60
+ },
+ "7429": {
+  "name": "DRG_Hinweis",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Hier können Hinweise zu DRG´s übermittelt werden.",
+  "page": 60
+ },
+ "7430": {
+  "name": "Patienten-ID im Selektivvertrag",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Hier wird die Patienten-ID übermittelt, die der Patient im Selektivvertrag hat, in den er eingeschrieben ist.",
+  "page": 60
+ },
+ "7431": {
+  "name": "Fachgebiet",
+  "len": "1",
+  "type": "num",
+  "rules": "E164",
+  "desc": "Hier wird das Fachgebiet angegeben, für welches das Obj_Sonstige_Untersuchungsergebnisse genutzt wird.",
+  "page": 61
+ },
+ "7432": {
+  "name": "kastriert/sterilisiert",
+  "len": "1",
+  "type": "num",
+  "rules": "E166",
+  "desc": "Zusatzangaben im Obj_Tiere/Sonstiges",
+  "page": 61
+ },
+ "7922": {
+  "name": "Sterbedatum des Patienten",
+  "len": "8",
+  "type": "date",
+  "rules": "F002",
+  "desc": "",
+  "page": 61
+ },
+ "8000": {
+  "name": "Satzart",
+  "len": "4",
+  "type": "num",
+  "rules": "E004 K011 K025 K027 K113",
+  "desc": "",
+  "page": 61
+ },
+ "8001": {
+  "name": "Satzende",
+  "len": "4",
+  "type": "num",
+  "rules": "E004",
+  "desc": "",
+  "page": 61
+ },
+ "8002": {
+  "name": "Objektident",
+  "len": "8",
+  "type": "alnum",
+  "rules": "E066 K008 K009 K010 K011 K020 K027 K029 K030 K031 K033 K034 K092",
+  "desc": "",
+  "page": 61
+ },
+ "8003": {
+  "name": "Objektende",
+  "len": "8",
+  "type": "alnum",
+  "rules": "E066",
+  "desc": "Mit den Feldkennungen 8101 bis 8299 folgen die Objektattribute, nach denen Objekte auftreten müssen. Diese Felder definieren die Verwendung bzw. den Verwendungszweck eines Objekts im Kontext seines Auftretens. Daher können verschiedene Felder ein Objekt einleiten (n:1-Beziehung). Als Inhalt dieser Felder wird jeweils die Feldbezeichnung als Freitext angegeben. Beispielsweise kann so vor einem Objekt, welches eine Diagnose beinhaltet, angegeben werden, ob es sich um die Akutdiagnose oder die Dauerdiagnose handelt. Die Objekte werden so in ihrer Darstellung unabhängiger vom Verwendungszweck und der Verwendungszweck ist bereits beim Parsen bekannt, ohne dass das Objekt analysiert werden muss. Siehe dazu auch Implementierungshinweis",
+  "page": 61
+ },
+ "8101": {
+  "name": "Abrechnungsinformation",
+  "len": "22",
+  "type": "alnum",
+  "rules": "E071",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0001 (Abrechnungsinformation).",
+  "page": 62
+ },
+ "8102": {
+  "name": "Abrechnung_GKV",
+  "len": "14",
+  "type": "alnum",
+  "rules": "E072 K027 K070 K097",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0002 (Abrechnung GKV).",
+  "page": 62
+ },
+ "8103": {
+  "name": "Abrechnung_PKV",
+  "len": "14",
+  "type": "alnum",
+  "rules": "E073 K027 K070 K098",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0003 (Abrechnung PKV).",
+  "page": 62
+ },
+ "8104": {
+  "name": "Abrechnung_IGEL",
+  "len": "15",
+  "type": "alnum",
+  "rules": "E074 K027 K070 K102",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0004 (Abrechnung Ige-Leistungen).",
+  "page": 62
+ },
+ "8105": {
+  "name": "Abrechnung_Sonstige_Kostenuebernahme",
+  "len": "36",
+  "type": "alnum",
+  "rules": "E075 K027 K105",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0005 (Abrechnung Sonstige Kostenübernahme).",
+  "page": 62
+ },
+ "8106": {
+  "name": "Abrechnung _Selektivvertrag",
+  "len": "26",
+  "type": "alnum",
+  "rules": "E076 K027 K070 K103",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0006 (Abrechnung Selektivvertrag).",
+  "page": 62
+ },
+ "8107": {
+  "name": "Anschrift",
+  "len": "9",
+  "type": "alnum",
+  "rules": "E077",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0007 (Anschrift).",
+  "page": 62
+ },
+ "8108": {
+  "name": "Adressat",
+  "len": "8",
+  "type": "alnum",
+  "rules": "E078",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0008 (Adressat).",
+  "page": 62
+ },
+ "8109": {
+  "name": "Abrechnung_OEGD",
+  "len": "16",
+  "type": "alnum",
+  "rules": "E170 K027 K070 K097",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0009 (Abrechnung OEGD).",
+  "page": 62
+ },
+ "8110": {
+  "name": "Anhang",
+  "len": "6",
+  "type": "alnum",
+  "rules": "E079",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0010 (Anhang).",
+  "page": 63
+ },
+ "8111": {
+  "name": "Antibiogramm",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E080 K085",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0011 (Antibiogramm).",
+  "page": 63
+ },
+ "8113": {
+  "name": "Auftragsinformation",
+  "len": "19",
+  "type": "alnum",
+  "rules": "E081 K069",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0013 (Auftragsinformation).",
+  "page": 63
+ },
+ "8114": {
+  "name": "Arztidentifikation",
+  "len": "18",
+  "type": "alnum",
+  "rules": "E149 K107",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0014 (Arztidentifikation).",
+  "page": 63
+ },
+ "8117": {
+  "name": "Befundinformationen",
+  "len": "19",
+  "type": "alnum",
+  "rules": "E082",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0017 (Befundinformationen).",
+  "page": 63
+ },
+ "8118": {
+  "name": "Abweichender _Befundweg",
+  "len": "22",
+  "type": "alnum",
+  "rules": "E083",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0031 (Kommunikationsdaten).",
+  "page": 63
+ },
+ "8119": {
+  "name": "Betriebsstaette",
+  "len": "15",
+  "type": "alnum",
+  "rules": "E084 K046",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0019 (Betriebstätte).",
+  "page": 63
+ },
+ "8122": {
+  "name": "Einsenderidentifikation",
+  "len": "23",
+  "type": "alnum",
+  "rules": "E085",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0022 (Einsenderidentifikation).",
+  "page": 63
+ },
+ "8126": {
+  "name": "Fehlermeldung _Aufmerksamkeit",
+  "len": "28",
+  "type": "alnum",
+  "rules": "E086 K082 K099",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0026 (Fehlermeldung / Aufmerksamkeit).",
+  "page": 63
+ },
+ "8127": {
+  "name": "Veranlassungsgrund",
+  "len": "18",
+  "type": "alnum",
+  "rules": "E087",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0027 (Veranlassungsgrund).",
+  "page": 63
+ },
+ "8131": {
+  "name": "Kommunikationsdaten",
+  "len": "19",
+  "type": "alnum",
+  "rules": "E088",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0031 (Kommunikationsdaten).",
+  "page": 63
+ },
+ "8132": {
+  "name": "Kopfdaten",
+  "len": "9",
+  "type": "alnum",
+  "rules": "E089",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0032 (Kopfdaten).",
+  "page": 63
+ },
+ "8134": {
+  "name": "Krebsfrueherkennung_Zer vix-Karzinom",
+  "len": "35",
+  "type": "alnum",
+  "rules": "E090",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0034 (Krebsfrüherkennung Zervix- Karzinom Muster 39).",
+  "page": 63
+ },
+ "8135": {
+  "name": "Laborergebnisbericht",
+  "len": "20",
+  "type": "alnum",
+  "rules": "E091",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0035 (Laborergebnisbericht).",
+  "page": 63
+ },
+ "8136": {
+  "name": "Laborkennung",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E092",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0036 (Laborkennung).",
+  "page": 63
+ },
+ "8137": {
+  "name": "Material",
+  "len": "8",
+  "type": "alnum",
+  "rules": "E093 K069",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0037 (Material).",
+  "page": 64
+ },
+ "8140": {
+  "name": "Mutterschaft",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E094",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0040 (Mutterschaft).",
+  "page": 64
+ },
+ "8141": {
+  "name": "Namenskennung",
+  "len": "13",
+  "type": "alnum",
+  "rules": "E095",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0041 (Namenskennung).",
+  "page": 64
+ },
+ "8142": {
+  "name": "Normalwert",
+  "len": "10",
+  "type": "alnum",
+  "rules": "E096",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0042 (Normalwert).",
+  "page": 64
+ },
+ "8143": {
+  "name": "Organisation",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E097 K029 K101",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0043 (Organisation).",
+  "page": 64
+ },
+ "8145": {
+  "name": "Patient",
+  "len": "7",
+  "type": "alnum",
+  "rules": "E098 K070 K083 K084",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0045 (Patient).",
+  "page": 64
+ },
+ "8147": {
+  "name": "Person",
+  "len": "6",
+  "type": "alnum",
+  "rules": "E099 K030 K092 K101 K104",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0047 (Person).",
+  "page": 64
+ },
+ "8148": {
+  "name": "RgEmpfaenger",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0048 (RgEmpfänger).",
+  "page": 64
+ },
+ "8150": {
+  "name": "Schwangerschaft",
+  "len": "15",
+  "type": "alnum",
+  "rules": "E101",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0050 (Schwangerschaft).",
+  "page": 64
+ },
+ "8151": {
+  "name": "Sendendes_System",
+  "len": "16",
+  "type": "alnum",
+  "rules": "E102",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0051 (Sendendes System).",
+  "page": 64
+ },
+ "8153": {
+  "name": "Tier_Sonstiges",
+  "len": "14",
+  "type": "alnum",
+  "rules": "E103 K083 K084",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0053 (Tier/Sonstiges).",
+  "page": 64
+ },
+ "8154": {
+  "name": "Timestamp",
+  "len": "9",
+  "type": "alnum",
+  "rules": "E104",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 64
+ },
+ "8155": {
+  "name": "Blutgruppenzugehoerigkei t",
+  "len": "25",
+  "type": "alnum",
+  "rules": "E105",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0055 (Blutgruppenzugehoerigkeit).",
+  "page": 65
+ },
+ "8156": {
+  "name": "Tumor",
+  "len": "5",
+  "type": "alnum",
+  "rules": "E106",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0056 (Tumor).",
+  "page": 65
+ },
+ "8158": {
+  "name": "Untersuchungsabrechnun g",
+  "len": "23",
+  "type": "alnum",
+  "rules": "E107 K071 K080 K125",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0058 (Untersuchungsabrechnung).",
+  "page": 65
+ },
+ "8159": {
+  "name": "Untersuchungsanforderun g",
+  "len": "24",
+  "type": "alnum",
+  "rules": "E108 K069",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0059 (Untersuchungsanforderung).",
+  "page": 65
+ },
+ "8160": {
+  "name": "UE_Klinische_Chemie",
+  "len": "19",
+  "type": "alnum",
+  "rules": "E109",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0060 (Untersuchungsergebnis Klinische Chemie).",
+  "page": 65
+ },
+ "8161": {
+  "name": "UE_Mikrobiologie",
+  "len": "16",
+  "type": "alnum",
+  "rules": "E110",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0061 (Untersuchungsergebnis Mikrobiologie).",
+  "page": 65
+ },
+ "8162": {
+  "name": "UE_Krebsfrueherkennung _Zervix-Karzinom",
+  "len": "38",
+  "type": "alnum",
+  "rules": "E111",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0062 (Untersuchungsergebnis Krebsfrueherkennung Zervix-Karzinom).",
+  "page": 65
+ },
+ "8163": {
+  "name": "UE_Zytologie",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E112",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0063 (Untersuchungsergebnis Zytologie).",
+  "page": 65
+ },
+ "8167": {
+  "name": "Zusaetzliche _Informationen",
+  "len": "26",
+  "type": "alnum",
+  "rules": "E113 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 65
+ },
+ "8169": {
+  "name": "Koerperkenngroessen",
+  "len": "19",
+  "type": "alnum",
+  "rules": "E153",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0069 (Koerperkenngroessen).",
+  "page": 65
+ },
+ "8170": {
+  "name": "Medikament",
+  "len": "10",
+  "type": "alnum",
+  "rules": "E152",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0070 (Medikament).",
+  "page": 65
+ },
+ "8171": {
+  "name": "Wirkstoff",
+  "len": "9",
+  "type": "alnum",
+  "rules": "E155",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0071 (Wirkstoff).",
+  "page": 65
+ },
+ "8200": {
+  "name": "Akutdiagnose",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E116",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0100 (Diagnose). Die aus der Sicht des beauftragenden Arztes für die Fragestellung relevanten Diagnosen können im jeweils nachfolgenden Obj_0100 (Diagnose) übermittelt werden.",
+  "page": 65
+ },
+ "8212": {
+  "name": "Softwareverantwortlicher",
+  "len": "24",
+  "type": "alnum",
+  "rules": "E118",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0043 (Organisation).",
+  "page": 66
+ },
+ "8213": {
+  "name": "Timestamp_Erstellung _Untersuchungsanforderung",
+  "len": "45",
+  "type": "alnum",
+  "rules": "E119",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8214": {
+  "name": "Timestamp_Auftragserteilung",
+  "len": "27",
+  "type": "alnum",
+  "rules": "E120",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8215": {
+  "name": "Timestamp_Auftragseingang",
+  "len": "25",
+  "type": "alnum",
+  "rules": "E121",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8216": {
+  "name": "Timestamp_Befunderstellung",
+  "len": "26",
+  "type": "alnum",
+  "rules": "E122",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8217": {
+  "name": "Praezisierung_Veranlassu ngsgrund",
+  "len": "32",
+  "type": "alnum",
+  "rules": "E123 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 66
+ },
+ "8218": {
+  "name": "Timestamp_Erstellung _Datensatz",
+  "len": "30",
+  "type": "alnum",
+  "rules": "E124",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8219": {
+  "name": "Timestamp_Materialabnahme_entnahme",
+  "len": "34",
+  "type": "alnum",
+  "rules": "E125 K063",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8220": {
+  "name": "Timestamp_Eingangserfassung_Material",
+  "len": "36",
+  "type": "alnum",
+  "rules": "E126 K063",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8221": {
+  "name": "Timestamp_Erstellung _Laborergebnisbericht",
+  "len": "41",
+  "type": "alnum",
+  "rules": "E127",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8222": {
+  "name": "Timestamp_Beginn _Analytik",
+  "len": "25",
+  "type": "alnum",
+  "rules": "E128",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8223": {
+  "name": "Timestamp_Ergebniserstellung",
+  "len": "28",
+  "type": "alnum",
+  "rules": "E129",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 66
+ },
+ "8224": {
+  "name": "Timestamp_QM_Erfassung",
+  "len": "22",
+  "type": "alnum",
+  "rules": "E130",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 67
+ },
+ "8225": {
+  "name": "Timestamp_Messung",
+  "len": "17",
+  "type": "alnum",
+  "rules": "E131 K076 K078 K081 K095 K126",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 67
+ },
+ "8226": {
+  "name": "Timestamp_Gueltig_ab",
+  "len": "20",
+  "type": "alnum",
+  "rules": "E132",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 67
+ },
+ "8227": {
+  "name": "Timestamp_Gueltig_bis",
+  "len": "21",
+  "type": "alnum",
+  "rules": "E133",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 67
+ },
+ "8228": {
+  "name": "Wohnanschrift",
+  "len": "13",
+  "type": "alnum",
+  "rules": "E134 K094",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0007 (Anschrift).",
+  "page": 67
+ },
+ "8229": {
+  "name": "Anschrift_Arbeitsstelle",
+  "len": "23",
+  "type": "alnum",
+  "rules": "E135",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0007 (Anschrift).",
+  "page": 67
+ },
+ "8230": {
+  "name": "Rechnungsanschrift",
+  "len": "18",
+  "type": "alnum",
+  "rules": "E136",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0007 (Anschrift).",
+  "page": 67
+ },
+ "8231": {
+  "name": "Temporaere_Anschrift",
+  "len": "20",
+  "type": "alnum",
+  "rules": "E137",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0007 (Anschrift).",
+  "page": 67
+ },
+ "8232": {
+  "name": "Private_Kommunikationsdaten",
+  "len": "27",
+  "type": "alnum",
+  "rules": "E138",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0031 (Kommunikationsdaten).",
+  "page": 67
+ },
+ "8233": {
+  "name": "Geschaeftliche _Kommunikationsdaten",
+  "len": "34",
+  "type": "alnum",
+  "rules": "E139",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0031 (Kommunikationsdaten).",
+  "page": 67
+ },
+ "8235": {
+  "name": "Person_zum_Timestamp",
+  "len": "20",
+  "type": "alnum",
+  "rules": "E141",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0047 (Person).",
+  "page": 67
+ },
+ "8236": {
+  "name": "Testbezogene_Hinweise",
+  "len": "21",
+  "type": "alnum",
+  "rules": "E142 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 67
+ },
+ "8237": {
+  "name": "Ergebnistext",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E143 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 67
+ },
+ "8238": {
+  "name": "Auftragsbezogene _Hinweise",
+  "len": "25",
+  "type": "alnum",
+  "rules": "E144 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8239": {
+  "name": "Laborbezeichnung",
+  "len": "16",
+  "type": "alnum",
+  "rules": "E145",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0043 (Organisation).",
+  "page": 68
+ },
+ "8240": {
+  "name": "Ueberweisung_von_anderen_Aerzten",
+  "len": "32",
+  "type": "alnum",
+  "rules": "E150 K041",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0014 (Arztidentifikation).",
+  "page": 68
+ },
+ "8241": {
+  "name": "Ueberweisung_an",
+  "len": "15",
+  "type": "alnum",
+  "rules": "E151",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8242": {
+  "name": "base64-kodierte_Anlage",
+  "len": "22",
+  "type": "alnum",
+  "rules": "E115 K001 K100",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8243": {
+  "name": "Timestamp_Zeitpunkt _Medikamenteneinnahme",
+  "len": "40",
+  "type": "alnum",
+  "rules": "E154",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0054 (Timestamp).",
+  "page": 68
+ },
+ "8244": {
+  "name": "BAK",
+  "len": "3",
+  "type": "alnum",
+  "rules": "E158",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0072 (BAK).",
+  "page": 68
+ },
+ "8245": {
+  "name": "BAK-Ergebnis",
+  "len": "12",
+  "type": "alnum",
+  "rules": "E159",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8246": {
+  "name": "BAK-Ergebnisbezogene _Hinweise",
+  "len": "29",
+  "type": "alnum",
+  "rules": "E160",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8247": {
+  "name": "Diagnostische_Bewertung _Empfehlung",
+  "len": "34",
+  "type": "alnum",
+  "rules": "E161",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0068 (Fließtext).",
+  "page": 68
+ },
+ "8248": {
+  "name": "UE_Sonstige_Untersuchu ngsergebnisse",
+  "len": "35",
+  "type": "alnum",
+  "rules": "E162",
+  "desc": "Nach dem Vorkommen der Feldkennung folgt das Obj_0073 (Sonstige Untersuchungsergebnisse).",
+  "page": 68
+ },
+ "8310": {
+  "name": "Auftragsnummer des Einsenders",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Eindeutige Kennzeichnung eines Auftrages, welche durch das Primärsystem des Ersteinsendenden vergeben wird (kann auch eine OID sein).",
+  "page": 68
+ },
+ "8311": {
+  "name": "Auftragsnummer des Labors",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Bezeichnet die eindeutige Nummer, unter der das Labor den Auftrag entgegen nimmt. Die Struktur und Form der Nummer wird vom Labor selbst frei festgelegt.",
+  "page": 68
+ },
+ "8312": {
+  "name": "Kunden- (Arzt) Nummer",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Kennung des einsendenden Arztes, die durch das Labor vergeben wird.",
+  "page": 69
+ },
+ "8313": {
+  "name": "ID Nachforderung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K114",
+  "desc": "Identifiziert eine Nachforderung, die auf die Auftrags ID referenziert. Eine Nachforderung ist eine ergänzende Anforderung von Laboruntersuchungen zu einem bereits bestehenden Überweisungsauftrag auf der Grundlage einer medizinischen Bewertung der bis dahin vorliegenden Befundergebnisse und der sich daraus ergebenden medizinischen Notwendigkeit zur Nachuntersuchung der entnommenen Probe mit weiteren ergänzenden Untersuchungen. Die Nachforderung wird aus der bereits entnommenen Patientenprobe durchgeführt.",
+  "page": 69
+ },
+ "8315": {
+  "name": "ID des Empfängers",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 69
+ },
+ "8316": {
+  "name": "ID des Senders",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 69
+ },
+ "8324": {
+  "name": "ID eines Laborstandortes",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Wird vom Labor vergeben.",
+  "page": 69
+ },
+ "8401": {
+  "name": "Status (Befund/Bericht)",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E006 K005 K096",
+  "desc": "Der Status des Befundes/Berichtes wird aus Sicht des gestellten Auftrages als „Auftrag nicht abgeschlossen“ oder „Auftrag abgeschlossen“ definiert.",
+  "page": 69
+ },
+ "8406": {
+  "name": "Kosten in (€) Cent",
+  "len": "≤ 60",
+  "type": "num",
+  "rules": "",
+  "desc": "",
+  "page": 69
+ },
+ "8410": {
+  "name": "Test-Ident",
+  "len": "≤ 20",
+  "type": "alnum",
+  "rules": "K003 K010 K011 K037 K106",
+  "desc": "Eindeutige Kurzbezeichnung eines Analyts (eineindeutige Zuordnung aller Eigenschaften dieses Analyts, wie z.B. Normbereich, Preis und Dimension zum aktuellen Zeitpunkt)",
+  "page": 69
+ },
+ "8411": {
+  "name": "Testbezeichnung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K003",
+  "desc": "Langbezeichnung des Analyts",
+  "page": 69
+ },
+ "8417": {
+  "name": "Anlass der Untersuchung",
+  "len": "2",
+  "type": "num",
+  "rules": "E146",
+  "desc": "",
+  "page": 69
+ },
+ "8418": {
+  "name": "Ergebnisstatus",
+  "len": "2",
+  "type": "alnum",
+  "rules": "E007 K076 K082 K096",
+  "desc": "Status des übermittelten Untersuchungsergebnisses",
+  "page": 69
+ },
+ "8419": {
+  "name": "Einheitensystem des Messwertes / Wertes",
+  "len": "1",
+  "type": "num",
+  "rules": "E070 K002",
+  "desc": "SI-Einheit, abweichende Einheit, dimensionslos",
+  "page": 70
+ },
+ "8420": {
+  "name": "Ergebnis-Wert",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Messergebnis",
+  "page": 70
+ },
+ "8421": {
+  "name": "Maßeinheit des Messwertes / Wertes",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K002",
+  "desc": "Maßeinheit des Messwertes / Wertes",
+  "page": 70
+ },
+ "8422": {
+  "name": "Grenzwertindikator des Laborwerts",
+  "len": "≤ 2",
+  "type": "alnum",
+  "rules": "E005 K099",
+  "desc": "",
+  "page": 70
+ },
+ "8423": {
+  "name": "Pathologisch bekannt",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 70
+ },
+ "8424": {
+  "name": "Normalwertspezifikation",
+  "len": "2",
+  "type": "num",
+  "rules": "E052 K054",
+  "desc": "",
+  "page": 70
+ },
+ "8427": {
+  "name": "Spezifizierung des Veranlassungsgrundes",
+  "len": "2",
+  "type": "num",
+  "rules": "E147",
+  "desc": "",
+  "page": 70
+ },
+ "8428": {
+  "name": "Probenmaterial-Ident",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K006",
+  "desc": "Kurzbezeichnung zur Identifizierung eines Untersuchungsmaterials, z.B. SE",
+  "page": 70
+ },
+ "8429": {
+  "name": "Probenmaterial-Index",
+  "len": "≤ 4",
+  "type": "num",
+  "rules": "E012 K006",
+  "desc": "Numerischer Wert zur Identifizierung eines Untersuchungsmaterials",
+  "page": 70
+ },
+ "8430": {
+  "name": "Probenmaterial- Bezeichnung",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K006",
+  "desc": "Langbezeichnung zur Identifizierung eines Untersuchungsmaterials, z.B. Serum",
+  "page": 70
+ },
+ "8431": {
+  "name": "Probenmaterial- Spezifikation",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K006",
+  "desc": "Detaillierung eines Untersuchungsmaterials, z.B. gefroren",
+  "page": 70
+ },
+ "8434": {
+  "name": "Anforderungen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "K010 K037",
+  "desc": "Textanforderung, wenn im Leistungsverzeichnis kein Äquivalent gefunden wurde.",
+  "page": 70
+ },
+ "8460": {
+  "name": "Normalwert-Text",
+  "len": "≤ 990",
+  "type": "alnum",
+  "rules": "K055",
+  "desc": "Textfeld zur Erläuterung des Ergebnisses in Bezug auf den Normalwert Hinweis: Kann für das Untersuchungsergebnis kein Normalbereich angegeben werden, so ist in FK8460 als Wert „k.A.“ zu übertragen.",
+  "page": 70
+ },
+ "8461": {
+  "name": "Normalwert untere Grenze",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "K055",
+  "desc": "Unterer Grenzwert des aktuellen Normalbereiches",
+  "page": 71
+ },
+ "8462": {
+  "name": "Normalwert obere Grenze",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "K055",
+  "desc": "Oberer Grenzwert des aktuellen Normalbereiches",
+  "page": 71
+ },
+ "8491": {
+  "name": "Einwilligungserklärung des Patienten liegt vor",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "Dem Auftraggeber liegt die Einwilligungserklärung des Patienten zur Durchführung zustimmungspflichtigen Untersuchungen laut Gendiagnostikgesetz vor.",
+  "page": 71
+ },
+ "8501": {
+  "name": "Dringlichkeit",
+  "len": "1",
+  "type": "num",
+  "rules": "E032",
+  "desc": "",
+  "page": 71
+ },
+ "8504": {
+  "name": "Medikamenteneinnahme zum Zeitpunkt der Probenentnahme",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "",
+  "page": 71
+ },
+ "8511": {
+  "name": "Schwangerschaftsdauer",
+  "len": "3",
+  "type": "num",
+  "rules": "F005",
+  "desc": "",
+  "page": 71
+ },
+ "8512": {
+  "name": "letzte Periode",
+  "len": "8",
+  "type": "num",
+  "rules": "F018",
+  "desc": "",
+  "page": 71
+ },
+ "8520": {
+  "name": "Menge des Probenmaterials",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "",
+  "desc": "Maßzahl für die Menge des Probenmaterials",
+  "page": 71
+ },
+ "8522": {
+  "name": "Sammelzeit des Probenmaterials",
+  "len": "4",
+  "type": "num",
+  "rules": "F006",
+  "desc": "",
+  "page": 71
+ },
+ "8523": {
+  "name": "Wirkstoffmenge, Menge / Bezugsmenge, Wirkstärke",
+  "len": "≤ 60",
+  "type": "f",
+  "rules": "",
+  "desc": "Maßzahl für die Menge des Wirkstoffes",
+  "page": 71
+ },
+ "8608": {
+  "name": "Kommentar/Aktenzeichen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Zusatzangaben zur Rechnung, wie Aktenzeichen, Rechnungsnummer, Kundennummer und sonstige Angaben zur Abrechnung (Faktor, Sammelrechnung etc.)",
+  "page": 71
+ },
+ "8610": {
+  "name": "Privattarif",
+  "len": "1",
+  "type": "num",
+  "rules": "E017",
+  "desc": "",
+  "page": 71
+ },
+ "8611": {
+  "name": "Zusätzlicher Befundweg",
+  "len": "1",
+  "type": "num",
+  "rules": "E013",
+  "desc": "Merkmal für Befundübermittlung in eiligen und Notfällen",
+  "page": 71
+ },
+ "8614": {
+  "name": "bereits abgerechnet",
+  "len": "1",
+  "type": "num",
+  "rules": "E040",
+  "desc": "1 = Ja, wenn der GOP durch den Ersteller des Befundes abgerechnet wird 0 = Nein, wenn Abrechnung der GOP durch Befundempfänger erfolgt",
+  "page": 72
+ },
+ "8616": {
+  "name": "Testungen",
+  "len": "1",
+  "type": "num",
+  "rules": "E171",
+  "desc": "",
+  "page": 72
+ },
+ "8617": {
+  "name": "Beauftragungsgrund",
+  "len": "1",
+  "type": "num",
+  "rules": "E172 K131 K132",
+  "desc": "",
+  "page": 72
+ },
+ "8618": {
+  "name": "Betreut/untergebracht in",
+  "len": "1",
+  "type": "num",
+  "rules": "E011 K131",
+  "desc": "",
+  "page": 72
+ },
+ "8619": {
+  "name": "Tätigkeit in Einrichtung",
+  "len": "1",
+  "type": "num",
+  "rules": "E011 K131",
+  "desc": "",
+  "page": 72
+ },
+ "8620": {
+  "name": "Betroffene Einrichtung",
+  "len": "1",
+  "type": "num",
+  "rules": "E173 K131",
+  "desc": "",
+  "page": 72
+ },
+ "8621": {
+  "name": "Einverständnis",
+  "len": "1",
+  "type": "num",
+  "rules": "E011",
+  "desc": "",
+  "page": 72
+ },
+ "8622": {
+  "name": "Corona-GUID",
+  "len": "43",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Die eindeutige GUID wird nach den folgenden Vorgaben erzeugt: • Aufbau ist GUID: <XXXXXX>-<UUID>. o Komplette Form des Strings: XXXXXX-XXXXXXXX-XXXX-XXXX-XXXX- XXXXXXXXXXXX. • <UUID> wird gemäß RFC4122 Version 4 erzeugt mit den zugehörigen Separatoren erzeugt. • <XXXXXX> wird eine 6-stellige hexadezimale Zufallszahl erzeugt, welche ggf. linksbündig mit “0” gefüllt werden kann. Beispiel einer erzeugten GUID: 3D6D08-3567F3F2-4DCF-43A3-8737-4CD1F87D6FDA",
+  "page": 72
+ },
+ "8623": {
+  "name": "Identifikation/Aktenzeiche n ÖGD",
+  "len": "≤ 22",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 72
+ },
+ "8624": {
+  "name": "Covid-Beauftragung",
+  "len": "1",
+  "type": "num",
+  "rules": "E174",
+  "desc": "",
+  "page": 72
+ },
+ "8625": {
+  "name": "PLZ ÖGD",
+  "len": "5",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 73
+ },
+ "8626": {
+  "name": "Rechtsgrundlage der Testung",
+  "len": "1",
+  "type": "num",
+  "rules": "E175 K131 K132",
+  "desc": "",
+  "page": 73
+ },
+ "8627": {
+  "name": "KV-Sonderziffer",
+  "len": "",
+  "type": "alnum",
+  "rules": "K131",
+  "desc": "1 ≤ 5",
+  "page": 73
+ },
+ "8629": {
+  "name": "Auftrag",
+  "len": "≤ 6",
+  "type": "alnum",
+  "rules": "E178",
+  "desc": "",
+  "page": 73
+ },
+ "8630": {
+  "name": "Auftragsart",
+  "len": "1",
+  "type": "alnum",
+  "rules": "E177",
+  "desc": "",
+  "page": 73
+ },
+ "8631": {
+  "name": "Bestätigungsdiagnostik",
+  "len": "1",
+  "type": "num",
+  "rules": "E180 K132",
+  "desc": "",
+  "page": 73
+ },
+ "8632": {
+  "name": "Virusvariantendiagnostik",
+  "len": "1",
+  "type": "num",
+  "rules": "E181 K135",
+  "desc": "",
+  "page": 73
+ },
+ "8990": {
+  "name": "Namenskürzel / Namenszeichen",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Namenskürzel der Person in deren Kontext die FK verwendet wird Beispiel: KMu",
+  "page": 73
+ },
+ "9300": {
+  "name": "Prüfsumme",
+  "len": "40",
+  "type": "alnum",
+  "rules": "E157",
+  "desc": "Prüfwertberechnung aller Inhalte des Datensatzes, vor dieser Feldkennung Berechnung des Prüfwertes nach SHA-1",
+  "page": 73
+ },
+ "9908": {
+  "name": "Originaldokument: Pfad / Speicherort",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Uniform Resource Locator, z.B. WWW-Adresse, UNC-Pfad. Beispiel: \\\\FS1\\TEST\\BILD1.exe",
+  "page": 73
+ },
+ "9909": {
+  "name": "Langzeit-Archivierung: Pfad / Speicherort",
+  "len": "≤ 60",
+  "type": "alnum",
+  "rules": "",
+  "desc": "Uniform Resource Locator, z.B. WWW-Adresse, UNC-Pfad. Beispiel: \\\\FS1\\TEST\\BILD1.exe",
+  "page": 73
+ },
+ "9970": {
+  "name": "Dokumententyp",
+  "len": "3",
+  "type": "alnum",
+  "rules": "E053 K075",
+  "desc": "",
+  "page": 73
+ },
+ "9980": {
+  "name": "Externe Dokumenten-ID zur Archivierung",
+  "len": "var",
+  "type": "alnum",
+  "rules": "",
+  "desc": "",
+  "page": 73
+ },
+ "9981": {
+  "name": "Dokumentenquelle",
+  "len": "1",
+  "type": "num",
+  "rules": "E044",
+  "desc": "",
+  "page": 73
+ }
+}
