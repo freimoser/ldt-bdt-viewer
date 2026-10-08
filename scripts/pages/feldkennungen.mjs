@@ -13,7 +13,8 @@ function cut(s, n = 200) {
 function fmtCell(e) {
   if (!e) return `<td class="fmt-cell">–</td>`;
   const bits = [];
-  if (e.l) bits.push(`Länge ${esc(e.l)}`);
+  // Nur echte Längenangaben zeigen (ein einzelnes „≤“ ohne Zahl ist ein Rest aus der PDF-Tabelle)
+  if (e.l && /\d|var/.test(e.l)) bits.push(`Länge ${esc(e.l)}`);
   if (e.t) bits.push(`Typ ${esc(e.t)}`);
   if (e.p) bits.push(`S. ${esc(e.p)}`);
   return `<td class="fmt-cell">✓${bits.length ? " " + bits.join(" · ") : ""}</td>`;
@@ -24,7 +25,7 @@ export default function ({ dict }) {
   const list = [...fks].sort();
   const counts = Object.fromEntries(FORMATS.map(([k]) => [k, Object.keys(dict[k]).length]));
 
-  const rows = list.map((fk) => {
+  const rowHtml = list.map((fk) => {
     const e = { ldt2: dict.ldt2[fk], ldt3: dict.ldt3[fk], bdt: dict.bdt[fk] };
     const names = [];
     for (const [k, label] of FORMATS) if (e[k]?.n && !names.some((x) => x.n.toLowerCase() === e[k].n.toLowerCase())) names.push({ n: e[k].n, label });
@@ -32,12 +33,34 @@ export default function ({ dict }) {
     const notes = [];
     if (e.ldt2?.v) notes.push(`LDT 2: ${esc(cut(e.ldt2.v, 160))}`);
     if (e.ldt3?.d) notes.push(esc(cut(e.ldt3.d, 180)));
-    else if (e.bdt?.d) notes.push(esc(cut(e.bdt.d, 180)));
+    // Offene Fragen der Autoren im BDT-3.0-Entwurf als Zitat kennzeichnen
+    else if (e.bdt?.d) notes.push(/\?\?\?/.test(e.bdt.d) ? `<span class="muted small">Wortlaut des BDT-3.0-Entwurfs, dort mit offener Rückfrage:</span> ${esc(cut(e.bdt.d, 160))}` : esc(cut(e.bdt.d, 180)));
     if (e.ldt3?.r) notes.push(`<span class="muted small">Regeln LDT 3: ${esc(e.ldt3.r)}</span>`);
     const formats = FORMATS.filter(([k]) => e[k]).map(([k]) => k).join(" ");
     const search = [fk, ...names.map((x) => x.n)].join(" ").toLowerCase();
-    return `<tr id="fk-${fk}" data-f="${formats}" data-s="${esc(search)}"><td>${fk}</td><td>${name}</td>${fmtCell(e.ldt2)}${fmtCell(e.ldt3)}${fmtCell(e.bdt)}<td>${notes.join("<br>")}</td></tr>`;
-  }).join("\n");
+    return [fk, `<tr id="fk-${fk}" data-f="${formats}" data-s="${esc(search)}"><td>${fk}</td><td>${name}</td>${fmtCell(e.ldt2)}${fmtCell(e.ldt3)}${fmtCell(e.bdt)}<td>${notes.join("<br>")}</td></tr>`];
+  });
+
+  // Eine Tabelle je Tausenderbereich. Der Browser zeichnet nur die Blöcke im sichtbaren Bereich
+  // (content-visibility), das hält die Seite auch auf langsamen Praxis-PCs flüssig.
+  const groups = new Map();
+  for (const [fk, tr] of rowHtml) {
+    const d = fk[0];
+    if (!groups.has(d)) groups.set(d, []);
+    groups.get(d).push(tr);
+  }
+  const blocks = [...groups].map(([d, trs]) => `<div class="ref-block" style="contain-intrinsic-size:auto ${trs.length * 64}px">
+<div class="table-wrap">
+<table class="ref-table">
+<caption>Feldkennungen ${d}000 bis ${d}999</caption>
+<colgroup><col class="c-fk"><col class="c-name"><col class="c-fmt"><col class="c-fmt"><col class="c-fmt"><col></colgroup>
+<thead><tr><th scope="col">FK</th><th scope="col">Bezeichnung</th><th scope="col">LDT 2</th><th scope="col">LDT 3</th><th scope="col">BDT 3.0</th><th scope="col">Erläuterung</th></tr></thead>
+<tbody>
+${trs.join("\n")}
+</tbody>
+</table>
+</div>
+</div>`).join("\n");
 
   const satzTable = (key, title, srcKey, detail) => `<h3>${esc(title)}</h3>
 <div class="table-wrap"><table><thead><tr><th scope="col">Satzart (Feld 8000)</th><th scope="col">Bezeichnung</th></tr></thead><tbody>
@@ -96,14 +119,8 @@ ${heroHtml({
 </div>
 <p class="muted small" id="refCount" aria-live="polite">${total} Feldkennungen</p>
 </div>
-<div class="table-wrap">
-<table class="ref-table">
-<caption class="sr-only">Feldkennungen aus LDT 2, LDT 3.2.20 und BDT 3.0</caption>
-<thead><tr><th scope="col">FK</th><th scope="col">Bezeichnung</th><th scope="col">LDT 2</th><th scope="col">LDT 3</th><th scope="col">BDT 3.0</th><th scope="col">Erläuterung</th></tr></thead>
-<tbody id="refBody">
-${rows}
-</tbody>
-</table>
+<div id="refBlocks">
+${blocks}
 </div>
 
 <div class="prose">
@@ -118,16 +135,21 @@ ${ctaHtml("Feldkennungen in Ihrer Datei ansehen", "Die Strukturansicht des Viewe
 ${relatedHtml(["was-ist-ldt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "fehler/"])}
 </main>`,
     after: `<script type="module">
-const input = document.getElementById("refFilter"), body = document.getElementById("refBody"), count = document.getElementById("refCount");
-const rows = [...body.rows];
+const input = document.getElementById("refFilter"), count = document.getElementById("refCount");
+const blocks = [...document.querySelectorAll(".ref-block")].map((el) => ({ el, rows: [...el.querySelectorAll("tbody tr")] }));
 let fmt = "";
 function apply() {
   const q = input.value.trim().toLowerCase();
   let n = 0;
-  for (const r of rows) {
-    const ok = (!q || r.dataset.s.includes(q)) && (!fmt || r.dataset.f.split(" ").includes(fmt));
-    r.hidden = !ok;
-    if (ok) n++;
+  for (const b of blocks) {
+    let shown = 0;
+    for (const r of b.rows) {
+      const ok = (!q || r.dataset.s.includes(q)) && (!fmt || r.dataset.f.split(" ").includes(fmt));
+      r.hidden = !ok;
+      if (ok) shown++;
+    }
+    b.el.hidden = !shown;
+    n += shown;
   }
   count.textContent = n + (n === 1 ? " Feldkennung" : " Feldkennungen");
 }

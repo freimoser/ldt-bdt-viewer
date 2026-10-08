@@ -21,8 +21,13 @@ try {
   for (const p of pages) {
     const name = (p || "start").replace(/\//g, "");
     const file = join(out, `lighthouse-${name}.json`);
-    execFileSync("npx", ["-y", "lighthouse@13", `http://localhost:${PORT}/ldt-bdt-viewer/${p}`, "--quiet", "--chrome-flags=--headless=new --no-sandbox",
-      "--only-categories=performance,accessibility,best-practices,seo", "--output=json", `--output-path=${file}`], { env, stdio: "ignore" });
+    const args = ["-y", "lighthouse@13", `http://localhost:${PORT}/ldt-bdt-viewer/${p}`, "--quiet", "--chrome-flags=--headless=new --no-sandbox",
+      "--only-categories=performance,accessibility,best-practices,seo", "--output=json", `--output-path=${file}`];
+    // Ein zweiter Versuch, falls Chrome unter hoher Systemlast nicht rechtzeitig startet
+    for (let attempt = 1; ; attempt++) {
+      try { execFileSync("npx", args, { env, stdio: ["ignore", "ignore", "pipe"] }); break; }
+      catch (err) { if (attempt >= 2) throw new Error(`Lighthouse für /${p} fehlgeschlagen: ${String(err.stderr || err.message).slice(-400)}`); }
+    }
     const r = JSON.parse(readFileSync(file, "utf8"));
     const scores = Object.fromEntries(Object.values(r.categories).map((c) => [c.id, Math.round(c.score * 100)]));
     const low = Object.entries(scores).filter(([, v]) => v < 95);

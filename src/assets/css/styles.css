@@ -296,7 +296,15 @@ tbody tr:last-child td { border-bottom: none; }
 
 /* Feldkennungen */
 .ref-search { position: sticky; top: 0; z-index: 2; padding: 0.75rem 0; background: var(--bg); }
-.ref-table { font-size: 0.86rem; }
+/* Feldkennungen: ein Block je Tausenderbereich, nur sichtbare Blöcke werden gezeichnet; feste Spalten halten die Blöcke bündig */
+.ref-block { content-visibility: auto; }
+.ref-block + .ref-block { margin-top: 1.25rem; }
+.ref-table { font-size: 0.86rem; table-layout: fixed; min-width: 57rem; }
+.ref-table caption { caption-side: top; text-align: left; padding: 0.2rem 0.6rem 0.5rem; font-weight: 700; color: var(--text); }
+.ref-table td { overflow-wrap: anywhere; }
+.ref-table .c-fk { width: 4.6rem; }
+.ref-table .c-name { width: 24%; }
+.ref-table .c-fmt { width: 7.2rem; }
 .ref-table td, .ref-table th { padding: 0.45rem 0.6rem; }
 .ref-table td:first-child { font-family: var(--mono); font-weight: 700; color: var(--accent-hover); white-space: nowrap; }
 .ref-table .fmt-cell { font-size: 0.8rem; color: var(--muted); }

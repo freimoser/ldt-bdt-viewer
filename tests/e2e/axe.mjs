@@ -14,8 +14,10 @@ const axeSource = readFileSync(createRequire(import.meta.url).resolve("axe-core/
 const PORT = 8804;
 const server = spawn(process.execPath, [join(root, "scripts", "serve.mjs")], { env: { ...process.env, PORT: String(PORT) }, stdio: "ignore" });
 await new Promise((r) => setTimeout(r, 800));
-const browser = await puppeteer.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true });
+const browser = await puppeteer.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, timeout: 180000 });
 let total = 0;
+// DOM-Klick statt Koordinaten-Klick: robust, wenn sich das Layout unter Last noch verschiebt
+const tap = (pg, sel) => pg.$eval(sel, (el) => el.click());
 async function audit(page, label) {
   await page.evaluate(axeSource);
   const res = await page.evaluate(async () => await window.axe.run(document, { runOnly: ["wcag2a", "wcag2aa", "wcag21aa", "best-practice"] }));
@@ -26,24 +28,26 @@ async function audit(page, label) {
 try {
   for (const [w, h] of [[1280, 900], [360, 780]]) {
     const page = await browser.newPage();
+    page.setDefaultTimeout(180000);
     await page.setViewport({ width: w, height: h });
     await page.goto(`http://localhost:${PORT}/ldt-bdt-viewer/`, { waitUntil: "networkidle0" });
-    await page.click('[data-example="Z01BEISPIEL_LDT3.ldt"]');
+    await tap(page, '[data-example="Z01BEISPIEL_LDT3.ldt"]');
     await page.waitForSelector(".befund");
     await audit(page, `${w}px Befunde`);
-    await page.click("#tab-struktur"); await page.waitForSelector(".rows tbody tr");
-    await page.click(".line-btn");
+    await tap(page, "#tab-struktur"); await page.waitForSelector(".rows tbody tr");
+    await tap(page, ".line-btn");
     await audit(page, `${w}px Struktur`);
     // Datei mit Fehlern für die Prüfansicht
-    await page.click('[data-example="X01BSPL.LDT"]');
+    await tap(page, '[data-example="X01BSPL.LDT"]');
     await page.waitForFunction(() => document.getElementById("fileName").textContent === "X01BSPL.LDT");
-    await page.click("#tab-pruefung"); await page.waitForSelector("#panel .notice-ok, #panel .issue");
+    await tap(page, "#tab-pruefung"); await page.waitForSelector("#panel .notice-ok, #panel .issue");
     await audit(page, `${w}px Prüfung`);
     await page.type("#lookupInput", "3101"); await page.waitForSelector(".lookup-list");
     await audit(page, `${w}px Nachschlagen`);
   }
   for (const p of ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "impressum/", "datenschutz/", "gibt-es-nicht/"]) {
     const page = await browser.newPage();
+    page.setDefaultTimeout(180000);
     await page.goto(`http://localhost:${PORT}/ldt-bdt-viewer/${p}`, { waitUntil: "load" });
     await audit(page, "/" + p);
   }

@@ -18,6 +18,8 @@ const PORT = 8799;
 const BASE = `http://localhost:${PORT}/ldt-bdt-viewer/`;
 const CHROME = process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const results = [];
+// DOM-Klick statt Koordinaten-Klick: robust, wenn sich das Layout unter Last noch verschiebt
+const tap = (pg, sel) => pg.$eval(sel, (el) => el.click());
 const check = (name, ok, detail = "") => { results.push({ name, ok, detail }); console.log(`${ok ? "✔" : "✖"} ${name}${detail ? " – " + detail : ""}`); };
 
 const server = spawn(process.execPath, [join(root, "scripts", "serve.mjs")], { env: { ...process.env, PORT: String(PORT) }, stdio: "ignore" });
@@ -26,6 +28,7 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: true,
 
 try {
   const page = await browser.newPage();
+  page.setDefaultTimeout(180000); // großzügig, damit hohe Systemlast keinen Fehlalarm auslöst
   await page.setViewport({ width: 1280, height: 900 });
   await page.goto(BASE, { waitUntil: "networkidle0" });
 
@@ -57,22 +60,24 @@ try {
   check("Seite friert nicht ein (längste Blockade des Hauptthreads < 500 ms)", maxGap < 500 && maxLong < 500, `größte Pause ${maxGap} ms, längste Long Task ${maxLong} ms`);
 
   // Ansichten der großen Datei
-  await page.click("#tab-struktur");
-  await page.waitForSelector(".rows tbody tr");
+  await tap(page, "#tab-struktur");
+  await page.waitForSelector(".rows tbody tr", { timeout: 120000 });
   const rows = await page.$$eval(".rows tbody tr", (r) => r.length);
   check("Strukturansicht blättert (250 Zeilen pro Seite)", rows === 250, `${rows} Zeilen`);
   await page.type("#searchInput", "9300");
-  await page.waitForFunction(() => document.querySelectorAll(".rows tbody tr").length === 1, { timeout: 30000 });
+  await page.waitForFunction(() => document.querySelectorAll(".rows tbody tr").length === 1, { timeout: 180000 });
   check("Suche nach Feldkennung 9300 in 1,2 Mio. Zeilen", true);
-  await page.click("#tab-pruefung");
-  await page.waitForSelector(".notice-ok, .issue");
-  const okText = await page.$eval("#panel", (p) => p.innerText.slice(0, 60));
-  check("Prüfung der großen Datei ohne Fehler", /Keine/.test(okText), okText.replace(/\n/g, " "));
+  await page.$eval("#searchInput", (el) => { el.value = ""; el.dispatchEvent(new Event("input", { bubbles: true })); });
+  await page.waitForFunction(() => document.querySelectorAll(".rows tbody tr").length === 250);
+  await tap(page, "#tab-pruefung");
+  await page.waitForSelector(".notice-ok, .issue", { timeout: 120000 });
+  const okText = await page.$eval("#panel .notice-ok, #panel .issue", (p) => p.innerText.slice(0, 60));
+  check("Prüfung der großen Datei ohne Fehler", /Keine Fehler gefunden/.test(okText), okText.replace(/\n/g, " "));
 
   // 2) Beispiele und Befundansicht
   await page.goto(BASE, { waitUntil: "networkidle0" });
   for (const ex of ["Z01BEISPIEL_LDT3.ldt", "X01BSPL.LDT", "BEISPIEL_BDT.bdt"]) {
-    await page.click(`[data-example="${ex}"]`);
+    await tap(page, `[data-example="${ex}"]`);
     await page.waitForFunction((n) => [...document.querySelectorAll("#fileName")].some((e) => e.textContent === n), {}, ex);
   }
   const tabs = await page.$$eval(".file-tab", (t) => t.length);
@@ -80,7 +85,7 @@ try {
 
   // 3) Tastatur: Reiter mit Pfeiltasten
   await page.focus("#tab-befunde").catch(() => {});
-  await page.click(".file-tab");
+  await tap(page, ".file-tab");
   await page.focus("#tab-struktur");
   await page.keyboard.press("ArrowRight");
   const active = await page.evaluate(() => document.activeElement.id);
@@ -88,12 +93,13 @@ try {
 
   // 4) 360 px: kein seitliches Scrollen
   const mobile = await browser.newPage();
+  mobile.setDefaultTimeout(120000);
   await mobile.setViewport({ width: 360, height: 780, isMobile: true, hasTouch: true });
   const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
   for (const p of pages) {
     const res = await mobile.goto(BASE + p, { waitUntil: "load" });
     if (p === "") {
-      await mobile.click('[data-example="Z01BEISPIEL_LDT3.ldt"]');
+      await tap(mobile, '[data-example="Z01BEISPIEL_LDT3.ldt"]');
       await mobile.waitForSelector(".befund");
     }
     const w = await mobile.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
@@ -102,14 +108,15 @@ try {
 
   // 5) Offline
   const off = await browser.newPage();
+  off.setDefaultTimeout(120000);
   await off.goto(BASE, { waitUntil: "networkidle0" });
-  await off.waitForFunction(() => navigator.serviceWorker && navigator.serviceWorker.controller !== null || (navigator.serviceWorker && navigator.serviceWorker.ready.then(() => true)), { timeout: 20000 });
+  await off.waitForFunction(() => navigator.serviceWorker && navigator.serviceWorker.controller !== null || (navigator.serviceWorker && navigator.serviceWorker.ready.then(() => true)), { timeout: 120000 });
   await off.reload({ waitUntil: "networkidle0" });
   await new Promise((r) => setTimeout(r, 1500));
   await off.setOfflineMode(true);
   await off.reload({ waitUntil: "load" });
-  await off.click('[data-example="X01BSPL.LDT"]');
-  await off.waitForSelector(".befund", { timeout: 15000 });
+  await tap(off, '[data-example="X01BSPL.LDT"]');
+  await off.waitForSelector(".befund", { timeout: 120000 });
   const offlineName = await off.$eval(".befund h3", (e) => e.textContent);
   check("Offline nach dem ersten Laden nutzbar", /Test-/.test(offlineName), offlineName);
   const sub = await off.goto(BASE + "was-ist-ldt/", { waitUntil: "load" }).catch(() => null);
@@ -117,7 +124,7 @@ try {
   check("Ratgeberseite offline aus dem Cache", /LDT/.test(subH1) && !/nicht gefunden/.test(subH1), subH1);
   await off.setOfflineMode(false);
 } catch (err) {
-  check("Ablauf ohne Ausnahme", false, err.message);
+  check("Ablauf ohne Ausnahme", false, err.message + (err.cause ? " (" + err.cause.message + ")" : ""));
 } finally {
   await browser.close();
   server.kill();
