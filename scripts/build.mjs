@@ -44,6 +44,15 @@ const examples = [
 ];
 for (const [name, opts] of examples) writeFileSync(join(dist, "beispiele", name), generate(opts).bytes);
 
+// CSS minimiert in jede Seite einbetten (kein render-blockierender Abruf)
+const css = readFileSync(join(root, "src", "assets", "css", "styles.css"), "utf8")
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/\s+/g, " ")
+  .replace(/\s*([{}:;,>])\s*/g, "$1")
+  .replace(/;}/g, "}")
+  .trim();
+writeFileSync(join(dist, "assets", "css", "styles.css"), css);
+
 // 4) Seiten
 const pagesDir = join(root, "scripts", "pages");
 const pages = [];
@@ -55,7 +64,15 @@ for (const f of readdirSync(pagesDir).filter((x) => x.endsWith(".mjs")).sort()) 
 const problems = [];
 const titles = new Map(), descs = new Map();
 for (const p of pages) {
-  const html = page(p);
+  let tableNo = 0;
+  const html = page(p)
+    .replace(/<link rel="stylesheet" href="[^"]*styles\.css">/, `<style>${css}</style>`)
+    // scrollbare Tabellenbereiche per Tastatur erreichbar machen (WCAG 2.1.1)
+    .replace(/<div class="table-wrap">([\s\S]*?<table[^>]*>\s*(?:<caption[^>]*>([^<]*)<\/caption>)?(?:\s*<thead><tr><th[^>]*>([^<]*))?)/g, (m, rest, cap, th) => {
+      tableNo++;
+      const label = (cap || "").trim() || `Tabelle ${tableNo}${th ? ": " + th.trim() : ""}`;
+      return `<div class="table-wrap" tabindex="0" role="region" aria-label="${label.replace(/"/g, "&quot;")}">${rest}`;
+    });
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);

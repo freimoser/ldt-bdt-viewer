@@ -2,6 +2,7 @@
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { join, extname, dirname } from "node:path";
+import { gzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
 
 const dist = join(dirname(fileURLToPath(import.meta.url)), "..", "dist");
@@ -28,8 +29,14 @@ createServer(async (req, res) => {
   }
   if (!file) { status = 404; file = join(dist, "404.html"); }
   try {
-    const body = await readFile(file);
-    res.writeHead(status, { "Content-Type": TYPES[extname(file)] || "application/octet-stream", "Cache-Control": "no-cache" });
+    let body = await readFile(file);
+    const headers = { "Content-Type": TYPES[extname(file)] || "application/octet-stream", "Cache-Control": "no-cache" };
+    // wie GitHub Pages: Textdateien komprimiert ausliefern
+    if (/gzip/.test(req.headers["accept-encoding"] || "") && /\.(html|css|js|json|svg|xml|txt|webmanifest)$/.test(file)) {
+      body = gzipSync(body);
+      headers["Content-Encoding"] = "gzip";
+    }
+    res.writeHead(status, headers);
     res.end(body);
   } catch { res.writeHead(500); res.end("Fehler"); }
 }).listen(port, () => console.log(`http://localhost:${port}${BASE}`));
