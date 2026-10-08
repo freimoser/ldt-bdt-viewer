@@ -123,7 +123,8 @@ server.kill();
 
 // Externe Links
 log("\n## Externe Links");
-const ext = [...new Set(pages.flatMap((p) => p.links.filter((l) => /^https?:/.test(l))))].sort();
+const ext = [...new Set(pages.flatMap((p) => p.links.filter((l) => /^https?:/.test(l) && !l.startsWith(ORIGIN + BASE))))].sort();
+log("- (eigene absolute URLs wie canonical sind ausgenommen; sie sind erst nach dem Deployment erreichbar)");
 for (const u of ext) {
   let s;
   try { const r = await fetch(u, { method: "GET", redirect: "follow", headers: { "User-Agent": "Mozilla/5.0" } }); s = r.status; } catch (e) { s = "Fehler " + e.message; }

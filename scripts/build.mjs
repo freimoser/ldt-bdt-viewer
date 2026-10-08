@@ -7,7 +7,7 @@ import { join, dirname, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { buildDict } from "./lib/dict.mjs";
-import { page, SITE, url } from "./lib/layout.mjs";
+import { page, SITE, url, GUIDES } from "./lib/layout.mjs";
 import { generate } from "../src/assets/js/core/generator.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -91,8 +91,10 @@ for (const p of pages) {
   }
 }
 
-// 5) Sitemap, llms.txt, Manifest
-const indexable = pages.filter((p) => !p.noindex);
+// 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
+const order = ["", ...GUIDES.map(([p]) => p), "impressum/", "datenschutz/"];
+const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
+const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${indexable.map((p) => `  <url>\n    <loc>${url(p.path)}</loc>\n    <lastmod>${p.lastmod || SITE.updated}</lastmod>\n  </url>`).join("\n")}
