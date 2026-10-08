@@ -1,0 +1,1226 @@
+{
+ "0101": {
+  "name": "KBV-Prüfnummer",
+  "len": "16",
+  "type": "a",
+  "rules": "051",
+  "values": "2.-3. Stelle: Zulassungsart 31 = Import LG Befund 32 = Import LFA Befund 33 = Export LG Auftrag 34 = Export eÜberweisung 35 = Export Sonstige Einsendepraxis Befund 36 = Import eÜberweisung 37 = Import LG Auftrag 38 = Export LG Befund 39 = Export LFA Befund",
+  "example": "X/31/0804/36/123",
+  "page": 47
+ },
+ "0201": {
+  "name": "Betriebs- (BSNR) oder Nebenbetriebsstättennummer (NBSNR)",
+  "len": "9",
+  "type": "n",
+  "rules": "",
+  "values": "Bei Nicht-Kassenärzten gleichbedeutend mit Arztnummer oder Arztkennzeichen",
+  "example": "",
+  "page": 47
+ },
+ "0203": {
+  "name": "(N)BSNR-Bezeichnung",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Maier",
+  "page": 47
+ },
+ "0205": {
+  "name": "Straße der (N)BSNR-Adresse",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Ottostr. 1",
+  "page": 47
+ },
+ "0211": {
+  "name": "Arztname",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "0212": {
+  "name": "Lebenslange Arztnummer (LANR)",
+  "len": "9",
+  "type": "n",
+  "rules": "050",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "0215": {
+  "name": "PLZ der (N)BSNR-Adresse",
+  "len": "≤ 7",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "0216": {
+  "name": "Ort der (N)BSNR-Adresse",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "0222": {
+  "name": "ASV-Teamnummer",
+  "len": "9",
+  "type": "n",
+  "rules": "059",
+  "values": "",
+  "example": "001234566",
+  "page": 47
+ },
+ "0223": {
+  "name": "Pseudo-LANR für Krankenhausärzte im Rahmen der ASV-Abrechnung",
+  "len": "9",
+  "type": "n",
+  "rules": "063 836",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "2002": {
+  "name": "Kassenname",
+  "len": "≤ 28",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 47
+ },
+ "3100": {
+  "name": "Namenszusatz",
+  "len": "≤ 20",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Herzogin",
+  "page": 47
+ },
+ "3101": {
+  "name": "Nachname",
+  "len": "≤ 45",
+  "type": "a",
+  "rules": "434 409",
+  "values": "",
+  "example": "Meier",
+  "page": 47
+ },
+ "3102": {
+  "name": "Vorname",
+  "len": "≤ 45",
+  "type": "a",
+  "rules": "434 409",
+  "values": "",
+  "example": "Meta",
+  "page": 47
+ },
+ "3103": {
+  "name": "Geburtsdatum",
+  "len": "8",
+  "type": "n",
+  "rules": "021 409",
+  "values": "",
+  "example": "19661024",
+  "page": 48
+ },
+ "3104": {
+  "name": "Titel",
+  "len": "≤ 20",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Dr.",
+  "page": 48
+ },
+ "3105": {
+  "name": "Versichertennummer",
+  "len": "6-12",
+  "type": "n",
+  "rules": "434 811",
+  "values": "",
+  "example": "123564732",
+  "page": 48
+ },
+ "3107": {
+  "name": "Straße",
+  "len": "≤ 46",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "Ottostraße",
+  "page": 48
+ },
+ "3108": {
+  "name": "Versichertenart",
+  "len": "1",
+  "type": "n",
+  "rules": "116 434",
+  "values": "1 = Mitglied 3 = Familienversicherter 5 = Rentner",
+  "example": "3",
+  "page": 48
+ },
+ "3109": {
+  "name": "Hausnummer",
+  "len": "≤ 9",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "23A",
+  "page": 48
+ },
+ "3110": {
+  "name": "Geschlecht",
+  "len": "1",
+  "type": "a",
+  "rules": "533",
+  "values": "M = männlich W = weiblich U = unbekannt X = unbestimmt",
+  "example": "M",
+  "page": 48
+ },
+ "3112": {
+  "name": "PLZ",
+  "len": "≤ 10",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "50859",
+  "page": 48
+ },
+ "3113": {
+  "name": "Ort",
+  "len": "≤ 40",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "Köln",
+  "page": 48
+ },
+ "3114": {
+  "name": "Wohnsitzlaendercode",
+  "len": "≤ 3",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 48
+ },
+ "3116": {
+  "name": "WOP",
+  "len": "2",
+  "type": "n",
+  "rules": "531",
+  "values": "00 = Dummy bei eGK 01 = Schleswig-Holstein 02 = Hamburg 03 = Bremen 17 = Niedersachsen 20 = Westfalen-Lippe 38 = Nordrhein 46 = Hessen (47 = Koblenz) (48 = Rheinhessen) 49 = Pfalz) (50 = Trier) 51 = Rheinland-Pfalz 52 = Baden-Württemberg (55 = Nordbaden) (60 = Südbaden) (61 = Nordwürttemberg) (62 = Südwürttemberg) 71 = Bayern 72 = Berlin 73 = Saarland 78 = Mecklenburg-Vorpommern 83 = Brandenburg 88 = Sachsen-Anhalt 93 = Thüringen 98 = Sachsen",
+  "example": "( ) fusioniert, teilweise aber noch in Gebrauch (bspw. KVK-WOP, eGK <= 5.2.0)",
+  "page": 48
+ },
+ "3119": {
+  "name": "Versicherten_ID",
+  "len": "10",
+  "type": "a",
+  "rules": "054 434 812",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "3120": {
+  "name": "Vorsatzwort",
+  "len": "≤ 20",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "von",
+  "page": 49
+ },
+ "3121": {
+  "name": "PostfachPLZ",
+  "len": "≤ 10",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "3122": {
+  "name": "PostfachOrt",
+  "len": "≤ 40",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "3123": {
+  "name": "Postfach",
+  "len": "≤ 8",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "3124": {
+  "name": "PostfachWohnsitzlaendercode",
+  "len": "≤ 3",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "3622": {
+  "name": "Größe des Patienten",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "values": "",
+  "example": "174",
+  "page": 49
+ },
+ "3623": {
+  "name": "Gewicht des Patienten",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "values": "",
+  "example": "60.5",
+  "page": 49
+ },
+ "4104": {
+  "name": "Abrechnungs-VKNR",
+  "len": "5",
+  "type": "n",
+  "rules": "017 434 811 812",
+  "values": "",
+  "example": "74605",
+  "page": 49
+ },
+ "4106": {
+  "name": "Kostenträger- Abrechnungsbereich (KTAB)",
+  "len": "2",
+  "type": "n",
+  "rules": "174 434",
+  "values": "00 = Primärabrechnung 01 = Sozialversicherungsabkommen (SVA) 02 = Bundesversorgungsgesetz (BVG) 03 = Bundesentschädigungsgesetz (BEG) 04 = Grenzgänger (GG) 05 = Rheinschiffer (RHS) 06 = Sozialhilfeträger, ohne Asylstellen (SHT) 07 = Bundesvertriebenengesetz (BVFG) 08 = Asylstellen (AS) 09 = Schwangerschaftsabbrüche",
+  "example": "00",
+  "page": 49
+ },
+ "4109": {
+  "name": "Letzter Einlesetag der Versichertenkarte im Quartal",
+  "len": "8",
+  "type": "d",
+  "rules": "",
+  "values": "",
+  "example": "20150112",
+  "page": 49
+ },
+ "4110": {
+  "name": "VersicherungsschutzEnde",
+  "len": "8",
+  "type": "d",
+  "rules": "811",
+  "values": "",
+  "example": "20151011",
+  "page": 49
+ },
+ "4111": {
+  "name": "Kostentraegerkennung",
+  "len": "9",
+  "type": "n",
+  "rules": "434",
+  "values": "",
+  "example": "101234567",
+  "page": 49
+ },
+ "4122": {
+  "name": "Abrechnungsgebiet",
+  "len": "2",
+  "type": "n",
+  "rules": "141 434",
+  "values": "",
+  "example": "00",
+  "page": 49
+ },
+ "4124": {
+  "name": "SKT-Zusatzangaben",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 49
+ },
+ "4131": {
+  "name": "BesonderePersonengruppe",
+  "len": "≤ 2",
+  "type": "n",
+  "rules": "534 778 779 780 818",
+  "values": "4 = BSHG (Bundessozialhilfegesetz) §264 SGB V 6 = BVG (Gesetz über die Versorgung der Opfer des Krieges) 7 = SVA-Kennzeichnung für zwischenstaatliches Krankenversicherungsrecht: Personen mit Wohnsitz im Inland, Abrechnung nach Aufwand 8 = SVA-Kennzeichnung, pauschal 9 = Empfänger von Gesundheitsleistungen nach den §§ 4 und 6 des Asylbewerberleistungsgesetzes (AsylbLG)",
+  "example": "",
+  "page": 50
+ },
+ "4132": {
+  "name": "DMP_Kennzeichnung",
+  "len": "≤ 2",
+  "type": "n",
+  "rules": "528",
+  "values": "1 = Diabetes mellitus Typ 2 2 = Brustkrebs 3 = Koronare Herzkrankheit 4 = Diabetes mellitus Typ 1 5 = Asthma bronchiale 6 = COPD (chronic obstructive pulmonary disease)",
+  "example": "",
+  "page": 50
+ },
+ "4133": {
+  "name": "VersicherungsschutzBeginn",
+  "len": "8",
+  "type": "d",
+  "rules": "812",
+  "values": "",
+  "example": "20140101",
+  "page": 50
+ },
+ "4202": {
+  "name": "Unfall, Unfallfolgen",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = ja",
+  "example": "",
+  "page": 50
+ },
+ "4204": {
+  "name": "eingeschränkter Leistungsanspruch gemäß §16 Abs. 3a SGB V",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = ja",
+  "example": "",
+  "page": 50
+ },
+ "4205": {
+  "name": "Auftrag",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "756",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4207": {
+  "name": "Diagnose/Verdachtsdiagnose",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4208": {
+  "name": "Befund/Medikation",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4217": {
+  "name": "(N)BSNR des Erstveranlassers",
+  "len": "9",
+  "type": "n",
+  "rules": "(049) (061) 319 431 824",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4218": {
+  "name": "(N)BSNR des Überweisers",
+  "len": "9",
+  "type": "n",
+  "rules": "(049) (061) 319 434 825",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4219": {
+  "name": "Überweisung von anderen Ärzten",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "434",
+  "values": "",
+  "example": "",
+  "page": 50
+ },
+ "4220": {
+  "name": "Überweisung an",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "386 434",
+  "values": "",
+  "example": "Labor",
+  "page": 51
+ },
+ "4221": {
+  "name": "Kurativ / Präventiv / ESS / bei belegärztl. Behandlung",
+  "len": "1",
+  "type": "n",
+  "rules": "205 404 754",
+  "values": "1 = Kurativ (Defaultwert) 2 = Präventiv 3 = Empfängnisregelung, Sterilisation, Schwangerschaftsabbruch 4 = belegärztliche Behandlung",
+  "example": "1",
+  "page": 51
+ },
+ "4225": {
+  "name": "ASV-Teamnummer des Erstveranlassers",
+  "len": "9",
+  "type": "n",
+  "rules": "059 431",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4226": {
+  "name": "ASV-Teamnummer des Überweisers",
+  "len": "9",
+  "type": "n",
+  "rules": "059 434",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4229": {
+  "name": "Ausnahmeindikation",
+  "len": "5",
+  "type": "n",
+  "rules": "432",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4231": {
+  "name": "Kontrolluntersuchung einer bekannten Infektion",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = ja",
+  "example": "1",
+  "page": 51
+ },
+ "4239": {
+  "name": "Scheinuntergruppe",
+  "len": "2",
+  "type": "n",
+  "rules": "140 434 754 756",
+  "values": "21 = Auftragsleistungen 23 = Konsiliaruntersuchung 24 = Mit-/Weiterbehandlung 27 = Überweisungsschein für Laboratoriumsuntersuchung als Auftragsleistung (Muster 10) 28 = Anforderungsschein für Laboratoriumsuntersuchungen bei Laborgemeinschaften (Muster 10a)",
+  "example": "27",
+  "page": 51
+ },
+ "4241": {
+  "name": "Lebenslange Arztnummer (LANR) des Erstveranlassers",
+  "len": "9",
+  "type": "n",
+  "rules": "050 844",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4242": {
+  "name": "Lebenslange Arztnummer (LANR) des Überweisers",
+  "len": "9",
+  "type": "n",
+  "rules": "050 845",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4248": {
+  "name": "Pseudo-LANR (für Krankenhausärzte im Rahmen der ASV-Abrechnung) des Erstveranlassers",
+  "len": "9",
+  "type": "n",
+  "rules": "063 844",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "4249": {
+  "name": "Pseudo-LANR (für Krankenhausärzte im Rahmen der ASV-Abrechnung) des Überweisers",
+  "len": "9",
+  "type": "n",
+  "rules": "063 845",
+  "values": "",
+  "example": "",
+  "page": 51
+ },
+ "5001": {
+  "name": "Gebührennummer (GNR)",
+  "len": "≤ 9 bzw. 5,6",
+  "type": "a",
+  "rules": "035 042 391 492 493",
+  "values": "",
+  "example": "32201",
+  "page": 52
+ },
+ "5002": {
+  "name": "Art der Untersuchung",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "5005": {
+  "name": "Multiplikator",
+  "len": "3",
+  "type": "n",
+  "rules": "535",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "5009": {
+  "name": "freier Begründungstext",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8000": {
+  "name": "Satzart",
+  "len": "4",
+  "type": "n",
+  "rules": "133",
+  "values": "",
+  "example": "8202",
+  "page": 52
+ },
+ "8100": {
+  "name": "Satzlänge",
+  "len": "5",
+  "type": "n",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8300": {
+  "name": "Labor",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "425",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8301": {
+  "name": "Eingangsdatum des Auftrags im Labor",
+  "len": "8",
+  "type": "d",
+  "rules": "492 493",
+  "values": "",
+  "example": "20150101",
+  "page": 52
+ },
+ "8302": {
+  "name": "Berichtsdatum",
+  "len": "8",
+  "type": "d",
+  "rules": "",
+  "values": "",
+  "example": "20150101",
+  "page": 52
+ },
+ "8303": {
+  "name": "Berichtszeit",
+  "len": "4",
+  "type": "n",
+  "rules": "005",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8310": {
+  "name": "Anforderungs-Ident",
+  "len": "≤ 13",
+  "type": "a",
+  "rules": "409",
+  "values": "",
+  "example": "223",
+  "page": 52
+ },
+ "8311": {
+  "name": "Auftragsnummer des Labors",
+  "len": "≤ 30",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "2014K223",
+  "page": 52
+ },
+ "8312": {
+  "name": "Kunden- (Arzt-) Nummer",
+  "len": "≤ 8",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "102",
+  "page": 52
+ },
+ "8313": {
+  "name": "Nachforderung",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = Nachforderung",
+  "example": "1",
+  "page": 52
+ },
+ "8320": {
+  "name": "Laborname",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "425",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8321": {
+  "name": "Straße der Laboradresse",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "425",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8322": {
+  "name": "PLZ der Laboradresse",
+  "len": "≤ 7",
+  "type": "a",
+  "rules": "425",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8323": {
+  "name": "Ort der Laboradresse",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "425",
+  "values": "",
+  "example": "",
+  "page": 52
+ },
+ "8401": {
+  "name": "Befundart",
+  "len": "1",
+  "type": "a",
+  "rules": "135",
+  "values": "E = Endbefund T = Teilbefund V = Vorläufiger Befund A = Archiv-Befund N = Nachforderung",
+  "example": "E",
+  "page": 52
+ },
+ "8403": {
+  "name": "Gebührenordnung",
+  "len": "1",
+  "type": "n",
+  "rules": "139 397 403 492 493",
+  "values": "1 = BMÄ 2 = EGO 3 = GOÄ 96 4 = BG-Tarif 5 = GOÄ 88",
+  "example": "1",
+  "page": 53
+ },
+ "8405": {
+  "name": "Patienteninformation",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 53
+ },
+ "8406": {
+  "name": "Kosten in Cent",
+  "len": "≤ 60",
+  "type": "n",
+  "rules": "384",
+  "values": "",
+  "example": "300",
+  "page": 53
+ },
+ "8410": {
+  "name": "Test-Ident",
+  "len": "≤ 8",
+  "type": "a",
+  "rules": "401",
+  "values": "",
+  "example": "KA",
+  "page": 53
+ },
+ "8411": {
+  "name": "Testbezeichung",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Kalium",
+  "page": 53
+ },
+ "8418": {
+  "name": "Test-Status",
+  "len": "1",
+  "type": "a",
+  "rules": "138",
+  "values": "B = bereits berichtet K = korrigierter Wert F = fehlt/folgt",
+  "example": "B",
+  "page": 53
+ },
+ "8420": {
+  "name": "Ergebniswert",
+  "len": "var",
+  "type": "f",
+  "rules": "378",
+  "values": "",
+  "example": "4.7",
+  "page": 53
+ },
+ "8421": {
+  "name": "Einheit",
+  "len": "≤ 20",
+  "type": "a",
+  "rules": "378",
+  "values": "",
+  "example": "mMol/l",
+  "page": 53
+ },
+ "8422": {
+  "name": "Grenzwert-Indikator",
+  "len": "≤ 2",
+  "type": "a",
+  "rules": "134",
+  "values": "+ = leicht erhöht ++ = stark erhöht - = mäßig erniedrigt -- = stark erniedrigt ! = auffällig",
+  "example": "++",
+  "page": 53
+ },
+ "8423": {
+  "name": "pathologisch bekannt",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = ja",
+  "example": "",
+  "page": 53
+ },
+ "8424": {
+  "name": "Mutterschaft",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1= ja",
+  "example": "",
+  "page": 53
+ },
+ "8425": {
+  "name": "budgetfrei",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1=ja",
+  "example": "",
+  "page": 53
+ },
+ "8428": {
+  "name": "Probenmaterial-Ident",
+  "len": "≤ 8",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Ab",
+  "page": 53
+ },
+ "8429": {
+  "name": "Probenmaterial-Index",
+  "len": "2",
+  "type": "n",
+  "rules": "157",
+  "values": "",
+  "example": "02",
+  "page": 53
+ },
+ "8430": {
+  "name": "Probenmaterial-Bezeichnung",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "Abstrich",
+  "page": 53
+ },
+ "8431": {
+  "name": "Probenmaterial-Spezifikation",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "393",
+  "values": "",
+  "example": "linkes Auge",
+  "page": 53
+ },
+ "8432": {
+  "name": "Abnahme-Datum",
+  "len": "8",
+  "type": "d",
+  "rules": "",
+  "values": "",
+  "example": "20150215",
+  "page": 53
+ },
+ "8433": {
+  "name": "Abnahme-Zeit",
+  "len": "4",
+  "type": "n",
+  "rules": "005",
+  "values": "",
+  "example": "0634",
+  "page": 53
+ },
+ "8434": {
+  "name": "Anforderungen",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "401",
+  "values": "",
+  "example": "Pilzkultur",
+  "page": 53
+ },
+ "8460": {
+  "name": "Normalwert-Text",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "negativ",
+  "page": 53
+ },
+ "8461": {
+  "name": "Normalwert-Untergrenze",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 54
+ },
+ "8462": {
+  "name": "Normalwert-Obergrenze",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 54
+ },
+ "8470": {
+  "name": "Testbezogene Hinweise",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 54
+ },
+ "8480": {
+  "name": "Ergebnis-Text",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "positiv",
+  "page": 54
+ },
+ "8490": {
+  "name": "Auftragsbezogene Hinweise",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 54
+ },
+ "8501": {
+  "name": "Dringlichkeits-Status",
+  "len": "1",
+  "type": "n",
+  "rules": "112",
+  "values": "1 = Notfall 2 = eilig",
+  "example": "1",
+  "page": 54
+ },
+ "8503": {
+  "name": "Infektiös",
+  "len": "1",
+  "type": "n",
+  "rules": "142",
+  "values": "1 = ja",
+  "example": "1",
+  "page": 54
+ },
+ "8504": {
+  "name": "Medikamenteneinnahme zum Zeitpunkt der Probenentnahme",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 54
+ },
+ "8510": {
+  "name": "Schwangerschaft",
+  "len": "1",
+  "type": "n",
+  "rules": "147",
+  "values": "0 = nein 1 = ja",
+  "example": "1",
+  "page": 54
+ },
+ "8511": {
+  "name": "Schwangerschaftsdauer (in Wochen,Tage)",
+  "len": "3",
+  "type": "n",
+  "rules": "024 423",
+  "values": "",
+  "example": "242",
+  "page": 54
+ },
+ "8512": {
+  "name": "1. Tag des letzten Zyklus",
+  "len": "8",
+  "type": "d",
+  "rules": "",
+  "values": "",
+  "example": "20150101",
+  "page": 54
+ },
+ "8520": {
+  "name": "Menge des Probenmaterials",
+  "len": "var",
+  "type": "f",
+  "rules": "",
+  "values": "",
+  "example": "20",
+  "page": 54
+ },
+ "8521": {
+  "name": "Maßeinheit",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "ml",
+  "page": 54
+ },
+ "8522": {
+  "name": "Sammelzeit des Probenmaterials",
+  "len": "4",
+  "type": "n",
+  "rules": "028",
+  "values": "",
+  "example": "2531",
+  "page": 54
+ },
+ "8601": {
+  "name": "Name des Rechnungsempfängers (RE)",
+  "len": "≤ 28",
+  "type": "a",
+  "rules": "398 399",
+  "values": "",
+  "example": "Müller",
+  "page": 54
+ },
+ "8602": {
+  "name": "Titel, Vorname des RE",
+  "len": "≤ 28",
+  "type": "a",
+  "rules": "398 399",
+  "values": "",
+  "example": "Dr. Hans",
+  "page": 54
+ },
+ "8606": {
+  "name": "Wohnort des RE",
+  "len": "≤ 30",
+  "type": "a",
+  "rules": "398 399",
+  "values": "",
+  "example": "50226 Köln",
+  "page": 54
+ },
+ "8607": {
+  "name": "Straße des RE",
+  "len": "≤ 28",
+  "type": "a",
+  "rules": "398 399",
+  "values": "",
+  "example": "Ottostr.1",
+  "page": 54
+ },
+ "8608": {
+  "name": "Kommentar/Aktenzeichen",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "402",
+  "values": "",
+  "example": "222/234AH",
+  "page": 54
+ },
+ "8609": {
+  "name": "Abrechnungstyp",
+  "len": "1",
+  "type": "a",
+  "rules": "144 397 398 399 402 403 433 811 812",
+  "values": "K = Kassenpatient (Auftrag erfolgt mittels Muster 10 bzw. Muster 10a) P = Privatpatient X = andere Rechnungsempfänger, z.B. BG E = Einsender (persönlich)",
+  "example": "P",
+  "page": 55
+ },
+ "8610": {
+  "name": "Privattarif",
+  "len": "1",
+  "type": "n",
+  "rules": "106 398",
+  "values": "1 = Privat 2 = Post B 3 = KVB",
+  "example": "2",
+  "page": 55
+ },
+ "8611": {
+  "name": "zusätzlicher Befundweg",
+  "len": "1",
+  "type": "n",
+  "rules": "161 394",
+  "values": "0 = Papier 1 = Telefon 2 = Telefax 4 = Mailbox 5 = Praxis-Computer 7 = Diskette",
+  "example": "2",
+  "page": 55
+ },
+ "8612": {
+  "name": "Rufnummer",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "422",
+  "values": "",
+  "example": "",
+  "page": 55
+ },
+ "8613": {
+  "name": "zusätzlicher Empfänger",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 55
+ },
+ "8614": {
+  "name": "Abrechnung durch",
+  "len": "1",
+  "type": "n",
+  "rules": "112",
+  "values": "1 = Labor 2 = Einweiser",
+  "example": "1",
+  "page": 55
+ },
+ "8615": {
+  "name": "Auftraggeber",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "(050) (063) 719",
+  "values": "",
+  "example": "123456600",
+  "page": 55
+ },
+ "9103": {
+  "name": "Erstellungsdatum",
+  "len": "8",
+  "type": "d",
+  "rules": "",
+  "values": "",
+  "example": "20151001",
+  "page": 55
+ },
+ "9105": {
+  "name": "Ordnungsnummer des Datenträgers dieses Datenpaketes",
+  "len": "3",
+  "type": "n",
+  "rules": "",
+  "values": "",
+  "example": "002",
+  "page": 55
+ },
+ "9106": {
+  "name": "verwendeter Zeichensatz",
+  "len": "1",
+  "type": "n",
+  "rules": "181",
+  "values": "1 = 7-bit-Code 2 = IBM-Code 3 = ISO 8859-1 Code 4 = ISO 8859-15 Code",
+  "example": "1",
+  "page": 55
+ },
+ "9202": {
+  "name": "Gesamtlänge des Datenpaketes",
+  "len": "8",
+  "type": "n",
+  "rules": "",
+  "values": "",
+  "example": "11324561",
+  "page": 55
+ },
+ "9212": {
+  "name": "Version der Satzbeschreibung",
+  "len": "≤ 11",
+  "type": "a",
+  "rules": "031",
+  "values": "",
+  "example": "LDT1014.01",
+  "page": 55
+ },
+ "9300": {
+  "name": "Prüfsumme/ Elektronische Signatur",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 55
+ },
+ "9301": {
+  "name": "Kryptoschlüssel",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 56
+ },
+ "9472": {
+  "name": "allgemeine Informationen",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 56
+ },
+ "9901": {
+  "name": "Jokerfeld",
+  "len": "≤ 60",
+  "type": "a",
+  "rules": "",
+  "values": "",
+  "example": "",
+  "page": 56
+ }
+}

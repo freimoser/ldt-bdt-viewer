@@ -1,0 +1,5142 @@
+{
+ "0001": {
+  "name": "Version XDT",
+  "type": "f",
+  "len": "var",
+  "format": "n {n} „.“n {n} [0001] „BDT",
+  "values": "= „BDT 2.94“ | 2.0“ | „BDT 3.0“",
+  "desc": "„BDT 2.94“`= BDT 02/1994, „BDT 2.0“ = BDT Version 2.0, „BDT 3.0“ = BDT Version 3.0",
+  "oid": "Version der Datensatzbeschreibung",
+  "page": 60
+ },
+ "0002": {
+  "name": "Releasenummer XDT",
+  "type": "f",
+  "len": "var",
+  "format": "n {n} „.“n {n} [0002]",
+  "values": "= „0.0“ | …",
+  "desc": "Falls eine korrigierte oder ergänzte Definition des BDT 3.0 zugrunde gelegt wird, ist hier die Releasenummer anzugeben. Die erste Release-Nummer lautet „0.0“, dieses Release ist für Testimplementierungen vorgesehen. Z.B. „1.0041“, „0.0“. Defaultwert: „0.0“",
+  "oid": "Releasebezeichnung",
+  "page": 60
+ },
+ "0003": {
+  "name": "Profil XDT",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „KBV“. Mittels der Definition eines Standardprofils können Festlegungen der Spezifikation verschärft oder eingeschränkt werden, etwa durch feste Feldlängen variabler, durch eingeschränkte Wertetabellen oder zusätzliche Regeln",
+  "oid": "statt durch",
+  "page": 60
+ },
+ "0010": {
+  "name": "Anwendungsfall [„Use Case“] BDT",
+  "type": "n",
+  "len": "1-2",
+  "format": "n | nn [0010] „4“ „99“",
+  "values": "= „1“ | „2“ | „3“ | | „“5 | „90“ | „91“ |",
+  "desc": "1“ = Gesamtbestand (z.B. für Systemwechsel), „2“ = definierter Zeitraum, „3“ = Quartal, „4“ = Einzelpatient, „5“ = Fallakte, „6“ = Medikationsplan, „10“ = Notdienst (NDT), „11“ = Gesamtbestand (für Archivierung), „90“ = Termine, „ 91“ = Adressen, „99“ = Sonstiger Anwendungsfall (Use Case)",
+  "oid": "",
+  "page": 60
+ },
+ "0011": {
+  "name": "Kommentar zum Anwendungsfall",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Verbale Beschreibung des Anwendungsfalls",
+  "oid": "",
+  "page": 61
+ },
+ "0012": {
+  "name": "Vertraulichkeit",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Angaben zur Vertraulichkeit der Datenübermittlung. Beispiel: „Nur für den empfangenden Arzt und dessen autorisiertes Hilfspersonal“",
+  "oid": "",
+  "page": 61
+ },
+ "0051": {
+  "name": "Bearbeitungsstatus",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[0051] = „0“ | „1“ | „2“ | „3“ | „4“ | „5“",
+  "desc": "„0“ = abgeschlossen (nur für Archivierung), „1“ = in Bearbeitung (neu), „2“ = freigegeben / bereit zum Versand / positiv geprüft, „3“ = Versand ist erfolgt (online/Datenträger), „4“ = positiv quittiert, „5“ = inhaltlich abgelehnt (negativ quittiert), Hinweis: Falls technische Ablehnung (konnte z.B. nicht versendet werden), dann auf Status „2“ setzen",
+  "oid": "",
+  "page": 61
+ },
+ "0052": {
+  "name": "Abrechnungsstatus",
+  "type": "a",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "d | „99999999“",
+  "desc": "Datum der Abrechnung. Wenn noch nicht abgerechnet, dann „99999999“ JJJJMMTT oder TTMMJJJJ in Abhängigkeit vom Inhalt des Feldes 9107",
+  "oid": "",
+  "page": 61
+ },
+ "0053": {
+  "name": "Bezahlstatus",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[0053] = „0“ | „1“ | „2“ | „3“",
+  "desc": "Für Satzart „padx“: „0“ = bezahlt, „1“ = Mahnung, „2“ = Teilzahlung, „3“ = Eintreibung",
+  "oid": "",
+  "page": 61
+ },
+ "0054": {
+  "name": "Status der medizinischen Dokumentation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Befundstatus. Freitext, z.B. „Endbefund”, „Teilbefund”, „Vorläufiger Befund”, „Archivbefund”, „Nachforderung”, „Wert fehlt/folgt”",
+  "oid": "",
+  "page": 61
+ },
+ "0055": {
+  "name": "Typ der medizinischen Dokumentation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Anamnese“, „Therapie“, „Physikalische Therapie“, „Befund“, „Bescheinigung“, „Attest“, „Fremdbefund“, „Laborbefund“, „Röntgenbefund“, „Rezept“, „Arztbrief“, „Entlassbrief“, „vorläufiger Arztbrief“",
+  "oid": "",
+  "page": 61
+ },
+ "0057": {
+  "name": "Informationstyp der med. Dokumentation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Versichertendaten“, „Diagnose“, „Prozedur“, „Zusammenfassung“, „Arztbrief“, „Einweisungsbrief“, „Entlassbrief“, „Verlegungsbrief“, „Konferenzprotokoll“, „Tumorboardprotokoll,“ „QS-Dokument“, „Cave“ (Zusammenfassung sämtlicher CAVE-Informationen), „Bericht“, „Anamnesebogen“, „Befund“, „CT-Befund“, „Endoskopie-Befund“, „Herzkatheterbefund“, „Koloskopiebefund“, „Laborbefund“, „MRT- Befund“, „Mikrobiologiebefund“, „Nachsorgebefund“, „Neuropathologiebefund“, „Pathologiebefund“, „Rektoskopiebefund“, „Radiologiebefund“, „Sonographiebefund“, „OP-Bericht“, „Sozialbericht“, „Strahlentherapiebericht“, „Chemotherapiebericht“, „Konsilbericht“, „Datensammlung“, „Text“, „Tabelle“, „Labordaten“, „Foto“, „2D-Computergrafik“, „EKG“, „Röntgenbild“, „Röntgenserie“, „Sonographie“, „Audio“, „Video“, „Behandlungsplan“, „Therapieplan“, „Anordnungsbogen“, „Konsens“, „eFA-Einwilligung“",
+  "oid": "",
+  "page": 61
+ },
+ "0058": {
+  "name": "Datum der Dokumentation",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "Muss nicht dem „Unterschriftsdatum“ der Dokumentation entsprechen, TTMMJJJJ",
+  "page": 62
+ },
+ "0078": {
+  "name": "Name einer Datei, die als Antwort erwartet wird",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 62
+ },
+ "0079": {
+  "name": "Ausführbare Datei",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 3986",
+  "values": "",
+  "desc": "Benennung einer Datei, die nach Übernahme der Daten als Programm gestartet werden kann: Uniform Resource Locator (URL), z.B. WWW-Adresse, UNC-Pfad. Beispiel: \\\\FS1\\TEST\\BILD1.PDF (RFC 3986)",
+  "oid": "",
+  "page": 62
+ },
+ "0080": {
+  "name": "ID der Fallakte oder Studie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Organisationsübergreifende ID, frei wählbar unter den Beteiligten",
+  "oid": "",
+  "page": 62
+ },
+ "0081": {
+  "name": "Bezeichnung der Fallakte oder Studie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Durch die organisationsübergreifend festgelegte Bezeichnung soll der Zweck der Fallakte oder der Studie ausgedrückt werden",
+  "oid": "",
+  "page": 62
+ },
+ "0102": {
+  "name": "Softwareverantwortlicher (SV)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 62
+ },
+ "0103": {
+  "name": "Software / Name der Software",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnung der Software, die den Datenstrom erzeugt",
+  "oid": "",
+  "page": 62
+ },
+ "0104": {
+  "name": "Hardware",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnung der Hardware. Falls Version und Release die Software nicht eindeutig in Bezug auf den Einsatz auf einer spezifischen Hardware beschreiben",
+  "oid": "",
+  "page": 62
+ },
+ "0105": {
+  "name": "KBV-Prüfnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Eindeutige Nummer / Kennung, die bei der Systemprüfung von der KBV vergeben wird (http://www.kbv.de)",
+  "oid": "Konzept: 1.2.276.0.76.4.11",
+  "page": 62
+ },
+ "0111": {
+  "name": "Email-Adresse des SV",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 2822",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 62
+ },
+ "0121": {
+  "name": "Straße des SV",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0122": {
+  "name": "PLZ des SV",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0123": {
+  "name": "Ort des SV",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0124": {
+  "name": "Telefonnummer des SV",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0125": {
+  "name": "Telefaxnummer des SV",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0132": {
+  "name": "Versionsund Release-Stand der Software",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0200": {
+  "name": "Betriebsstätten-ID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "BSNR (z.B der Stelle, welche die Datei erzeugt hat). Falls keine BSNR existiert, beliebiger Wert als Identifier, z.B. bei Privatpraxen",
+  "oid": "",
+  "page": 63
+ },
+ "0201": {
+  "name": "(N)-BSNR",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnnnn",
+  "values": "",
+  "desc": "Betriebsstättennummer (für Vertragsärzte) Die Betriebsstättennummer, kurz BSNR, ist eine neunstellige Nummer, die im Rahmen der vertragsärztlichen Versorgung den Ort der Leistungserbringung (Betriebsstätte) eindeutig identifiziert. Weitere Orte der Leistungserbringung werden mit einer Nebenbetriebsstättennummer (NBSNR) belegt",
+  "oid": "Konzept: 1.2.276.0.76.4.17",
+  "page": 63
+ },
+ "0203": {
+  "name": "Betriebsstätten- Bezeichnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Praxisbezeichnung Bezeichnung der Betriebsstätte (Name) oder (N)BSNR- Bezeichnung als Freitext",
+  "oid": "",
+  "page": 63
+ },
+ "0204": {
+  "name": "Status der Betriebsstätte",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[0204] = „0“ | „1“ | „2“ | „3“ | „4“ | „5“ | „6“",
+  "desc": "1= Arztpraxis; 2 = Laborarztpraxis; 3= sonstige Einrichtung; 4= Hauptbetriebsstätte; 5= Nebenbetriebsstätte; 6 = Apotheke",
+  "oid": "",
+  "page": 63
+ },
+ "0205": {
+  "name": "Straße der (N)BSNR- Adresse",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0208": {
+  "name": "Telefonnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Vorwahl, Rufnummer der Praxis / Betriebsstätte",
+  "oid": "",
+  "page": 63
+ },
+ "0209": {
+  "name": "Telefaxnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Vorwahl, Rufnummer der Praxis / Betriebsstätte",
+  "oid": "",
+  "page": 63
+ },
+ "0210": {
+  "name": "Modemnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 63
+ },
+ "0211": {
+  "name": "Arztname",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Name des Arztes als Freitext",
+  "oid": "",
+  "page": 63
+ },
+ "0212": {
+  "name": "LANR",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnPnn",
+  "values": "",
+  "desc": "LANR: Lebenslange Arztnummer eines Vertragsarztes (identifiziert nicht die Person, sondern den Vertragsarzt oder ggf. für ihn Handelnden) http://de.wikipedia.org/wiki/LANR Die lebenslange Arztnummer, kurz LANR, ist eine neunstellige Nummer, die die zuständige Kassenärztliche Vereinigung bundesweit an jeden Arzt vergibt, der an der vertragsärztlichen Versorgung (siehe auch GKV) teilnimmt. Sie ist durch das Vertragsarztrechtsänderungsgesetz (VÄndG) zusammen mit der Betriebsstättennummer (BSNR) für jede kassenärztliche Praxis in Deutschland gesetzlich vorgeschrieben und durch die Flexibilisierung der vertragsärztlichen Tätigkeit notwendig geworden. Ersatzwert: “999999900”",
+  "oid": "Konzept: 1.2.276.0.76.4.16 zweistellige Fachgruppencodierung für die 8.+9. Stelle der LANR, BAR-Schlüsselverzeichnis, Anlage 35: 1.2.276.0.76.3.1.1.5.2.23",
+  "page": 64
+ },
+ "0213": {
+  "name": "Institutionskennzeichen (IK) (der Betriebsstätte)",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnnnn",
+  "values": "",
+  "desc": "Institutionskennzeichen (IK) der Praxis / Betriebsstätte http://de.wikipedia.org/wiki/Institutionskennzeichen",
+  "oid": "Konzept: 1.2.276.0.76.4.5",
+  "page": 64
+ },
+ "0215": {
+  "name": "PLZ der (N)BSNR- Adresse",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Postleitzahl der Betriebsstätte",
+  "oid": "",
+  "page": 64
+ },
+ "0216": {
+  "name": "Ort der (N)BSNR- Adresse",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Ortsbezeichnung der Betriebsstätte",
+  "oid": "",
+  "page": 64
+ },
+ "0218": {
+  "name": "E-Mail der (N)BSNR / Praxis",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 2822",
+  "values": "",
+  "desc": "Keine persönliche E-Mail-Adresse",
+  "oid": "",
+  "page": 64
+ },
+ "0219": {
+  "name": "Titel des Arztes",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 64
+ },
+ "0220": {
+  "name": "Arztvorname (n)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 64
+ },
+ "0221": {
+  "name": "Namenszusatz des Arztes",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 64
+ },
+ "0222": {
+  "name": "ASV Teamnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 64
+ },
+ "0224": {
+  "name": "Ort der Zulassung oder Ermächtigung",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "Angabe zur Betriebsstätte bei Vertragsärzten: Ist die Betriebsstätte der Ort der Zulassung oder Ermöchtigung? „0“ = Nein, „1“ = Ja",
+  "oid": "",
+  "page": 64
+ },
+ "0306": {
+  "name": "Vertrags_ID des behandelnden Arztes",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Nur bei Selektivverträgen verwendet",
+  "oid": "",
+  "page": 64
+ },
+ "0307": {
+  "name": "Arzt-ID eines Arztes",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "LANR oder eine andere eindeutige Kennung, z.B. Telematik- ID, IK des Arztes",
+  "oid": "",
+  "page": 65
+ },
+ "0308": {
+  "name": "Typ der Arzt-ID (FK 0307)",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[0308] = „1“ | „2“ | „3“ | „4“ | „5“ | „6“ | „9“",
+  "desc": "„1“ = LANR (KV) ([FK 0212]), „2“ = IK des Arztes, „3“ = Telematik-ID, „4“ = ID für GEVK-Verträge, „5“ = ID für HÄVG- Verträge, „6“ = ID für MEDI-Verträge. „9“ = Sonstige",
+  "oid": "",
+  "page": 65
+ },
+ "0309": {
+  "name": "Arztname und Ort",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 65
+ },
+ "0423": {
+  "name": "E-Mail-Adresse des Arztes",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 2822",
+  "values": "",
+  "desc": "Persönliche E-Mail-Adresse, nicht Praxis-E-Mail-Adresse",
+  "oid": "",
+  "page": 65
+ },
+ "0600": {
+  "name": "Name der Einrichtung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 65
+ },
+ "0919": {
+  "name": "Hilfsmittelbezeichnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. aus Hilfsmittelverzeichnis: Einzelprodukt mit Produktnamen und Herstellerangabe",
+  "oid": "",
+  "page": 65
+ },
+ "0920": {
+  "name": "Hilfsmittelnummer",
+  "type": "a",
+  "len": "10",
+  "format": "nn „.“ nn „.“ nn „.“ n",
+  "values": "Siehe http://www.gkvdatenaustausch.de/leistungserbri nger/sonstige_leistungse rbringer/positionsnummernv erzeichnisse/positionsnummernve rzeichnisse.jsp",
+  "desc": "„Positionsnummer“ gemäß Hilfsmittelverzeichnis. Zur systematischen Gliederung des Hilfsmittelverzeichnisses dient als Ordnungskriterium eine zehnstellige Positionsnummer: z. B. “18.46.03.0” 18 Produktgruppe (Kranken-/Behindertenfahrzeuge) 46 Anwendungsort (Innenraum) 03 Untergruppe (Duschrollstühle) 0 Produktart (Duschrollstühle mit Greifreifen)",
+  "oid": "",
+  "page": 65
+ },
+ "0921": {
+  "name": "Anzahl Hilfsmittel",
+  "type": "n",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 65
+ },
+ "0925": {
+  "name": "Heilmittel",
+  "type": "n",
+  "len": "5",
+  "format": "„X“ nnnn | „6“ nnnnn",
+  "values": "Siehe http://www.gkvdatenaustausch.de/media/dokum ente/leistungserbringer_1/ sonstige_leistungserbringer/p ositionsnummernverzeichnisse/Heilmittel- 060920.pdf",
+  "desc": "http://de.wikipedia.org/wiki/Heilmittel",
+  "oid": "",
+  "page": 65
+ },
+ "0926": {
+  "name": "Anzahl Heilmittel",
+  "type": "n",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 66
+ },
+ "1200": {
+  "name": "Adresskürzel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kürzel ist ein praxisinterner Identifier der einzelnen Adresse",
+  "oid": "",
+  "page": 66
+ },
+ "1201": {
+  "name": "Adresskategorie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Hauptwohnsitz“, „Ferienadresse“, „Rechnungsadresse“",
+  "oid": "",
+  "page": 66
+ },
+ "1202": {
+  "name": "Adresstyp",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[1202] = „1“ | „2“ | „3“",
+  "desc": "„1“ = Physischer Ort, „2“ = Postanschrift / Postfachanschrift, „3“ = Telekommunikationsadresse",
+  "oid": "",
+  "page": 66
+ },
+ "1210": {
+  "name": "Name der Person",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 66
+ },
+ "1211": {
+  "name": "Typ des Namens",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Familienname“, „Geburtsname“, „Künstlername“, „Ordensname“",
+  "oid": "",
+  "page": 66
+ },
+ "1214": {
+  "name": "Label zum Namen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Kollege“, „Freund“, „Familie“, „Vertreter“, „Pharmareferent“",
+  "oid": "",
+  "page": 66
+ },
+ "1215": {
+  "name": "Titel (als Namensbestandteil)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Dr.“",
+  "oid": "",
+  "page": 66
+ },
+ "1216": {
+  "name": "Rufname / Vorname",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 66
+ },
+ "1217": {
+  "name": "Namenszusatz / Vorsatzwort / Adelsprädikat /sonstiger Titel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Freiherr von“",
+  "oid": "",
+  "page": 66
+ },
+ "1218": {
+  "name": "Namenszusatz / Nachwort",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „M.D. Ph.D.“",
+  "oid": "",
+  "page": 66
+ },
+ "1219": {
+  "name": "Beruf / Fachrichtung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, insbesondere bei ärztlichen Kollegen",
+  "oid": "",
+  "page": 66
+ },
+ "1220": {
+  "name": "Kommentar",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, beliebige Abmerkungen zur Person",
+  "oid": "",
+  "page": 66
+ },
+ "1225": {
+  "name": "Anrede / Briefanrede",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Herr“, „Frau“, „Herr Kollege“",
+  "oid": "",
+  "page": 66
+ },
+ "1226": {
+  "name": "Schlusssatz / Grußformel",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Hochachtungsvoll“",
+  "oid": "",
+  "page": 66
+ },
+ "1250": {
+  "name": "Organisation / Firma",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Organisation zu der die Person gehört oder Organisationsadresse ohne Personenzuordnung",
+  "oid": "",
+  "page": 66
+ },
+ "1251": {
+  "name": "Rechtsform der Organisation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „e.V.“, „GmbH“",
+  "oid": "",
+  "page": 66
+ },
+ "1252": {
+  "name": "Funktionsbezeichnung oder Titel der Person innerhalb der Organisation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Vertriebsleiter“",
+  "oid": "",
+  "page": 66
+ },
+ "1260": {
+  "name": "Sprechzeiten / Öffnungszeiten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, insbesondere bei ärztlichen Kollegen",
+  "oid": "",
+  "page": 67
+ },
+ "1265": {
+  "name": "Kommentar",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, beliebige Abmerkungen zur Organisation",
+  "oid": "",
+  "page": 67
+ },
+ "1270": {
+  "name": "Straßenadresszeile",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, enthält auch die Hausnummer",
+  "oid": "",
+  "page": 67
+ },
+ "1271": {
+  "name": "Straßenname oder Straßennummer / Straßenbezeichnung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, enthält nicht die Haunummer",
+  "oid": "",
+  "page": 67
+ },
+ "1272": {
+  "name": "Hausnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Statt der Hausnummer kann auch eine andere Ergänzung zur Straßenbezeichnung stehen, um das Haus bzw. die Anschrift zweifelsfrei zu bezeichnen",
+  "oid": "",
+  "page": 67
+ },
+ "1273": {
+  "name": "Zusätzliche Adressbezeichner",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. “3. Stock, Zimmer 342” „gegenüber“ (ggf. zusammen mit Richtungsangabe)",
+  "oid": "",
+  "page": 67
+ },
+ "1275": {
+  "name": "Postfach",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 67
+ },
+ "1276": {
+  "name": "PLZ",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 67
+ },
+ "1277": {
+  "name": "Ort / Stadt",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 67
+ },
+ "1290": {
+  "name": "„Nummer“ der Telekommunikationsverbindung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 67
+ },
+ "1291": {
+  "name": "Identifikator Telekommunikationsverbindung, TK-Typ",
+  "type": "a",
+  "len": "3-5",
+  "format": "",
+  "values": "[1291] = „tel“ | „fax“ | „mailto“ | „http“ | „ftp“ | „D2D“ | „oth“",
+  "desc": "“tel” = Telefon/ Mobiltelefon, “fax” = Faxnummer, “mailto” = Emailadresse [RFC 2368], “http” = Hypertext Transfer Protocol [RFC 2068], “ftp” = File Transfer Protocol [RFC 1738], “D2D” = D2D-UserID, „oth“ = nicht spezifiziert.",
+  "oid": "",
+  "page": 67
+ },
+ "1296": {
+  "name": "Verweis auf Adressbuch (Kürzel)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Falls Dokument verschickt wurde …",
+  "oid": "",
+  "page": 67
+ },
+ "1297": {
+  "name": "Authentisierungszertifikat (öffentlicher Schlüssel)",
+  "type": "n",
+  "len": "var",
+  "format": "Base64-codiert",
+  "values": "",
+  "desc": "Base64-codiertes Authentisierungszertifikat",
+  "oid": "",
+  "page": 67
+ },
+ "1298": {
+  "name": "Verschlüsselungszertifikat (öffentlicher Schlüssel)",
+  "type": "n",
+  "len": "var",
+  "format": "Base64-codiert",
+  "values": "",
+  "desc": "Base64-codiertes Verschlüsselungszertifikat",
+  "oid": "",
+  "page": 67
+ },
+ "1299": {
+  "name": "Signaturzertifikat (öffentlicher Schlüssel)",
+  "type": "n",
+  "len": "var",
+  "format": "Base64-codiert",
+  "values": "",
+  "desc": "Base64-codiertes Signaturzertifikat",
+  "oid": "",
+  "page": 68
+ },
+ "1300": {
+  "name": "Name / Bezeichnung des Terminkalenders",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext; dient der Unterscheidung mehrerer Terminkalender",
+  "oid": "",
+  "page": 68
+ },
+ "1301": {
+  "name": "Terminbeschreibung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 68
+ },
+ "1302": {
+  "name": "Kommentar",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Kommentar zum Termin",
+  "oid": "",
+  "page": 68
+ },
+ "1303": {
+  "name": "Art der benötigten Ressource",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[1303] = „1“ | „2“ | „3“ | „4“",
+  "desc": "„1“ = Raum, „2“ = Gerät, „3“ = Personal, „4“ = sonstiges",
+  "oid": "",
+  "page": 68
+ },
+ "1304": {
+  "name": "Beschreibung der Ressource",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 68
+ },
+ "1305": {
+  "name": "Terminpartner / Teilnehmer",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. Name",
+  "oid": "",
+  "page": 68
+ },
+ "1310": {
+  "name": "Startzeitpunkt",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJhhmm",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 68
+ },
+ "1311": {
+  "name": "Endzeitpunkt",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJhhmm",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 68
+ },
+ "1312": {
+  "name": "Länge in Minuten",
+  "type": "n",
+  "len": "4",
+  "format": "nnnn",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 68
+ },
+ "1315": {
+  "name": "Zeitzone",
+  "type": "a",
+  "len": "3-12",
+  "format": "",
+  "values": "",
+  "desc": "Angabe relativ zur UTC, Beispiele: „UTC“, „UTC−12h“, „UTC−9h30min“, „UTC+3h“",
+  "oid": "",
+  "page": 68
+ },
+ "1320": {
+  "name": "Terminzustand",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[1320] = „0“ | „1“ | „2“",
+  "desc": "„0“ = nein, „1“ = ja, „2“ = vorgemerkt",
+  "oid": "",
+  "page": 68
+ },
+ "1325": {
+  "name": "Ort des Termins",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 68
+ },
+ "1330": {
+  "name": "Erinnerung einschalten",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJhhmm",
+  "values": "",
+  "desc": "„000000000000“ = nein, „TTMMJJJJhhmm“ = Zeitpunkt der Erinnerung",
+  "oid": "",
+  "page": 68
+ },
+ "1331": {
+  "name": "Erinnerungsintervall",
+  "type": "n",
+  "len": "2",
+  "format": "mm",
+  "values": "",
+  "desc": "Wiederholungsfrequenz der Erinnerung in Minuten",
+  "oid": "",
+  "page": 68
+ },
+ "1400": {
+  "name": "Kürzel_Diagnose",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Jedes Kürzel ist ein eindeutiger praxisinterner Identifier",
+  "oid": "",
+  "page": 68
+ },
+ "1402": {
+  "name": "Diagnose (n) im Klartext",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Klartext, automatisch aus kodierter Diagnose übernommen – optional als Freitext befüllbar",
+  "oid": "",
+  "page": 68
+ },
+ "1500": {
+  "name": "Kürzel_Ziffernkette",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Kürzel_Ziffernkette ist zusammen mit dem Feld Gebührenordnung ein eindeutiger praxisinterner Identifier. Ein Kürzel wird für verschiedene Gebührenordnungen verwendet!",
+  "oid": "",
+  "page": 68
+ },
+ "1502": {
+  "name": "Gebührenordnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "[1502] = „GKV“ | „BG“ | „Privat“ | „HZV- Verträge“",
+  "desc": "",
+  "oid": "",
+  "page": 69
+ },
+ "1503": {
+  "name": "Code für Ergänzungen zur GNR",
+  "type": "n",
+  "len": "4",
+  "format": "nnnn",
+  "values": "",
+  "desc": "„Tag“: Art der Begründung; gem. KVDT-Feldkennungen „5002“ ff (Begründungstextfelder), z.B. „5002“",
+  "oid": "1.2.276.0.76.5.229",
+  "page": 69
+ },
+ "1504": {
+  "name": "Begründung zur GNR",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "„Value“ zum „Tag“: Inhalt des Begründungstextfeldes",
+  "oid": "",
+  "page": 69
+ },
+ "1550": {
+  "name": "Steigerungsfaktor bei Privatabrechungen",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „3.5“",
+  "oid": "",
+  "page": 69
+ },
+ "1560": {
+  "name": "Art der Heilbehandlung bei BG-Fällen",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[1560] = „0“ | „1“",
+  "desc": "„0“ = allgemein, „1“ = besonders",
+  "oid": "",
+  "page": 69
+ },
+ "1600": {
+  "name": "Kürzel_Verordnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 69
+ },
+ "1601": {
+  "name": "Art des Verordnungskürzels",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[1601] = „1“ | „2“ | „3“ | „4“",
+  "desc": "Inhalte: „1“ = Medikament, „2“ = Heilmittel, „3“ = Hilfsmittel, „4“ = Rezeptur",
+  "oid": "",
+  "page": 69
+ },
+ "1700": {
+  "name": "Kürzel Behandlungsbaustein",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kürzel ist ein Identifier für den aufzulösenden Inhalt",
+  "oid": "",
+  "page": 69
+ },
+ "1701": {
+  "name": "Klasse des Behandlungsbausteins",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Standardbefund“. Klasse wird dynamisch geliefert; daher muss Klasse im empfangenden System interpretiert und zugeordnet werden.",
+  "oid": "",
+  "page": 69
+ },
+ "1702": {
+  "name": "Zuordnung (Feldbezeichner) des Behandlungsbausteins",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext (freie Kategorien, eindeutige Bezeichner), (Zuordnung des Inhalts). Beispiele: „Diagnose”, “Ziffer”, “Therapie” , Medikament”. Die Zuordnung wird dynamisch geliefert; daher muss dies im empfangenden System interpretiert und zugeordnet werden.",
+  "oid": "",
+  "page": 69
+ },
+ "1703": {
+  "name": "Inhalt des Behandlungsbausteins",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Beispiele: “Beinbruch”, “4711”, “Gips nötig”, “Aspirin”.",
+  "oid": "",
+  "page": 69
+ },
+ "1800": {
+  "name": "Kürzel_Textbaustein",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Kürzel ist ein praxisinterner Identifier der Textbausteine und Phrasen",
+  "oid": "",
+  "page": 69
+ },
+ "1801": {
+  "name": "Klasse des Textbausteins",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Standardbefund“. Klasse wird dynamisch geliefert; daher muss Klasse im empfangenden System interpretiert und zugeordnet werden.",
+  "oid": "",
+  "page": 69
+ },
+ "1802": {
+  "name": "Textbaustein",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Langtext zum Kürzel_Textbaustein: Bedeutung des Kürzels (Auflösung des Kürzels in einen Langtext).",
+  "oid": "",
+  "page": 70
+ },
+ "1900": {
+  "name": "Bezeichnung des Kürzels",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Erläuternder Text",
+  "oid": "",
+  "page": 70
+ },
+ "2002": {
+  "name": "Kassenname",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Name der Krankenversicherung / Name des Kostenträgers / Kassenname Vollständiger Name der Krankenversicherung (keine Abkürzung)",
+  "oid": "",
+  "page": 70
+ },
+ "2019": {
+  "name": "Typ der Krankenversicherung",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[2019] = „1“ | „2“ | „3“ | „4“",
+  "desc": "„1“ = gesetzlich, D; „2“ = gesetzlich, EU; „3“ = gesetzlich, Ausland (ohne EU); „4“ = privat",
+  "oid": "",
+  "page": 70
+ },
+ "2029": {
+  "name": "Vertragstyp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Kollektiv“, „GEVK“, „HÄVG“, „MEDI“, „KV“, „privat“. …",
+  "oid": "",
+  "page": 70
+ },
+ "2030": {
+  "name": "Vertragskennzeichen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Kennzeichnung zur Vertragsidentifizierung, etwa für Unterverträge, Beispiel: „AWH_01“, „BKK_BOSCH_FA_BW“",
+  "oid": "",
+  "page": 70
+ },
+ "2099": {
+  "name": "Patientenindividuelle Faktoren",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Für Satzart „padx“",
+  "oid": "",
+  "page": 70
+ },
+ "2801": {
+  "name": "Beschreibung des Dokumenteninhalts",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 70
+ },
+ "2802": {
+  "name": "Datum des Dokuments",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 70
+ },
+ "2803": {
+  "name": "Versanddatum",
+  "type": "n",
+  "len": "12",
+  "format": "TTMMJJJJhhmm",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 70
+ },
+ "3000": {
+  "name": "Patientennummer / Patientenkennung / Patienten-ID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Eindeutige Patientenkennung des PVS, MPIX. Der Inhalt von Feld „3000“ ist ohne führende Nullen zu übertragen",
+  "oid": "",
+  "page": 70
+ },
+ "3001": {
+  "name": "dokumentationsspezifische Patienten-ID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnung der Patienten-ID, die innerhalb der referenzierten Datei verwendet wird, Beispiel: „BG-Nummer“ (FK 3603)",
+  "oid": "",
+  "page": 70
+ },
+ "3005": {
+  "name": "Name des Bevollmächtigten bei Organspenden",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 70
+ },
+ "3006": {
+  "name": "Name des Betreuers",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "amtlich eingesetzter Betreuer",
+  "oid": "",
+  "page": 70
+ },
+ "3100": {
+  "name": "Namenszusatz / Vorsatzwort des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Freiherr von“, Namenszusätze sind Namensbestandteile",
+  "oid": "",
+  "page": 70
+ },
+ "3101": {
+  "name": "Name des Patienten / Nachname",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Ein Familienname (auch Nachname, Zuname, im Rechtsbereich der Bundesrepublik Deutschland amtsdeutsch einfach Name) dient als Ergänzung zum Vornamen der besseren Unterscheidbarkeit von Personen. Mit dem Familiennamen wird die Zugehörigkeit des Individuums zu einer Familie ausgedrückt. Der Geburtsname drückt die Zugehörigkeit zur Elternfamilie aus, der Ehename die Zugehörigkeit zur Familie des Ehepartners und der Doppelname, wenn er nicht vererbt wurde, die Zugehörigkeit zu beiden Familien der Ehepartner aus.",
+  "oid": "",
+  "page": 71
+ },
+ "3102": {
+  "name": "Vorname des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Der Vorname einer Person bezeichnet den Teil des Namens, der nicht die Zugehörigkeit zu einer Familie ausdrückt (also nicht den Familiennamen), sondern wie sie innerhalb der Familie bezeichnet wird. Eine Person kann mehrere Vornamen haben. Im Deutschen stehen die Vornamen (als individuelle Namen) vor dem Familiennamen (von regionalen Ausnahmen abgesehen).",
+  "oid": "",
+  "page": 71
+ },
+ "3103": {
+  "name": "Geburtsdatum des Patienten",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum, Datum, an dem jemand geboren worden ist. Geburtsdaten in der Form 00MMJJJJ, 0000JJJJ und 00000000 sind gültige Datumsformate. Anlass ist z.B. die Ausgabe von Versichertenkarten mit unvollständigen Geburtsdaten",
+  "oid": "",
+  "page": 71
+ },
+ "3104": {
+  "name": "Titel des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Hier auch im Sinne von akademischen Graden. Titel sind System von Abschlussbezeichnungen, die von Hochschulen aufgrund eines erfolgreich abgeschlossenen Studiums oder aufgrund einer besonderen wissenschaftlichen Leistung vergeben werden. Ein akademischer Grad wird nach einem mit Hochschulprüfung abgeschlossenen Studium durch eine Urkunde verliehen (Graduierung)",
+  "oid": "",
+  "page": 71
+ },
+ "3105": {
+  "name": "Versichertennummer des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Für gesetzlich Krankenversicherte in Deutschland ist die Krankenversichertennummer Bestandteil der Daten, die auf der Krankenversicherungskarte enthalten sind und wird benötigt, damit Leistungserbringer mit der zuständigen Krankenkasse abrechnen können. Seit der Einführung der elektronischen Gesundheitskarte im Jahr 2012 wird die Krankenversichertennummer wie die Rentenversicherungsnummer einmalig vergeben und kann lebenslang gleich bleiben. Die \"Vertrauensstelle Krankenversichertennummer\" (VST) erstellt auf Basis der Rentenversicherungsnummer für jeden Bürger eine Krankenversichertennummer. Rechtsgrundlage zur Einführung der einheitlichen Krankenversichertennummer ist § 290 SGB V.",
+  "oid": "",
+  "page": 71
+ },
+ "3106": {
+  "name": "Wohnort des Patienten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "PLZ und ORT",
+  "oid": "",
+  "page": 72
+ },
+ "3107": {
+  "name": "Straße des Patienten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Straße und Hausnummer. Straßenbezeichnung und Hausnummer des Patienten als Freitext.",
+  "oid": "",
+  "page": 72
+ },
+ "3108": {
+  "name": "Versichertenart MFR / Versichertenstatus",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[3108] = „1“ | „3“ | „5“ | „6“",
+  "desc": "„1“ = Mitglied, „3“ = Familienversicherter, „5“ = Rentner, „6“ = Nicht GKV-Versicherter Letzter Stand im Bezugszeitraum, Art der Versicherung des Patienten basierend auf dem Beschäftigungsstatus und dem Verhältnis zum Hauptversicherten.",
+  "oid": "1.2.276.0.76.5.221",
+  "page": 72
+ },
+ "3109": {
+  "name": "Geschlecht des Patienten aus administrativer Sicht",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3109] = „0“ | „1“ | „ 2“",
+  "desc": "“2” = Weiblich: Patient, der einen Krankenhausraum mit jemanden des weiblichen Geschlechtes teilen kann, “1” = Männlich: Patient, der einen Krankenhausraum mit jemanden des männlichen Geschlechtes teilen kann, „0“= Unbekannt",
+  "oid": "Konzept: 1.2.276.0.76.5.232 1.2.276.0.76.5.232",
+  "page": 72
+ },
+ "3110": {
+  "name": "Geschlecht (administrativ)",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3110] = „0“ | „1“ | „ 2“ | „3“ | „M“ | „W“ | „ U“| „A“",
+  "desc": "„0“ | „ U“ = unbekannt, „1“ | „M“ = männlich, „2“ | „W“ = weiblich, „3“ | „A“ = anders Das Geschlecht von Lebewesen, besonders dem Menschen und höheren Tieren, ist die Gesamtheit der Merkmale, wonach ein Lebewesen in Bezug auf seine Funktion bei der Fortpflanzung als männlich oder weiblich zu bestimmen ist. Hier: Geschlecht aus administrativer Sicht mit den Ausprägungen gemäß des deutschen Melderechts. Zu verschiedenen medizinischen Zwecken wäre eine differenziertere Wertetabelle erforderlich.",
+  "oid": "1.2.276.0.76.3.1",
+  "page": 73
+ },
+ "3111": {
+  "name": "Jahr: Geburtsjahr des Patienten",
+  "type": "n",
+  "len": "4",
+  "format": "nnnn",
+  "values": "",
+  "desc": "JJJJ",
+  "oid": "",
+  "page": 73
+ },
+ "3112": {
+  "name": "PLZ des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Postleitzahl der Wohnung des Patienten",
+  "oid": "",
+  "page": 73
+ },
+ "3113": {
+  "name": "Wohnort des Patienten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Ortsbezeichnung der Wohnung des Patienten",
+  "oid": "",
+  "page": 73
+ },
+ "3114": {
+  "name": "Wohnsitzländercode",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Kurzbezeichnung des Wohnsitzstaates (zum Beispiel: D)",
+  "oid": "",
+  "page": 73
+ },
+ "3115": {
+  "name": "Anschriftenzusatz",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Ergänzender Freitaxt zur Adresse (zum Beispiel: Hinterhaus)",
+  "oid": "",
+  "page": 73
+ },
+ "3116": {
+  "name": "KV-Bereich",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "[3116] = „00“ | „01“ | „02“ | „03“ | „17“ | „20“ | „38“ | „46“ | „47“ | „48“ | „49“ | „50“ | „51“ | „52“ | „55“ | „60“ | „61“ | „62“ | „71“ | „72“ | „73“ | „74“ | „78“ | „83“ | „88“ | „93“ | „98“",
+  "desc": "„00“ = Dummy bei eGK, „01“ = Schleswig-Holstein, „02“ = Hamburg, „03“ = Bremen, „17“ = Niedersachsen, „20“ = Westfalen-Lippe, „38“ = Nordrhein, „46“ = Hessen, „47“ = „Koblenz“, „48“ = Rheinhessen, „49“ = Pfalz, „50“ = Trier, „51“ = Rheinland-Pfalz, „52“ = Baden-Württemberg, „55“ = Nordbaden, „60“ = Südbaden, „61“ = Nordwürttemberg, „62“ = Südwürttemberg, „71“ = Bayern, „72“ = Berlin, „73“ = Saarland, „74“ = KBV, „78“ = Mecklenburg-Vorpommern, „83“ = Brandenburg, „88“ = Sachsen-Anhalt, „93“ = Thüringen, „98“ =Sachsen",
+  "oid": "1.2.276.0.76.5.233",
+  "page": 73
+ },
+ "3119": {
+  "name": "Versichertennummer eGK des Patienten",
+  "type": "a",
+  "len": "10",
+  "format": "Annnnnnnnn",
+  "values": "",
+  "desc": "http://de.wikipedia.org/wiki/Krankenversichertennummer https://kvnummer.gkvnet.de/%28S%28pslghy45u5z2bbyspup ejoi0%29%29/pubPages/krankenversichertennummer.aspx Siehe Feld 3105 \"Versichertennummer\", hier jedoch des Patienten (nicht des Versicherten).",
+  "oid": "",
+  "page": 74
+ },
+ "3120": {
+  "name": "Einschreibestatus",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3130] = „0“ | „1“ | „2“",
+  "desc": "„0“ = Nicht eingeschrieben, „1“ = Eingeschrieben, „2“ = Ein-",
+  "oid": "",
+  "page": 74
+ },
+ "3124": {
+  "name": "Bezeichnung des",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 74
+ },
+ "3130": {
+  "name": "Selektivverträge",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "schreibung beantragt",
+  "oid": "",
+  "page": 74
+ },
+ "3121": {
+  "name": "Teilnahme von",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3131": {
+  "name": "",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3122": {
+  "name": "Teilnahme bis",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3132": {
+  "name": "",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3123": {
+  "name": "Datum der Antrags-",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3133": {
+  "name": "stellung",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3134": {
+  "name": "Selektivvertrags",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 74
+ },
+ "3200": {
+  "name": "Namenszusatz/Vorsatzwort des Hauptversicherten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 74
+ },
+ "3201": {
+  "name": "Name des Hauptversicherten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 74
+ },
+ "3202": {
+  "name": "Vorname des Hauptversicherten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 74
+ },
+ "3203": {
+  "name": "Geburtsdatum des Hauptversicherten",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 75
+ },
+ "3205": {
+  "name": "Straße des Hauptversicherten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3206": {
+  "name": "Titel des Hauptversicherten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3207": {
+  "name": "PLZ des Hauptversicherten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3209": {
+  "name": "Wohnort des Hauptversicherten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3210": {
+  "name": "(Administratives) Geschlecht des Hauptversicherten",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[3210] = „0“ |„1“ | „2“",
+  "desc": "Wertetabelle gem. Anforderungen der gesetzlichen Krankenkassen in Deutschland",
+  "oid": "1.2.276.0.76.5.232",
+  "page": 75
+ },
+ "3301": {
+  "name": "Datum des Medikationsplans",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum, an dem der Medikationsplan dem Patienten (oder einer Vertrauensperson) mitgegeben wurde",
+  "oid": "",
+  "page": 75
+ },
+ "3302": {
+  "name": "Externe Versionsnummer des Einnahmeplans / Medikationsplans",
+  "type": "n",
+  "len": "1-4",
+  "format": "",
+  "values": "[3302] = „1“ | „2“ | …",
+  "desc": "1, 2, 3, … (natürliche Zahlen – ohne Null)",
+  "oid": "",
+  "page": 75
+ },
+ "3303": {
+  "name": "Interne Versionsnummer des Einnahmeplans / Medikationsplans",
+  "type": "n",
+  "len": "1-8",
+  "format": "",
+  "values": "[3303] = „1“ | „2“ | …",
+  "desc": "1, 2, 3, …. (natürliche Zahlen – ohne Null)",
+  "oid": "",
+  "page": 75
+ },
+ "3304": {
+  "name": "Besonderheiten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Anmerkungen zu dem Gesamtplan als Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3310": {
+  "name": "Art ausgestellter oder vorhandener Gesundheitspässe",
+  "type": "a",
+  "len": "var",
+  "format": "A | X {X}",
+  "values": "[3310] = „A“ | „B“ | „D“ | „E“ | „I „| „M“ | „N“ | „O“ | „R“ | „V“ | Freitext",
+  "desc": "Falls ausgestellt: „A“ = Allergiepass, „B“ = Blutspendeausweis, „D“ = Diabetespass, „E“ = Epilepsie-Notfallausweis, „I“ = Implantatpass, „M“ = Mutterpass, „N“ = Notfalldaten eGk, „O“ = Organspendeausweis / Gewebespendeausweis, „R“ = Röntgenpass, „V“ = Impfbuch, ansonsten Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3311": {
+  "name": "Aussteller des Passes",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 75
+ },
+ "3399": {
+  "name": "Med. Sachverhalt ab Datum",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 76
+ },
+ "3401": {
+  "name": "Reaktion",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "je Allergie",
+  "oid": "",
+  "page": 76
+ },
+ "3402": {
+  "name": "Besondere Gefahr",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "eintragungspflichtige tatsächliche Gefahr",
+  "oid": "",
+  "page": 76
+ },
+ "3411": {
+  "name": "Blutformel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „B Rh(D) pos K neg ccD.ee“ (ggf. inkl. Anmerkungen)",
+  "oid": "",
+  "page": 76
+ },
+ "3421": {
+  "name": "Diabetes",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[3421] = „0“ | „1“",
+  "desc": "„1“ = liegt vor",
+  "oid": "",
+  "page": 76
+ },
+ "3422": {
+  "name": "Diabetestyp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Typ1“, „Typ 2“, „Typ 2.1“, „Typ 2.2“ „Sonstiger Typ“, „Gestationsdiabetes“",
+  "oid": "",
+  "page": 76
+ },
+ "3423": {
+  "name": "Diabetestherapie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Diät“, „orale Antidiabetika“, „Insulin“",
+  "oid": "",
+  "page": 76
+ },
+ "3424": {
+  "name": "Therapiedauer",
+  "type": "a",
+  "len": "16",
+  "format": "TTMMJJJJTTMMJJ JJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 76
+ },
+ "3425": {
+  "name": "Besondere Probleme",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Sensibilität auffällig“, „Vibration auffällig“, „Achillessehnenreflexe auffällig“, „Fußinspektion auffällig“, „Fußpulse tastbar“, „Dopplersonographie auffällig“",
+  "oid": "",
+  "page": 76
+ },
+ "3426": {
+  "name": "Problemdauer",
+  "type": "n",
+  "len": "8",
+  "format": "JJJJJJJJ",
+  "values": "",
+  "desc": "Von Jahr bis Jahr",
+  "oid": "",
+  "page": 76
+ },
+ "3427": {
+  "name": "Vom Patienten durchgeführte Blutglukosebestimmungen/Woche",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "",
+  "desc": "Anzahl, Durchschnittswert (Häufigkeit pro Woche), numerischer Wert.",
+  "oid": "",
+  "page": 76
+ },
+ "3428": {
+  "name": "Zeitraum",
+  "type": "n",
+  "len": "12",
+  "format": "MMJJJJMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 76
+ },
+ "3429": {
+  "name": "Messwert Mikroalbuminurie",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 76
+ },
+ "3430": {
+  "name": "Messwert Makroalbuminurie",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 76
+ },
+ "3431": {
+  "name": "Augenbefund",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 76
+ },
+ "3432": {
+  "name": "Körperliche Untersuchung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kurzbefund: Freitext",
+  "oid": "",
+  "page": 76
+ },
+ "3433": {
+  "name": "Beine",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Inspektion, Pulse: Freitext",
+  "oid": "",
+  "page": 76
+ },
+ "3434": {
+  "name": "Neurologische Untersuchung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kurzbefund: Freitext",
+  "oid": "",
+  "page": 76
+ },
+ "3435": {
+  "name": "Technische Untersuchung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kurzbefund: Freitext, z.B. „Sono o.B.“, „EKG patholog.“",
+  "oid": "",
+  "page": 76
+ },
+ "3437": {
+  "name": "(Vereinbarte) Behandlungsziele",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Therapieziel",
+  "oid": "",
+  "page": 77
+ },
+ "3441": {
+  "name": "Jahr der Diabetesdiagnose",
+  "type": "n",
+  "len": "4",
+  "format": "JJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 77
+ },
+ "3451": {
+  "name": "Epilepsie",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[3451] = „0“ | „1“",
+  "desc": "„1“ = liegt vor, „0“ = liegt nicht vor",
+  "oid": "",
+  "page": 77
+ },
+ "3452": {
+  "name": "Krankheitsbild",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 77
+ },
+ "3453": {
+  "name": "Behandlungsmaßnahmen im Notfall",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 77
+ },
+ "3454": {
+  "name": "Antiepileptika",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 77
+ },
+ "3455": {
+  "name": "Wirkstoffnamen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Wirkstoffnamen der Antiepileptika",
+  "oid": "",
+  "page": 77
+ },
+ "3461": {
+  "name": "Art des Implantats",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „VP-Shunt”",
+  "oid": "",
+  "page": 77
+ },
+ "3462": {
+  "name": "Typbezeichnung des Implantats",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: exakte Typenbezeichnung, z.B. „Typ Medtronic Strata® Adjustable Pressure Valve”",
+  "oid": "",
+  "page": 77
+ },
+ "3463": {
+  "name": "Datum der Implantation",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 77
+ },
+ "3464": {
+  "name": "Sonstiges",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „Nähere Informationen zum Shunt im persönlichen Ordner (blau, im Schreibtisch d. Pat.)”",
+  "oid": "",
+  "page": 77
+ },
+ "3465": {
+  "name": "Implantatpass",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[3465] = „0“ | „1“",
+  "desc": "„1“ = liegt oder lag vor, „0“ = liegt oder lag nicht vor",
+  "oid": "",
+  "page": 77
+ },
+ "3466": {
+  "name": "Art des Implantatpasses",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "[3466] = „P“ | „E“ | Freitext",
+  "desc": "„P“ = „Herzschrittmacher“, „E“ = Endoprothese, sonst Freitext",
+  "oid": "",
+  "page": 77
+ },
+ "3471": {
+  "name": "errechneter Entbindungstermin",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 77
+ },
+ "3472": {
+  "name": "Mutterschaft",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[3472] = „0“ | „1“",
+  "desc": "„1“ = liegt oder lag vor, „0“ = liegt oder lag nicht vor",
+  "oid": "",
+  "page": 77
+ },
+ "3481": {
+  "name": "Organentnahme / Gewebeentnahme",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "[3481] = „0“ | „1“ | „A“",
+  "desc": "„1” = Organe und Gewebe dürfen entnommen werden, „0” = Der Patient hat einer Organoder Gewebeentnahme nicht zugestimmt bzw. widersprochen, „A” = Bevollmächtigter ist benannt",
+  "oid": "",
+  "page": 77
+ },
+ "3482": {
+  "name": "Ausnahme (Organe / Gewebe, das nicht entnommen werden darf)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 77
+ },
+ "3483": {
+  "name": "Angabe von Organen / Geweben, die nur entnommen werden dürfen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 78
+ },
+ "3484": {
+  "name": "Weitere Angaben zum Aufbewahrungsort",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. “in Geldbörse”",
+  "oid": "",
+  "page": 78
+ },
+ "3501": {
+  "name": "Durch Röntgenaufnahmen untersuchte Körperregion",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 78
+ },
+ "3502": {
+  "name": "Bezeichnung der Untersuchung, Untersuchungstechnik oder Bezeichnung des Behandlungsverfahrens",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 78
+ },
+ "3503": {
+  "name": "Institution, in der die Untersuchung durchgeführt wurde",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 78
+ },
+ "3504": {
+  "name": "Datum: Bilanzierung der bisherigen Berufslebensdosis: Zeitraum der Überwachung",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJTTMMJJ JJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 78
+ },
+ "3505": {
+  "name": "Effektive Gesamtdosis",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Numerischer Wert, z.B. in mSv",
+  "oid": "",
+  "page": 78
+ },
+ "3506": {
+  "name": "Datum der Bilanzierung",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 78
+ },
+ "3507": {
+  "name": "Exposition nach RöV oder StrlSchV",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[3507] = „S“ | „R“",
+  "desc": "„S“ = nach StrlSchV, “R”= nach RöV",
+  "oid": "",
+  "page": 78
+ },
+ "3508": {
+  "name": "Angaben zum Überwachungsverfahren",
+  "type": "a",
+  "len": "1-2",
+  "format": "A | AA",
+  "values": "[3508] = „GK“ | „LZ“ | „S“ | „U“ | „SD“ | „RL“",
+  "desc": "“GK” = Messung der Aktivität im Ganzkörper, “LZ” = im Atemtrakt , “S” = im Stuhl, “U” = im Urin, “SD” = in der Schilddrüse, “RL” = Aktivitätskonzentration in der Raumluft",
+  "oid": "",
+  "page": 78
+ },
+ "3509": {
+  "name": "Erläuterungen bei innerer Strahlenexposition: Angaben zum Radionuklid",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 79
+ },
+ "3510": {
+  "name": "Ergebnis einer arbeitsmedizinischen Vorsorgeuntersuchung nach den §§ 60 ff oder § 95 StrlSchV oder den §§ 37 ff RöV",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[3510] = „1“ | „2“",
+  "desc": "“1” = Bedenken gegen eine Beschäftigung, bei der eine Bestrahlung von außen möglich ist, “2” = Bedenken gegen eine Beschäftigung, bei der eine Inkorporation oder Kontamination möglich ist",
+  "oid": "",
+  "page": 79
+ },
+ "3511": {
+  "name": "Ergebnis einer arbeitsmedizinischen Vorsorgeuntersuchung zum Atemschutz",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[3511] = „1“ | „2“",
+  "desc": "“1” = Bedenken gegen Gruppe 1, “2” = Bedenken gegen Gruppe 2",
+  "oid": "",
+  "page": 79
+ },
+ "3515": {
+  "name": "Organdosis, gesamt",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Numerischer Wert, z.B. in „mSv“ (Standardwert), je Organ",
+  "oid": "",
+  "page": 79
+ },
+ "3527": {
+  "name": "Notfallkennzeichen",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "[3527] = „00“ | „01“ | … | „47“",
+  "desc": "“00” = Allergien: Medikamente, “01” = Allergien: Insektenstiche, “02” = Allergien: Lebensmittel, “03” = Allergien: Inhalative Allergie, “04” = Allergien: Kontaktallergie, “05” = Endokrin: Diabetes, “06” = Endokrin: Schilddrüsenerkrankung, “07” = Blut: Gerinnungsstörung / Macumar / Abwehrdefekt, “09” = Blut: HIV positiv, “10” = Blut: Gruppe 0, “11” = Blut: Gruppe A, “12” = Blut: Gruppe B, “13” = Blut: Gruppe AB, “14” = Blut: Rhesus positiv, “15” = Augen: Grüner Star, “16” = Augen: Grauer Star, “17” = ZNS: Depression, “18” = ZNS: Schlaganfall, “19” = ZNS: Krampfanfälle, „20“ = Lunge: Asthma /COPD, “21” = Herz: Herzklappenfehler, “22” = Herz: Herzinfarkt / KHK, “23” = Herz: Herzrhythmusstörung, “24” = Herz: Herzschrittmacher, “25” = Gefäße: Hypertonie, „26“ = Oberbauch: Hepatitis A/B/C, “27” = Oberbauch: Pankreatitis, “28” = Oberbauch: Geschwüre Magen / Zwölffingerdarm, “29” = Urogenital: Nierenschwäche, “30” = Urogenital: Dialyse, “31” = Knochen: Osteoporose, „32“ = Gelenke: Rheuma, “33” = Gelenke: Gicht, “34” = Gelenke: Arthrose, “35” = Gelenke: Bandscheibenvorfall, “36” = Sonstiges: Krebs, “37” = Sonstiges: Transplantation, “38” = Sonstiges: Fehlendes Organ, “39” = Sonstiges: TEP (Total Endoprothese), “40” = Sonstiges: Narkoseprobleme, “41” = Sonstiges: Patientenverfügung, “42” = Sonstiges: Spendererklärung, “43” = Sonstiges: Gehörlos, “44” = Sonstiges: Blind, “45” = Sonstiges: Cave, “46” = Service: Patientenstatus, “47” = Service: DMP",
+  "oid": "",
+  "page": 79
+ },
+ "3528": {
+  "name": "Person, die im Notfall zu benachrichtigen ist",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Angaben zu einer Personen, die im Notfall zu benachrichtigen ist, z.B. Name",
+  "oid": "",
+  "page": 80
+ },
+ "3529": {
+  "name": "Kommentar zum Verhalten im Notfall",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3530": {
+  "name": "Sonstige im Notfall wichtige Daten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3531": {
+  "name": "Serum-Injektion",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: Art der Injektion",
+  "oid": "",
+  "page": 80
+ },
+ "3532": {
+  "name": "Art der Serum- Injektion",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Diphtherie“, „Wundstarrkrampf“",
+  "oid": "",
+  "page": 80
+ },
+ "3533": {
+  "name": "Herkunft des Serums",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[3533] = „H“ | „B“ | „M“ | „O“",
+  "desc": "„H“ = „Pferd“, „B“ = „Rind“, „M“ = „Hammel“, „O“ = „Andere“",
+  "oid": "",
+  "page": 80
+ },
+ "3541": {
+  "name": "Art der Impfung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3542": {
+  "name": "Erfolg der Impf- Maßnahme",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3561": {
+  "name": "Kommunikationsstörungen",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: Art der Kommunikationsstörung, z.B. „Ausgeprägte Presbyakusis; Hörgerät vorhanden”",
+  "oid": "",
+  "page": 80
+ },
+ "3562": {
+  "name": "Weglaufgefährdung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3563": {
+  "name": "Sonstige Hinweise / Kommentare",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 80
+ },
+ "3581": {
+  "name": "Aufbewahrungsort der Patientenverfügung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Wohnung Pat.; im Schreibtisch; Ordner blau”",
+  "oid": "",
+  "page": 80
+ },
+ "3582": {
+  "name": "Weitere Angaben zum Aufbewahrungsort",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 81
+ },
+ "3591": {
+  "name": "Aufbewahrungsort der Vorsorgevollmacht",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „bei Notar Dr. Homer, 12345 Springfeld; dieser auch Betreuer; Tel. 12345/6789”",
+  "oid": "",
+  "page": 81
+ },
+ "3592": {
+  "name": "Weitere Angaben zum Aufbewahrungsort",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 81
+ },
+ "3593": {
+  "name": "Kommentar",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Kommentar zum Betreuer",
+  "oid": "",
+  "page": 81
+ },
+ "3600": {
+  "name": "Typ des archivierten Dokuments",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 81
+ },
+ "3601": {
+  "name": "Röntgennummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3602": {
+  "name": "Archivnummer Dokument",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3603": {
+  "name": "BG-Nummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3610": {
+  "name": "Datum: Patient seit",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3612": {
+  "name": "Datum Versicherungsbeginn bei Kassenwechsel",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3618": {
+  "name": "Mobiltelefonnummer des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „01709988776“, „+491709988776“",
+  "oid": "",
+  "page": 81
+ },
+ "3619": {
+  "name": "Email-Adresse des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 2822",
+  "values": "",
+  "desc": "z.B. „Hans.Mustermann@freemailprovider.de“",
+  "oid": "",
+  "page": 81
+ },
+ "3620": {
+  "name": "Beruf des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 81
+ },
+ "3622": {
+  "name": "Größe des Patienten",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Defaulteinheit cm Die Körpergröße eines Menschen bezeichnet die Größe des aufrecht stehenden Menschen von der Fußsohle bis zum Scheitel.",
+  "oid": "",
+  "page": 81
+ },
+ "3623": {
+  "name": "Gewicht des Patienten",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Defaulteinheit kg Das Körpergewicht bezeichnet die physikalische Masse eines Menschen.",
+  "oid": "",
+  "page": 81
+ },
+ "3625": {
+  "name": "Arbeitgeber des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3626": {
+  "name": "Telefonnummer des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3627": {
+  "name": "Nationalität des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Französisch“",
+  "oid": "",
+  "page": 82
+ },
+ "3628": {
+  "name": "Muttersprache des Patienten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Französisch“, „Suaheli“",
+  "oid": "",
+  "page": 82
+ },
+ "3629": {
+  "name": "Kommentar zum Hausarzt",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 82
+ },
+ "3630": {
+  "name": "Arztnummer des Hausarztes",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnPnn",
+  "values": "",
+  "desc": "LANR http://de.wikipedia.org/wiki/LANR",
+  "oid": "Konzept: 1.2.276.0.76.4.16 zweistellige Fachgruppencodierung für die 8.+9. Stelle der LANR, BAR-Schlüsselverzeichnis, Anlage 35: 1.2.276.0.76.3.1.1.5.2.23",
+  "page": 82
+ },
+ "3631": {
+  "name": "Entfernung Wohnung - Praxis",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Entfernungsangaben in km von der Wohnung des Patienten",
+  "oid": "",
+  "page": 82
+ },
+ "3632": {
+  "name": "Vertrauensperson des Patienten",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Angaben zu einer Person, die den Patienten kennt, z.B. Name",
+  "oid": "",
+  "page": 82
+ },
+ "3633": {
+  "name": "Kommentar zur Vertrauensperson",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 82
+ },
+ "3637": {
+  "name": "Rezeptkennung",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3637] = „1“ | „2“",
+  "desc": "“1” = Kassenrezept, “2” = Privatrezept,",
+  "oid": "",
+  "page": 82
+ },
+ "3639": {
+  "name": "Seriennummer des Betäubungsmittelrezepts (BtM- Rezepts)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3640": {
+  "name": "Aktuelle Probleme",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 82
+ },
+ "3648": {
+  "name": "Datum: Jahr des Ereignisses",
+  "type": "n",
+  "len": "4",
+  "format": "JJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3649": {
+  "name": "Dauerdiagnose ab Datum",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3651": {
+  "name": "Dauermedikament ab Datum",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 82
+ },
+ "3654": {
+  "name": "Spezielle Risikofaktoren",
+  "type": "n",
+  "len": "4",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Krankhafte Veränderungen“, „Persönlicher Risikofaktor: Raucher“, „Gesamtcholesterin auffällig“, „Glukosewert auffällig“, „Harnsäure auffällig“, „Kreatininwert auffällig“, „Harnwerte auffällig“, „Hypertonie“, „koronare Herzkrankheit“, „Arterielle Verschlusskrankheit“, „Diabetes mellitus“, „Hyperlipidämie“, „Nierenerkrankung“, „Lungenerkrankung“, „Orthopädische Erkrankung“, „Hauterkrankung“, „Erkrankung des Nervensystems“, „Erkrankung der Psyche“. Quelle: KVDT-Feldkennungen",
+  "oid": "",
+  "page": 83
+ },
+ "3656": {
+  "name": "Allergien",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Allergie / Unverträglichkeit, z.B. “schweres Arzneimittelexanthem”.",
+  "oid": "",
+  "page": 83
+ },
+ "3657": {
+  "name": "Allergiekategorie",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[3657] = „S“ | „P“",
+  "desc": "„S“ = Substanz / Stoff, „P“ = Produkt",
+  "oid": "",
+  "page": 83
+ },
+ "3658": {
+  "name": "Unfälle",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Unfälle (die länger als 6 Monate zurückliegen) mit möglichen Spätfolgen",
+  "oid": "",
+  "page": 83
+ },
+ "3659": {
+  "name": "Dauerhafte Behinderung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext zur Bezeichnung einer Behinderung, bei der der Patient Unterstützung durch eine dritte Person Bedarf",
+  "oid": "",
+  "page": 83
+ },
+ "3660": {
+  "name": "Operationen",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Größere Operationen (die länger als 6 Monate zurückliegen)",
+  "oid": "",
+  "page": 83
+ },
+ "3662": {
+  "name": "Anamnese",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Frühgeburt“",
+  "oid": "",
+  "page": 83
+ },
+ "3663": {
+  "name": "Anamnesetyp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Hauptbeschwerde“, „Allergieanamnese“, „Kinderkrankheiten“, „Familienanamnese“, „Jetzige Anamnese“, „Eigenanamnese“, „Historie der operativen Eingriffe“, „Reiseanamnese“, „Immunisierungen“, „Sexualanamnese“, „Sozialanamnese“, „Körperliche Untersuchung“, „Organbefund“, „Vitalzeichen“",
+  "oid": "",
+  "page": 83
+ },
+ "3664": {
+  "name": "Anzahl Geburten",
+  "type": "n",
+  "len": "1-2",
+  "format": "n | nn",
+  "values": "",
+  "desc": "Inkl. Fehlgeburten",
+  "oid": "",
+  "page": 83
+ },
+ "3666": {
+  "name": "Anzahl Kinder",
+  "type": "n",
+  "len": "1-2",
+  "format": "n | nn",
+  "values": "",
+  "desc": "Selbst geborene Kinder",
+  "oid": "",
+  "page": 83
+ },
+ "3668": {
+  "name": "Anzahl Schwangerschaften",
+  "type": "n",
+  "len": "1-2",
+  "format": "n | nn",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 83
+ },
+ "3672": {
+  "name": "Kontrolltermin",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJhhmm",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 83
+ },
+ "3685": {
+  "name": "Einzeldosis",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "„0“ = nein , „1“ = ja",
+  "oid": "",
+  "page": 83
+ },
+ "3686": {
+  "name": "Einnahmezeitpunkt",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „morgens“",
+  "oid": "",
+  "page": 83
+ },
+ "3687": {
+  "name": "Uhrzeit",
+  "type": "4",
+  "len": "n",
+  "format": "hhmm",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 84
+ },
+ "3688": {
+  "name": "Besonderheiten / Einnahmehinweise",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. für Einnahmehinweise, hier können auch Hinweise zu komplizierten, z.B. alternierenden Einnahmen, sein",
+  "oid": "",
+  "page": 84
+ },
+ "3689": {
+  "name": "Status der Medikation",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3689] = „1“ | „2“ | „3“ | „4“ | „5“",
+  "desc": "(NFDM 1.05: Akutmedikation / Bedarfsmedikation / Dauermedikation.) „1“ = Akutmedikation, „2“ = Bedarfsmedikation (Einnahme nicht regelmäßig sondern nur bei Bedarf), „3“ = Dauermedikation, „4“ = Selbstmedikation (Kauf des Medikament durch den Patienten selbst (OTC)), „5“ = Fremdmedikation (Verordnung durch Arzt außerhalb der Praxis)",
+  "oid": "",
+  "page": 84
+ },
+ "3700": {
+  "name": "Bezeichnung der basisdiagnostischen Kategorie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Kardiovaskuläre Familienbelastung“",
+  "oid": "",
+  "page": 84
+ },
+ "3701": {
+  "name": "Inhalt der basisdiagnostischen Kategorie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Ja“",
+  "oid": "",
+  "page": 84
+ },
+ "3801": {
+  "name": "Freitext",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Beachtenswerte Laborwerte",
+  "oid": "",
+  "page": 84
+ },
+ "3917": {
+  "name": "Raucheranamnese",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. “nie geraucht”, “Ex-Raucher”, “Raucher”, “unbekannt”",
+  "oid": "",
+  "page": 84
+ },
+ "4102": {
+  "name": "Ausstellungsdatum",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum der Ausstellung des Passes",
+  "oid": "",
+  "page": 84
+ },
+ "4103": {
+  "name": "Gültigkeitsdatum",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum der Gültigkeitsdauer des Passes",
+  "oid": "",
+  "page": 84
+ },
+ "4104": {
+  "name": "VKNR",
+  "type": "n",
+  "len": "5",
+  "format": "nnnnn",
+  "values": "",
+  "desc": "Abrechnungs-VKNR: Kassennummer 5-stellig Den Kassen sind Vertragskassennummern (VKNR) zugeordnet. Hier ist die 5-stellige VKNR der Krankenkassen zu verwenden, die aus der Kostenträgerstammdatei der KBV aufgrund des Institutionskennzeichens der Krankenkassen (IK) ermittelt wird.",
+  "oid": "Konzept: 1.2.276.0.76.4.7",
+  "page": 84
+ },
+ "4106": {
+  "name": "Kostenträger- Abrechnungsbereich",
+  "type": "n",
+  "len": "2",
+  "format": "",
+  "values": "[4106] = „00“ | … | „09“ | „11“ | „90“",
+  "desc": "Kostenträger-Abrechnungsbereich (KTAB): gibt die vertragliche Vereinbarung oder gesetzliche Bestimmung an, nach der eine Abrechnung vollzogen wird. In Verbindung mit der VKNR bildet der KTAB ein eindeutiges Identifizierungsmerkmal eines Kostenträgers. Code / Bezeichnung 00 / Primärabrechnung 01 / Sozialversicherungsabkommen 02 / Bundesversorgungsgesetz 03 / Bundesentschädigungsgesetz 04 / Grenzgänger 05 / Rheinschiffer 06 / Sozialhilfeträger 07 / Bundesvertriebenengesetz 08 / Asylstelle 09 / Schwangerschaftsabbruch 11 / Wohnausländer",
+  "oid": "Konzept: 1.2.276.0.76.5.239 1.2.276.0.76.3.1.1.5.1.8",
+  "page": 84
+ },
+ "4109": {
+  "name": "Letzter Einlesetag der KVK im Quartal",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "bzw. eGk",
+  "oid": "",
+  "page": 85
+ },
+ "4110": {
+  "name": "Versicherungsschutz- Ende / Bis-Datum der Gültigkeit",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Bezeichnet z.B. das Ende der Gültigkeit der eGk; dort gespeichert im Format JJMMTT",
+  "oid": "",
+  "page": 85
+ },
+ "4111": {
+  "name": "Krankenkassennummer / Kostenträgerkennung",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnnnn",
+  "values": "",
+  "desc": "Stellen 1-9 des bundesweit gültigen Institutionskennzeichens (IK). Gibt den Kostenträger des Versicherten an.",
+  "oid": "",
+  "page": 85
+ },
+ "4112": {
+  "name": "Versichertenstatus VK",
+  "type": "n",
+  "len": "4",
+  "format": "nnnn",
+  "values": "",
+  "desc": "Für Risikostrukturausgleich (RSA)",
+  "oid": "Konzept: 1.2.276.0.76.5.327",
+  "page": 85
+ },
+ "4113": {
+  "name": "Statusergänzung/ DMP-Kennzeichnung",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[4113] = „1“ | „4“ | „6“ | „7“ | „8“ | „9“ | „M“ | „X“ | „A“ | „C“ | „K“ | „L“ | „E“ | „N“ | „D“ | „F“ | „S“ | P“ |",
+  "desc": "früher: Ost/West-Status VK, jetzt: „1” = West, “4” = Sozialhilfeempfänger, § 264 SGB V, „6“= BVG, „7“ = SVA– Kennzeichnung für zwischen-staatliches Krankenversicherungsrecht: a) Personen zeitweise im Inland, b) Personen mit Wohnsitz im Inland, Abrechnung nach Aufwand, c) deutschniederländischer Grenzgänger, „8“ = SVA-Kennzeichnung für zwischen-staatliches Krankenversicherungsrecht, a) Personen mit Wohnsitz im Inland, Abrechnung pauschal, „9“ = Ost, „M“ = eingeschriebene Versicherte in Disease-Management- Programmen für Diabetes mellitus Typ 2 – RK West, „X“ = eingeschriebene Versicherte in Disease-Management- Programmen für Diabetes mellitus Typ 2 – RK Ost, „A“ = eingeschriebene Versicherte in Disease-Management- Programmen für Brust-krebs – RK West, „C“ = eingeschriebene Versicherte in Disease -Management-Programmen für Brustkrebs – RK Ost, „K“ = eingeschriebene Versicherte in Disease -Management-Programmen für Koronare Herzkrankheit – RK West, „L“ = eingeschriebene Versicherte in Disease -Management-Programmen für Koronare Herzkrankheit – RK Ost, „E“ = eingeschriebene Versicherte in Disease - Management-Programmen für Diabetes mellitus Typ 1 – RK West, „N“ = eingeschriebene Versicherte in Disease- Management-Programmen für Diabetes mellitus Typ 1 – RK Ost, „D“ = eingeschriebene Versicherte in DMP Asthma bronchiale - RK West, „F“ = eingeschriebene Versicherte in DMP Asthma bronchiale - RK Ost, „S“ = eingeschriebene Versicherte in DMP COPD - RK West, „P“ = eingeschriebene Versicherte in DMP COPD - RK Ost",
+  "oid": "Konzept: 1.2.276.0.76.5.223 1.2.276.0.76.3.1.1.5.1.11",
+  "page": 85
+ },
+ "4121": {
+  "name": "Gebührenordnung",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[4121] = „0“ | „1“ | „2“ | „3“",
+  "desc": "",
+  "oid": "1.2.276.0.76.5.231 Version 1.02",
+  "page": 86
+ },
+ "4122": {
+  "name": "Abrechnungsgebiet",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "[4122] = „00“ | „01“ | … „10“ | “14“ | „15“ | „80“",
+  "desc": "Gibt an, zu welchem Abrechnungsgebiet eine erbrachte Leistung eines Arztes gehört. Die Eingruppierung hat Auswirkungen auf den Abrechnungsprozess. Jede KV legt fest, welche Leistung zu welchem Abrechnungsgebiet gehört. 00= kein besonderes Abrechnungsgebiet, 01= Dialyse Arztkosten; 02= Dialyse Sachkosten; 03= Methadon- Substitutionsbehandlung, 04= persönlich erbrachte Notfallleistung durch ermächtigte Krankenhausärzte, 05= sonstige Notfallleistungen durch Krankenhausärzte, 06= fremde Zytologie,07= Diabetesabrechnung, 08= Umweltmedizin,09= Rheuma,10= Hirnleistungsstörung, 14= ambulantes Operieren, 15= APO nach §115b",
+  "oid": "1.2.276.0.76.3.1.1.5.2.2 Version 1.02",
+  "page": 86
+ },
+ "4124": {
+  "name": "SKT Zusatzangabe",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 86
+ },
+ "4132": {
+  "name": "DMP Kennzeichnung",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 86
+ },
+ "4133": {
+  "name": "Versicherungsschutzbeginn",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 87
+ },
+ "4202": {
+  "name": "Unfall, Unfallfolgen",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[4202] = „0“ | „1“",
+  "desc": "„0“ = Nein, „1“ = Ja Angabe zu einem Unfall bzw. Unfallfolgen. 1 = ja",
+  "oid": "",
+  "page": 87
+ },
+ "4203": {
+  "name": "Behandlung gem. § 116b SGB V",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[4203] = „0“ | „1“",
+  "desc": "„0“ = Nein, „1“ = Ja",
+  "oid": "",
+  "page": 87
+ },
+ "4204": {
+  "name": "Eingeschränkter Leistungsanspruch gem. § 18 Abs. 3a SGB V",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[4204] = „0“ | „1“",
+  "desc": "„0“ = Nein, „1“ = Ja Ein eingeschränkter Leistungsanspruch gemäß § 16 Abs. 3a SGB V besteht bei Versicherten, die mit der Zahlung der von Ihnen selbst zu tragenden Krankenversicherungsbeiträge im Rückstand sind. Selbstzahler können beispielsweise freiwillige Mitglieder, Studenten, Rentenantragsteller sowie die neue Gruppe der bislang Nichtversicherten sein. 1 = ja",
+  "oid": "",
+  "page": 87
+ },
+ "4205": {
+  "name": "Auftrag",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Fragestellung / Hinweise des Muster 2",
+  "oid": "",
+  "page": 87
+ },
+ "4207": {
+  "name": "Diagnose / Verdachtsdiagnose",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Diagnose des Muster 2",
+  "oid": "",
+  "page": 87
+ },
+ "4208": {
+  "name": "Befund / Medikation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bisherige Maßnahmen (z.B. Medikation) des Muster 2",
+  "oid": "",
+  "page": 87
+ },
+ "4209": {
+  "name": "Auftrag / Diagnose / Verdacht",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Untersuchungsergebnisse",
+  "oid": "",
+  "page": 87
+ },
+ "4217": {
+  "name": "(N)-BSNR des Erstveranlassers",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnnnn",
+  "values": "",
+  "desc": "Siehe Feld 0201 „(N)-BSNR“ Diese Nummer ist nur einzutragen, wenn vom Überweisungsempfänger (z.B. Labor) weiterüberwiesen wird.",
+  "oid": "Konzept: 1.2.276.0.76.4.17",
+  "page": 87
+ },
+ "4218": {
+  "name": "(N)-BSNR des Überweisers",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnnnn",
+  "values": "",
+  "desc": "Siehe 0201 (N)-BSNR Nummer des Weiter-Überweisers, wenn die Anforderung weiterüberwiesen wird.",
+  "oid": "Konzept: 1.2.276.0.76.4.17",
+  "page": 87
+ },
+ "4219": {
+  "name": "Überweisung von anderen Ärzten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Arztnummer / Arztkennzeichen von anderen Ärzten (z.B. Zahnärzten); wenn Ärzte ohne LANR/BSNR an einen Arzt im KV-System überweisen, dann hat der einweisende keine Nummern und es muss Ersatzweise ein Freitext ausgefüllt werden z.B. „Bundeswehrarzt Dr. Müller Standort Berlin“, „Zahnarzt Dr. Mustermann“. Keine (N)BSNR der KBV, sondern beispielsweise eine systemfremde Zahnarztnummer oder die Kennung eines Bundeswehrarztes.",
+  "oid": "",
+  "page": 87
+ },
+ "4220": {
+  "name": "Überweisung an (Fachgruppe)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Arzt“, „Praktischer Arzt“, „Allgemeinmedizin“. Fachgruppe verbal oder auch Name des Arztes Freitext mit Namen oder Bezeichnung des Empfängers",
+  "oid": "",
+  "page": 88
+ },
+ "4221": {
+  "name": "Behandlungstyp",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "[4221] = „19“ | „29“ | „49“ | „59“",
+  "desc": "Art bzw. Anlass der Behandlung. Mögliche Werte: „19“ = Kurativ, „29“ = Maßnahmen zur Empfängnisregelung, Sterilisation und zum Schwangerschaftsabbruch „49“ = Präventiv, „59“ = Sonstige",
+  "oid": "1.2.276.0.76.3.1.1.5.1.36 Version 1.01",
+  "page": 88
+ },
+ "4229": {
+  "name": "Ausnahmeindikation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Wenn die Voraussetzungen für eine Ausnahmeindikation vorliegen, gibt der überweisende Vertragsarzt die zutreffende Kennziffer (Nrn. 32005 – 32023) in diesem Feld an. Eine Ausnahmeindikation hebt alle Budgetbeschränkungen für alle Leistungen des Kapitels 32 für das ganze Quartal auf.",
+  "oid": "",
+  "page": 88
+ },
+ "4231": {
+  "name": "Kontrolluntersuchung einer bekannten Infektion",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[4231] = „0“ | „1“",
+  "desc": "„0“ = Nein, „1“ = Ja Werden direkte oder indirekte Nachweise von Krankheitserregern im Rahmen einer Kontrolluntersuchung bei einer bereits bekannten Infektion beauftragt, ist das Feld „Kontrolluntersuchung einer bekannten Infektion“ anzukreuzen. Im Freitextfeld „Befund/Medikation“ ist zudem der Sachverhalt zu erläutern. Erkrankungen mit Meldepflicht sind § 7 Infektionsschutzgesetz zu entnehmen. 1 = Ja",
+  "oid": "",
+  "page": 88
+ },
+ "4237": {
+  "name": "Krankenhauseinweisung in Krankenhaus / Krankenhaus-Name",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Nächst erreichbare geeignete Krankenhäuser (Name des Krankenhauses), auch Fachabteilung oder Name des Facharztes, empfohlenes Krankenhaus.",
+  "oid": "",
+  "page": 88
+ },
+ "4239": {
+  "name": "Scheinuntergruppe",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "[4239] = „00“ | „20 “ | „21“ | „23 “ | „24“ | „26 “ | „27“ | „28 “ | „30“ | „31“ | „32“ | „41 “ | … | „46 “",
+  "desc": "Die Angabe der Scheinuntergruppe dient zur Kennzeichnung, um welche Art der Überweisung, des Notfalls, der Belegärztlichen oder Originalen Behandlung es sich handelt, sie wird unter anderem für die Abbildung des EBM Regelwerks benötigt. „00” = Ambulante Behandlung (Defaultwert), „20” = Selbstausstellung, „21” = Auftragsleistungen (Defaultwert bei Einsendepraxen), „23” = Konsiliaruntersuchung „24” = Mit-/Weiterbehandlung (Defaultwert” außer bei Einsendepraxen), „26” = Stationäre Mitbehandlung, Vergütung nach ambulanten Grundsätzen, „27” = Überweisungs- /Abrechnungsschein für Laboratoriumsuntersuchungen als Auftragsleistung, „28” = Anforderungschein für Laboratoriumsuntersuchungen bei Laborgemeinschaften, „30” = Belegärztliche Behandlung (Defaultwert), „31” = Belegärztliche Mitbehandlung, „32” = Urlaubsbzw. Krankheitsvertretung bei belegärztlicher Behandlung, „41” = Ärztlicher Notfalldienst (Defaultwert), „42” = Urlaubs-/bzw. Krankheitsvertretung, „43” = Notfall, „44” = Notfalldienst mit Taxi, „45” = Notarzt- /Rettungswagen (Rettungsdienst), „46” = Zentraler Notfalldienst",
+  "oid": "1.2.276.0.76.3.1.1.5.1.19 Version 1.01",
+  "page": 88
+ },
+ "4240": {
+  "name": "Überweisungsinformationen: Empfohlener Facharzt",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 89
+ },
+ "4241": {
+  "name": "LANR: Lebenslange Arztnummer des Erstveranlasser",
+  "type": "n",
+  "len": "9",
+  "format": "nnnnnnPnn",
+  "values": "Ersatzwert: “999999900”",
+  "desc": "Die lebenslange Arztnummer, kurz LANR, ist eine neunstellige Nummer, die die zuständige Kassenärztliche Vereinigung bundesweit an jeden Arzt vergibt. Z.B. im Rahmen der Ambulanten Spezialärztlichen Versorgung wird die weitere Untersuchen beauftragt. Die LANR des beauftragenden Arztes soll angegeben werden.",
+  "oid": "Konzept: 1.2.276.0.76.4.16 zweistellige Fachgruppencodierung für die 8.+9. Stelle der LANR, BAR-Schlüsselverzeichnis, Anlage 35: 1.2.276.0.76.3.1.1.5.2.23",
+  "page": 89
+ },
+ "4242": {
+  "name": "LANR: Lebenslange Arztnummer des Überweisers / Einweisers",
+  "type": "n",
+  "len": "9 ≤",
+  "format": "nnnnnnPnn",
+  "values": "Ersatzwert: “999999900”",
+  "desc": "Die lebenslange Arztnummer, kurz LANR, ist eine neunstellige Nummer, die die zuständige Kassenärztliche Vereinigung bundesweit gültig an jeden Arzt vergibt. Die LANR des Überweisenden Arztes soll hier angegeben werden.",
+  "oid": "Konzept: 1.2.276.0.76.4.16 zweistellige Fachgruppencodierung für die 8.+9. Stelle der LANR, BAR-Schlüsselverzeichnis, Anlage 35: 1.2.276.0.76.3.1.1.5.2.23",
+  "page": 89
+ },
+ "5001": {
+  "name": "GNR",
+  "type": "a",
+  "len": "9",
+  "format": "nnnnn [a] [a] [a] [a]",
+  "values": "",
+  "desc": "Gebührenordnungsnummer Der Einheitliche Bewertungsmaßstab (EBM) ist die Abrechnungsgrundlage für Leistungen, die innerhalb der gesetzlichen Krankenversicherung erbracht werden. Die Gebührenordnung für Ärzte (GOÄ) ist für die private Krankenversicherung bestimmt. Darüber hinaus gibt es die UV-GOÄ, nach der Ärzte Leistungen mit den Unfallversicherungsträgern abrechnen.",
+  "oid": "",
+  "page": 89
+ },
+ "5005": {
+  "name": "Multiplikator fuer GOAE",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 90
+ },
+ "5009": {
+  "name": "Begründung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Freier Begründungstext zur GNR",
+  "oid": "",
+  "page": 90
+ },
+ "5015": {
+  "name": "Organ",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Angabe eines Organs",
+  "oid": "",
+  "page": 90
+ },
+ "5100": {
+  "name": "ASV Arztnummer",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 90
+ },
+ "6001": {
+  "name": "ICD Code",
+  "type": "a",
+  "len": "3-10",
+  "format": "",
+  "values": "Ersatzwert: „UUU”",
+  "desc": "FK 6011/FK 9999 können FK 6001 ersetzen ICD: International Classification of Diseases – German Modification / Internationale statistische Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, deutschsprachige Ausgabe",
+  "oid": "",
+  "page": 90
+ },
+ "6003": {
+  "name": "Diagnosensicherheit",
+  "type": "a",
+  "len": "1",
+  "format": "n",
+  "values": "[6003] = „V“ | „Z“ | „A“ | „G“",
+  "desc": "Angabe der Diagnosensicherheit. Mögliche Werte: „“V“ = Verdacht auf, „Z“ = Zustand nach, „A“ = Ausschluss, „G“ = Gesicherte Diagnose G = Gesicherte Diagnose",
+  "oid": "1.2.276.0.76.3.1.1.5.1.21",
+  "page": 90
+ },
+ "6004": {
+  "name": "Seitenlokalisation",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[6004] = „R“ | „L“ | „B“",
+  "desc": "Angabe der Seitenlokalisation. Mögliche Werte: „R“ = rechts, „L“ = links, „B“ = beidseitig",
+  "oid": "1.2.276.0.76.3.1.1.5.1.22",
+  "page": 90
+ },
+ "6006": {
+  "name": "Diagnoseerläuterung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext zur Erläuterung der Diagnosen",
+  "oid": "",
+  "page": 90
+ },
+ "6007": {
+  "name": "Diagnosekategorie",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "[6007] = „1“ | „2“ | „3“",
+  "desc": "„1“ = Dauerdiagnose, „2“ = Aktuelle Schwerpunktdiagnose, „3“ Sonstige",
+  "oid": "",
+  "page": 90
+ },
+ "6008": {
+  "name": "Diagnoseausnahmetatbestand",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext zur Beschreibung des Diagnoseausnahmetatbestand. Der Diagnosenausnahmetatbestand muss angegeben werden, wenn der ICD Code trotz Regelwerksfehler dennoch übertragen werden soll. Beispiel: Es wird ein ICD 10 Code angegeben, welcher nur für weibliche Patienten gilt. Patient ist männlich. Sofern der Code trotzdem verwendet werden soll, muss ein Diagnosenausnahmetatbestand angegeben werden.",
+  "oid": "",
+  "page": 90
+ },
+ "6011": {
+  "name": "Code / Codierung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. “I10.11 G” für Maligne arterielle Hypertonie",
+  "oid": "",
+  "page": 90
+ },
+ "6200": {
+  "name": "Tag der Speicherung von Behandlungsdaten",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 90
+ },
+ "6201": {
+  "name": "Uhrzeit der Erhebung von Behandlungsdaten",
+  "type": "n",
+  "len": "6",
+  "format": "hhmmss",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 91
+ },
+ "6206": {
+  "name": "Pharmazentralnummer (PZN)",
+  "type": "n",
+  "len": "8 (*)",
+  "format": "nnnnnnnP",
+  "values": "",
+  "desc": "8-stellige Zahl mit führenden Nullen. (*) Die PZN war bis zum 31.12.2012 eine siebenstellige Nummer (6 Ziffern + Prüfziffer). In bis dahin archivierten Datenbeständen ist das Feld mit der FK 6206 daher 7-stellig. In Deutschland werden PZNs von der Informationsstelle für Arzneispezialitäten (IFA) vergeben. Neben den zentral vergebenen Pharmazentralnummern gibt es einen Bereich zur hausinternen Verwendung für Apotheken. Diese Nummern beginnen mit 80, 81, 82 oder 83. Pharmagroßhändler können für Produkte, die keine Pharmazentralnummer haben, Nummern vergeben, die mit 50 anfangen. Für einige Produkte, die keine Pharmazentralnummer haben, aber trotzdem auf Rezept abgerechnet werden (zum Beispiel in der Apotheke hergestellte Produkte oder Einzelimporte) werden Pharmazentralnummern verwendet, die mit 9999, 2566 oder 2567 beginnen. Im November 2010 gab die Informationsstelle für Arzneispezialitäten (IFA) bekannt, dass die PZN zum 1. Januar 2013 auf 8 Stellen erweitert wird. Die bisherigen 7-stelligen PZN werden durch eine führende Null auf 8 Stellen erweitert. Neue PZN werden so lange mit führender Null vergeben, bis der alte Nummernkreis erschöpft ist. Die letzte Stelle bildet weiterhin die Prüfziffer. Anmerkung: Um der EU-Direktive 2011/62/EU gerecht zu werden, wird eine PPN (Pharmacy Product Number) bis voraussichtlich 2016 / 2017 eingeführt (mit unverändert integrierter PZN), welche die PZN mit einer Seriennummer ergänzt, die herstellerspezifisch und nicht deterministisch ist. Dazu kommt eine Chargenbezeichnung und ein Verfallsdatum. Die PPN ist bis zu 18 Stellen lang.",
+  "oid": "Konzept: 1.2.276.0.76.4.6",
+  "page": 91
+ },
+ "6207": {
+  "name": "Rezeptur",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Beschreibung der Rezeptur",
+  "oid": "",
+  "page": 92
+ },
+ "6208": {
+  "name": "Handelsname des Arzneimittels",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Delix”",
+  "oid": "",
+  "page": 92
+ },
+ "6209": {
+  "name": "ATC",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "ATC-Klassifikation gem. DIMDI, z.B. „C10AA01“, gilt für Substanzen, nicht für Handelspräparate, Beispiel: ATC-Code: B01AC06 (In der Dosierung und Anwendung als Thrombozytenaggregationshemmer)",
+  "oid": "atcgm2013: 1.2.276.0.76.5.416",
+  "page": 92
+ },
+ "6212": {
+  "name": "Arzneimittelwirkstoff / Wirkstoff",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Wirkstoff, nur bei Unverträglichkeit auf Arzneimittel, z.B. „Simvastatin“",
+  "oid": "",
+  "page": 92
+ },
+ "6213": {
+  "name": "Kommentar",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext für weitere Angaben, etwa zum Dosierungsschema, zur Applikationsform oder Darreichungsform",
+  "oid": "",
+  "page": 92
+ },
+ "6214": {
+  "name": "Wirkstoff- Klassifikation (Code- System)",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Armin: Der in Wirkstoff-Code hinterlegte, einen Wirkstoff bezeichnende Code, wird vollständig qualifiziert, indem der Code dem hier angegeben Code-System zugeordnet wird. Als mögliche Code-Systeme sind derzeit „WG14“, „atcgm2013“, „atcgm2014“, „atcgm2015“ und „ASK“ gestattet",
+  "oid": "",
+  "page": 92
+ },
+ "6216": {
+  "name": "Freisetzung",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "[6216] = „R“ | „N“",
+  "desc": "„R“ = retardiert, „N“= nicht retardiert",
+  "oid": "",
+  "page": 92
+ },
+ "6217": {
+  "name": "Darreichungsform",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Vergleiche das Feld mit der FK 6219, welches die Übertragung der Darreichungsform als Freitext gestattet. „AEO” = AETHERISCHES-OEL, „AMP” = AMPULLEN, „APA” = AMPULLENPAARE, „ASN” = AUGEN- UND NASENSALBE, „ASO” = AUGEN- UND OHRENSALBE, „ATO” = AUGEN- UND OHRENTROPFEN, „ATR” = AUGENTROPFEN, „AUB” = AUGENBAD, „AUG” = AUGENGEL, „AUS” = AUGENSALBE, „BAD” = BAD, „BAL” = BALSAM, „BAN” = BANDAGE, „BEU” = BEUTEL, „BIN” = BINDEN, „BON” = BONBONS, „BPL” = BASISPLATTE, „BRE” = BREI, „BTA” = BRAUSETABLETTEN, „CRE” = CREME, „DFL” = DURCHSTECHFLASCHEN, „DIL” = DILUTION, „DKA” = DRAGEES IN KALENDERPACKUNG, „DOS” = DOSIERAEROSOL, „DRA” = DRAGEES, „DRM” = DRAGEES MAGENSAFTRESISTENT, „DSC” = DOSIERSCHAUM, „DSS” = DOSIERSPRAY, „EDP” = EINZELDOSIS-PIPETTEN, „EIN” = EINREIBUNG, „ELE” = ELEKTRODEN, „ELI” = ELIXIER, „EMU” = EMULSION, „ESS” = ESSENZ, „ESU” = ERWACHSENEN- SUPPOSITORIEN, „EXT” = EXTRAKT, „FBE” = FILTERBEUTEL, „FBW” = FRANZBRANNTWEIN, „FDA” = FILMDRAGEES, „FER” = FERTIGSPRITZEN, „FET” = FETTSALBE, „FLA” = FLASCHE, „FLU” = FLUESSIG, „FMR” = FILMTABLETTEN MAGENSAFTRESISTENT, „FOL” = FOLIE, „FRB” = BEUTEL MIT RETARDIERTEN FILMTABLETTEN, „FSE” = FLUESSIGSEIFE, „FTA” = FILMTABLETTEN, „GEL” = GEL, „GLO” = GLOBULI, „GPA” = GELPLATTE, „GRA” = GRANULAT, „GSE” = GRANULAT ZUR HERSTELLUNG EINER SUSPENSION ZUM EINNEHMEN, „GUL” = GURGELLOESUNG, „HAS” = HANDSCHUHE, „HKP” = HARTKAPSELN, „HVW” = HARTKAPSELN MIT VERAENDERTER WIRKSTOFFFREISETZUNG, „IFA” = INFUSIONSAMPULLEN, „IFB” = INFUSIONSBEUTEL, „IFF” = INFUSIONSFLASCHEN, „IFK” = INFUSIONSLOESUNGSKONZENTRAT, „IFL” = INJEKTIONS-FLASCHEN, „IFS” = INFUSIONSSET, „IHA” = INHALATIONS-AMPULLEN, „IHP” = INHALATIONS- PULVER, „IIL” = INJEKTIONS-/INFUSIONS-LOESUNG, „IKA” = INHALATIONS-KAPSELN, „ILO” = INJEKTIONS- LOESUNG, „IMP” = IMPLANTAT, „INF” = INFUSIONSLOESUNG, „INH” = INHALAT, „INI” = INJEKTIONS-/INFUSIONS-FLASCHEN, „INL” = INHALATIONS-LOESUNG, „INS” = INSTANT-TEE, „IST” = INSTILLATION, „ISU” = INJEKTIONS-SUSPENSION, „IUP” = INTRAUTERINPESSAR, „KAN” = KANUELEN, „KAP” = KAPSELN, „KAT” = KATHETER, „KDA” = KAUDRAGEES, „KEG” = KEGEL, „KER” = KERNE, „KGU” = KAUGUMMI, „KKS” = KLEINKINDER-SUPPOSITOREN, „KLI” = KLISTIERE, „KLT” = KLISTIER-TABLETTEN, „KMP” = HARTKAPSELN MIT MAGENSAFTRESISTENT UEBERZOGENEN PELLETS, „KMR” = KAPSELN MAGENSAFTRESISTENT, „KOD” = KONDOME, „KOM” = KOMPRESSEN, „KON” = KONZENTRAT, „KPG” = KOMBIPACKUNG, „KRI” = KRISTALLSUSPENSION, „KSS” = KINDER- UND SAEUGLINGS-SUPPOSITORIEN, „KSU” = KINDER-SUPPOSITORIEN, „KTA” = KAUTABLETTEN, „LAN” = LANZETTEN, „LIQ” = LIQUIDUM, „LOE” = LOESUNG, „LOT” = LOTION, „LSE” = LOESUNG ZUM EINNEHMEN, „LTA” = LACKTABLETTEN, „LUT” = LUTSCHTABLETTEN, „MIL” = MILCH, „MIX” = MIXTUR, „MTA” = MANTELTABLETTEN, „MUW” = MUNDWASSER, „NAG” = NASENGEL, „NAO” = NASENOEL, „NAS” = NASENSPRAY, „NDS” = NASENDOSIERSPRAY, „NSA” = NASENSALBE, „NTR” = NASENTROPFEN, „OCU” = OCCUSERT, „OEL” = OEL, „OHT” = OHRENTROPFEN, „OVU” = OVULA, „PAM” = PACKUNGSMASSE, „PAS” = PASTILLEN, „PEL” = PELLETS, „PER” = PERLEN, „PFL” = PFLASTER, „PFT” = PFLASTER-TRANSDERMAL, „PIF” = PULVER ZUR HERSTELLUNG EINER INFUSIONSLOESUNG, „PLG” = PERLONGETTEN, „PPL” = PUMPLOESUNG, „PRS” = PRESSLINGE, „PSE” = PULVER ZUR HERSTELLUNG EINER SUSPENSION ZUM EINNEHMEN, „PST” = PASTE, „PUD” = PUDER, „PUL” = PULVER, „RED” = RETARD-DRAGEES, „REK” = RETARD- KAPSELN, „RET” = RETARD-TABLETTEN, „RGR” = RETARD-GRANULAT, „RKA” = REKTALKAPSELN, „RUT” = RETARD-UEBERZOGENDE-TABLETTEN, „SAF” = SAFT, „SAL” = SALBE, „SCH” = SCHAUM, „SEI” = SEIFE, „SHA” = SHAMPOO, „SIR” = SIRUP, „SLZ” = SALZ, „SMF” = SCHMELZFILM, „SMT” = SCHMELZTABLETTEN, „SMU” = SUPPOSITORIEN MIT MULLEINLAGE, „SPA” = SPRITZAMPULLEN, „SPF” = SPRUEHFLASCHE, „SPL” = SPUELLOESUNG, „SPR” = SPRAY, „SRI” = SPRITZEN, „SSU” = SAEUGLINGS-SUPPOSITORIEN, „STA” = STECHAMPULLEN, „STB” = STAEBCHEN, „STI” = STIFTE, „STR” = STREIFEN, „SUB” = SUBSTANZ, „SUP” = SUPPOSITORIEN, „SUS” = SUSPENSION, „SUT” = SUBLINGUALTABLETTEN, „SUV” = SUSPENSION FUER EINEN VERNEBLER, „SWA” = SCHWAEMME, „TAB” = TABLETTEN, „TAE” = TAEFELCHEN, „TAM” = TROCKENAMPULLEN, „TEE” = TEE, „TEI” = TROPFEN ZUM EINNEHMEN, „TES” = TEST, „TIN” = TINKTUR, „TKA” = TABLETTEN IN KALENDERPACKUNG, „TMR” = TABLETTEN MAGENSAFTRESISTENT, „TON” = TONIKUM, „TPN” = TAMPON, „TPO” = TAMPONADEN, „TRA” = TRINKAMPULLEN, „TRI” = TRITURATION, „TRO” = TROPFEN, „TRS” = TROCKENSUBSTANZ MIT LOESUNGSMITTEL, „TRT” = TRINKTABLETTEN, „TSA” = TROCKENSAFT, „TSS” = TROCKENSUBSTANZ OHNE LOESUNGSMITTEL, „TST” = TESTSTAEBCHEN, „TTR” = TESTSTREIFEN, „TUB” = TUBE, „TUE” = TUECHER, „TUP” = TUPFER, „UTA” = UEBERZOGENE-TABLETTEN, „VAL” = VAGINALLOESUNG, „VAR” = VAGINALRING, „VCR” = VAGINALCREME, „VER” = VERBAND, „VGE” = VAGINALGEL, „VKA” = VAGINALKAPSELN, „VLI” = VLIES, „VOV” = VAGINALOVULA, „VST” = VAGINALSTAEBCHEN, „VSU” = VAGINALSUPPOSITORIEN, „VTA” = VAGINALTABLETTEN, „WAT” = WATTE, „WGA” = WUNDGAZE, „WKA” = WEICHKAPSELN, „WUE” = WUERFEL, „XDG” = DUSCHGEL, „XDS” = DEO-SPRAY, „XFE” = FESTIGER, „XGM” = GESICHTSMASKE, „XHA” = HALSBAND, „XHS” = HAARSPUELUNG, „XNC” = NACHTCREME, „XPK” = KOERPERPFLEGE, „XTC” = TAGESCREME, „ZAM” = ZYLINDERAMPULLEN, „ZBU” = ZAHNBUERSTE, „ZCR” = ZAHNCREME, „ZGE” = ZAHNGEL, „ZKA” = ZERBEISSKAPSELN, „ZPA” = ZAHNPASTA",
+  "oid": "1.2.276.0.76.3.1.1.5.2.15 Version 1.01",
+  "page": 92
+ },
+ "6218": {
+  "name": "Applikationsweg",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „intramuskulär (i.m.)“. Als Applikationsweg bzw. –form oder Verabreichungsform wird die Art und Weise bezeichnet, wie ein Medikament verabreicht wird. Entsprechend der Applikationsform muss die Darreichungsform gewählt werden, also die Art, wie das Medikament zubereitet wird (z.B. Tablette, Zäpfchen usw.).",
+  "oid": "",
+  "page": 96
+ },
+ "6219": {
+  "name": "Darreichungsform (Freitext)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Siehe Wertetabelle für Feld 6217 für Beispiele",
+  "oid": "",
+  "page": 96
+ },
+ "6221": {
+  "name": "Fremdbefund",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[6221] = „0“ | „1“",
+  "desc": "„0“= Nein, “1” = Ja Kennzeichnung Fremdbefund",
+  "oid": "",
+  "page": 96
+ },
+ "6224": {
+  "name": "Wirkstoff-Code",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "vgl. Projekt Armin",
+  "oid": "",
+  "page": 96
+ },
+ "6230": {
+  "name": "Blutdruck",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Blutdruck (Messwert in mm-Quecksilbersäule des systolischen/diastolischen Blutdrucks), Beispiel:“120/80“",
+  "oid": "",
+  "page": 96
+ },
+ "6260": {
+  "name": "Aktuelle Therapie",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext (ohne Medikamente, diese stehen im Medikationsplan)",
+  "oid": "",
+  "page": 96
+ },
+ "6280": {
+  "name": "Überweisung Inhalt",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 96
+ },
+ "6285": {
+  "name": "AU-Dauer",
+  "type": "a",
+  "len": "16",
+  "format": "TTMMJJJJTTMMJJ JJ",
+  "values": "",
+  "desc": "Von Datum bis Datum",
+  "oid": "",
+  "page": 96
+ },
+ "6286": {
+  "name": "AU wegen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: Grund der AU",
+  "oid": "",
+  "page": 96
+ },
+ "6302": {
+  "name": "Datei- Archivierungskennung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Kennzeichen zur Klassifizierung der Daten, z.B. auch Datei- Archivierungsnummer",
+  "oid": "",
+  "page": 96
+ },
+ "6305": {
+  "name": "Verweis auf die Datei",
+  "type": "a",
+  "len": "var",
+  "format": "RFC 3986",
+  "values": "",
+  "desc": "Uniform Resource Locator (URL), z.B. WWW-Adresse, UNC- Pfad. Beispiel: \\\\FS1\\TEST\\BILD1.PDF. Dateiname, wie er im an die Datenstelle kommuniziert wurde/wird",
+  "oid": "",
+  "page": 96
+ },
+ "6310": {
+  "name": "Name des Empfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Falls Dokument verschickt wurde.",
+  "oid": "",
+  "page": 96
+ },
+ "6320": {
+  "name": "Briefinhalt (Zusammenfassung)",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext",
+  "oid": "",
+  "page": 97
+ },
+ "6325": {
+  "name": "(Bild-) Archivierungsnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 97
+ },
+ "6327": {
+  "name": "Bildinhalt / Dokumentinhalt",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext (Beschreibung)",
+  "oid": "",
+  "page": 97
+ },
+ "6328": {
+  "name": "Dateicodierung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „ISO 10646“",
+  "oid": "",
+  "page": 97
+ },
+ "6329": {
+  "name": "Inhalt der Datei als base64-kodierte Anlage",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Analog zu einer Anlage einer E-Mail in MIME-Dokumenten. Der Inhalt des in Feld 6305 adressierten Dokuments in Form von Base64-kodierten Zeilen",
+  "oid": "",
+  "page": 97
+ },
+ "6691": {
+  "name": "Krankenhauseinweisung wegen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: Grund der Krankenhauseinweisung, z.B. „Einweisung wegen Grunderkrankung“, „Aus sonstigen Gründen“, „Ohne Angabe von Gründen“",
+  "oid": "",
+  "page": 97
+ },
+ "6692": {
+  "name": "Art der gewünschten Behandlung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „kurativ”, „präventiv”, „sonstige Hilfen“, „Belegarzt”, „Notfall”",
+  "oid": "",
+  "page": 97
+ },
+ "6693": {
+  "name": "Einweisungsinformationen",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Informationen zur Krankenhaus-Einweisung",
+  "oid": "",
+  "page": 97
+ },
+ "6694": {
+  "name": "Leidensursache",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. „Unfall, Unfallfolgen”, „Versorgungsleiden”",
+  "oid": "",
+  "page": 97
+ },
+ "6801": {
+  "name": "Text der medizinischen Dokumentation",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. Befundtext",
+  "oid": "",
+  "page": 97
+ },
+ "6901": {
+  "name": "Überschrift Medikationsplan",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 97
+ },
+ "6902": {
+  "name": "Interne Hinweise von Ärzten",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Hinweise zum Medikationsplan insgesamt",
+  "oid": "",
+  "page": 97
+ },
+ "6903": {
+  "name": "Interne Hinweise von Apothekern",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Hinweise zum Medikationsplan insgesamt",
+  "oid": "",
+  "page": 97
+ },
+ "6910": {
+  "name": "Hinweise zur Rezeptur",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 97
+ },
+ "6911": {
+  "name": "Behandlungsgrund Rezeptur",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 97
+ },
+ "6912": {
+  "name": "Rezeptur abgesetzt wegen Unverträglichkeit",
+  "type": "b",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 97
+ },
+ "6913": {
+  "name": "Interne Hinweise von Ärzten zur Rezeptur",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6914": {
+  "name": "Interne Hinweise von Apothekern zur Rezeptur",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6915": {
+  "name": "Hinweise zum Arzneimittel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6916": {
+  "name": "Behandlungsgrund Arzneimittel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6917": {
+  "name": "Arzneimittel abgesetzt wegen Unverträglichkeit",
+  "type": "b",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6918": {
+  "name": "Interne Hinweise von Ärzten zum Arzneimittel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "6919": {
+  "name": "Interne Hinweise von Apothekern zum Arzneimittel",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 98
+ },
+ "7271": {
+  "name": "OID oder ID der Person / Vorgang zumTimestamp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT Person (Kürzel) / Vorgang, dem Timestamp zugeordnet ist",
+  "oid": "",
+  "page": 98
+ },
+ "7272": {
+  "name": "Freitext zum Timestamp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT",
+  "oid": "",
+  "page": 98
+ },
+ "7273": {
+  "name": "ID Person",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Person (Kürzel)/Vorgang, dem ein Timestamp zugeordnet ist",
+  "oid": "",
+  "page": 98
+ },
+ "7274": {
+  "name": "Freitext",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Erläuterung",
+  "oid": "",
+  "page": 98
+ },
+ "7275": {
+  "name": "OID oder ID verwendeter Terminologie",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet eine Referenz auf eine allgemein übliche Terminologie oder einen allgemein üblichen Standard",
+  "oid": "",
+  "page": 98
+ },
+ "7276": {
+  "name": "OID oder ID verwendeter Nummernpool",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet eine Sammlung von Nummernkreisen, auf welche referenziert werden kann",
+  "oid": "",
+  "page": 98
+ },
+ "7277": {
+  "name": "Art des Timestamp",
+  "type": "a",
+  "len": "2",
+  "format": "",
+  "values": "",
+  "desc": "01 = Auftragserteilung, 02 = Auftragseingang, 03 = Abnahme, 04 = Berichtsdatum, 05 = Beginn der Analytik, 06 = Auftragserfassung, 07 = QM, QS ; 08 = Eingangserfassung Material",
+  "oid": "",
+  "page": 98
+ },
+ "7278": {
+  "name": "Datum des Timestamp",
+  "type": "d",
+  "len": "8",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 99
+ },
+ "7279": {
+  "name": "Uhrzeit des Timestamp",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT",
+  "oid": "",
+  "page": 99
+ },
+ "7280": {
+  "name": "Grund der Benachrichtigung",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "1 = Pathologisch auffälliger Befund; 2 = Lebensbedrohlicher Zustand; 3 = Wiedervorstellung empfohlen; 4 = Probenmaterial nicht verwendbar; 5 = Probenmaterial unvollständig",
+  "oid": "",
+  "page": 99
+ },
+ "7291": {
+  "name": "Auftragsbearbeitungsstatus",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "0“ = abgeschlossen „1“ = in weiterer Bearbeitung; „2“ = abgeschlossen, „3“ = weitere Ergebnisse/Befunde folgen, „4“ = positiv quittiert",
+  "oid": "",
+  "page": 99
+ },
+ "7300": {
+  "name": "Befundversionsnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Versionsnummer bei mehreren Befundstufen/Ergebnisstufen",
+  "oid": "",
+  "page": 99
+ },
+ "7301": {
+  "name": "Ergebnisstatus",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 99
+ },
+ "7304": {
+  "name": "OID oder ID Ergebnis",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 99
+ },
+ "7321": {
+  "name": "Status/Verweis/Herku nft",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT",
+  "oid": "",
+  "page": 99
+ },
+ "7328": {
+  "name": "Zusätzliiche Namenszeile",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT",
+  "oid": "",
+  "page": 99
+ },
+ "7329": {
+  "name": "normenbereichsrelevantes Geschlecht",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "vgl. LDT",
+  "oid": "",
+  "page": 99
+ },
+ "7350": {
+  "name": "Beruf der Person",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Beruf ist die im Rahmen einer arbeitsteiligen Wirtschaftsordnung aufgrund besonderer Eignung oder Neigung systematisch erlernte und mit Qualifikationsnachweis versehene, dauerhaft gegen Entgelt ausgeübte spezialisierte Betätigung eines Menschen.",
+  "oid": "",
+  "page": 99
+ },
+ "7860": {
+  "name": "Strahlendosis",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Wird üblicherweise nicht in den Röntgenpass übernommen",
+  "oid": "",
+  "page": 99
+ },
+ "7861": {
+  "name": "Einheit Strahlentherapie, Dosis",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. “mSv”",
+  "oid": "",
+  "page": 99
+ },
+ "7922": {
+  "name": "Sterbedatum des Patienten",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "Ersatzwert; „00000000“",
+  "desc": "Ersatzwert „00000000“, falls Patient verstorben, aber Datum unbekannt",
+  "oid": "",
+  "page": 99
+ },
+ "8000": {
+  "name": "Satzart",
+  "type": "n",
+  "len": "4",
+  "format": "",
+  "values": "[8000] = „0101“ | „0102“ | „0103“ | „0104“ | „sad1“ | „sad2“ | „sad3“ | „0109“ | „gevk“ | „hävg“ | „medi“ | „kv“ | „padx“ | „bgabr“ |„0001“ | „0020“ | „spec“ | „iden“ | „frei“ | „0010“ | „adrs“ | „term“ | „diag“ | „grnk“ | „hapo“ | „bbst“ | „text“ | „6100“ | „6200“ | „0021“ | „0002“ | Weitere Satzarten gem. Festlegung von Abrechnungsempfängern oder als selbst definierte Auftragskennung",
+  "desc": "Enthält die Satzidentifikation. Beispiel: Satzart Datei-Header: „0020“",
+  "oid": "",
+  "page": 100
+ },
+ "8001": {
+  "name": "Satzende",
+  "type": "n",
+  "len": "4",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 100
+ },
+ "8010": {
+  "name": "Feldkennung",
+  "type": "n",
+  "len": "4",
+  "format": "nnnn",
+  "values": "4-stellige natürliche Zahl, die nicht in der BDT-Feldtabelle vorkommt",
+  "desc": "Feldkennung nach dem Konzept der Freien Kategorien. Es dürfen nur Feldkennungen verwendet werden, die in der BDT- Feldtabelle nicht vorkommen",
+  "oid": "",
+  "page": 100
+ },
+ "8011": {
+  "name": "Feldbezeichnung (Name der freien Feldbzw. Praxiskategorie)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Feldbezeichnung zur Feldkennung im Feld mit der FK „8010“. Feldbezeichnung und ggf. Feldinhalt müssen durch eine Person ausgewertet werden, um eine Zuordnung beim Import zu ermöglichen",
+  "oid": "",
+  "page": 100
+ },
+ "8012": {
+  "name": "Feldbedeutung (Bedeutung der freien Feldbzw. Praxiskategorie)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Erläuterungen zum in den Feldern mit den FK „8010“ und „8011“ definierten Feld; Erklärungen zur Bedeutung (Semantik) des Feldes zum Konzept und zum Kontext der Verwendung. Ggf. OID des Konzepts.",
+  "oid": "",
+  "page": 100
+ },
+ "8013": {
+  "name": "Feldinhalt (Inhalt der freien Feld bzw. Praxiskategorie)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext: Beschreibung möglicher Inhalte, ggf. mit Regeln / Bedingungen, ggf. OID einer Wertetabelle / Schlüsseltabelle",
+  "oid": "",
+  "page": 100
+ },
+ "8200": {
+  "name": "ObjektIdent",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "[8200] = „Obj_Allergien“ | … | „Obj_Vorsorgevollmach t",
+  "desc": "ObjektIdent enthält den Namen eines Informationsobjekts aus dem BDT-Objektkatalog",
+  "oid": "",
+  "page": 101
+ },
+ "8201": {
+  "name": "Objektende",
+  "type": "n",
+  "len": "var",
+  "format": "n {n}",
+  "values": "",
+  "desc": "Enthält die Anzahl der übermittelten Felder im Objekt inkl. der Felder „8200 und 8201“",
+  "oid": "",
+  "page": 101
+ },
+ "8202": {
+  "name": "Satzende",
+  "type": "n",
+  "len": "var",
+  "format": "n {n}",
+  "values": "",
+  "desc": "Enthält die Anzahl der übermittelten Felder im Satz inkl. der Felder „8000“ und „8202“",
+  "oid": "",
+  "page": 101
+ },
+ "8301": {
+  "name": "Auftragseingang im Labor",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Erfassungsdatum. Eingangsdatum des Auftrags im Labor",
+  "oid": "",
+  "page": 101
+ },
+ "8308": {
+  "name": "Kuerzel der angeforderten Leistungen Auftrags-ID",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Na; Ca; nat; cal vgl. LDT",
+  "oid": "",
+  "page": 101
+ },
+ "8309": {
+  "name": "Teilauftrags ID",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet eine eindeutige Teilauftragsnummer, welche auf den Gesamtauftrag referenziert",
+  "oid": "",
+  "page": 101
+ },
+ "8310": {
+  "name": "Untersuchungs ID",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet eine Anforderung, welche auf die Auftrags ID oder Teilauftrags ID referenziert. Dies kann ein alphanumerischer Code sein, der durch die Einsenderpraxis vergeben wird.",
+  "oid": "",
+  "page": 101
+ },
+ "8311": {
+  "name": "Auftragsnummer des Labors",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet die eindeutige Nummer, unter welcher das Labor den Auftrag entgegengenommen hat. Dies kann ein interner alphanumerischer Code des Labors sein oder auch die Tagesnummer, die zusammen mit Feld 8301 „Eingangsdatum des Auftrages im Labor“ eindeutig wird.",
+  "oid": "",
+  "page": 101
+ },
+ "8313": {
+  "name": "Nachforderungs ID",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Bezeichnet eine Nachforderung, welche auf eine Auftrags ID oder Teilauftrags ID referenziert",
+  "oid": "",
+  "page": 101
+ },
+ "8315": {
+  "name": "ID des Empfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. eine GDT-ID",
+  "oid": "",
+  "page": 101
+ },
+ "8316": {
+  "name": "ID des Senders",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. eine GDT-ID",
+  "oid": "",
+  "page": 101
+ },
+ "8400": {
+  "name": "Ergebnis ID",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Wird durch Labor generiert",
+  "oid": "",
+  "page": 101
+ },
+ "8401": {
+  "name": "Befundart",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "[8401] = „E“ | „T“ | „V“ | „A“ “ | „N“",
+  "desc": "„E“ = (kompletter) Endbefund, „T“ = Teilbefund, „V“ = (kompletter) Vorbefund, „A“ = Archivbefund, „N“ = Nachforderung",
+  "oid": "",
+  "page": 101
+ },
+ "8402": {
+  "name": "Gerätebzw. Verfahrensspezifisches Kennfeld",
+  "type": "a",
+  "len": "6",
+  "format": "",
+  "values": "",
+  "desc": "Typ der angeforderten Untersuchung, z.B. „EKG01“",
+  "oid": "",
+  "page": 102
+ },
+ "8403": {
+  "name": "Gebührenordnung",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = BMÄ; 2 = EGO; 3 = GOÄ96; 4= BG Tarif; 5 = GOÄ 88",
+  "oid": "",
+  "page": 102
+ },
+ "8405": {
+  "name": "Patienteninformation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 102
+ },
+ "8407": {
+  "name": "Geschlecht",
+  "type": "",
+  "len": "≤",
+  "format": "",
+  "values": "",
+  "desc": "vgl. 3110, wo wird diese FK benötigt???",
+  "oid": "",
+  "page": 102
+ },
+ "8410": {
+  "name": "Test-Ident",
+  "type": "a",
+  "len": "8",
+  "format": "",
+  "values": "",
+  "desc": "Der Test-Ident ist die Kurzbezeichnung eines Analyts. Mit diesem Ident erfolgt eine eineindeutige Zuordnung aller Eigenschaften dieses Analyts, wie z.B. Normbereich, Preis und Dimension zum aktuellen Zeitpunkt.",
+  "oid": "",
+  "page": 102
+ },
+ "8411": {
+  "name": "Testbezeichnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Langbezeichnung des Analyts.",
+  "oid": "",
+  "page": 102
+ },
+ "8412": {
+  "name": "Test-OID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Eindeutige Objekt-ID (OID) des Test-Idents. Verschiedene Labore verwenden unterschiedliche Kürzel. Für eine Labordatendarstellung (Verlauf) bei Laborwerten aus unterschiedlichen Laboren muss jedes Test-Ident mit einer OID eindeutig identifiziert werden können Auch LDT-Abrechnungskennung: Am Format erkennbar; definiert durch die KBV",
+  "oid": "",
+  "page": 102
+ },
+ "8413": {
+  "name": "Test-Gerät-UID",
+  "type": "a",
+  "len": "≤ 8",
+  "format": "n {n} „.“",
+  "values": "",
+  "desc": "Eindeutige Untersuchungs-ID (UID), dient zur Rückführung auf Untersucher (Hersteller), das Gerät und den Zeitpunkt. Wird vom Gerät erzeugt",
+  "oid": "",
+  "page": 102
+ },
+ "8416": {
+  "name": "Schwere Hypo",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "„0“ = Nein, „1“ = Ja. Bei Diabetes: Angabe nur, wenn Bewusstlosigkeit oder i.V.m. Glukose oder Glukagon (s.c., i.m., i.v.)",
+  "oid": "",
+  "page": 102
+ },
+ "8418": {
+  "name": "Teststatus",
+  "type": "a",
+  "len": "1",
+  "format": "A",
+  "values": "[8418] = „B“ | „K“ | „F“",
+  "desc": "„B“ = bereits berichtet, „K“ = korrigierter Wert oder fehlt, \"F\"= Fehlt",
+  "oid": "",
+  "page": 102
+ },
+ "8420": {
+  "name": "Wert / Ergebnis-Wert",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Ergebniswert. Numerischer Messwert eines Analyts",
+  "oid": "",
+  "page": 102
+ },
+ "8421": {
+  "name": "Einheit des Messwertes / Wertes",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „mmHg/mmHg“, „cm“, „kg“ Dimension des Messwertes eines Analyts. Armin_ Die Angabe der Einheit erfolgt entweder in Form eines Freitextes, der im Feld „Bezeichnung der Einheit“ angegeben wird oder alternativ in kodierter Form im Element „Code der Einheit“",
+  "oid": "",
+  "page": 102
+ },
+ "8422": {
+  "name": "Grenzwertindikator des Laborwerts",
+  "type": "a",
+  "len": "1-2",
+  "format": "",
+  "values": "[8422] = „H“ | „+“ | „HH“ | „++“ | „L“ | „-„ | „LL“ | „—„ | „<“ | „>“ | „N“ | „A“ | „AA“",
+  "desc": "Bei numerischen Werten: “H” oder „+“ = leicht erhöht, “HH” oder „++“ = stark erhöht, “L” oder „–“ = mäßig erniedrigt, “LL” oder „- -“ = stark erniedrigt, “<” = unterhalb des Anzeigebereichs der Instrumentenskala, “>” = oberhalb des Anzeigebereichs der Instrumentenskala. Bei nicht numerischen Werten: “N” = normal (anzuwenden bei nicht numerischen Werten), “A” = auffällig (anzuwenden bei nicht numerischen Werten), “AA” = sehr auffällig (anzuwenden bei nicht numerischen Werten) Bitte FK 7360 verwenden, da diese deutlich umfangreicher ist",
+  "oid": "",
+  "page": 103
+ },
+ "8423": {
+  "name": "Pathologisch bekannt",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = Ja",
+  "oid": "",
+  "page": 103
+ },
+ "8424": {
+  "name": "Mutterschaft",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = Ja",
+  "oid": "",
+  "page": 103
+ },
+ "8425": {
+  "name": "Budget-Frei",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = Ja",
+  "oid": "",
+  "page": 103
+ },
+ "8426": {
+  "name": "Code der Einheit",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Armin: Der „Code der Einheit“ ist ein Wert aus der Anlage 7 der \"Spezifikation für einen patientenbezogenen Medikationsplan\" der Koordinierungsgruppe zur Umsetzung und Fortschreibung des Aktionsplanes zur Verbesserung der Arzneimitteltherapiesicherheit in Deutschland in der jeweils aktuellen Fassung",
+  "oid": "",
+  "page": 103
+ },
+ "8428": {
+  "name": "Probenmaterial-Ident",
+  "type": "a",
+  "len": "≤ 8",
+  "format": "",
+  "values": "",
+  "desc": "Barcodenummer als eindeutige Identifikation eines einzelnen Probencontainers / Probengefäßes (z.B. Röhrchen, Eppendorf-Hütchen). Muss nicht identisch sein mit dem Barcode des Anforderungs-Ident (Labor-Auftragsnummer) Freie Vergabe eines Probe-Identifikators: Kurzbezeichnung zur Identifizierung eines Untersuchungsmaterials",
+  "oid": "",
+  "page": 103
+ },
+ "8429": {
+  "name": "Probenmaterial-Index bzw. -Nummer",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "",
+  "desc": "Numerischer Wert zur Identifizierung eines Untersuchungsmaterials.",
+  "oid": "",
+  "page": 103
+ },
+ "8430": {
+  "name": "Probenmaterial- Bezeichnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Langbezeichnung zur Identifizierung eines Untersuchungsmaterials.",
+  "oid": "",
+  "page": 103
+ },
+ "8431": {
+  "name": "Probenmaterial- Spezifikation",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Detaillierung eines Untersuchungsmaterials, z.B. Abnahmeort",
+  "oid": "",
+  "page": 103
+ },
+ "8432": {
+  "name": "Abnahme-Datum",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8433": {
+  "name": "Abnahme-Zeit",
+  "type": "n",
+  "len": "6",
+  "format": "hhmmss",
+  "values": "",
+  "desc": "LDT: n 4 ???",
+  "oid": "",
+  "page": 104
+ },
+ "8437": {
+  "name": "Einheit(en) für Datenstrom",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8438": {
+  "name": "Datenstrom",
+  "type": "a",
+  "len": "var ≤",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8440": {
+  "name": "Keim-Ident",
+  "type": "a",
+  "len": "8",
+  "format": "",
+  "values": "",
+  "desc": "Freie Vergabe eines Keim-Identifikators",
+  "oid": "",
+  "page": 104
+ },
+ "8441": {
+  "name": "Keim-Bezeichnung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8442": {
+  "name": "Keim-Nummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8443": {
+  "name": "Resistenz-Methode",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[8443] = „1“ | „2“ | „3“ | „4“",
+  "desc": "„1“ = Agardiffusion, „2“ = Agardilution, „3“ = MHK- Bestimmung, „4“ = Breakpoint-Bestimmung",
+  "oid": "",
+  "page": 104
+ },
+ "8444": {
+  "name": "Wirkstoff-Ident",
+  "type": "a",
+  "len": "≤ 8",
+  "format": "",
+  "values": "",
+  "desc": "Freie Vergabe eines Wirkstoff-Identifikators",
+  "oid": "",
+  "page": 104
+ },
+ "8445": {
+  "name": "Wirkstoff-Generic- Nummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8446": {
+  "name": "MHK/Breakpoint-Wert",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8447": {
+  "name": "Resistenz- Interpretation",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[8447] = „0“ | „1“ | „2“ | „3“ | „4“",
+  "desc": "„0“ = nicht getestet, „1“ = sensibel/wirksam, „2“ = mäßig sensibel/schwach wirksam, „3“ = resistent/unwirksam, „4“ = wirksam in hohen Konzentrationen",
+  "oid": "",
+  "page": 104
+ },
+ "8448": {
+  "name": "Datum der Untersuchung / Messung / des Test",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum der Messung (falls das Messdatum vom Behandlungsdatum abweicht)",
+  "oid": "",
+  "page": 104
+ },
+ "8449": {
+  "name": "Datum der nächsten Untersuchung",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 104
+ },
+ "8450": {
+  "name": "Datum der Handlung",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Datum der Serum-Injektion",
+  "oid": "",
+  "page": 104
+ },
+ "8460": {
+  "name": "Normalwert-Text",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Texterläuterung zum Analyten bei mikrobiologischen Berichten",
+  "oid": "",
+  "page": 104
+ },
+ "8461": {
+  "name": "Normalwert untere Grenze",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Unterer Grenzwert des aktuellen Normalbereiches",
+  "oid": "",
+  "page": 104
+ },
+ "8462": {
+  "name": "Normalwert obere Grenze",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Oberer Grenzwert des aktuellen Normalbereiches",
+  "oid": "",
+  "page": 104
+ },
+ "8470": {
+  "name": "Anmerkung",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Testbezogene Hinweise Hinweis, der sich auf die Untersuchungsmethode bezieht, z.B. bei Wechsel der Methode",
+  "oid": "",
+  "page": 104
+ },
+ "8480": {
+  "name": "Ergebnis-Text",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Erläuterungstext zum Messergebnis.",
+  "oid": "",
+  "page": 105
+ },
+ "8485": {
+  "name": "Zielwert",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 105
+ },
+ "8486": {
+  "name": "Startdatum (Einnahme ab)",
+  "type": "d0",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "00MMJJJJ, TT00JJJJ ,0000JJJJ, 00000000. Datum des Kaufs (Selbstmedikation) oder der Verordnung, auch unvollständige Angaben möglich z.B. bei Selbstmedikation oder Fremdmedikation denkbar",
+  "oid": "",
+  "page": 105
+ },
+ "8487": {
+  "name": "Enddatum (Einnahme bis)",
+  "type": "d",
+  "len": "8",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "Kann in der Vergangenheit liegen oder Zukunft. In der Vergangenheit wurde es bereits abgesetzt, in der Zukunft soll es bis zu einem Zeitpunkt eingenommen werden",
+  "oid": "",
+  "page": 105
+ },
+ "8490": {
+  "name": "Abschluss-Zeile",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Auftragsbezogene Hinweise Bemerkungen, die sich auf den gesamten Auftrag beziehen.",
+  "oid": "",
+  "page": 105
+ },
+ "8501": {
+  "name": "Dringlichkeitsstatus",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "„1“ = Notfall, „2“ = eilig",
+  "oid": "",
+  "page": 105
+ },
+ "8503": {
+  "name": "Infektiös",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "0=nicht infektiös; 1= Verdacht auf infektiös; 2=gesichert infektiös",
+  "oid": "",
+  "page": 105
+ },
+ "8504": {
+  "name": "Medikamenteneinnahme zum Zeitpunkt der Probenentnahme",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 105
+ },
+ "8510": {
+  "name": "Schwangerschaft",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "[8510] = „0“ | „1“",
+  "desc": "„1“ = liegt vor, „0“ = liegt nicht vor",
+  "oid": "",
+  "page": 105
+ },
+ "8511": {
+  "name": "Schwangerschaftsdauer",
+  "type": "n",
+  "len": "3",
+  "format": "",
+  "values": "",
+  "desc": "Woche (?) in Wochen???",
+  "oid": "",
+  "page": 105
+ },
+ "8512": {
+  "name": "1. Tag des letzten Zyklus",
+  "type": "d",
+  "len": "6",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 105
+ },
+ "8520": {
+  "name": "Wirkstoffmenge, Menge / Bezugsmenge",
+  "type": "f",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Maßzahl für die Menge des Probenmaterials. Zahl, z.B. „0.1“ oder „10“. Menge des Probenmaterials",
+  "oid": "",
+  "page": 105
+ },
+ "8521": {
+  "name": "Maßeinheit, Einheit (der Menge) / Bezugseinheit",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Maßeinheit für die Menge des Probenmaterials Freitext, z.B. „E“ = E, „ML“ = ml, „ST“",
+  "oid": "",
+  "page": 105
+ },
+ "8601": {
+  "name": "Name des Rechnungsempfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 105
+ },
+ "8602": {
+  "name": "Titel, Vorname des Rechnungsempfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 105
+ },
+ "8606": {
+  "name": "Wohnort des Rechnungsempfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 106
+ },
+ "8607": {
+  "name": "Straße des Rechnungsempfängers",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 106
+ },
+ "8608": {
+  "name": "Kommentar/Aktenzeichen",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Erläuterungen zur Rechnung, wie Aktenzeichen, Rechnungsnummer, Kundennummer",
+  "oid": "",
+  "page": 106
+ },
+ "8609": {
+  "name": "Abrechnungstyp",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "[8609] = „K“ | „P“ | „X“ | „E“, | „I“ | „L“ | „S“",
+  "desc": "„K“ = Kassenpatient (Auftrag erfolgt mittels Muster 10 oder 10a), „P“ = Privatpatient, „X“ = andere Rechnungsempfänger, z.B. BG, „E“ = Einsender persönlich, „I“ = Igel, „L“ = Laborgemeinschaft, „S“ = Selektivvertrag mit Bereinigung",
+  "oid": "",
+  "page": 106
+ },
+ "8610": {
+  "name": "Privattarif",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = Privat, 2 = Post B; 3 = KVB",
+  "oid": "",
+  "page": 106
+ },
+ "8614": {
+  "name": "Abrechnung durch",
+  "type": "a",
+  "len": "1",
+  "format": "",
+  "values": "",
+  "desc": "1 = Einsender; 2 = Labor",
+  "oid": "",
+  "page": 106
+ },
+ "8615": {
+  "name": "Auftraggeber",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext Hier ist z.B. die LANR des Auftraggebers analog FK 0212 einzutragen",
+  "oid": "",
+  "page": 106
+ },
+ "8616": {
+  "name": "Uhrzeit der Befunderstellung",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Erstellung des vorliegenden Befundes/Ergebnisses",
+  "oid": "",
+  "page": 106
+ },
+ "8617": {
+  "name": "Datum der Befunderstellung",
+  "type": "",
+  "len": "",
+  "format": "",
+  "values": "",
+  "desc": "Erstellung des vorliegenden Befundes/Ergebnisses",
+  "oid": "",
+  "page": 106
+ },
+ "8990": {
+  "name": "Signatur (Namenszeichen)",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. „Dr. Huber“",
+  "oid": "",
+  "page": 106
+ },
+ "9103": {
+  "name": "Datum der Erstellung",
+  "type": "",
+  "len": "",
+  "format": "TTMMJJJJ",
+  "values": "",
+  "desc": "GDT Datum der Erstellung des Befundberichtes im Format \"TTMMJJJJ\"",
+  "oid": "",
+  "page": 106
+ },
+ "9104": {
+  "name": "Datum + Uhrzeit der Erstellung",
+  "type": "n",
+  "len": "16",
+  "format": "TTMMJJJJhhmmss cc",
+  "values": "",
+  "desc": "Erstellungsdatum der BDT-Exportdatei",
+  "oid": "",
+  "page": 106
+ },
+ "9106": {
+  "name": "Zeichencode",
+  "type": "n",
+  "len": "1",
+  "format": "",
+  "values": "[9106] = „3“",
+  "desc": "„3“ = ISO/IEC 8859-15 In Feldinhalten von Feldern des BDT ist der Zeichencode nur gem. der in diesem Dokument angegebenen Tabelle erlaubt, d.h. im wesentlichen sind sog. Steuerzeichen ausgenommen LDT: „4“ ???",
+  "oid": "",
+  "page": 106
+ },
+ "9107": {
+  "name": "Verwendetes Datumsformat",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[9107] = „0“ | „1“",
+  "desc": "\"0\" TTMMJJJJ (KBV-Format bis 30.9.2014) \"1\" JJJJMMTT (Basisformat ISO 8601:2004 / EN 28601) Falls Feld 9107 fehlt, wird \"0\" als Standard angenommen (Abwärtskompatibilität). Der KBV steht es frei, den Eintrag \"1\" im Feld 9107 für ihre Zwecke vorzuschreiben",
+  "oid": "",
+  "page": 107
+ },
+ "9217": {
+  "name": "Im Quartal",
+  "type": "n",
+  "len": "5",
+  "format": "QJJJJ",
+  "values": "",
+  "desc": "Leistungszeitraum (Quartal), vgl. KVDT/GUDT",
+  "oid": "",
+  "page": 107
+ },
+ "9603": {
+  "name": "Zeitraum",
+  "type": "a",
+  "len": "12",
+  "format": "TTMMJJJJTTMMJJ JJ",
+  "values": "",
+  "desc": "Zeitraum, der durch die exportierten Daten abgedeckt wird",
+  "oid": "",
+  "page": 107
+ },
+ "9604": {
+  "name": "Übertragungskennung",
+  "type": "a",
+  "len": "32",
+  "format": "HHHHHHHH „-“ HHHH „-“ HHHH „- “ HHHH „-“ HHHHHHHHHHHH",
+  "values": "",
+  "desc": "Globally Unique Identifier (GUID), Type 4: Eindeutige Kennzeichnung dieser Übertragung; 32 Zeichen (Hexadezimaldarstellung) Beispiel: „DF01D389-3B26-4768-9707-B1CA2E2F3D17“",
+  "oid": "",
+  "page": 107
+ },
+ "9801": {
+  "name": "XDT-interne Arzt-ID eines Arztes in der Betriebsstätte",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Frei vergebene eindeutige ID, die innerhalb der BDT- Übertragung für den Arzt gilt",
+  "oid": "",
+  "page": 107
+ },
+ "9802": {
+  "name": "XDT-interne Hilfskraft-ID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Frei vergebene eindeutige ID, die innerhalb der BDT- Übertragung für die Hilfskraft (z.B. Arzthelferin) gilt",
+  "oid": "",
+  "page": 107
+ },
+ "9803": {
+  "name": "Name der Hilfskraft",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, Name und Vorname",
+  "oid": "",
+  "page": 107
+ },
+ "9806": {
+  "name": "XDT-interne Betriebsstätten-ID",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Frei vergebene eindeutige ID, die innerhalb der BDT- Übertragung für die Betriebsstätte gilt",
+  "oid": "",
+  "page": 107
+ },
+ "9810": {
+  "name": "Kennzeichen von Adressen, die zum selben Namen / zur selben Person gehören",
+  "type": "n",
+  "len": "2",
+  "format": "nn",
+  "values": "",
+  "desc": "Das frei zu wählende eindeutige Kennzeichen ist vom exportierenden System zu erzeugen. Gestattet die Zuordnung verschiedener Adressen zum selben Namen im empfangenden System, wenn zu einem Namen mehrere Adressen verschiedenen Adresstyps oder verschiedener Adresskategorien gehören.",
+  "oid": "",
+  "page": 107
+ },
+ "9900": {
+  "name": "ID der Datensatzbeschreibung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Referenz auf die Datei-Inhaltsbeschreibung (Spec-ID). Freitext. Eindeutiger Bezeichner der Datensatzbeschreibung, die einer XDT-extern gespeicherten Datei zugrunde liegt (Festlegung des Bezeichners durch die exportierende Stelle). Beispiel: „DMP001“.",
+  "oid": "",
+  "page": 107
+ },
+ "9902": {
+  "name": "Verantwortliche Stelle für die Datensatzbeschreibung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Verantwortliche Instanz für die Datensatzbeschreibung, Beispiel: „KBV“.",
+  "oid": "",
+  "page": 108
+ },
+ "9903": {
+  "name": "Stand",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Stand der Datensatzbeschreibung, Beispiel: „25.01.2010“.",
+  "oid": "",
+  "page": 108
+ },
+ "9904": {
+  "name": "Version",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Version der Datensatzbeschreibung, Beispiel: „3.04“.",
+  "oid": "",
+  "page": 108
+ },
+ "9905": {
+  "name": "Fundort der Datensatzbeschreibung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Beispiel: “http://www.kbv.de/ita/register_B.html“ oder lokale Pfadangabe.",
+  "oid": "",
+  "page": 108
+ },
+ "9906": {
+  "name": "Pfad / Speicherort",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Pfad / Speicherort der durch die Datensatzbeschreibung referenzierten Datei, Beispiel: „C:\\programme\\PVS\\DMP\\123456789_123_20070301.EED2“",
+  "oid": "",
+  "page": 108
+ },
+ "9907": {
+  "name": "Eigentümer der Datei",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "LANR oder eindeutige Arzt-ID oder Arztname und Ort",
+  "oid": "",
+  "page": 108
+ },
+ "9908": {
+  "name": "Originaldokument: Pfad/Speicherort",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "z.B. eine alte Excel-Tabelle, altes Worddokument, altes proprietäres PVS-Format",
+  "oid": "",
+  "page": 108
+ },
+ "9909": {
+  "name": "Langzeit- Archivierung: Pfad/Speicherort",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Link zu PDF/A-Dokument. Wird zum Zwecke der Langzeit- Archivierung genutzt",
+  "oid": "",
+  "page": 108
+ },
+ "9910": {
+  "name": "Beschreibung des Inhalts der Datei",
+  "type": "s",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext. Beispiel: „Elektronische Dokumentation Diabetes mellitus Typ 2, Volldatensatz/a-Datensatz“",
+  "oid": "",
+  "page": 108
+ },
+ "9970": {
+  "name": "Dokumententyp KV- Formulare",
+  "type": "a",
+  "len": "1-3",
+  "format": "n | nn | nA | nnA",
+  "values": "[9970] = „1“ | „2“ | … | „8“ | „8A“ | „ 9“ | „10“ | „10A“ | „11“ | „12“ | … | „22“ | „25“ | „26“ | „27“ | „28“ | „30“ | „39“ | „40“ | „41“ | „50“ | „51“ | „52“ | „53“ | „55“ | „56“ | „60“ | „61“ | „63“ | „70“ | „70A“ | „80“ | „81“ | „85“ | „99“ | „99A“",
+  "desc": "Typ gem. Vereinbarung über Vordrucke für die vertragsärztliche Versorgung und zugehörigen Änderungsvereinbarungen, z.B. Muster 16 = „16“, Muster 8A = „8A“. „1“ = Arbeitsunfähigkeitsbescheinigung, „2“ = Verordnung von Krankenhausbehandlung, „3“ = Bescheinigung über den mutmaßlichen Tag der Entbindung, „4“ = Verordnung einer Krankenbeförderung, „5“ = Abrechnungsschein ambulante Behandlung, belegärztliche Behandlung, Abklärung somatischer Ursachen vor Aufnahme einer Psychotherapie, anerkannte Psychotherapie, „6“ = Überweisungsschein, „7“ = Überweisung vor Aufnahme einer Psychotherapie zur Abklärung somatischer Ursachen, „8“ = Sehhilfenverordnung, „8A“ = Verordnung von vergrößernden Sehhilfen, „9“ = Ärztliche Bescheinigung über die Gewährung von Mutterschaftsgeld bei Frühgeburten, „10“ = Überweisungsschein für Laboratoriumsuntersuchungen als Auftragsleistung, „10A“ = Anforderungsschein für Laboratoriumsuntersuchungen bei Laborgemeinschaften, usw., „99A“ = Beleg über die Zahlung gemäß § 28 Absatz 4 SGB V im Notfall. Quelle: http://www.kbv.de/rechtsquellen/2306.html",
+  "oid": "",
+  "page": 108
+ },
+ "9971": {
+  "name": "Freier Dokumententyp",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Freitext, z.B. BG-Formulare mit der Systematik \"Fnnnn\"",
+  "oid": "",
+  "page": 109
+ },
+ "9980": {
+  "name": "Externe Dokumenten- ID zur Archivierung",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "",
+  "oid": "",
+  "page": 109
+ },
+ "9981": {
+  "name": "Dokumentenquelle",
+  "type": "b",
+  "len": "1",
+  "format": "n",
+  "values": "",
+  "desc": "„1“ = eigen, „0“ = fremd",
+  "oid": "",
+  "page": 109
+ },
+ "9999": {
+  "name": "Objekt-Identifier (OID)",
+  "type": "a",
+  "len": "var",
+  "format": "n {n} { „.“ n {n} }",
+  "values": "",
+  "desc": "http://de.wikipedia.org/wiki/Object_Identifier http://www.dimdi.de/static/de/klassi/oid/index.htm (Anzahl der übermittelten Felder Ende Satzart Kommunikations-Header (Anzahl der übermittelten Felder Beschreibung des Inhalts der …. Beschreibung des Inhalts der …. Beschreibung des Inhalts der …. (Anzahl der übermittelten Felder",
+  "oid": "des Objektes) der Satzart) Anzahl der übermittelten Felder der Satzart)",
+  "page": 109
+ }
+}
