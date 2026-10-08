@@ -4,3 +4,4 @@ specs/
 .DS_Store
 *.log
 tests/e2e/out/
+.claude/

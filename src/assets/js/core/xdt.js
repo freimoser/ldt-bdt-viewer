@@ -170,6 +170,7 @@ export function openFile(bytes, name, dict, opts = {}) {
   const fallback = m.format === "ldt2" ? "iso-8859-15" : "iso-8859-15";
   const cs = detectCharset(stats, declared, fallback);
   cs.declared = declared; cs.declaredBy = declaredBy; cs.stats = stats;
+  if (declaredBy && cs.source === "Angabe in der Datei") cs.source = `Angabe in der Datei (${declaredBy})`;
   const mandated = m.format === "ldt3" || (m.format === "bdt" && m.bdtVariant === "3.0");
   if (!declared && mandated && cs.charset === "iso-8859-15") {
     cs.source = stats.high ? "Vorgabe der Spezifikation (ISO 8859-15), passt zu den Umlauten in der Datei" : "Vorgabe der Spezifikation (ISO 8859-15)";
@@ -719,8 +720,27 @@ export function extractBefunde(m) {
   if (m.format !== "ldt2" && m.format !== "ldt3" && m.format !== "bdt") return out;
   const order = m.format === "bdt" ? "TTMMJJJJ" : "JJJJMMTT";
   const indicator = m.format === "ldt2" ? S.INDICATOR.ldt2 : S.INDICATOR.ldt3;
+  const statusMap = S.REPORT_STATUS[m.format] || {};
+  const sexMap = S.SEX[m.format] || {};
+  // BDT: Stammdaten aus Satzart 6100 über die Patientennummer 3000 zuordnen
+  const stamm = new Map();
+  if (m.format === "bdt") {
+    for (const rec of m.records) {
+      if (rec.type !== "6100") continue;
+      const p = {};
+      for (let i = rec.start; i <= rec.end; i++) {
+        const f = m.fk[i];
+        if (f === 3000) p.id = content(m, i).trim();
+        else if (f === 3101) p.last = content(m, i).trim();
+        else if (f === 3102) p.first = content(m, i).trim();
+        else if (f === 3103) p.birth = fmtDate(content(m, i).trim(), order);
+        else if (f === 3110) p.sex = content(m, i).trim();
+      }
+      if (p.id) stamm.set(p.id, p);
+    }
+  }
   for (const rec of m.records) {
-    const isResult = m.format === "bdt" ? true : S.RESULT_RECORDS[m.format].has(rec.type);
+    const isResult = m.format === "bdt" ? rec.type !== "6100" : S.RESULT_RECORDS[m.format].has(rec.type);
     if (!isResult) continue;
     const r = { record: rec.index, line: rec.start + 1, satzart: rec.type, satzLabel: rec.label, patient: {}, tests: [], notes: [] };
     let test = null, res = null, fresh = false, cur = 0;
@@ -787,6 +807,9 @@ export function extractBefunde(m) {
         default: break;
       }
     }
+    if (m.format === "bdt" && r.patient.id && stamm.has(r.patient.id)) r.patient = { ...stamm.get(r.patient.id), ...Object.fromEntries(Object.entries(r.patient).filter(([, v]) => v)) };
+    if (r.patient.sex) r.patient.sexText = sexMap[r.patient.sex] || r.patient.sex;
+    if (r.status) r.statusText = statusMap[r.status] || r.status;
     r.tests = r.tests.filter((t) => t.id || t.name || t.results.length);
     for (const t of r.tests) if (!t.name && t.kind && !t.id) t.name = t.kind;
     for (const t of r.tests) if (!t.results.length) t.results.push({ value: "", unit: "", low: "", high: "", range: "", flag: "", flagText: "", text: [], line: t.line });

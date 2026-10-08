@@ -225,3 +225,16 @@ export const RESULT_RECORDS = {
   ldt2: new Set(["8201", "8202", "8203", "8204"]),
   ldt3: new Set(["8205"]),
 };
+
+/** Befundstatus 8401: KBV LDT 5.12 (Regel 135) bzw. KBV LDT 3.2.20 (Regel E006). */
+export const REPORT_STATUS = {
+  ldt2: { E: "Endbefund", T: "Teilbefund", V: "Vorläufiger Befund", A: "Archiv-Befund", N: "Nachforderung" },
+  ldt3: { 1: "Auftrag nicht abgeschlossen", 2: "Auftrag abgeschlossen" },
+};
+
+/** Geschlecht 3110: KBV LDT 5.12 (Regel 533), KBV LDT 3.2.20 (E019), QMS BDT 3.0 (Feld 3110). */
+export const SEX = {
+  ldt2: { M: "männlich", W: "weiblich", U: "unbekannt", X: "unbestimmt" },
+  ldt3: { M: "männlich", W: "weiblich", D: "divers", X: "unbestimmt", U: "unbekannt" },
+  bdt: { 0: "unbekannt", U: "unbekannt", 1: "männlich", M: "männlich", 2: "weiblich", W: "weiblich", 3: "anders", A: "anders" },
+};

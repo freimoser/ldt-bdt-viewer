@@ -14,6 +14,7 @@ function tidy(s) {
   return String(s || "")
     .replace(/\s+/g, " ")
     .replace(/_ (?=\S)/g, "_")
+    .replace(/(\S) _(?=\S)/g, "$1_")
     .replace(/(\p{Ll})- (\p{Lu})/gu, "$1-$2")
     .trim();
 }
