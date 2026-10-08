@@ -157,7 +157,7 @@ ${faq.map((f) => `<details><summary>${esc(f.q)}</summary><p>${f.a}</p></details>
 }
 
 export function faqLd(faq) {
-  const strip = (s) => s.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  const strip = (s) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",

@@ -436,7 +436,9 @@ function validate(m, progress) {
     if (fk[i] === 8000 && firstRecord < 0) firstRecord = i;
     const cb = contentBytes(m, i);
     const expected = cb + 9;
-    if (len[i] !== expected) {
+    // QMS BDT 3.0, Kap. 3.3: Feldlänge „000“ bedeutet „nicht angegeben“
+    const lenNotGiven = len[i] === 0 && m.format === "bdt" && m.bdtVariant === "3.0";
+    if (len[i] !== expected && !lenNotGiven) {
       lenErrors++;
       if (len[i] - expected === -1) lenDiffMinus1++;
       addIssue(m, i, "fehler", "LEN", `Zeile ${i + 1}: Die Längenangabe passt nicht zum Inhalt (angegeben ${String(len[i]).padStart(3, "0")}, richtig wäre ${String(expected).padStart(3, "0")}).`, WHY.LEN);

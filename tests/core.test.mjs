@@ -233,3 +233,12 @@ test("Dateischreiber berechnet Längen korrekt", () => {
   const s = new TextDecoder("latin1").decode(b);
   assert.equal(s, "01380006100\r\n014810000042\r\n0153101Müller\r\n".replace("014810000042", "0148100" + String(13 + 14 + 15).padStart(5, "0")));
 });
+
+test("BDT 3.0: Feldlänge 000 bedeutet „nicht angegeben“ und ist kein Fehler", () => {
+  // Satz: 8000 0020, ein Feld mit Länge 000, Satzende 8202 mit Feldanzahl
+  const txt = ["01380000020", "000980601", "01200101", "02596030101202631122026", "0108202" + "5"].join("\r\n") + "\r\n";
+  const m = open(Uint8Array.from(txt, (c) => c.charCodeAt(0)), "test.bdt");
+  assert.equal(m.format, "bdt");
+  assert.equal(m.bdtVariant, "3.0");
+  assert.ok(!m.issues.some((i) => i.code === "LEN" && i.line === 2), JSON.stringify(m.issues.filter((i) => i.code === "LEN")));
+});
