@@ -31,6 +31,8 @@ export const Q = {
   giessen: { t: "Universität Gießen, Institut für Medizinische Informatik: Beschreibung des BDT-Formats", u: "https://www.uni-giessen.de/de/fbz/fb11/institute/imi/schwerpunkte/kkk/standards/bdt" },
   gdt: { t: "QMS, GDT 2.1 (englische Fassung)", u: "https://www.qms-standards.de/files/GDT_2_1_0501_english.pdf" },
   qms: { t: "QMS, Marktgestaltung und GDT", u: "https://www.qms-standards.de/Marktgestaltung.html" },
+  qmsWechsel: { t: "QMS, Update PVS-Wechselschnittstelle (Juli 2026)", u: "https://www.qms-standards.de/files/QMSArtikelPVS-Wechselschnittstelle.pdf" },
+  tool: { t: "Quellenliste des LDT & BDT Viewers", u: "https://github.com/freimoser/ldt-bdt-viewer/blob/main/quellen.md" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
@@ -130,7 +132,7 @@ ${GUIDES.filter(([p]) => p !== "feldkennungen/").map(([p, l]) => `<li><a href="$
 </ul>
 <p class="small">Kein Medizinprodukt. Dateien bleiben in Ihrem Browser.</p></div>
 </div>
-<p class="site-footer-note">Open Source · keine Cookies, kein Tracking, kein Upload · Stand ${SITE.updatedDe}</p>
+<p class="site-footer-note">Quellcode offen auf GitHub · keine Cookies, kein Tracking, kein Upload · Stand ${SITE.updatedDe}</p>
 </footer>`;
 }
 
@@ -190,4 +192,49 @@ ${p.after || ""}
 </body>
 </html>
 `;
+}
+
+/** Kopf einer Inhaltsseite: Brotkrumen, H1, direkte Antwort im ersten Satz, Stand. */
+export function heroHtml({ crumbs, h1, lead, minutes }) {
+  return `${breadcrumbHtml(crumbs)}
+<header class="hero-article">
+<h1>${esc(h1)}</h1>
+<p class="lead">${lead}</p>
+<p class="meta-line">Stand: ${SITE.updatedDe}${minutes ? ` · Lesedauer ca. ${minutes} Minuten` : ""} · von <a href="${SITE.author.url}">${esc(SITE.author.name)}</a></p>
+</header>`;
+}
+
+export function articleLd({ headline, description, path }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline,
+    description,
+    inLanguage: "de-DE",
+    datePublished: SITE.updated,
+    dateModified: SITE.updated,
+    author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+    publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+    mainEntityOfPage: url(path),
+    image: url("og-image.png"),
+  };
+}
+
+export function howToLd({ name, description, steps, path }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    description,
+    inLanguage: "de-DE",
+    tool: [{ "@type": "HowToTool", name: "LDT & BDT Viewer (kostenlos, im Browser)" }],
+    step: steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text, url: url(path) + "#schritt-" + (i + 1) })),
+  };
+}
+
+/** Schritt-Liste für Anleitungen, passend zu howToLd. */
+export function stepsHtml(steps) {
+  return `<ol class="steps">
+${steps.map((s, i) => `<li id="schritt-${i + 1}"><h3>${esc(s.name)}</h3><p>${s.html || esc(s.text)}</p></li>`).join("\n")}
+</ol>`;
 }

@@ -275,7 +275,8 @@ function switchTab(f, id, opts = {}) {
 $("viewTabs").addEventListener("keydown", (e) => {
   const f = cur();
   if (!f) return;
-  const idx = TABS.findIndex(([id]) => id === f.tab);
+  const focusedId = document.activeElement && document.activeElement.id.startsWith("tab-") ? document.activeElement.id.slice(4) : f.tab;
+  const idx = TABS.findIndex(([id]) => id === focusedId);
   let next = null;
   if (e.key === "ArrowRight") next = (idx + 1) % TABS.length;
   if (e.key === "ArrowLeft") next = (idx + TABS.length - 1) % TABS.length;
@@ -655,6 +656,6 @@ lookupInput.addEventListener("focus", () => loadDict(), { once: true });
 
 /* ------------------------------------------------------------ Offline */
 
-if ("serviceWorker" in navigator && location.protocol === "https:") {
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => navigator.serviceWorker.register(BASE + "sw.js", { scope: BASE }).catch(() => {}));
 }
