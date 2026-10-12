@@ -112,7 +112,7 @@ async function openBuffer(name, buffer) {
 }
 
 function defaultTab(view) {
-  if ((view.format === "ldt2" || view.format === "ldt3") && (view.befunde > 0 || view.auftraege > 0)) return "befunde";
+  if ((view.format === "ldt2" || view.format === "ldt3" || view.format === "bdt") && (view.befunde > 0 || view.auftraege > 0)) return "befunde";
   if (view.issueCounts.fehler > 0 && view.format === "unknown") return "pruefung";
   return "struktur";
 }
@@ -188,8 +188,17 @@ function renderNotices(f) {
   if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
     box.append(h("div", { class: "notice notice-warn", role: "note" }, "Das Format wurde nicht erkannt."));
   }
+  // Fehler in der Datei: oben warnen, bevor jemand Werte übernimmt (Ursache, falls erkannt)
+  if (v.issueCounts.fehler > 0 && v.format !== "unknown") {
+    box.append(h("div", { class: "notice notice-err", role: "note" },
+      h("strong", null, `Achtung: Die Prüfung hat ${plural(v.issueCounts.fehler, "Fehler", "Fehler")} gefunden. `),
+      v.diagnosis ? `Wahrscheinliche Ursache: ${v.diagnosis.title}. ` : "",
+      "Übernehmen Sie Werte aus dieser Datei nur nach Rücksprache mit dem Absender. ",
+      h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "pruefung") }, "Prüfung ansehen")));
+  }
   const cs = v.charset;
-  if (cs.conflict || cs.confidence === "niedrig") {
+  const charsetExplained = v.diagnosis && v.diagnosis.root.includes("CHARSET_WRONG");
+  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained) {
     box.append(h("div", { class: "notice notice-warn", role: "note" },
       h("strong", null, "Zeichensatz unsicher. "),
       cs.conflict ? `Die Datei gibt ${CHARSET_LABEL[cs.conflict.declared]} an, die Umlaute passen aber eher zu ${CHARSET_LABEL[cs.conflict.detected]}. ` : "Es gibt nur wenige Umlaute, an denen sich der Zeichensatz erkennen lässt. ",
@@ -211,13 +220,17 @@ function renderSummary(f) {
   const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", unknown: "Unbekannt" }[v.format] || type;
   box.append(card("Dateityp", shortType, h("span", { class: "sub" }, `${version} · ${type.replace(/^[^(]*\(|\)$/g, "")}`)));
   if (s.direction) box.append(card("Richtung", s.direction));
+  // Im klassischen BDT gibt es keinen beschriebenen Kopfsatz: leere Kacheln würden wie Fehler wirken
+  const skipEmpty = v.format === "bdt";
   if (v.format !== "gdt" && v.format !== "unknown") {
-    box.append(card("Absender", s.sender || "nicht angegeben"));
-    box.append(card("Empfänger", s.receiver || "nicht angegeben"));
+    if (s.sender || !skipEmpty) box.append(card("Absender", s.sender || "nicht angegeben"));
+    if (s.receiver || !skipEmpty) box.append(card("Empfänger", s.receiver || "nicht angegeben"));
   }
-  box.append(card("Datum", s.date || "nicht angegeben"));
+  if (s.date || !skipEmpty) box.append(card("Datum", s.date || "nicht angegeben"));
   box.append(card("Sätze", nf.format(s.records), h("span", { class: "sub" }, plural(s.lines, "Zeile", "Zeilen"))));
-  if (v.format === "ldt2" || v.format === "ldt3" || v.format === "bdt") {
+  if (s.orders && !s.befunde) {
+    box.append(card("Patienten und Aufträge", plural(s.orderPatients, "Patient", "Patienten"), h("span", { class: "sub" }, `${plural(s.orders, "Auftrag", "Aufträge")} · ${plural(s.orderTests, "angeforderte Untersuchung", "angeforderte Untersuchungen")}`)));
+  } else if (v.format === "ldt2" || v.format === "ldt3" || v.format === "bdt") {
     const flagged = s.flagged ? ` · ${nf.format(s.flagged)} markiert${s.extreme ? `, davon ${plural(s.extreme, "Extremwert", "Extremwerte")}` : ""}` : "";
     const partial = s.partial ? ` · ${plural(s.partial, "Teilbefund", "Teilbefunde")}` : "";
     const pending = s.pending ? ` · ${plural(s.pending, "Wert folgt", "Werte folgen")} noch` : "";
@@ -718,5 +731,15 @@ lookupInput.addEventListener("focus", () => loadDict(), { once: true });
 /* ------------------------------------------------------------ Offline */
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  // Neue Version: Der Service Worker übernimmt sofort, diese Seite läuft aber noch mit dem alten Code
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController || document.getElementById("updateToast")) return;
+    const open = state.files.size;
+    document.body.append(h("div", { id: "updateToast", class: "update-toast", role: "status" },
+      h("span", null, "Eine neue Version des Viewers ist verfügbar.", open ? " Geöffnete Dateien müssen danach erneut geöffnet werden." : ""),
+      h("button", { type: "button", class: "btn btn-primary btn-sm", onclick: () => location.reload() }, "Neu laden"),
+      h("button", { type: "button", class: "btn btn-ghost btn-sm", onclick: (e) => e.target.closest(".update-toast").remove() }, "Später")));
+  });
   window.addEventListener("load", () => navigator.serviceWorker.register(BASE + "sw.js", { scope: BASE }).catch(() => {}));
 }

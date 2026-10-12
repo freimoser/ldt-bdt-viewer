@@ -1003,7 +1003,9 @@ function buildSummary(m) {
       s.sender = org ? `Praxis: ${org}` : einsender ? `Praxis: ${einsender}` : "";
       const labObj = body ? m.objects.find((o) => o.id === "Obj_0036" && o.record === body.index) : null;
       const lab = labObj ? firstContent(m, 1250, labObj.start, labObj.end) : "";
-      s.receiver = lab ? `Labor: ${lab}` : "";
+      // Ohne Laborname: Kennung des Empfängers aus dem sendenden System (FK 8315, Obj_0051)
+      const recvId = firstContent(m, 8315, head.start, head.end);
+      s.receiver = lab ? `Labor: ${lab}` : recvId ? `Labor (Kennung ${recvId})` : "";
     }
     s.date = fmtDate(firstContent(m, 7278, head.start, head.end), "JJJJMMTT");
     s.direction = head.type === "8220" ? "Befund vom Labor an die Praxis" : "Auftrag von der Praxis an das Labor";
@@ -1025,6 +1027,11 @@ function buildSummary(m) {
   s.tests = bef.reduce((a, b) => a + b.tests.length, 0);
   s.flagged = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag && r.flag !== "N").length, 0), 0);
   // Für die Kachel: Extremwerte (!H, !L, !+, !-), Teilbefunde und Werte, die noch folgen (LDT 3: 02, LDT 2: F)
+  // Aufträge (LDT 3, 8215): Patienten und angeforderte Untersuchungen
+  const orders = m.auftraege || [];
+  s.orders = orders.length;
+  s.orderPatients = new Set(orders.map((a) => [a.patient.last, a.patient.first, a.patient.birth, a.patient.id].join("|"))).size;
+  s.orderTests = orders.reduce((a, o) => a + o.tests.length, 0);
   s.extreme = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag.startsWith("!")).length, 0), 0);
   s.partial = bef.filter((b) => b.partial).length;
   s.pending = bef.reduce((a, b) => a + b.tests.filter((t) => t.status === "02" || (m.format === "ldt2" && t.status === "F")).length, 0);

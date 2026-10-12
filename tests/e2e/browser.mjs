@@ -5,7 +5,7 @@
  * Tastaturbedienung, Offline-Betrieb über den Service Worker.
  */
 import { spawn } from "node:child_process";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
@@ -123,6 +123,21 @@ try {
   const subH1 = sub ? await off.$eval("h1", (e) => e.textContent).catch(() => "") : "";
   check("Ratgeberseite offline aus dem Cache", /LDT/.test(subH1) && !/nicht gefunden/.test(subH1), subH1);
   await off.setOfflineMode(false);
+
+  // 6) Neue Version: Hinweis erst nach einem Update des Service Workers, nicht bei der Erstinstallation
+  const upd = await browser.newPage();
+  upd.setDefaultTimeout(120000);
+  await upd.goto(BASE, { waitUntil: "networkidle0" });
+  await upd.waitForFunction(() => navigator.serviceWorker.controller !== null);
+  const before = await upd.$("#updateToast");
+  const swPath = join(root, "dist", "sw.js");
+  const sw = readFileSync(swPath, "utf8");
+  try {
+    writeFileSync(swPath, sw.replace(/const VERSION = "([^"]+)"/, 'const VERSION = "$1-test"'));
+    await upd.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
+    await upd.waitForSelector("#updateToast");
+    check("Hinweis auf neue Version nach Update (nicht beim ersten Laden)", before === null, await upd.$eval("#updateToast", (e) => e.innerText.replace(/\n/g, " ")));
+  } finally { writeFileSync(swPath, sw); }
 } catch (err) {
   check("Ablauf ohne Ausnahme", false, err.message + (err.cause ? " (" + err.cause.message + ")" : ""));
 } finally {
