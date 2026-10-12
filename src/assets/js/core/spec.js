@@ -186,6 +186,7 @@ export const LDT3_OBJECTS = {
   Obj_0019: "Betriebsstätte",
   Obj_0022: "Einsenderidentifikation",
   Obj_0026: "Fehlermeldung/Aufmerksamkeit",
+  Obj_0027: "Veranlassungsgrund",
   Obj_0031: "Kommunikationsdaten",
   Obj_0032: "Kopfdaten",
   Obj_0034: "Krebsfrüherkennung Zervix-Karzinom (Muster 39)",

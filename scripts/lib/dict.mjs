@@ -24,7 +24,12 @@ export function buildDict() {
   const ldt3 = read("ldt3-feldtabelle.json");
   const bdt = read("bdt3-feldtabelle.json");
   const rules = read("ldt3-regeltabelle.json");
-  const out = { ldt2: {}, ldt3: {}, bdt: {}, rules: {} };
+  const objects = read("ldt3-objekte.json");
+  const out = { ldt2: {}, ldt3: {}, bdt: {}, rules: {}, objects: {} };
+  // Objektkatalog LDT 3.2.20 (Kap. 11): je Objekt die unbedingten Mussfelder (Feldart „M“ direkt im Objekt)
+  for (const [id, o] of Object.entries(objects)) {
+    out.objects[id] = { n: o.name, p: o.page, m: o.fields.filter((f) => f.level === 2 && f.art === "M").map((f) => f.fk) };
+  }
   for (const [fk, v] of Object.entries(ldt2)) {
     out.ldt2[fk] = { n: tidy(v.name), l: tidy(v.len), t: tidy(v.type), r: tidy(v.rules), v: tidy(v.values), e: tidy(v.example), p: v.page };
   }

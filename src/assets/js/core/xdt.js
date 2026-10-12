@@ -549,6 +549,33 @@ function recLength(m, rec) {
   return sum;
 }
 
+/** LDT 3: Mussfelder (Feldart „M“) direkt in jedem Objekt laut Objektkatalog (KBV LDT 3.2.20, Kap. 11). */
+function checkObjectFields(m, rec, where) {
+  const cat = m.dict && m.dict.objects;
+  if (!cat) return;
+  const direct = new Map();
+  for (let i = rec.start; i <= rec.end; i++) {
+    const o = m.lineObj[i];
+    if (o < 0 || m.objects[o].start === i) continue;
+    if (!direct.has(o)) direct.set(o, new Set());
+    direct.get(o).add(fkString(m.fk[i]));
+  }
+  for (let k = 0; k < m.objects.length; k++) {
+    const o = m.objects[k];
+    if (o.start < rec.start || o.start > rec.end) continue;
+    const def = cat[o.id];
+    if (!def || !def.m.length) continue;
+    const have = direct.get(k) || new Set();
+    for (const f of def.m) {
+      if (have.has(f)) continue;
+      const d = fieldDef(m, Number(f));
+      const objName = def.n.replace(/^Obj_/, "");
+      const attr = o.attr ? o.attr.replace(/_/g, " ") : "";
+      addIssue(m, o.start, "fehler", "OBJ_REQUIRED", `Zeile ${o.start + 1}: Im Objekt ${o.id} (${objName}${attr && attr !== objName ? ", als " + attr : ""}) fehlt das Pflichtfeld ${f}${d ? " (" + d.n + ")" : ""}.`, `Laut Objektkatalog (KBV LDT 3.2.20, Kap. 11, S. ${def.p}) muss dieses Feld in jedem ${o.id} stehen. Fehlt es, lehnen zertifizierte Praxisprogramme den Befund oft ab oder übernehmen ihn unvollständig. Der Hersteller der sendenden Software muss den Export korrigieren.`);
+    }
+  }
+}
+
 function checkRecords(m) {
   const { records } = m;
   const fmt = m.format;
@@ -590,6 +617,7 @@ function checkRecords(m) {
         }
       }
     }
+    if (fmt === "ldt3") checkObjectFields(m, rec, where);
     if (fmt === "ldt3") {
       const last = rec.end;
       if (m.fk[last] !== 8001) {

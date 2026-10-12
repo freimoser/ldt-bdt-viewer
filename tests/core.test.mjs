@@ -184,7 +184,7 @@ test("Anonymisierung entfernt LDT-3-Anhänge und hält die Prüfsumme gültig", 
   // Anhang (Obj_0010) in den ersten Befund einfügen
   const s = new TextDecoder("latin1").decode(g.bytes).split("\r\n").filter(Boolean);
   const idx = s.findIndex((l, i) => i > 5 && l.slice(3, 7) === "8001" && l.endsWith("8205"));
-  const extra = fromLines(["8110Anhang", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068", "6329VGVzdC1NdWVsbGVy", "8003Obj_0068", "8003Obj_0010"]);
+  const extra = fromLines(["8110Anhang", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068", "6329VGVzdC1NdWVsbGVy", "8003Obj_0068", "6303PDF", "8003Obj_0010"]);
   const extraLines = new TextDecoder("latin1").decode(extra).split("\r\n").filter(Boolean);
   s.splice(idx, 0, ...extraLines);
   // Prüfsumme neu berechnen, damit die Ausgangsdatei gültig ist
