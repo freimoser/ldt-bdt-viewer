@@ -187,6 +187,12 @@ tbody tr:last-child td { border-bottom: none; }
 .flag.flag-other { background: var(--warn-bg); color: var(--warn); }
 .flag.flag-normal { background: var(--ok-bg); color: var(--ok); font-weight: 600; }
 .note-row td { font-size: 0.88rem; }
+.diagnosis { margin: 0 0 1rem; padding: 0.9rem 1.1rem; border-radius: 12px; border: 1px solid var(--warn); background: var(--warn-bg); }
+.diagnosis p { margin: 0.35rem 0 0; }
+.diagnosis .diagnosis-kicker { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--warn); font-weight: 700; }
+.diagnosis .diagnosis-title { font-size: 1.08rem; font-weight: 700; color: var(--text); }
+.issue-follow { opacity: 0.78; }
+.follow-tag { display: block; margin-top: 0.25rem; font-size: 0.7rem; font-weight: 600; opacity: 0.85; }
 .alert-row td { font-size: 0.92rem; background: rgba(248, 113, 113, 0.12); color: var(--text); border-left: 4px solid var(--high); }
 .alert-row strong { color: var(--high); }
 .status-badge { display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.5rem; border-radius: 6px; border: 1px solid var(--warn); color: var(--warn); font-size: 0.8rem; font-weight: 600; white-space: nowrap; }

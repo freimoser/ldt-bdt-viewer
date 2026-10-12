@@ -6,6 +6,8 @@
 import { buildFile } from "./writer.js";
 import { ldt3Records, ldt3OrderRecords, ldt2Records, bdtRecords, ANALYTES, TEST_NOTE } from "./generator.js";
 import { kvnrCheckDigit } from "./anonymize.js";
+import { sha1Hex } from "./sha1.js";
+import { decodeAll, encode } from "./charsets.js";
 
 const A = Object.fromEntries(ANALYTES.map((a) => [a.id, a]));
 
@@ -143,6 +145,141 @@ export const BEISPIELE = [
     ], now), { charset: "iso-8859-15" }),
   },
 ];
+
+/* ------------------------------------------------------------------ Fehlerbeispiele */
+
+const CRLF = "\r\n";
+const latin = (bytes) => decodeAll(bytes, "iso-8859-15");
+const line = (fk, value) => `${String(value.length + 9).padStart(3, "0")}${fk}${value}`;
+
+/** LDT 3: Prüfsumme 9300 neu berechnen (SHA-1 über alle Bytes vor der 9300-Zeile), damit nur der gewollte Fehler bleibt. */
+function withChecksum(text) {
+  const lines = text.split(CRLF);
+  const k = lines.findIndex((l) => l.slice(3, 7) === "9300");
+  if (k < 0) return encode(text, "iso-8859-15");
+  const before = encode(lines.slice(0, k).join(CRLF) + CRLF, "iso-8859-15");
+  lines[k] = line("9300", sha1Hex(before));
+  return encode(lines.join(CRLF), "iso-8859-15");
+}
+
+/** Gültige Basisdatei als Zeilen holen, ändern und wieder zusammensetzen. */
+function mutate(baseFile, fn, { checksum = true } = {}) {
+  return (now) => {
+    const base = BEISPIELE.find((b) => b.file === baseFile).build(now);
+    const text = fn(latin(base).split(CRLF)).join(CRLF);
+    return checksum ? withChecksum(text) : encode(text, "iso-8859-15");
+  };
+}
+const find = (lines, re) => lines.findIndex((l) => re.test(l));
+
+BEISPIELE.push(
+  {
+    file: "Z01_FEHLER_Laenge.ldt",
+    group: "fehler",
+    title: "Falsche Längenangabe nach Bearbeitung im Editor",
+    short: "Fehler: Längenangabe",
+    shows: "Im Nachnamen wurde „-Schmidt“ ergänzt, die dreistellige Längenangabe am Zeilenanfang blieb aber 024. Der Viewer zeigt, welche Länge richtig wäre.",
+    cause: "Die Datei wurde in einem Texteditor geändert. Jede Zeile beginnt mit ihrer eigenen Länge in Bytes (Inhalt + 9); die passt dann nicht mehr.",
+    fix: "Die Datei nicht von Hand ändern, sondern im Praxisprogramm oder vom Labor neu erzeugen lassen.",
+    expect: { code: "LEN", errors: 1, cause: "von Hand bearbeitet" },
+    build: mutate("Z01_LDT3_Befund_unauffaellig.ldt", (l) => { const k = find(l, /^\d{3}3101Test-Musterfrau$/); l[k] = l[k] + "-Schmidt"; return l; }),
+  },
+  {
+    file: "Z01_FEHLER_UTF8.ldt",
+    group: "fehler",
+    title: "Als UTF-8 gespeichert statt ISO 8859-15",
+    short: "Fehler: UTF-8 statt ISO 8859-15",
+    shows: "Die Datei wurde mit einem modernen Editor als UTF-8 gespeichert. Umlaute belegen dann zwei Bytes, dadurch stimmen Längen und Prüfsumme nicht mehr, und im Praxisprogramm erscheint „JÃ¶rdis“ statt „Jördis“.",
+    cause: "Ein Editor oder ein Übertragungsweg (E-Mail, Cloud-Ordner, Skript) hat den Zeichensatz umgewandelt. LDT 3 verlangt ISO 8859-15 (KBV LDT 3.2.20, Kap. 6.5).",
+    fix: "Originaldatei erneut abholen; Dateien nur unverändert kopieren, nicht öffnen und speichern.",
+    expect: { code: "CHARSET_WRONG", cause: "als UTF-8 gespeichert" },
+    build: (now) => new TextEncoder().encode(latin(BEISPIELE.find((b) => b.file === "Z01_LDT3_Teilbefund.ldt").build(now))),
+  },
+  {
+    file: "Z01_FEHLER_Zeilenende_LF.ldt",
+    group: "fehler",
+    title: "Zeilenende LF statt CR LF",
+    short: "Fehler: Zeilenende",
+    shows: "Alle Zeilen enden nur mit LF (Unix-Stil). Die Spezifikation verlangt CR LF. Weil sich dadurch die Bytes ändern, passt auch die Prüfsumme nicht mehr.",
+    cause: "Die Datei lief über ein Unix-System, ein Git-Repository oder ein Skript, das Zeilenenden vereinheitlicht.",
+    fix: "Zeilenenden auf CR LF zurückstellen (z. B. unix2dos) oder die Originaldatei neu holen.",
+    expect: { code: "EOL_LF", cause: "Zeilenenden" },
+    build: (now) => encode(latin(BEISPIELE.find((b) => b.file === "Z01_LDT3_Befund_unauffaellig.ldt").build(now)).replace(/\r\n/g, "\n"), "iso-8859-15"),
+  },
+  {
+    file: "Z01_FEHLER_abgeschnitten.ldt",
+    group: "fehler",
+    title: "Abgeschnittene Datei (Export abgebrochen)",
+    short: "Fehler: Datei abgeschnitten",
+    shows: "Die Datei endet mitten im zweiten Befund: Objekte und Sätze werden nicht mehr geschlossen, Satzende 8001 und Datenpaket-Abschluss 8221 fehlen.",
+    cause: "Der Export oder die Übertragung wurde abgebrochen, oder die Datei wurde abgeholt, während sie noch geschrieben wurde.",
+    fix: "Datei beim Labor erneut anfordern. Im Praxisprogramm prüfen, ob die Abholung zu früh startet.",
+    expect: { code: "OBJ_OPEN", cause: "abgeschnitten" },
+    build: mutate("Z01_LDT3_Sammelbefund.ldt", (l) => l.slice(0, Math.floor(l.length * 0.55)), { checksum: false }),
+  },
+  {
+    file: "Z01_FEHLER_Pruefsumme.ldt",
+    group: "fehler",
+    title: "Wert von Hand geändert: Prüfsumme stimmt nicht",
+    short: "Fehler: Prüfsumme 9300",
+    shows: "Ein Glukosewert wurde im Editor von 182 auf 128 geändert, Länge und Aufbau stimmen weiter. Nur die SHA-1-Prüfsumme in Feld 9300 verrät die Änderung.",
+    cause: "Die Datei wurde nach dem Erstellen verändert. Die Prüfsumme schützt davor, dass veränderte Befunde unbemerkt übernommen werden (KBV LDT 3.2.20, Feld 9300).",
+    fix: "Befund nicht verwenden, beim Labor neu anfordern und klären, wer die Datei geändert hat.",
+    expect: { code: "CHECKSUM", errors: 1, cause: "nach dem Erstellen verändert" },
+    build: mutate("Z01_LDT3_Befund_auffaellig.ldt", (l) => { const k = find(l, /^\d{3}8420182$/); l[k] = l[k].replace(/182$/, "128"); return l; }, { checksum: false }),
+  },
+  {
+    file: "Z01_FEHLER_Pflichtfeld.ldt",
+    group: "fehler",
+    title: "Pflichtfeld im Ergebnis fehlt",
+    short: "Fehler: Pflichtfeld fehlt",
+    shows: "Im ersten Untersuchungsergebnis (Obj_0060) fehlt der Ergebnisstatus 8418. Ohne ihn ist unklar, ob der Wert endgültig, vorläufig oder korrigiert ist.",
+    cause: "Fehler in der Exportsoftware des Labors, oft nach einem Update.",
+    fix: "Labor bzw. Hersteller der Laborsoftware informieren; die Meldung im Viewer nennt Zeile, Objekt und Seite der Spezifikation.",
+    expect: { code: "OBJ_REQUIRED", errors: 1 },
+    build: mutate("Z01_LDT3_Befund_unauffaellig.ldt", (l) => { const k = find(l, /^\d{3}841806$/); l.splice(k, 1); return l; }),
+  },
+  {
+    file: "Z01_FEHLER_unbekannte_FK.ldt",
+    group: "fehler",
+    title: "Unbekannte Feldkennung (Herstellerfeld)",
+    short: "Fehler: unbekannte Feldkennung",
+    shows: "Im Patientenobjekt steht eine Feldkennung 7999, die es in LDT 3.2.20 nicht gibt. Viele Praxisprogramme überspringen sie still, manche brechen ab.",
+    cause: "Herstellereigene Erweiterung oder ein Feld aus einer anderen Version.",
+    fix: "Klären, was das Feld bedeuten soll; für die Übernahme ist es meist unkritisch.",
+    expect: { code: "UNKNOWN", errors: 0, warnings: 1 },
+    build: mutate("Z01_LDT3_Befund_unauffaellig.ldt", (l) => { const k = find(l, /^\d{3}3000TEST0001$/); l.splice(k + 1, 0, line("7999", "INTERN-123")); return l; }),
+  },
+  {
+    file: "X01ZEICH.LDT",
+    group: "fehler",
+    title: "LDT 2: Zeichensatz-Angabe passt nicht zum Inhalt",
+    short: "Fehler: Zeichensatz-Konflikt (LDT 2)",
+    shows: "Dateiname (X…) und Feld 9106 = 2 kündigen den DOS-Zeichensatz Codepage 437 an, die Umlaute sind aber in ISO 8859-15 gespeichert. Gelesen nach Angabe wird aus „Schäfer“ „SchΣfer“.",
+    cause: "Die Laborsoftware schreibt einen anderen Zeichensatz, als sie angibt – der häufigste Grund für kaputte Umlaute bei LDT 2.",
+    fix: "Im Viewer den Zeichensatz umschalten, um die Daten zu lesen; dauerhaft muss das Labor Angabe und Inhalt angleichen.",
+    expect: { code: "CHARSET_CONFLICT", cause: "Zeichensatz-Angabe" },
+    build: (now) => buildFile(ldt2Records([patient(8, {
+      last: "Test-Schäfer", first: "Jürgen", sex: "M", birth: "1950-06-18",
+      tests: [test("TGLU", 131, { ind2: "+" }), test("TKAL", 4.4)],
+    })], now, "2"), { charset: "iso-8859-15" }),
+  },
+  {
+    file: "X01SATZL.LDT",
+    group: "fehler",
+    title: "LDT 2: Zeile gelöscht, Satzlänge stimmt nicht",
+    short: "Fehler: Satzlänge 8100 (LDT 2)",
+    shows: "Aus dem Befundsatz wurde eine Hinweiszeile entfernt. Die Satzlänge in Feld 8100 und die Gesamtlänge in Feld 9202 stimmen danach nicht mehr.",
+    cause: "Manuelle Bearbeitung oder ein Filterprogramm hat Zeilen entfernt, ohne die Längenfelder neu zu berechnen (KBV LDT 5.12, Kap. 2.3.3).",
+    fix: "Original neu anfordern; Längenfelder nie von Hand korrigieren.",
+    expect: { code: "RECLEN", cause: "Zeile entfernt" },
+    build: (now) => {
+      const base = BEISPIELE.find((b) => b.file === "X01BEFND.LDT").build(now);
+      const lines = decodeAll(base, "cp437").split(CRLF).filter((l) => l.slice(3, 7) !== "8490");
+      return encode(lines.join(CRLF), "cp437");
+    },
+  },
+);
 
 /** Metadaten ohne Bauanleitung, z. B. für die Auswahl im Viewer. */
 export function beispielListe() {

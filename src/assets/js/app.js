@@ -227,7 +227,7 @@ function renderSummary(f) {
   const checkBtn = h("button", { type: "button", class: "summary-card summary-check status-" + status, onclick: () => switchTab(f, "pruefung") },
     h("span", { class: "label" }, "Prüfung"),
     h("span", { class: "value" }, ic.fehler || ic.warnung ? `${plural(ic.fehler || 0, "Fehler", "Fehler")}, ${plural(ic.warnung || 0, "Warnung", "Warnungen")}` : "Keine Fehler gefunden"),
-    h("span", { class: "sub" }, ic.hinweis ? plural(ic.hinweis, "Hinweis", "Hinweise") + " · Details ansehen" : "Details ansehen"));
+    h("span", { class: "sub" }, v.diagnosis ? v.diagnosis.title + " · Details ansehen" : ic.hinweis ? plural(ic.hinweis, "Hinweis", "Hinweise") + " · Details ansehen" : "Details ansehen"));
   box.append(checkBtn);
 }
 
@@ -477,7 +477,17 @@ async function renderPruefung(f, panel) {
   for (const [sev, label] of [["", `Alle (${nf.format((c.fehler || 0) + (c.warnung || 0) + (c.hinweis || 0))})`], ["fehler", `Fehler (${nf.format(c.fehler || 0)})`], ["warnung", `Warnungen (${nf.format(c.warnung || 0)})`], ["hinweis", `Hinweise (${nf.format(c.hinweis || 0)})`]]) {
     filters.append(h("button", { type: "button", class: "chip" + (f.sev === sev ? " active" : ""), "aria-pressed": f.sev === sev ? "true" : "false", onclick: () => { f.sev = sev; f.pages.pruefung = 0; renderPanel(f); } }, label));
   }
-  const out = [filters];
+  const out = [];
+  if (res.diagnosis) {
+    const d = res.diagnosis;
+    out.push(h("div", { class: "diagnosis", role: "note" },
+      h("p", { class: "diagnosis-kicker" }, "Wahrscheinliche Ursache"),
+      h("p", { class: "diagnosis-title" }, d.title),
+      h("p", null, d.text),
+      h("p", null, h("strong", null, "Was tun? "), d.todo),
+      d.follows ? h("p", { class: "muted small" }, `${plural(d.follows, "weitere Meldung ist eine Folge", "weitere Meldungen sind Folgen")} davon und ${d.follows === 1 ? "steht" : "stehen"} unten als „Folgefehler“.`) : null));
+  }
+  out.push(filters);
   if (!res.total) {
     out.push(h("div", { class: "notice notice-ok" },
       h("strong", null, f.sev || f.query ? "Keine passenden Meldungen." : "Keine Fehler gefunden."),
@@ -486,8 +496,8 @@ async function renderPruefung(f, panel) {
   }
   const list = h("ol", { class: "issues" });
   for (const i of res.items) {
-    list.append(h("li", { class: "issue issue-" + i.sev },
-      h("span", { class: "badge badge-" + i.sev }, SEV_LABEL[i.sev]),
+    list.append(h("li", { class: "issue issue-" + i.sev + (i.follow ? " issue-follow" : "") },
+      h("span", { class: "badge badge-" + i.sev }, SEV_LABEL[i.sev], i.follow ? h("span", { class: "follow-tag" }, "Folgefehler") : null),
       h("div", { class: "issue-body" },
         h("p", { class: "issue-text" }, i.text),
         h("details", null, h("summary", null, "Was bedeutet das in der Praxis?"), h("p", null, i.why)),

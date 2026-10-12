@@ -17,6 +17,10 @@ for (const b of BEISPIELE) {
     if ("warnings" in b.expect) assert.equal(m.issueCounts.warnung, b.expect.warnings, detail);
     if (b.expect.code) assert.ok(m.issues.some((i) => i.code === b.expect.code), `erwartet ${b.expect.code}, gefunden: ${detail}`);
     assert.ok(m.befunde.length >= 1 || b.expect.noBefund, "Befund erwartet");
+    if (b.expect.cause) assert.ok(m.diagnosis && m.diagnosis.title.includes(b.expect.cause), `Ursache „${b.expect.cause}“ erwartet, erkannt: ${m.diagnosis?.title}`);
+    if (b.group !== "fehler") assert.equal(m.diagnosis, null, "gültige Datei darf keine Fehlerursache haben");
+    for (const f of ["title", "short", "shows"]) assert.ok(b[f], `${f} fehlt`);
+    if (b.group === "fehler") assert.ok(b.cause && b.fix, "Fehlerbeispiel braucht Ursache und Behebung");
   });
 }
 

@@ -187,6 +187,7 @@ export function openFile(bytes, name, dict, opts = {}) {
   buildStructure(m, progress);
   progress("Datei wird geprüft", 0.6);
   validate(m, progress);
+  m.diagnosis = diagnose(m);
   progress("Befunde werden zusammengestellt", 0.85);
   m.befunde = extractBefunde(m);
   m.summary = buildSummary(m);
@@ -852,6 +853,76 @@ export function extractBefunde(m) {
     if (r.tests.length || m.format !== "bdt") out.push(r);
   }
   return out;
+}
+
+/* --------------------------------------------------------- Ursache erkennen */
+
+/**
+ * Sucht unter den Meldungen eine gemeinsame Ursache und markiert die Folgefehler (issue.follow).
+ * Reihenfolge der Regeln: die grundlegendste Ursache zuerst. Gibt null zurück, wenn keine Regel passt.
+ */
+export function diagnose(m) {
+  const has = (code) => (m.codeCounts[code] || 0) > 0;
+  const lastRec = m.records[m.records.length - 1];
+  const inLast = (i) => lastRec && i.line != null && i.line >= lastRec.start;
+  const rules = [
+    {
+      when: () => has("CHARSET_WRONG") && m.charset.charset === "utf-8",
+      title: "Die Datei wurde als UTF-8 gespeichert",
+      text: "Ein Editor, ein Mailprogramm oder ein Skript hat den Zeichensatz umgewandelt. Umlaute belegen jetzt zwei Bytes. Deshalb stimmen Längenangaben und Prüfsummen nicht mehr, und Namen erscheinen im Praxisprogramm verstümmelt.",
+      todo: "Die Originaldatei erneut abholen und unverändert weitergeben. LDT- und BDT-Dateien nicht in einem Texteditor öffnen und speichern.",
+      root: ["CHARSET_WRONG"], follow: ["LEN", "LEN_UTF8", "CHECKSUM", "TOTAL", "RECLEN", "MOJIBAKE"],
+    },
+    {
+      when: () => has("EOL_LF") || has("EOL_CR"),
+      title: "Die Zeilenenden wurden umgewandelt",
+      text: "Statt CR LF endet jede Zeile nur mit LF (bzw. CR). Das passiert, wenn eine Datei über ein Unix-System, ein Git-Repository oder ein Skript läuft. Weil sich die Bytes ändern, passen Prüfsumme und Satzlängen nicht mehr.",
+      todo: "Zeilenenden auf CR LF zurückstellen (z. B. mit unix2dos) oder die Originaldatei neu holen.",
+      root: ["EOL_LF", "EOL_CR"], follow: ["CHECKSUM", "TOTAL", "RECLEN"],
+    },
+    {
+      when: () => has("ORDER_TRAILER") && m.issues.some((i) => ["OBJ_OPEN", "RECEND_MISSING", "RECLEN", "TOTAL"].includes(i.code) && inLast(i)),
+      title: "Die Datei ist abgeschnitten",
+      text: "Die Datei endet mitten in einem Satz: Der Abschluss-Satz fehlt, und im letzten Satz sind Objekte oder Satzende offen. Meist wurde der Export oder die Übertragung abgebrochen, oder die Datei wurde abgeholt, während sie noch geschrieben wurde.",
+      todo: "Die Datei beim Labor bzw. im Praxisprogramm neu erzeugen lassen. Die Befunde vor dem abgeschnittenen Satz sind lesbar, aber die Datei als Ganzes ist unvollständig.",
+      root: ["ORDER_TRAILER"], follow: ["OBJ_OPEN", "RECEND_MISSING", "REQUIRED", "OBJ_REQUIRED", "RECLEN", "TOTAL", "CHECKSUM", "FIELDCOUNT"], followIf: inLast,
+    },
+    {
+      when: () => has("CHARSET_CONFLICT"),
+      title: "Die Zeichensatz-Angabe passt nicht zum Inhalt",
+      text: "Die Datei kündigt einen Zeichensatz an, gespeichert sind die Umlaute aber in einem anderen. Programme, die sich auf die Angabe verlassen, zeigen falsche Zeichen. Der Viewer liest die Datei mit dem Zeichensatz, der zu den Umlauten passt.",
+      todo: "Zum Lesen reicht der Viewer. Dauerhaft muss die sendende Software Angabe (Dateiname bzw. Feld 9106) und Inhalt angleichen.",
+      root: ["CHARSET_CONFLICT"], follow: ["MOJIBAKE"],
+    },
+    {
+      when: () => has("LEN") && !has("LEN_UTF8"),
+      title: "Die Datei wurde vermutlich von Hand bearbeitet",
+      text: "Mindestens eine Zeile ist länger oder kürzer, als ihre Längenangabe sagt. Typisch ist eine Änderung im Texteditor. Prüfsumme und Satzlängen passen dann meist auch nicht mehr.",
+      todo: "Die Datei nicht von Hand ändern, sondern neu erzeugen lassen. Bei Befunden: Werte nur aus der Originaldatei übernehmen.",
+      root: ["LEN"], follow: ["CHECKSUM", "TOTAL", "RECLEN"],
+    },
+    {
+      when: () => has("RECLEN") && !has("LEN"),
+      title: "Im Satz wurde eine Zeile entfernt oder ergänzt",
+      text: "Jede Zeile hat für sich die richtige Länge, aber die Satzlänge in Feld 8100 passt nicht mehr zur Summe der Zeilen. Typisch ist, dass eine Zeile gelöscht oder eingefügt wurde, etwa von Hand oder durch ein Filterprogramm.",
+      todo: "Die Datei neu erzeugen lassen. Satz- und Gesamtlängen nicht von Hand korrigieren.",
+      root: ["RECLEN"], follow: ["TOTAL", "CHECKSUM"],
+    },
+    {
+      when: () => has("CHECKSUM") && !has("LEN"),
+      title: "Die Datei wurde nach dem Erstellen verändert",
+      text: "Aufbau und Längen stimmen, aber die SHA-1-Prüfsumme in Feld 9300 passt nicht zum Inhalt. Irgendetwas in der Datei wurde nach dem Erstellen geändert – bei einem Befund möglicherweise ein Wert.",
+      todo: "Den Befund nicht verwenden, sondern beim Labor neu anfordern und klären, wo die Datei verändert wurde.",
+      root: ["CHECKSUM"], follow: [],
+    },
+  ];
+  const rule = rules.find((r) => r.when());
+  if (!rule) return null;
+  let follows = 0;
+  for (const i of m.issues) {
+    if (rule.follow.includes(i.code) && (!rule.followIf || rule.followIf(i))) { i.follow = true; follows++; }
+  }
+  return { title: rule.title, text: rule.text, todo: rule.todo, root: rule.root, follows };
 }
 
 /* --------------------------------------------------------- Zusammenfassung */
