@@ -643,6 +643,10 @@ for (const btn of document.querySelectorAll("[data-example]")) {
   });
 }
 
+// Link aus einem Artikel: /?beispiel=Dateiname öffnet das Beispiel direkt (nur Dateien aus der Liste)
+const wanted = new URLSearchParams(location.search).get("beispiel");
+if (wanted) document.querySelector(`[data-example="${CSS.escape(wanted)}"]`)?.click();
+
 /* ------------------------------------------------------------ Generator */
 
 const genFormat = $("genFormat"), genCharset = $("genCharset");

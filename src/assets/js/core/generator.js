@@ -47,6 +47,13 @@ function pick(r, a) { return a[Math.floor(r() * a.length)]; }
 export function pad(n, w) { return String(n).padStart(w, "0"); }
 export function ymd(d) { return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1, 2)}${pad(d.getUTCDate(), 2)}`; }
 export function dmy(d) { return `${pad(d.getUTCDate(), 2)}${pad(d.getUTCMonth() + 1, 2)}${d.getUTCFullYear()}`; }
+/** Deutsche Ortszeit: Sommerzeit vom letzten Sonntag im März bis zum letzten Sonntag im Oktober, jeweils 01:00 UTC. */
+export function berlin(d) {
+  const y = d.getUTCFullYear();
+  const lastSunday = (m) => { const x = new Date(Date.UTC(y, m + 1, 0, 1)); x.setUTCDate(x.getUTCDate() - x.getUTCDay()); return x; };
+  const off = d >= lastSunday(2) && d < lastSunday(9) ? 2 : 1;
+  return { d: new Date(d.getTime() + off * 3600000), zone: `UTC+${off}` };
+}
 export function hms(d) { return `${pad(d.getUTCHours(), 2)}${pad(d.getUTCMinutes(), 2)}${pad(d.getUTCSeconds(), 2)}`; }
 
 function makePatients(r, count, today) {
@@ -118,12 +125,12 @@ function ldt2(patients, today, cs9106 = "4", { reportType = "E" } = {}) {
     F("0212", "999999900"), F("0211", "Dr. Test-Arzt"),
     F("0205", "Teststraße 1"), F("0215", "00000"), F("0216", "Testhausen"),
     F("8320", "TESTLABOR (erfundene Daten)"), F("8321", "Laborweg 2"), F("8322", "00000"), F("8323", "Testhausen"),
-    F("0101", "Z/39/2610/12/TST"), F("9106", cs9106), F("8312", "TEST01"), F("9103", ymd(today)),
+    F("0101", "Z/39/2610/12/TST"), F("9106", cs9106), F("8312", "TEST01"), F("9103", ymd(berlin(today).d)),
   ] });
   for (const p of patients) {
     const f = [
       F("8000", "8201"), F("8100", null), F("8310", p.order), F("8311", `L${p.order}`),
-      F("8301", ymd(today)), F("8302", ymd(today)), F("8303", hms(today).slice(0, 4)),
+      F("8301", ymd(berlin(today).d)), F("8302", ymd(berlin(today).d)), F("8303", hms(berlin(today).d).slice(0, 4)),
       F("3101", p.last), F("3102", p.first), F("3103", ymd(p.birth)), F("3110", p.sex),
       F("8401", reportType), F("8609", "K"), F("8403", "1"),
     ];
@@ -149,7 +156,9 @@ function obj(attrFk, attrName, id, inner) {
   return [F(attrFk, attrName), F("8002", id), ...inner, F("8003", id)];
 }
 function ts(attrFk, attrName, d) {
-  return obj(attrFk, attrName, "Obj_0054", [F("7278", ymd(d)), F("7279", hms(d)), F("7273", "UTC+1")]);
+  // Ortszeit mit Zeitzone wie in den KBV-Testdateien (z. B. 7273 = UTC+2 im Sommer)
+  const b = berlin(d);
+  return obj(attrFk, attrName, "Obj_0054", [F("7278", ymd(b.d)), F("7279", hms(b.d)), F("7273", b.zone)]);
 }
 
 // Laborarzt als Befundersteller (FK 7420 = 07, Regel E027); erfundene Person
@@ -199,7 +208,8 @@ function ldt3(patients, today, { status = "2", note = TEST_NOTE } = {}) {
     ]),
     ...obj("8136", "Laborkennung", "Obj_0036", [
       ...obj("8239", "Laborbezeichnung", "Obj_0043", [F("1250", "TESTLABOR (erfundene Daten)")]),
-      F("7266", "1"),
+      // 7266 = 2 Facharztlabor (E051), passend zu 0204 = 2 Laborarztpraxis (E046) in der Betriebsstätte
+      F("7266", "2"),
     ]),
     ...obj("8119", "Betriebsstaette", "Obj_0019", [
       F("0204", "2"), F("0203", "TESTLABOR (erfundene Daten)"), F("0201", "999999999"),
@@ -257,7 +267,7 @@ export function ldt3OrderRecords(o, today) {
     ...obj("8132", "Kopfdaten", "Obj_0032", [
       F("0001", "LDT3.2.20"),
       ...obj("8151", "Sendendes_System", "Obj_0051", [F("8315", "TESTLAB01"), F("8316", "TESTPRAXIS01"), F("0105", "Z/31/2610/12/tst"), F("0103", "TEST-PVS (erfunden)"), F("0132", "1.0")]),
-      ...obj("8218", "Timestamp_Erstellung_Datensatz", "Obj_0054", [F("7278", ymd(today)), F("7279", hms(today)), F("7273", "UTC+1"), ...obj("8235", "Person_zum_Timestamp", "Obj_0047", arzt)]),
+      ...obj("8218", "Timestamp_Erstellung_Datensatz", "Obj_0054", [F("7278", ymd(berlin(today).d)), F("7279", hms(berlin(today).d)), F("7273", berlin(today).zone), ...obj("8235", "Person_zum_Timestamp", "Obj_0047", arzt)]),
     ]),
     F("7265", "1"),
     ...obj("8122", "Einsenderidentifikation", "Obj_0022", [
@@ -322,7 +332,7 @@ function bdt(patients, today) {
       F("3103", dmy(p.birth)), F("3110", p.sex), F("3106", `${p.plz} ${p.ort}`), F("3107", `${p.street} ${p.house}`),
       F("3626", "0000 000000"),
     ] });
-    const f = [F("8000", "6200"), F("8100", null), F("3000", p.id), F("6200", dmy(today)), F("6201", hms(today))];
+    const f = [F("8000", "6200"), F("8100", null), F("3000", p.id), F("6200", dmy(berlin(today).d)), F("6201", hms(berlin(today).d))];
     // BDT 3.0: Test-Ident genau 8 Zeichen (Feldtabelle S. 102), daher eigenes lesbares Kürzel je Analyt
     for (const t of p.tests) f.push(F("8410", t.id8 || (t.id + "TESTTEST").slice(0, 8)), F("8411", t.name), F("8420", t.value), F("8421", t.unit), F("8461", t.low), F("8462", t.high));
     f.push(F("8480", TEST_NOTE));

@@ -95,7 +95,7 @@ try {
   const mobile = await browser.newPage();
   mobile.setDefaultTimeout(120000);
   await mobile.setViewport({ width: 360, height: 780, isMobile: true, hasTouch: true });
-  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
+  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
   for (const p of pages) {
     const res = await mobile.goto(BASE + p, { waitUntil: "load" });
     if (p === "") {

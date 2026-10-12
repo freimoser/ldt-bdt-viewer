@@ -1,7 +1,7 @@
 # Quellen
 
 Alle Feldtabellen, Prüfregeln und Faktenaussagen des LDT & BDT Viewers stützen sich auf die folgenden Dokumente.
-Abrufdatum aller Quellen: **08.10.2026**.
+Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket, den Objektkatalog und die EULUMDAT-Abgrenzung ergänzt am **12.10.2026**.
 
 ## Spezifikationen
 
@@ -14,6 +14,9 @@ Abrufdatum aller Quellen: **08.10.2026**.
 | LDT allgemein | FAQ Labordatenkommunikation | Stand 15.11.2023 (Dateidatum) | KBV | https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_VGEX_FAQ_LDK.pdf | Hintergrund für Ratgeberseiten |
 | BDT 3.0 | BDT 3.0 Satzbeschreibung | Version 0.96, Release 0.0, Stand 01.03.2015, Status „Freigabe für Testimplementierungen“ (Entwurf) | Qualitätsring Medizinische Software e. V. (QMS) | Original nicht mehr online; archivierte Kopie: https://web.archive.org/web/20180215143723/http://www.qms-standards.de/fileadmin/Download/DOWNLOAD-PDFS/GDT_BDT/BDT-Datensatzbeschreibung_3-0_V0-96_20150301.pdf | Feldtabelle (514 Feldkennungen), Satzarten, Satzende 8202, Feldtypen, Zeichensatz ISO 8859-15, Datumsformat TTMMJJJJ |
 | BDT (klassisch) | Onkologischer BDT – Beschreibung des BDT-Formats (Tabellen 1–3) | ohne Datum | Universität Gießen, Institut für Medizinische Informatik | https://www.uni-giessen.de/de/fbz/fb11/institute/imi/schwerpunkte/kkk/standards/bdt | Sekundärquelle für den klassischen BDT-Aufbau: Satzart im ersten, Satzlänge 8100 im zweiten Feld, Satzart 6100 Patientenstamm |
+| LDT 3.x | Objektkatalog in der LDT 3 Satzbeschreibung (Kap. 11, S. 118–187) | Version 3.2.20 | KBV | (Gesamtdokument, siehe oben) | `data/ldt3-objekte.json`: 50 Objekte mit Feldern, Ebene und Feldart; Prüfung der unbedingten Mussfelder je Objekt |
+| LDT | Prüfpaket Labordatenkommunikation | Version 1.23 vom 15.11.2023 | KBV | https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf | Prüffälle (Befund- und Auftragsexport) als Vorlage für die Beispieldateien; Hinweis auf offizielle Prüffälle |
+| (Abgrenzung) | DIAL GmbH: LDT Editor | Webseite, abgerufen 12.10.2026 | DIAL GmbH | https://www.dialux.com/de-DE/ldt-editor | Beleg, dass die Endung .ldt auch für EULUMDAT-Dateien der Lichtplanung verwendet wird (Seite /ldt-datei-beispiel/) |
 | GDT | GDT 2.1 (englische Fassung) | 2.1 | QMS | https://www.qms-standards.de/files/GDT_2_1_0501_english.pdf | Erkennung von GDT-Dateien (Satzarten 6300–6311, Feld 9218 Versionsnummer) |
 
 ## Organisationen

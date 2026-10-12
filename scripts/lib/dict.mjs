@@ -10,12 +10,24 @@ import { dirname, join } from "node:path";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const read = (f) => JSON.parse(readFileSync(join(root, "data", f), "utf8"));
 
+// Wörter, die in den PDF-Tabellen am Zellenrand getrennt wurden (geprüft gegen die Spezifikationen)
+const BROKEN = [
+  ["PostfachWohnsitzlaenderc ode", "PostfachWohnsitzlaendercode"], ["Diagnoseausnahmetatbes tand", "Diagnoseausnahmetatbestand"],
+  ["Kostenübernahmeerklärun g", "Kostenübernahmeerklärung"], ["Wiederholungsuntersuchu ng", "Wiederholungsuntersuchung"],
+  ["Blutgruppenzugehoerigkei t", "Blutgruppenzugehoerigkeit"], ["Untersuchungsabrechnun g", "Untersuchungsabrechnung"],
+  ["Untersuchungsanforderun g", "Untersuchungsanforderung"], ["Aktenzeiche n", "Aktenzeichen"],
+  ["Nebenbetriebsstättennum mer", "Nebenbetriebsstättennummer"], ["Krebsfrueherkennung_Zer vix", "Krebsfrueherkennung_Zervix"],
+  ["Herku nft", "Herkunft"],
+];
+
 function tidy(s) {
-  return String(s || "")
+  let t = String(s || "");
+  for (const [a, b] of BROKEN) t = t.split(a).join(b);
+  return t
     .replace(/\s+/g, " ")
     .replace(/_ (?=\S)/g, "_")
     .replace(/(\S) _(?=\S)/g, "$1_")
-    .replace(/(\p{Ll})- (\p{Lu})/gu, "$1-$2")
+    .replace(/(\p{L})- (\p{Lu})/gu, "$1-$2")
     .trim();
 }
 

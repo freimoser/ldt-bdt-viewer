@@ -33,12 +33,14 @@ export const Q = {
   qms: { t: "QMS, Marktgestaltung und GDT", u: "https://www.qms-standards.de/Marktgestaltung.html" },
   qmsWechsel: { t: "QMS, Update PVS-Wechselschnittstelle (Juli 2026)", u: "https://www.qms-standards.de/files/QMSArtikelPVS-Wechselschnittstelle.pdf" },
   tool: { t: "Quellenliste des LDT & BDT Viewers", u: "https://github.com/freimoser/ldt-bdt-viewer/blob/main/quellen.md" },
+  pruefpaket: { t: "KBV, Prüfpaket Labordatenkommunikation Version 1.23", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf" },
+  eulumdat: { t: "DIAL GmbH, LDT Editor (EULUMDAT-Dateien)", u: "https://www.dialux.com/de-DE/ldt-editor" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
-export function src(key, detail = "") {
+export function src(key, detail = "", stand = SITE.updatedDe) {
   const q = Q[key];
-  return `<span class="src">(Stand ${SITE.updatedDe}, Quelle: <a href="${esc(q.u)}">${esc(q.t)}</a>${detail ? ", " + esc(detail) : ""})</span>`;
+  return `<span class="src">(Stand ${stand}, Quelle: <a href="${esc(q.u)}">${esc(q.t)}</a>${detail ? ", " + esc(detail) : ""})</span>`;
 }
 
 const NAV = [
@@ -49,6 +51,7 @@ const NAV = [
   ["was-ist-bdt/", "Was ist BDT?"],
   ["feldkennungen/", "Feldkennungen"],
   ["fehler/", "Fehler"],
+  ["ldt-datei-beispiel/", "Beispiele"],
 ];
 
 export const GUIDES = [
@@ -60,6 +63,7 @@ export const GUIDES = [
   ["xdt-gdt-ldt-bdt/", "xDT: GDT, LDT, BDT", "Die Formatfamilie im Überblick und das passende Tool."],
   ["feldkennungen/", "Feldkennungen", "Vollständige Referenz der Feldkennungen und Satzarten."],
   ["fehler/", "Fehler in LDT-Dateien", "Häufige Fehler, ihre Bedeutung und die Lösung."],
+  ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
 ];
 
 function head(p) {
@@ -195,24 +199,24 @@ ${p.after || ""}
 }
 
 /** Kopf einer Inhaltsseite: Brotkrumen, H1, direkte Antwort im ersten Satz, Stand. */
-export function heroHtml({ crumbs, h1, lead, minutes }) {
+export function heroHtml({ crumbs, h1, lead, minutes, stand = SITE.updatedDe }) {
   return `${breadcrumbHtml(crumbs)}
 <header class="hero-article">
 <h1>${esc(h1)}</h1>
 <p class="lead">${lead}</p>
-<p class="meta-line">Stand: ${SITE.updatedDe}${minutes ? ` · Lesedauer ca. ${minutes} Minuten` : ""} · von <a href="${SITE.author.url}">${esc(SITE.author.name)}</a></p>
+<p class="meta-line">Stand: ${stand}${minutes ? ` · Lesedauer ca. ${minutes} Minuten` : ""} · von <a href="${SITE.author.url}">${esc(SITE.author.name)}</a></p>
 </header>`;
 }
 
-export function articleLd({ headline, description, path }) {
+export function articleLd({ headline, description, path, updated = SITE.updated }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
     description,
     inLanguage: "de-DE",
-    datePublished: SITE.updated,
-    dateModified: SITE.updated,
+    datePublished: updated,
+    dateModified: updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     mainEntityOfPage: url(path),
