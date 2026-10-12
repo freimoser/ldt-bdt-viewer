@@ -194,6 +194,7 @@ tbody tr:last-child td { border-bottom: none; }
 .plain-list .test-id { margin-left: 0.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
 
 /* Artikel mit Beispieldatei */
+.try-it { padding: 0.55rem 0.8rem; border-left: 3px solid var(--accent); background: var(--accent-dim); border-radius: 0 8px 8px 0; font-size: 0.95rem; }
 .walk { table-layout: fixed; }
 .walk th:first-child { width: 4.2rem; }
 .walk th:nth-child(2) { width: 42%; }

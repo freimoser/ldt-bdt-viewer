@@ -1024,6 +1024,10 @@ function buildSummary(m) {
   s.befunde = bef.length;
   s.tests = bef.reduce((a, b) => a + b.tests.length, 0);
   s.flagged = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag && r.flag !== "N").length, 0), 0);
+  // Für die Kachel: Extremwerte (!H, !L, !+, !-), Teilbefunde und Werte, die noch folgen (LDT 3: 02, LDT 2: F)
+  s.extreme = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag.startsWith("!")).length, 0), 0);
+  s.partial = bef.filter((b) => b.partial).length;
+  s.pending = bef.reduce((a, b) => a + b.tests.filter((t) => t.status === "02" || (m.format === "ldt2" && t.status === "F")).length, 0);
   if (m.checksum) s.checksum = m.checksum;
   return s;
 }

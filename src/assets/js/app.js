@@ -218,8 +218,10 @@ function renderSummary(f) {
   box.append(card("Datum", s.date || "nicht angegeben"));
   box.append(card("Sätze", nf.format(s.records), h("span", { class: "sub" }, plural(s.lines, "Zeile", "Zeilen"))));
   if (v.format === "ldt2" || v.format === "ldt3" || v.format === "bdt") {
-    const flagged = s.flagged ? ` · ${nf.format(s.flagged)} markiert` : "";
-    box.append(card("Patienten und Befunde", `${plural(s.patients || 0, "Patient", "Patienten")}`, h("span", { class: "sub" }, `${plural(s.befunde || 0, "Befund", "Befunde")} · ${plural(s.tests || 0, "Untersuchung", "Untersuchungen")}${flagged}`)));
+    const flagged = s.flagged ? ` · ${nf.format(s.flagged)} markiert${s.extreme ? `, davon ${plural(s.extreme, "Extremwert", "Extremwerte")}` : ""}` : "";
+    const partial = s.partial ? ` · ${plural(s.partial, "Teilbefund", "Teilbefunde")}` : "";
+    const pending = s.pending ? ` · ${plural(s.pending, "Wert folgt", "Werte folgen")} noch` : "";
+    box.append(card("Patienten und Befunde", `${plural(s.patients || 0, "Patient", "Patienten")}`, h("span", { class: "sub" }, `${plural(s.befunde || 0, "Befund", "Befunde")} · ${plural(s.tests || 0, "Untersuchung", "Untersuchungen")}${flagged}${partial}${pending}`)));
   }
   // Zeichensatz mit Umschalter
   const sel = h("select", { id: "charsetSelect", "aria-label": "Zeichensatz wählen" });
@@ -325,9 +327,14 @@ function flagInfo(flag) {
   return { cls: "flag-other", sym: "!" };
 }
 
+/** Dezimalzahl für Menschen: 12.9 → 12,9 (nur reine Zahlen, auch mit < oder >; Struktur zeigt den Originalinhalt). */
+function deNum(v) {
+  return typeof v === "string" && /^[<>≤≥]?\s?-?\d+\.\d+$/.test(v) ? v.replace(".", ",") : v;
+}
+
 function rangeText(r) {
   const parts = [];
-  if (r.low !== "" || r.high !== "") parts.push(`${r.low || "…"} – ${r.high || "…"}`);
+  if (r.low !== "" || r.high !== "") parts.push(`${deNum(r.low) || "…"} – ${deNum(r.high) || "…"}`);
   if (r.range) parts.push(r.range);
   return parts.join(" · ");
 }
@@ -337,7 +344,7 @@ async function renderBefunde(f, panel) {
   const out = [];
   out.push(h("p", { class: "legend" },
     h("strong", null, "So lesen Sie die Tabelle: "),
-    "Markierungen (▲ erhöht, ▼ erniedrigt, ! auffällig) stehen genau so in der Datei, wie das Labor sie gesendet hat. Der Viewer bewertet keine Werte selbst."));
+    "Markierungen (▲ erhöht, ▼ erniedrigt, ! auffällig) stehen genau so in der Datei, wie das Labor sie gesendet hat. Der Viewer bewertet keine Werte selbst. Zahlen erscheinen hier mit Komma; in der Datei und unter „Struktur“ steht ein Punkt."));
   if (!res.all && res.orders?.length) {
     out.length = 0;
     out.push(h("p", { class: "legend" }, h("strong", null, "Auftrag an das Labor: "), "Diese Datei bestellt Untersuchungen. Ergebnisse enthält sie noch nicht; die kommen später als Befund zurück."));
@@ -399,7 +406,7 @@ function befundCard(f, b) {
           k === 0 ? h("span", { class: "test-name" }, t.name || t.id || "Untersuchung") : h("span", { class: "muted" }, "weiterer Wert"),
           k === 0 && t.id && t.name ? h("span", { class: "test-id" }, t.id) : null),
         h("td", { "data-label": "Ergebnis", class: "result" },
-          r.value || null, text ? h("span", { class: "result-text" }, text) : null,
+          deNum(r.value) || null, text ? h("span", { class: "result-text" }, text) : null,
           !r.value && !text ? (t.statusText && k === 0 ? h("span", { class: "status-badge" }, t.statusText) : "–") : null,
           (r.value || text) && k === 0 && t.statusText && !t.statusFinal ? h("span", { class: "status-badge", title: t.statusNote || null }, t.statusText) : null),
         h("td", { "data-label": "Einheit" }, r.unit || "–"),
