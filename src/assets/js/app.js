@@ -367,7 +367,10 @@ function befundCard(f, b) {
         h("td", { "data-label": "Untersuchung" },
           k === 0 ? h("span", { class: "test-name" }, t.name || t.id || "Untersuchung") : h("span", { class: "muted" }, "weiterer Wert"),
           k === 0 && t.id && t.name ? h("span", { class: "test-id" }, t.id) : null),
-        h("td", { "data-label": "Ergebnis", class: "result" }, r.value || null, text ? h("span", { class: "result-text" }, text) : null, !r.value && !text ? "–" : null),
+        h("td", { "data-label": "Ergebnis", class: "result" },
+          r.value || null, text ? h("span", { class: "result-text" }, text) : null,
+          !r.value && !text ? (t.statusText && k === 0 ? h("span", { class: "status-badge" }, t.statusText) : "–") : null,
+          (r.value || text) && k === 0 && t.statusText && !t.statusFinal ? h("span", { class: "status-badge", title: t.statusNote || null }, t.statusText) : null),
         h("td", { "data-label": "Einheit" }, r.unit || "–"),
         h("td", { "data-label": "Normbereich" }, rangeText(r) || "–"),
         h("td", { "data-label": "Markierung" }, fi
@@ -375,6 +378,8 @@ function befundCard(f, b) {
           : h("span", { class: "muted" }, "keine")));
       tb.append(tr);
     });
+    if (t.alerts?.length) tb.append(h("tr", { class: "alert-row" }, h("td", { colspan: "5" }, h("strong", null, h("span", { "aria-hidden": "true" }, "⚠ "), "Meldung des Labors: "), t.alerts.join(" "))));
+    if (t.statusNote && !t.statusFinal) tb.append(h("tr", { class: "note-row" }, h("td", { colspan: "5" }, h("span", { class: "muted" }, `Status „${t.statusText}“: `), t.statusNote)));
     if (t.notes.length) tb.append(h("tr", { class: "note-row" }, h("td", { colspan: "5" }, h("span", { class: "muted" }, "Hinweis: "), t.notes.join(" "))));
   }
   table.append(tb);
@@ -383,6 +388,7 @@ function befundCard(f, b) {
       h("h3", null, name),
       h("p", { class: "befund-meta" }, meta.join(" · ")),
       h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "struktur", { line: b.line }) }, `Ab Zeile ${nf.format(b.line)} in der Struktur zeigen`)),
+    b.partial ? h("p", { class: "partial-note", role: "note" }, h("strong", null, "Teilbefund: "), `Das Labor hat noch nicht alle Werte geschickt (Status „${b.statusText}“). Weitere Ergebnisse folgen mit einem späteren Befund.`) : null,
     h("div", { class: "table-wrap" }, table),
     b.notes.length ? h("p", { class: "befund-notes" }, h("strong", null, "Hinweise: "), b.notes.join(" ")) : null,
     b.filtered ? h("p", { class: "muted" }, "Gefiltert: nur passende Untersuchungen werden gezeigt.") : null);

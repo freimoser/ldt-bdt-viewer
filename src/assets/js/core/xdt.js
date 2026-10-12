@@ -801,8 +801,11 @@ export function extractBefunde(m) {
         case 3564: {
           const ft = path.find((o) => o.id === "Obj_0068");
           const isResultText = ft && ft.attrLine >= 0 && m.fk[ft.attrLine] === 8237;
-          if (test && isResultText) { (res || newResult()); res.text.push(v); }
-          else if (v) (test ? test.notes : r.notes).push(v);
+          // In LDT 3 gehört ein Freitext nur dann zum Test, wenn er im Ergebnisobjekt steht; sonst zum ganzen Befund
+          const inResult = m.format !== "ldt3" || path.some((o) => RESULT_OBJECTS.has(o.id));
+          if (test && inResult && isResultText) { (res || newResult()); res.text.push(v); }
+          else if (v && test && inResult && inObj("Obj_0026")) (test.alerts ||= []).push(v);
+          else if (v) (test && inResult ? test.notes : r.notes).push(v);
           break;
         }
         case 8490: r.notes.push(v); break;
@@ -812,6 +815,9 @@ export function extractBefunde(m) {
     if (m.format === "bdt" && r.patient.id && stamm.has(r.patient.id)) r.patient = { ...stamm.get(r.patient.id), ...Object.fromEntries(Object.entries(r.patient).filter(([, v]) => v)) };
     if (r.patient.sex) r.patient.sexText = sexMap[r.patient.sex] || r.patient.sex;
     if (r.status) r.statusText = statusMap[r.status] || r.status;
+    if (r.status && S.PARTIAL_STATUS[m.format]?.has(r.status)) r.partial = true;
+    const rs = S.RESULT_STATUS[m.format] || {};
+    for (const t of r.tests) if (t.status && rs[t.status]) { t.statusText = rs[t.status].text; t.statusNote = rs[t.status].note || ""; t.statusFinal = !!rs[t.status].final; }
     r.tests = r.tests.filter((t) => t.id || t.name || t.results.length);
     for (const t of r.tests) if (!t.name && t.kind && !t.id) t.name = t.kind;
     for (const t of r.tests) if (!t.results.length) t.results.push({ value: "", unit: "", low: "", high: "", range: "", flag: "", flagText: "", text: [], line: t.line });

@@ -187,6 +187,12 @@ tbody tr:last-child td { border-bottom: none; }
 .flag.flag-other { background: var(--warn-bg); color: var(--warn); }
 .flag.flag-normal { background: var(--ok-bg); color: var(--ok); font-weight: 600; }
 .note-row td { font-size: 0.88rem; }
+.alert-row td { font-size: 0.92rem; background: rgba(248, 113, 113, 0.12); color: var(--text); border-left: 4px solid var(--high); }
+.alert-row strong { color: var(--high); }
+.status-badge { display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.5rem; border-radius: 6px; border: 1px solid var(--warn); color: var(--warn); font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+.result > .status-badge:first-child { margin-left: 0; }
+.partial-note { margin: 0; padding: 0.6rem 1rem; background: var(--warn-bg); border-top: 1px solid var(--border); font-size: 0.92rem; }
+.partial-note strong { color: var(--warn); }
 
 /* Struktur */
 .struct-tools { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }

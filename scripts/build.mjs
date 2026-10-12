@@ -2,6 +2,7 @@
  * Build: erzeugt dist/ aus src/ und scripts/pages/.
  * Läuft lokal und in der GitHub-Action (node scripts/build.mjs). Keine Abhängigkeiten.
  */
+import { BEISPIELE, beispielListe } from "../src/assets/js/core/beispiele.js";
 import { mkdirSync, rmSync, writeFileSync, readFileSync, readdirSync, statSync, copyFileSync, existsSync } from "node:fs";
 import { join, dirname, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -43,6 +44,9 @@ const examples = [
   ["BEISPIEL_BDT.bdt", { format: "bdt", count: 3, seed: 13, now }],
 ];
 for (const [name, opts] of examples) writeFileSync(join(dist, "beispiele", name), generate(opts).bytes);
+// Kompendium: feste Szenarien mit Beschreibung (src/assets/js/core/beispiele.js)
+for (const b of BEISPIELE) writeFileSync(join(dist, "beispiele", b.file), b.build(now));
+writeFileSync(join(dist, "beispiele", "index.json"), JSON.stringify(beispielListe()));
 
 // CSS minimiert in jede Seite einbetten (kein render-blockierender Abruf)
 const css = readFileSync(join(root, "src", "assets", "css", "styles.css"), "utf8")

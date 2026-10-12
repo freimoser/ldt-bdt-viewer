@@ -29,23 +29,24 @@ const STREETS = ["Teststraße", "Beispielweg", "Musterallee", "Probegasse"];
 const PLACES = [["00001", "Testhausen"], ["00002", "Musterstadt"], ["00003", "Beispielfeld"], ["00004", "Probeort"]];
 
 // Erfundene Testanalyte. Normbereiche frei erfunden – keine Referenzwerte!
-const ANALYTES = [
-  { id: "TGLU", name: "Glukose (Testwert)", unit: "mg/dl", low: 70, high: 99, dec: 0 },
-  { id: "TKAL", name: "Kalium (Testwert)", unit: "mmol/l", low: 3.5, high: 5.1, dec: 1 },
-  { id: "TNAT", name: "Natrium (Testwert)", unit: "mmol/l", low: 136, high: 145, dec: 0 },
-  { id: "TKRE", name: "Kreatinin (Testwert)", unit: "mg/dl", low: 0.5, high: 1.1, dec: 2 },
-  { id: "THB", name: "Hämoglobin (Testwert)", unit: "g/dl", low: 12, high: 16, dec: 1 },
-  { id: "TLEU", name: "Leukozyten (Testwert)", unit: "/nl", low: 4, high: 10, dec: 1 },
-  { id: "TCRP", name: "CRP (Testwert)", unit: "mg/l", low: 0, high: 5, dec: 1 },
-  { id: "TTSH", name: "TSH (Testwert)", unit: "mU/l", low: 0.4, high: 4, dec: 2 },
+// si: Einheitensystem für FK 8419 in LDT 3 (Regel E070: 1 = SI-Einheit, 2 = abweichende Einheit)
+export const ANALYTES = [
+  { id: "TGLU", name: "Glukose (Testwert)", unit: "mg/dl", low: 70, high: 99, dec: 0, si: false },
+  { id: "TKAL", name: "Kalium (Testwert)", unit: "mmol/l", low: 3.5, high: 5.1, dec: 1, si: true },
+  { id: "TNAT", name: "Natrium (Testwert)", unit: "mmol/l", low: 136, high: 145, dec: 0, si: true },
+  { id: "TKRE", name: "Kreatinin (Testwert)", unit: "mg/dl", low: 0.5, high: 1.1, dec: 2, si: false },
+  { id: "THB", name: "Hämoglobin (Testwert)", unit: "g/dl", low: 12, high: 16, dec: 1, si: false },
+  { id: "TLEU", name: "Leukozyten (Testwert)", unit: "/nl", low: 4, high: 10, dec: 1, si: true },
+  { id: "TCRP", name: "CRP (Testwert)", unit: "mg/l", low: 0, high: 5, dec: 1, si: true },
+  { id: "TTSH", name: "TSH (Testwert)", unit: "mU/l", low: 0.4, high: 4, dec: 2, si: false },
 ];
 
-const TEST_NOTE = "TESTDATEN: erfundene Werte, keine Patientendaten";
+export const TEST_NOTE = "TESTDATEN: erfundene Werte, keine Patientendaten";
 
 function pick(r, a) { return a[Math.floor(r() * a.length)]; }
-function pad(n, w) { return String(n).padStart(w, "0"); }
-function ymd(d) { return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1, 2)}${pad(d.getUTCDate(), 2)}`; }
-function dmy(d) { return `${pad(d.getUTCDate(), 2)}${pad(d.getUTCMonth() + 1, 2)}${d.getUTCFullYear()}`; }
+export function pad(n, w) { return String(n).padStart(w, "0"); }
+export function ymd(d) { return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1, 2)}${pad(d.getUTCDate(), 2)}`; }
+export function dmy(d) { return `${pad(d.getUTCDate(), 2)}${pad(d.getUTCMonth() + 1, 2)}${d.getUTCFullYear()}`; }
 function hms(d) { return `${pad(d.getUTCHours(), 2)}${pad(d.getUTCMinutes(), 2)}${pad(d.getUTCSeconds(), 2)}`; }
 
 function makePatients(r, count, today) {
@@ -140,7 +141,43 @@ function ts(attrFk, attrName, d) {
   return obj(attrFk, attrName, "Obj_0054", [F("7278", ymd(d)), F("7279", hms(d)), F("7273", "UTC+1")]);
 }
 
-function ldt3(patients, today) {
+// Laborarzt als Befundersteller (FK 7420 = 07, Regel E027); erfundene Person
+const LABARZT = [F("7420", "07"), F("3101", "Test-Laborarzt"), F("3102", "Beispiel"), F("3104", "Dr. med.")];
+
+/**
+ * Ein Untersuchungsergebnis Klinische Chemie (Obj_0060, LDT 3.2.20 Kap. 11.43).
+ * t.status: Ergebnisstatus FK 8418 (E007), Standard 06 = Befundergebnis.
+ * t.ind: Grenzwertindikator FK 8422 (E005), sonst aus t.flag abgeleitet.
+ * Bei !H/!L/!+/!- folgt die Aufmerksamkeitsmeldung Obj_0026 (Regel K099), Aufbau wie KBV-Testdatei UseCase09.
+ * Ohne Wert (Status 01, 02, 09, 11, 12) entfallen Wert, Normalwert und Timestamp_Messung (Regel K076).
+ */
+function resultObj(p, t, k, today) {
+  const status = t.status || "06";
+  const inner = [F("7304", `ERG${p.no}-${k + 1}`), F("7364", `PROBE${p.no}`), F("8410", t.id), F("8411", t.name), F("8418", status)];
+  if (!["01", "02", "09", "11", "12"].includes(status)) {
+    const ind = t.ind || (t.flag === "high" ? "H" : t.flag === "low" ? "L" : "N");
+    const sys = t.si ? "1" : "2";
+    const norm = [F("8424", "13"), F("8461", t.low), F("8419", sys), F("8421", t.unit), F("8462", t.high), F("8419", sys), F("8421", t.unit), F("8422", ind)];
+    if (ind.startsWith("!")) {
+      norm.push(...obj("8126", "Fehlermeldung_Aufmerksamkeit", "Obj_0026", [
+        F("7280", t.reason || "2"),
+        ...obj("8147", "Person", "Obj_0047", LABARZT),
+        ...obj("8167", "Zusaetzliche_Informationen", "Obj_0068", [F("3564", t.alert || "Achtung: Extremwert. Bitte umgehend prüfen (Testdaten).")]),
+      ]));
+    }
+    inner.push(F("7306", "01"), F("8420", t.value), F("8419", sys), F("8421", t.unit), ...obj("8142", "Normalwert", "Obj_0042", norm), ...ts("8225", "Timestamp_Messung", today));
+  }
+  if (t.note) inner.push(...obj("8236", "Testbezogene_Hinweise", "Obj_0068", [F("3564", t.note)]));
+  inner.push(...obj("8141", "Namenskennung", "Obj_0041", [F("7420", "07"), F("7358", "Dr. med. Beispiel Test-Laborarzt (erfunden)"), F("8990", "TL")]));
+  return obj("8160", "UE_Klinische_Chemie", "Obj_0060", inner);
+}
+
+/** LDT-3-Sätze (8220, je Patient 8205, 8221). opts.status: Befundstatus FK 8401 (E006: 1 = Auftrag nicht abgeschlossen, 2 = abgeschlossen). */
+export function ldt3Records(patients, today, opts = {}) {
+  return ldt3(patients, today, opts);
+}
+
+function ldt3(patients, today, { status = "2", note = TEST_NOTE } = {}) {
   const recs = [];
   recs.push({ type: "8220", fields: [
     F("8000", "8220"),
@@ -164,15 +201,7 @@ function ldt3(patients, today) {
   ] });
   for (const p of patients) {
     const results = [];
-    p.tests.forEach((t, k) => {
-      const flag = t.flag === "high" ? "H" : t.flag === "low" ? "L" : "N";
-      results.push(...obj("8160", "UE_Klinische_Chemie", "Obj_0060", [
-        F("7304", `ERG${p.no}-${k + 1}`), F("7364", `PROBE${p.no}`), F("8410", t.id), F("8411", t.name), F("8418", "03"),
-        F("7306", "01"), F("8420", t.value), F("8419", "2"), F("8421", t.unit),
-        ...obj("8142", "Normalwert", "Obj_0042", [F("8424", "13"), F("8461", t.low), F("8419", "2"), F("8421", t.unit), F("8462", t.high), F("8419", "2"), F("8421", t.unit), F("8422", flag)]),
-        ...ts("8225", "Timestamp_Messung", today),
-      ]));
-    });
+    p.tests.forEach((t, k) => results.push(...resultObj(p, t, k, today)));
     recs.push({ type: "8205", fields: [
       F("8000", "8205"),
       ...obj("8122", "Einsenderidentifikation", "Obj_0022", [
@@ -192,11 +221,11 @@ function ldt3(patients, today) {
       ]),
       ...obj("8117", "Befundinformationen", "Obj_0017", [
         F("8310", p.order), ...ts("8214", "Timestamp_Auftragserteilung", today), F("8311", `L${p.order}`),
-        F("7305", `BEF${p.order}`), F("8401", "2"), ...ts("8216", "Timestamp_Befunderstellung", today),
+        F("7305", `BEF${p.order}`), F("8401", status), ...ts("8216", "Timestamp_Befunderstellung", today),
       ]),
       ...obj("8137", "Material", "Obj_0037", [F("7364", `PROBE${p.no}`), F("8428", "SE"), F("8430", "Serum (Testmaterial)"), ...ts("8219", "Timestamp_Materialabnahme_entnahme", today)]),
       ...obj("8135", "Laborergebnisbericht", "Obj_0035", [...results, ...ts("8221", "Timestamp_Erstellung_Laborergebnisbericht", today)]),
-      ...obj("8167", "Zusaetzliche_Informationen", "Obj_0068", [F("3564", TEST_NOTE)]),
+      ...obj("8167", "Zusaetzliche_Informationen", "Obj_0068", [F("3564", note)]),
       F("8001", "8205"),
     ] });
   }
