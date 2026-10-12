@@ -102,7 +102,7 @@ writeFileSync(join(dist, "llms.txt"), `# ${SITE.name}
 
 > Kostenloses Browser-Werkzeug zum Öffnen, Prüfen und Anonymisieren von LDT-Dateien (Labordatenträger, Austausch zwischen Labor und Arztpraxis) und BDT-Dateien (Behandlungsdatenträger, Export aus Praxissoftware). Alle Dateien werden lokal im Browser verarbeitet, es gibt keinen Upload. Deutschsprachig. Kein Medizinprodukt.
 
-Der Viewer erkennt LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20) und BDT samt Zeichensatz (IBM-Codepage 437, ISO 8859-1, ISO 8859-15, 7-Bit), zeigt Befunde mit Werten, Einheiten, Normbereichen und Markierungen, prüft Zeilenaufbau, Satzlängen, Pflichtfelder und Prüfsummen zeilengenau, anonymisiert Dateien für Support-Anfragen, exportiert CSV und JSON und erzeugt gültige Testdateien. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12) und des QMS (BDT 3.0).
+Der Viewer erkennt LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20) und BDT samt Zeichensatz (IBM-Codepage 437, ISO 8859-1, ISO 8859-15, 7-Bit), zeigt Befunde mit Werten, Einheiten, Normbereichen und Markierungen, prüft Zeilenaufbau, Satzlängen, Pflichtfelder und Prüfsummen zeilengenau, anonymisiert Dateien für Support-Anfragen, exportiert CSV und JSON und erzeugt gültige Testdateien. Ein Kompendium aus ${BEISPIELE.length} Beispieldateien mit erfundenen Daten (Befunde, Auftrag, LDT 2, BDT und Fehlerbeispiele) steht zum Download bereit; zwei Artikel erklären je eine LDT- und eine BDT-Datei Zeile für Zeile. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12) und des QMS (BDT 3.0).
 
 ## Seiten
 

@@ -479,15 +479,21 @@ async function renderStruktur(f, panel) {
     h("thead", null, h("tr", null, h("th", { scope: "col" }, "Zeile"), h("th", { scope: "col" }, "Länge"), h("th", { scope: "col" }, "Feld"), h("th", { scope: "col" }, "Bedeutung"), h("th", { scope: "col" }, "Inhalt"))));
   const tb = h("tbody");
   const rowEls = new Map();
+  // LDT 3: Gerüstzeilen (Objektanfang, -ende, Attribut) knapp beschriften und zurücknehmen
+  const isLdt3 = f.view.format === "ldt3";
+  const structKind = (r) => !isLdt3 ? "" : r.fk === "8002" ? "start" : r.fk === "8003" ? "end"
+    : Number(r.fk) >= 8100 && Number(r.fk) <= 8299 && /^[A-Za-z]/.test(r.content) ? "attr" : "";
+  const structLabel = { start: (r) => `Objekt beginnt${r.objName ? ": " + r.objName : ""}`, end: (r) => `Objekt endet${r.objName ? ": " + r.objName : ""}`, attr: () => "kündigt das folgende Objekt an" };
   for (const r of res.rows) {
     const lenBad = r.len && Number(r.len) !== r.actual;
+    const sk = structKind(r);
     const sevTxt = r.sev === 3 ? "Fehler" : r.sev === 2 ? "Warnung" : r.sev === 1 ? "Hinweis" : "";
-    const tr = h("tr", { class: `sev-${r.sev}${r.known ? "" : " unknown"}`, dataset: { line: r.line, rec: r.rec, obj: r.obj } },
+    const tr = h("tr", { class: `sev-${r.sev}${r.known ? "" : " unknown"}${sk ? " row-struct" : ""}`, dataset: { line: r.line, rec: r.rec, obj: r.obj } },
       h("td", { class: "col-line" }, h("button", { type: "button", class: "line-btn", "aria-label": `Zeile ${r.line} auswählen`, onclick: () => selectLine(r.line, false) }, nf.format(r.line)),
         sevTxt ? h("span", { class: "sev-mark", title: sevTxt }, h("span", { class: "sr-only" }, sevTxt), h("span", { "aria-hidden": "true" }, r.sev === 3 ? "✖" : r.sev === 2 ? "⚠" : "ℹ")) : null),
       h("td", { class: "col-len" + (lenBad ? " bad" : "") }, r.len || "–", lenBad ? h("span", { class: "len-should" }, ` (richtig: ${String(r.actual).padStart(3, "0")})`) : null),
       h("td", { class: "col-id" }, r.fk || "–"),
-      h("td", { class: "col-label", style: r.depth ? `padding-left:${0.9 + Math.min(r.depth, 8) * 0.8}rem` : null }, r.label),
+      h("td", { class: "col-label", style: r.depth ? `padding-left:${0.9 + Math.min(r.depth, 8) * 0.8}rem` : null }, sk ? structLabel[sk](r) : r.label),
       h("td", { class: "col-value" }, r.content));
     rowEls.set(r.line, tr);
     tb.append(tr);

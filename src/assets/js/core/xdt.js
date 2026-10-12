@@ -1057,6 +1057,7 @@ export function rowInfo(m, i) {
     sev: m.lineSev ? m.lineSev[i] : 0,
     rec: m.lineRec ? m.lineRec[i] : -1,
     obj: objIdx,
+    objName: objIdx >= 0 ? m.objects[objIdx].name || "" : "",
     depth: objIdx >= 0 ? m.objects[objIdx].depth + 1 : 0,
   };
 }

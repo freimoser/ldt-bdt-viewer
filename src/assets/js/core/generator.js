@@ -9,6 +9,7 @@ import { kvnrCheckDigit } from "./anonymize.js";
 export const GENERATOR_FORMATS = {
   ldt2: { label: "LDT 2.x (LDT1014.01, Labor-Bericht 8201)", ext: ".ldt" },
   ldt3: { label: "LDT 3.2.20 (Befund 8205)", ext: ".ldt" },
+  ldt3order: { label: "LDT 3.2.20 (Auftrag 8215)", ext: ".ldt" },
   bdt: { label: "BDT, klassischer Aufbau (Satzarten 6100/6200)", ext: ".bdt" },
 };
 
@@ -103,6 +104,12 @@ export function generate({ format = "ldt3", count = 3, seed = Date.now(), now = 
     name = `${LDT2_CHARSET[cs][1]}01TEST.LDT`;
   }
   else if (format === "ldt3") { records = ldt3(patients, today); name = `Z01TESTDATEN_${ymd(today)}.ldt`; }
+  else if (format === "ldt3order") {
+    // Erfundene Verdachts- bzw. gesicherte Diagnosen als ICD-10-GM-Kode; nur Testdaten
+    const diags = [{ icd: "R73.9", certainty: "V" }, { icd: "E78.0", certainty: "G" }, { icd: "D64.9", certainty: "V" }, { icd: "E03.9", certainty: "V" }];
+    records = ldt3OrderRecords({ orders: patients.map((p, k) => ({ patient: p, tests: p.tests.map((t) => ({ id: t.id, name: t.name })), diagnosis: diags[k % diags.length], urgent: k % 5 === 4 })) }, today);
+    name = `Z01TESTAUFTRAG_${ymd(today)}.ldt`;
+  }
   else if (format === "bdt") { records = bdt(patients, today); name = `TESTDATEN_${ymd(today)}.bdt`; }
   else throw new Error("Unbekanntes Format: " + format);
   const bytes = buildFile(records, { charset });
@@ -260,7 +267,9 @@ function ldt3(patients, today, { status = "2", note = TEST_NOTE } = {}) {
  * Namen und Einrichtungen erfunden. o: { patient, tests: [{ id, name }], diagnosis: { icd, certainty }, urgent }
  */
 export function ldt3OrderRecords(o, today) {
-  const p = o.patient;
+  // Mehrere Aufträge in einem Paket: o.orders = [{ patient, tests, diagnosis, urgent }]; sonst ein Auftrag aus o selbst
+  const list = o.orders || [o];
+  const p = list[0].patient;
   const arzt = [F("7420", "02"), F("3101", "Test-Arzt"), F("3102", "Beispiel"), F("3104", "Dr. med.")];
   const head = { type: "8230", fields: [
     F("8000", "8230"),
@@ -283,9 +292,10 @@ export function ldt3OrderRecords(o, today) {
     ]),
     F("8001", "8230"),
   ] };
+  const orderRecord = ({ patient: p, tests, diagnosis, urgent }) => {
   const sample = `PROBE${p.no}`;
   const tsReq = ts("8213", "Timestamp_Erstellung_Untersuchungsanforderung", today);
-  const order = { type: "8215", fields: [
+  return { type: "8215", fields: [
     F("8000", "8215"),
     ...obj("8145", "Patient", "Obj_0045", [
       ...obj("8147", "Person", "Obj_0047", [
@@ -297,7 +307,7 @@ export function ldt3OrderRecords(o, today) {
     ...obj("8113", "Auftragsinformation", "Obj_0013", [F("8310", p.order), tsReq].flat()),
     ...obj("8127", "Veranlassungsgrund", "Obj_0027", [
       F("7303", "2"),
-      ...obj("8200", "Akutdiagnose", "Obj_0100", [F("6001", o.diagnosis.icd), F("6003", o.diagnosis.certainty)]),
+      ...obj("8200", "Akutdiagnose", "Obj_0100", [F("6001", diagnosis.icd), F("6003", diagnosis.certainty)]),
     ]),
     ...obj("8101", "Abrechnungsinformation", "Obj_0001", [
       ...obj("8102", "Abrechnung_GKV", "Obj_0002", [
@@ -309,14 +319,15 @@ export function ldt3OrderRecords(o, today) {
       F("7364", sample), F("8429", "1"), F("8428", "SE"), F("8430", "Serum (Testmaterial)"), F("8504", "0"),
       ...ts("8219", "Timestamp_Materialabnahme_entnahme", today),
     ]),
-    ...o.tests.flatMap((t) => obj("8159", "Untersuchungsanforderung", "Obj_0059", [
-      F("8410", t.id), F("8411", t.name), F("7303", "2"), ...(o.urgent ? [F("8501", "2")] : []),
+    ...tests.flatMap((t) => obj("8159", "Untersuchungsanforderung", "Obj_0059", [
+      F("8410", t.id), F("8411", t.name), F("7303", "2"), ...(urgent ? [F("8501", "2")] : []),
       F("7364", sample), F("8428", "SE"), F("8429", "1"), ...tsReq,
     ])),
     ...obj("8167", "Zusaetzliche_Informationen", "Obj_0068", [F("3564", TEST_NOTE)]),
     F("8001", "8215"),
   ] };
-  return [head, order, { type: "8231", fields: [F("8000", "8231"), F("9300", null), F("8001", "8231")] }];
+  };
+  return [head, ...list.map(orderRecord), { type: "8231", fields: [F("8000", "8231"), F("9300", null), F("8001", "8231")] }];
 }
 
 /* BDT, klassischer Aufbau: 8000 Satzart, 8100 Satzlänge (Uni Gießen); Felder nach QMS BDT 3.0 Feldtabelle */

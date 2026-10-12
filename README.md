@@ -3,7 +3,7 @@
 **Kostenloser Viewer für LDT- und BDT-Dateien** – Labordaten und Praxisdaten-Exporte im Browser lesen, prüfen und anonymisieren. Ohne Upload.
 
 **Live:** [https://freimoser.github.io/ldt-bdt-viewer/](https://freimoser.github.io/ldt-bdt-viewer/)  
-**Ratgeber:** [LDT-Datei öffnen](https://freimoser.github.io/ldt-bdt-viewer/ldt-datei-oeffnen/) · [BDT-Datei öffnen](https://freimoser.github.io/ldt-bdt-viewer/bdt-datei-oeffnen/) · [Was ist LDT?](https://freimoser.github.io/ldt-bdt-viewer/was-ist-ldt/) · [Was ist BDT?](https://freimoser.github.io/ldt-bdt-viewer/was-ist-bdt/) · [LDT 2 vs. LDT 3](https://freimoser.github.io/ldt-bdt-viewer/ldt-2-vs-ldt-3/) · [xDT im Überblick](https://freimoser.github.io/ldt-bdt-viewer/xdt-gdt-ldt-bdt/) · [Feldkennungen](https://freimoser.github.io/ldt-bdt-viewer/feldkennungen/) · [Fehler](https://freimoser.github.io/ldt-bdt-viewer/fehler/)
+**Ratgeber:** [LDT-Datei öffnen](https://freimoser.github.io/ldt-bdt-viewer/ldt-datei-oeffnen/) · [BDT-Datei öffnen](https://freimoser.github.io/ldt-bdt-viewer/bdt-datei-oeffnen/) · [Was ist LDT?](https://freimoser.github.io/ldt-bdt-viewer/was-ist-ldt/) · [Was ist BDT?](https://freimoser.github.io/ldt-bdt-viewer/was-ist-bdt/) · [LDT 2 vs. LDT 3](https://freimoser.github.io/ldt-bdt-viewer/ldt-2-vs-ldt-3/) · [xDT im Überblick](https://freimoser.github.io/ldt-bdt-viewer/xdt-gdt-ldt-bdt/) · [Feldkennungen](https://freimoser.github.io/ldt-bdt-viewer/feldkennungen/) · [Fehler](https://freimoser.github.io/ldt-bdt-viewer/fehler/) · [LDT-Beispieldateien](https://freimoser.github.io/ldt-bdt-viewer/ldt-datei-beispiel/) · [BDT-Beispieldatei](https://freimoser.github.io/ldt-bdt-viewer/bdt-datei-beispiel/)
 
 Schwesterprojekt: [GDT Viewer](https://freimoser.github.io/gdt-viewer/) für Gerätedatentransfer.
 
@@ -13,16 +13,17 @@ Schwesterprojekt: [GDT Viewer](https://freimoser.github.io/gdt-viewer/) für Ger
 
 | Funktion | Beschreibung |
 |----------|--------------|
-| **Öffnen** | Datei wählen oder hineinziehen (`.ldt`, `.bdt`, `.dat`, `.txt`), mehrere Dateien gleichzeitig, Beispieldateien per Klick |
+| **Öffnen** | Datei wählen oder hineinziehen (`.ldt`, `.bdt`, `.dat`, `.txt`), mehrere Dateien gleichzeitig; Beispiele per Klick oder Link (`?beispiel=Dateiname`) |
+| **Beispieldateien** | Kompendium mit 18 Dateien aus erfundenen Daten: LDT-3-Befunde (unauffällig, auffällig mit Extremwert, Teilbefund, Sammelbefund), LDT-3-Auftrag, LDT 2 in Codepage 437 und ISO 8859-15, BDT-Export und zehn Fehlerbeispiele mit Ursache und Behebung (`src/assets/js/core/beispiele.js`) |
 | **Erkennen** | LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20), BDT (klassisch mit Satzlänge 8100 oder BDT 3.0), GDT mit Hinweis auf den GDT Viewer; Zeichensatz (IBM-Codepage 437, ISO 8859-1, ISO 8859-15, 7-Bit DIN 66003, UTF-8) mit Umschalter |
-| **Zusammenfassung** | Dateityp und Version, Richtung, Absender, Empfänger, Datum, Sätze, Patienten, Befunde |
-| **Befundansicht** | Tabelle pro Patient: Untersuchung, Ergebnis, Einheit, Normbereich, Markierung so, wie das Labor sie sendet |
+| **Zusammenfassung** | Dateityp und Version, Richtung, Absender, Empfänger, Datum, Sätze, Patienten, Befunde oder Aufträge, Extremwerte, Teilbefunde und noch folgende Werte; Warnhinweis, wenn die Datei Fehler enthält |
+| **Befundansicht** | Tabelle pro Patient: Untersuchung, Ergebnis (mit Dezimalkomma), Einheit, Normbereich, Markierung so, wie das Labor sie sendet, Ergebnisstatus („Ergebnis folgt“, „korrigiert“), Meldungen des Labors bei Extremwerten, Hinweis auf Teilbefunde; bei Aufträgen eine Auftragsübersicht |
 | **Strukturansicht** | Baum aus Sätzen und LDT-3-Objekten, daneben Rohzeilen mit Feldkennung, Bedeutung, Länge und Inhalt; Klick springt zwischen Baum und Zeile |
-| **Prüfen** | Fehler und Warnungen zeilengenau in einfacher Sprache mit Erklärung: Längenangabe, Zeilenende, Zeichensatz, Satzarten und Reihenfolge, Pflichtfelder, Feldlänge, Feldtyp, erlaubte Werte, Version, Satzlänge 8100, Gesamtlänge 9202, Satzende 8001/8202, Objekte 8002/8003, SHA-1-Prüfsumme 9300 |
+| **Prüfen** | Fehler und Warnungen zeilengenau in einfacher Sprache mit Erklärung und erkannter Ursache („Datei als UTF-8 gespeichert“, „abgeschnitten“ …), Folgefehler gekennzeichnet: Längenangabe, Zeilenende, Zeichensatz, Satzarten und Reihenfolge, Pflichtfelder (auch je LDT-3-Objekt laut Objektkatalog), Feldlänge, Feldtyp, erlaubte Werte, Version, Satzlänge 8100, Gesamtlänge 9202, Satzende 8001/8202, Objekte 8002/8003, SHA-1-Prüfsumme 9300 |
 | **Suchen** | nach Feldkennung, Patient, Untersuchung oder Text |
 | **Anonymisieren** | Namen, Geburtsdaten, Adressen, Versicherten-, Telefon- und Patientennummern ersetzen, LDT-3-Anhänge entfernen, alle Längen und Prüfsummen neu berechnen |
 | **Exportieren** | Befunde als CSV (Semikolon, UTF-8 mit BOM, Excel-tauglich), Druckansicht, Rohdaten als JSON |
-| **Generator** | gültige Testdateien für LDT 2.x, LDT 3.2.20 und BDT mit erfundenen, klar gekennzeichneten Testpatienten |
+| **Generator** | gültige Testdateien für LDT 2.x, LDT 3.2.20 (Befunde und Aufträge) und BDT mit erfundenen, klar gekennzeichneten Testpatienten |
 | **Nachschlagen** | Feldkennung oder Begriff suchen; vollständige Referenz unter `/feldkennungen/` |
 | **Offline** | nach dem ersten Laden ohne Internet nutzbar (Service Worker) |
 
@@ -71,7 +72,7 @@ Browser: [http://localhost:8765/ldt-bdt-viewer/](http://localhost:8765/ldt-bdt-v
 node --test tests/*.test.mjs
 ```
 
-Automatische Tests mit selbst erzeugten Testdateien: gültige LDT-2-, LDT-3- und BDT-Datei, Codepage 437 und ISO 8859-15 mit Umlauten, falsche Längenfelder, unbekannte Feldkennungen, leere Datei, GDT-Datei, Datei über 20 MB, Anonymisierung (gültig, kein Originalname), Generator (fehlerfrei), CSV-Export.
+Automatische Tests mit selbst erzeugten Testdateien: gültige LDT-2-, LDT-3- und BDT-Datei, Codepage 437 und ISO 8859-15 mit Umlauten, falsche Längenfelder, unbekannte Feldkennungen, leere Datei, GDT-Datei, Datei über 20 MB, Anonymisierung (gültig, kein Originalname), Generator (fehlerfrei, auch Aufträge), CSV-Export; dazu jede Datei des Beispiel-Kompendiums gegen ihr erwartetes Prüfergebnis und ihre erwartete Fehlerursache.
 
 Browser-Test mit Chrome (große Datei ohne Einfrieren, 360 px, Tastatur, offline):
 

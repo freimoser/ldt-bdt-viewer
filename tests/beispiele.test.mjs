@@ -55,3 +55,13 @@ test("Auftrag: Übersicht mit Patient, Anforderungen, Diagnose, Material und Abr
   assert.equal(a.billing, "GKV, Laborgemeinschaft");
   assert.deepEqual(a.material, ["Serum (Testmaterial)"]);
 });
+
+test("Generator: LDT-3-Aufträge mit vielen Patienten sind fehlerfrei", async () => {
+  const { generate } = await import("../src/assets/js/core/generator.js");
+  const g = generate({ format: "ldt3order", count: 25, seed: 9, now });
+  const m = openFile(g.bytes, g.name, dict);
+  assert.equal(m.issueCounts.fehler, 0, JSON.stringify(m.issues.slice(0, 3)));
+  assert.equal(m.issueCounts.warnung, 0);
+  assert.equal(m.auftraege.length, 25);
+  assert.match(new TextDecoder("latin1").decode(g.bytes), /TESTDATEN/);
+});

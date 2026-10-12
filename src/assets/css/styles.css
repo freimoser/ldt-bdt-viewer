@@ -257,9 +257,11 @@ tbody tr:last-child td { border-bottom: none; }
 .rows .col-len.bad { color: var(--danger); font-weight: 700; }
 .len-should { display: block; font-size: 0.75rem; font-weight: 400; color: var(--muted); }
 .rows .col-id { width: 4.2rem; font-family: var(--mono); color: var(--accent-hover); }
-.rows .col-label { width: 30%; color: var(--muted); }
+.rows .col-label { width: 26%; color: var(--muted); }
+.rows tr.row-struct td { padding-top: 0.2rem; padding-bottom: 0.2rem; font-size: 0.82rem; color: var(--muted); }
+.rows tr.row-struct .col-id, .rows tr.row-struct .col-value { color: var(--muted); }
 .rows tr.unknown .col-label { color: var(--warn); }
-.rows .col-value { font-family: var(--mono); font-size: 0.84rem; white-space: pre-wrap; word-break: break-all; }
+.rows .col-value { font-family: var(--mono); font-size: 0.84rem; white-space: pre-wrap; overflow-wrap: anywhere; }
 .rows tr.sev-3 { background: var(--danger-bg); }
 .rows tr.sev-2 { background: var(--warn-bg); }
 .rows tr.selected { outline: 2px solid var(--accent-hover); outline-offset: -2px; background: var(--accent-dim); }

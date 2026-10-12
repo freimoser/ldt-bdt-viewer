@@ -143,6 +143,7 @@ ${exampleList}
 <label class="field">Format
 <select id="genFormat">
 <option value="ldt3">LDT 3.2.20 (Befund)</option>
+<option value="ldt3order">LDT 3.2.20 (Auftrag an das Labor)</option>
 <option value="ldt2">LDT 2.x, LDT1014.01 (Labor-Bericht)</option>
 <option value="bdt">BDT, klassischer Aufbau</option>
 </select></label>
@@ -160,7 +161,7 @@ ${exampleList}
 <button type="button" class="btn btn-ghost" id="genDownloadBtn">Erzeugen und herunterladen</button>
 </div>
 </div>
-<p class="hint" id="genCharsetHint">LDT 3 und BDT 3.0 schreiben ISO 8859-15 vor; der Zeichensatz ist dort fest.</p>
+<p class="hint" id="genCharsetHint">LDT 3 schreibt ISO 8859-15 vor. BDT erzeugt der Generator im klassischen Aufbau, ebenfalls in ISO 8859-15.</p>
 <p class="hint" id="genHint" aria-live="polite"></p>
 </section>
 
