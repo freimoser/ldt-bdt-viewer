@@ -25,7 +25,7 @@ export function createHandler(post, dictUrl) {
         candidates: m.charset.candidates, conflict: m.charset.conflict || null, declaredBy: m.charset.declaredBy || null,
       },
       issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null,
-      records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length,
+      records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length, auftraege: (m.auftraege || []).length,
       sources: SOURCES,
     };
   }
@@ -109,7 +109,7 @@ export function createHandler(post, dictUrl) {
         const size = msg.size || 20;
         const pages = Math.max(1, Math.ceil(list.length / size));
         const page = Math.min(Math.max(0, msg.page || 0), pages - 1);
-        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, all: (m.befunde || []).length } };
+        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, all: (m.befunde || []).length, orders: (m.befunde || []).length ? [] : (m.auftraege || []).slice(0, 200) } };
       }
       case "allBefunde": {
         const m = files.get(msg.file);

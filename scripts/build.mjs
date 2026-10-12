@@ -9,7 +9,6 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { buildDict } from "./lib/dict.mjs";
 import { page, SITE, url, GUIDES } from "./lib/layout.mjs";
-import { generate } from "../src/assets/js/core/generator.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -38,12 +37,6 @@ writeFileSync(join(dist, "assets", "data", "felder.json"), JSON.stringify(dict))
 // 3) Beispieldateien (fest, erfundene Daten)
 const now = new Date(SITE.updated + "T09:30:00Z");
 mkdirSync(join(dist, "beispiele"), { recursive: true });
-const examples = [
-  ["Z01BEISPIEL_LDT3.ldt", { format: "ldt3", count: 3, seed: 7, now }],
-  ["X01BSPL.LDT", { format: "ldt2", count: 3, seed: 11, now, charset: "cp437" }],
-  ["BEISPIEL_BDT.bdt", { format: "bdt", count: 3, seed: 13, now }],
-];
-for (const [name, opts] of examples) writeFileSync(join(dist, "beispiele", name), generate(opts).bytes);
 // Kompendium: feste Szenarien mit Beschreibung (src/assets/js/core/beispiele.js)
 for (const b of BEISPIELE) writeFileSync(join(dist, "beispiele", b.file), b.build(now));
 writeFileSync(join(dist, "beispiele", "index.json"), JSON.stringify(beispielListe()));

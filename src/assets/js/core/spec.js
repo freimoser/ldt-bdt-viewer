@@ -259,6 +259,13 @@ export const RESULT_STATUS = {
   },
 };
 
+/** LDT 3 Auftrag: Abrechnungsinfo 7303 (E050, S. 88), Diagnosesicherheit 6003 (E037, S. 86), Dringlichkeit 8501 (E032, S. 85). */
+export const ORDER_TEXT = {
+  billing: { 1: "GKV, Laborfacharzt", 2: "GKV, Laborgemeinschaft", 3: "PKV, Laborfacharzt", 4: "PKV, Laborgemeinschaft", 5: "Selektivvertrag", 6: "IGeL", 7: "sonstige Kostenübernahme", 8: "ASV", 9: "GKV, Laborfacharzt präventiv", 10: "GKV, Laborgemeinschaft präventiv", 11: "keine Zuordnung", 12: "präoperative Laborleistungen", 13: "GKV, Krankenhaus", 14: "PKV, Krankenhaus", 15: "GKV, Muster 6/39", 16: "GKV, Muster 10C", 17: "Öffentlicher Gesundheitsdienst", 99: "storniert" },
+  certainty: { G: "gesichert", A: "Ausschluss", V: "Verdacht auf", Z: "Zustand nach" },
+  urgency: { 1: "Notfall", 2: "eilig" },
+};
+
 /** Befundstatus, bei denen noch Werte folgen können (LDT 3 E006 = 1; LDT 2 Regel 135 = T, V). */
 export const PARTIAL_STATUS = { ldt3: new Set(["1"]), ldt2: new Set(["T", "V"]) };
 

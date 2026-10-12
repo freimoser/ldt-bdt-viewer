@@ -43,3 +43,15 @@ test("Extremwert: Meldung des Labors wird als Meldung erkannt", () => {
   assert.deepEqual(kal.notes, []);
   assert.equal(bef.tests.find((t) => t.id === "TKRE").notes.length, 1);
 });
+
+test("Auftrag: Übersicht mit Patient, Anforderungen, Diagnose, Material und Abrechnung", () => {
+  const b = BEISPIELE.find((x) => x.file === "Z01_LDT3_Auftrag.ldt");
+  const m = openFile(b.build(now), b.file, dict);
+  assert.equal(m.befunde.length, 0);
+  const [a] = m.auftraege;
+  assert.equal(a.patient.last, "Test-Krüger");
+  assert.deepEqual(a.tests.map((t) => t.id), ["TGLU", "THB", "TKRE"]);
+  assert.deepEqual(a.diagnoses, [{ icd: "R73.9", certainty: "Verdacht auf" }]);
+  assert.equal(a.billing, "GKV, Laborgemeinschaft");
+  assert.deepEqual(a.material, ["Serum (Testmaterial)"]);
+});

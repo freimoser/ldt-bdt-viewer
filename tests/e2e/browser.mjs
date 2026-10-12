@@ -76,7 +76,7 @@ try {
 
   // 2) Beispiele und Befundansicht
   await page.goto(BASE, { waitUntil: "networkidle0" });
-  for (const ex of ["Z01BEISPIEL_LDT3.ldt", "X01BSPL.LDT", "BEISPIEL_BDT.bdt"]) {
+  for (const ex of ["Z01_LDT3_Befund_auffaellig.ldt", "X01BEFND.LDT", "BEISPIEL_BDT_Export.bdt"]) {
     await tap(page, `[data-example="${ex}"]`);
     await page.waitForFunction((n) => [...document.querySelectorAll("#fileName")].some((e) => e.textContent === n), {}, ex);
   }
@@ -99,7 +99,7 @@ try {
   for (const p of pages) {
     const res = await mobile.goto(BASE + p, { waitUntil: "load" });
     if (p === "") {
-      await tap(mobile, '[data-example="Z01BEISPIEL_LDT3.ldt"]');
+      await tap(mobile, '[data-example="Z01_LDT3_Befund_auffaellig.ldt"]');
       await mobile.waitForSelector(".befund");
     }
     const w = await mobile.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
@@ -115,7 +115,7 @@ try {
   await new Promise((r) => setTimeout(r, 1500));
   await off.setOfflineMode(true);
   await off.reload({ waitUntil: "load" });
-  await tap(off, '[data-example="X01BSPL.LDT"]');
+  await tap(off, '[data-example="X01BEFND.LDT"]');
   await off.waitForSelector(".befund", { timeout: 120000 });
   const offlineName = await off.$eval(".befund h3", (e) => e.textContent);
   check("Offline nach dem ersten Laden nutzbar", /Test-/.test(offlineName), offlineName);

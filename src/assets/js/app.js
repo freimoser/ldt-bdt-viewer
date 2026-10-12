@@ -82,6 +82,14 @@ engine.onProgress = (p) => {
   $("progressBar").value = Math.round((p.pct || 0) * 100);
 };
 
+/** Zum Arbeitsbereich springen und den Dateinamen fokussieren (ohne Animation bei „Bewegung reduzieren“). */
+function showWorkspace() {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("workspace").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  $("fileName").setAttribute("tabindex", "-1");
+  $("fileName").focus({ preventScroll: true });
+}
+
 async function openBuffer(name, buffer) {
   const key = "f" + ++state.seq;
   $("progress").hidden = false;
@@ -95,7 +103,7 @@ async function openBuffer(name, buffer) {
     renderAll();
     const s = view.summary;
     announce(`${name} geöffnet: ${FORMAT_HELP[view.format]}, ${plural(s.issues.fehler || 0, "Fehler", "Fehler")}, ${plural(s.issues.warnung || 0, "Warnung", "Warnungen")}.`);
-    $("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
+    showWorkspace();
   } catch (err) {
     showGlobalError(`„${name}“ konnte nicht gelesen werden: ${err.message}`);
   } finally {
@@ -104,7 +112,7 @@ async function openBuffer(name, buffer) {
 }
 
 function defaultTab(view) {
-  if ((view.format === "ldt2" || view.format === "ldt3") && view.befunde > 0) return "befunde";
+  if ((view.format === "ldt2" || view.format === "ldt3") && (view.befunde > 0 || view.auftraege > 0)) return "befunde";
   if (view.issueCounts.fehler > 0 && view.format === "unknown") return "pruefung";
   return "struktur";
 }
@@ -253,7 +261,7 @@ function renderViewTabs(f) {
   for (const [id, label] of TABS) {
     let text = label;
     if (id === "pruefung") { const n = (f.view.issueCounts.fehler || 0) + (f.view.issueCounts.warnung || 0); if (n) text += ` (${nf.format(n)})`; }
-    if (id === "befunde") text += ` (${nf.format(f.view.befunde)})`;
+    if (id === "befunde") text = !f.view.befunde && f.view.auftraege ? `Aufträge (${nf.format(f.view.auftraege)})` : `${label} (${nf.format(f.view.befunde)})`;
     const sel = f.tab === id;
     list.append(h("button", {
       type: "button", role: "tab", id: "tab-" + id, "aria-selected": sel ? "true" : "false", "aria-controls": "panel", tabindex: sel ? "0" : "-1",
@@ -330,7 +338,11 @@ async function renderBefunde(f, panel) {
   out.push(h("p", { class: "legend" },
     h("strong", null, "So lesen Sie die Tabelle: "),
     "Markierungen (▲ erhöht, ▼ erniedrigt, ! auffällig) stehen genau so in der Datei, wie das Labor sie gesendet hat. Der Viewer bewertet keine Werte selbst."));
-  if (!res.all) {
+  if (!res.all && res.orders?.length) {
+    out.length = 0;
+    out.push(h("p", { class: "legend" }, h("strong", null, "Auftrag an das Labor: "), "Diese Datei bestellt Untersuchungen. Ergebnisse enthält sie noch nicht; die kommen später als Befund zurück."));
+    for (const a of res.orders) out.push(orderCard(f, a));
+  } else if (!res.all) {
     out.push(h("p", { class: "empty" }, f.view.format === "ldt2" || f.view.format === "ldt3"
       ? "Diese Datei enthält keine Befundsätze. Aufträge an das Labor (Satzart 8218/8219 bzw. 8215) enthalten noch keine Ergebnisse. Die Inhalte sehen Sie unter „Struktur“."
       : "In dieser Datei wurden keine Laborwerte gefunden. Die Inhalte sehen Sie unter „Struktur“."));
@@ -338,8 +350,27 @@ async function renderBefunde(f, panel) {
     out.push(h("p", { class: "empty" }, `Keine Treffer für „${f.query}“.`));
   }
   for (const b of res.items) out.push(befundCard(f, b));
-  out.push(pager(res.page, res.pages, res.total, ["Befund", "Befunde"], (p) => { f.pages.befunde = p; renderPanel(f); $("panel").scrollIntoView({ block: "start" }); }));
+  if (!res.orders?.length) out.push(pager(res.page, res.pages, res.total, ["Befund", "Befunde"], (p) => { f.pages.befunde = p; renderPanel(f); $("panel").scrollIntoView({ block: "start" }); }));
   panel.replaceChildren(...out);
+}
+
+function orderCard(f, a) {
+  const p = a.patient;
+  const name = [p.last, p.first].filter(Boolean).join(", ") || `Auftrag ${a.order || ""}`;
+  const meta = [p.birth && `geb. ${p.birth}`, p.sexText, p.id && `Patientennr. ${p.id}`, a.order && `Auftrag ${a.order}`, a.date && `erstellt ${a.date}`].filter(Boolean);
+  const rows = [
+    ["Angefordert", a.tests.length ? h("ul", { class: "plain-list" }, ...a.tests.map((t) => h("li", null, t.name || t.id, t.name && t.id ? h("span", { class: "test-id" }, t.id) : null, t.urgent ? h("span", { class: "status-badge" }, t.urgent) : null))) : "–"],
+    ["Diagnose", a.diagnoses.length ? a.diagnoses.map((d) => `${d.certainty ? d.certainty + " " : ""}${d.icd}`).join(", ") : "–"],
+    ["Material", a.material.join(", ") || "–"],
+    ["Abrechnung", a.billing || "–"],
+  ];
+  return h("article", { class: "befund" },
+    h("header", { class: "befund-head" },
+      h("h3", null, name),
+      h("p", { class: "befund-meta" }, meta.join(" · ")),
+      h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "struktur", { line: a.line }) }, `Ab Zeile ${nf.format(a.line)} in der Struktur zeigen`)),
+    h("dl", { class: "order-facts" }, ...rows.flatMap(([k, v]) => [h("dt", null, k), h("dd", null, v)])),
+    a.notes.length ? h("p", { class: "befund-notes" }, h("strong", null, "Hinweise: "), a.notes.join(" ")) : null);
 }
 
 function befundCard(f, b) {
@@ -599,6 +630,9 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.target.closes
 for (const btn of document.querySelectorAll("[data-example]")) {
   btn.addEventListener("click", async () => {
     const file = btn.dataset.example;
+    // Beispiele haben festen Inhalt: schon geöffnet, dann nur nach vorn holen
+    const open = [...state.files.values()].find((x) => x.name === file);
+    if (open) { state.current = open.key; renderAll(); showWorkspace(); return; }
     btn.disabled = true;
     try {
       const r = await fetch(BASE + "beispiele/" + file);

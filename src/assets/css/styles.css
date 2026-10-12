@@ -187,6 +187,22 @@ tbody tr:last-child td { border-bottom: none; }
 .flag.flag-other { background: var(--warn-bg); color: var(--warn); }
 .flag.flag-normal { background: var(--ok-bg); color: var(--ok); font-weight: 600; }
 .note-row td { font-size: 0.88rem; }
+.order-facts { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: 0.45rem 1rem; margin: 0; padding: 0.8rem 1rem; border-top: 1px solid var(--border); }
+.order-facts dt { color: var(--muted); font-size: 0.9rem; }
+.order-facts dd { margin: 0; }
+.plain-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+.plain-list .test-id { margin-left: 0.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+
+/* Beispielauswahl */
+.example-list { margin: 0.75rem 0 0; }
+.example-list > summary { cursor: pointer; color: var(--accent-hover); font-weight: 600; padding: 0.3rem 0; }
+.example-list h3 { margin: 1.1rem 0 0.4rem; font-size: 1rem; }
+.example-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.example-items li { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 10px; }
+.example-text { flex: 1 1 22rem; min-width: 0; display: grid; gap: 0.15rem; }
+.example-text span { font-size: 0.9rem; color: var(--muted); }
+.example-text code { font-size: 0.78rem; color: var(--muted); overflow-wrap: anywhere; }
+.example-actions { display: flex; gap: 0.4rem; flex: none; }
 .diagnosis { margin: 0 0 1rem; padding: 0.9rem 1.1rem; border-radius: 12px; border: 1px solid var(--warn); background: var(--warn-bg); }
 .diagnosis p { margin: 0.35rem 0 0; }
 .diagnosis .diagnosis-kicker { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--warn); font-weight: 700; }

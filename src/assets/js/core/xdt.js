@@ -190,6 +190,7 @@ export function openFile(bytes, name, dict, opts = {}) {
   m.diagnosis = diagnose(m);
   progress("Befunde werden zusammengestellt", 0.85);
   m.befunde = extractBefunde(m);
+  m.auftraege = extractAuftraege(m);
   m.summary = buildSummary(m);
   progress("Fertig", 1);
   return m;
@@ -851,6 +852,47 @@ export function extractBefunde(m) {
     for (const t of r.tests) if (!t.name && t.kind && !t.id) t.name = t.kind;
     for (const t of r.tests) if (!t.results.length) t.results.push({ value: "", unit: "", low: "", high: "", range: "", flag: "", flagText: "", text: [], line: t.line });
     if (r.tests.length || m.format !== "bdt") out.push(r);
+  }
+  return out;
+}
+
+/* --------------------------------------------------------- Aufträge (LDT 3, Satzart 8215) */
+
+/** Übersicht je Auftrag: Patient, Auftragsnummer, Datum, Diagnosen, Abrechnung, Material, angeforderte Untersuchungen. */
+export function extractAuftraege(m) {
+  const out = [];
+  if (m.format !== "ldt3") return out;
+  const T = S.ORDER_TEXT;
+  for (const rec of m.records) {
+    if (rec.type !== "8215") continue;
+    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", material: [], tests: [], notes: [] };
+    let diag = null, test = null;
+    for (let i = rec.start; i <= rec.end; i++) {
+      const f = m.fk[i];
+      if (f < 0) continue;
+      const v = content(m, i).trim();
+      const path = objectPath(m, i);
+      const inner = path[0]?.id || "";
+      const has = (id) => path.some((o) => o.id === id);
+      if (has("Obj_0045")) {
+        if (inner === "Obj_0047") {
+          if (f === 3101) a.patient.last = v; else if (f === 3102) a.patient.first = v;
+          else if (f === 3103) a.patient.birth = fmtDate(v, "JJJJMMTT"); else if (f === 3110) a.patient.sexText = S.SEX.ldt3[v] || v;
+        } else if (inner === "Obj_0045" && f === 3000) a.patient.id = v;
+        continue;
+      }
+      if (inner === "Obj_0013" && f === 8310) a.order = v;
+      else if (inner === "Obj_0054" && f === 7278 && has("Obj_0013") && !a.date) a.date = fmtDate(v, "JJJJMMTT");
+      else if (inner === "Obj_0100" && f === 6001) { diag = { icd: v, certainty: "" }; a.diagnoses.push(diag); }
+      else if (inner === "Obj_0100" && f === 6003 && diag) diag.certainty = T.certainty[v] || v;
+      else if (inner === "Obj_0027" && f === 7303 && !a.billing) a.billing = T.billing[v] || v;
+      else if (inner === "Obj_0037" && f === 8430) a.material.push(v);
+      else if (inner === "Obj_0059" && f === 8410) { test = { id: v, name: "", urgent: "" }; a.tests.push(test); }
+      else if (inner === "Obj_0059" && f === 8411 && test) test.name = v;
+      else if (inner === "Obj_0059" && f === 8501 && test) test.urgent = T.urgency[v] || v;
+      else if (inner === "Obj_0068" && f === 3564 && path.length === 1) a.notes.push(v);
+    }
+    out.push(a);
   }
   return out;
 }
