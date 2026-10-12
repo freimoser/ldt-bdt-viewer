@@ -1,9 +1,9 @@
 {
  "0001": {
   "name": "Version XDT",
-  "type": "f",
+  "type": "",
   "len": "var",
-  "format": "n {n} „.“n {n} [0001] „BDT",
+  "format": "[0001] „BDT",
   "values": "= „BDT 2.94“ | 2.0“ | „BDT 3.0“",
   "desc": "„BDT 2.94“`= BDT 02/1994, „BDT 2.0“ = BDT Version 2.0, „BDT 3.0“ = BDT Version 3.0",
   "oid": "Version der Datensatzbeschreibung",
@@ -1340,7 +1340,7 @@
   "page": 70
  },
  "3100": {
-  "name": "Namenszusatz / Vorsatzwort des Patienten",
+  "name": "Namenszusatz des Patienten",
   "type": "a",
   "len": "var",
   "format": "",
@@ -1426,17 +1426,17 @@
   "format": "A",
   "values": "[3108] = „1“ | „3“ | „5“ | „6“",
   "desc": "„1“ = Mitglied, „3“ = Familienversicherter, „5“ = Rentner, „6“ = Nicht GKV-Versicherter Letzter Stand im Bezugszeitraum, Art der Versicherung des Patienten basierend auf dem Beschäftigungsstatus und dem Verhältnis zum Hauptversicherten.",
-  "oid": "1.2.276.0.76.5.221",
+  "oid": "",
   "page": 72
  },
  "3109": {
-  "name": "Geschlecht des Patienten aus administrativer Sicht",
-  "type": "n",
-  "len": "1",
-  "format": "n",
-  "values": "[3109] = „0“ | „1“ | „ 2“",
-  "desc": "“2” = Weiblich: Patient, der einen Krankenhausraum mit jemanden des weiblichen Geschlechtes teilen kann, “1” = Männlich: Patient, der einen Krankenhausraum mit jemanden des männlichen Geschlechtes teilen kann, „0“= Unbekannt",
-  "oid": "Konzept: 1.2.276.0.76.5.232 1.2.276.0.76.5.232",
+  "name": "Hausnummer",
+  "type": "a",
+  "len": "var",
+  "format": "",
+  "values": "",
+  "desc": "Eine Hausnummer ist die Bezeichnung, die ein bestimmtes Gebäude in einer Straße oder einem Ort eindeutig identifiziert. Sie dient der Adressierung, Orientierung und der Auffindbarkeit eines Gebäudes.",
+  "oid": "",
   "page": 72
  },
  "3110": {
@@ -1446,7 +1446,7 @@
   "format": "n",
   "values": "[3110] = „0“ | „1“ | „ 2“ | „3“ | „M“ | „W“ | „ U“| „A“",
   "desc": "„0“ | „ U“ = unbekannt, „1“ | „M“ = männlich, „2“ | „W“ = weiblich, „3“ | „A“ = anders Das Geschlecht von Lebewesen, besonders dem Menschen und höheren Tieren, ist die Gesamtheit der Merkmale, wonach ein Lebewesen in Bezug auf seine Funktion bei der Fortpflanzung als männlich oder weiblich zu bestimmen ist. Hier: Geschlecht aus administrativer Sicht mit den Ausprägungen gemäß des deutschen Melderechts. Zu verschiedenen medizinischen Zwecken wäre eine differenziertere Wertetabelle erforderlich.",
-  "oid": "1.2.276.0.76.3.1",
+  "oid": "",
   "page": 73
  },
  "3111": {
@@ -1520,36 +1520,36 @@
   "page": 74
  },
  "3120": {
-  "name": "Einschreibestatus",
-  "type": "n",
-  "len": "1",
-  "format": "n",
-  "values": "[3130] = „0“ | „1“ | „2“",
-  "desc": "„0“ = Nicht eingeschrieben, „1“ = Eingeschrieben, „2“ = Ein-",
-  "oid": "",
-  "page": 74
- },
- "3124": {
-  "name": "Bezeichnung des",
+  "name": "Vorsatzwort (zum Namen)",
   "type": "a",
   "len": "var",
   "format": "",
   "values": "",
-  "desc": "Freitext",
+  "desc": "",
   "oid": "",
   "page": 74
  },
- "3130": {
-  "name": "Selektivverträge",
+ "3124": {
+  "name": "Postfach Wohnsitzländercode",
   "type": "",
   "len": "",
   "format": "",
   "values": "",
-  "desc": "schreibung beantragt",
+  "desc": "",
   "oid": "",
   "page": 74
  },
- "3121": {
+ "3130": {
+  "name": "Einschreibestatus Selektivverträge",
+  "type": "n",
+  "len": "1",
+  "format": "n",
+  "values": "[3130] = „0“ | „1“ | „2“",
+  "desc": "„0“ = Nicht eingeschrieben, „1“ = Eingeschrieben, „2“ = Einschreibung beantragt",
+  "oid": "",
+  "page": 74
+ },
+ "3131": {
   "name": "Teilnahme von",
   "type": "d",
   "len": "8",
@@ -1559,17 +1559,7 @@
   "oid": "",
   "page": 74
  },
- "3131": {
-  "name": "",
-  "type": "",
-  "len": "",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 74
- },
- "3122": {
+ "3132": {
   "name": "Teilnahme bis",
   "type": "d",
   "len": "8",
@@ -1579,18 +1569,8 @@
   "oid": "",
   "page": 74
  },
- "3132": {
-  "name": "",
-  "type": "",
-  "len": "",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 74
- },
- "3123": {
-  "name": "Datum der Antrags-",
+ "3133": {
+  "name": "Datum der Antragsstellung",
   "type": "d",
   "len": "8",
   "format": "TTMMJJJJ",
@@ -1599,28 +1579,18 @@
   "oid": "",
   "page": 74
  },
- "3133": {
-  "name": "stellung",
-  "type": "",
-  "len": "",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 74
- },
  "3134": {
-  "name": "Selektivvertrags",
-  "type": "",
-  "len": "",
+  "name": "Bezeichnung des Selektivvertrags",
+  "type": "a",
+  "len": "var",
   "format": "",
   "values": "",
-  "desc": "",
+  "desc": "Freitext",
   "oid": "",
   "page": 74
  },
  "3200": {
-  "name": "Namenszusatz/Vorsatzwort des Hauptversicherten",
+  "name": "Namenszusatz des Hauptversicherten",
   "type": "a",
   "len": "var",
   "format": "",
@@ -3232,7 +3202,7 @@
  "4242": {
   "name": "LANR: Lebenslange Arztnummer des Überweisers / Einweisers",
   "type": "n",
-  "len": "9 ≤",
+  "len": "9",
   "format": "nnnnnnPnn",
   "values": "Ersatzwert: “999999900”",
   "desc": "Die lebenslange Arztnummer, kurz LANR, ist eine neunstellige Nummer, die die zuständige Kassenärztliche Vereinigung bundesweit gültig an jeden Arzt vergibt. Die LANR des Überweisenden Arztes soll hier angegeben werden.",
@@ -3242,7 +3212,7 @@
  "5001": {
   "name": "GNR",
   "type": "a",
-  "len": "9",
+  "len": "≤ 9",
   "format": "nnnnn [a] [a] [a] [a]",
   "values": "",
   "desc": "Gebührenordnungsnummer Der Einheitliche Bewertungsmaßstab (EBM) ist die Abrechnungsgrundlage für Leistungen, die innerhalb der gesetzlichen Krankenversicherung erbracht werden. Die Gebührenordnung für Ärzte (GOÄ) ist für die private Krankenversicherung bestimmt. Darüber hinaus gibt es die UV-GOÄ, nach der Ärzte Leistungen mit den Unfallversicherungsträgern abrechnen.",
@@ -4039,16 +4009,6 @@
   "oid": "",
   "page": 100
  },
- "8001": {
-  "name": "Satzende",
-  "type": "n",
-  "len": "4",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 100
- },
  "8010": {
   "name": "Feldkennung",
   "type": "n",
@@ -4119,23 +4079,13 @@
   "oid": "",
   "page": 101
  },
- "8301": {
-  "name": "Auftragseingang im Labor",
-  "type": "",
-  "len": "",
-  "format": "",
-  "values": "",
-  "desc": "Erfassungsdatum. Eingangsdatum des Auftrags im Labor",
-  "oid": "",
-  "page": 101
- },
  "8308": {
-  "name": "Kuerzel der angeforderten Leistungen Auftrags-ID",
+  "name": "Auftrags-ID",
   "type": "",
   "len": "",
   "format": "",
   "values": "",
-  "desc": "Na; Ca; nat; cal vgl. LDT",
+  "desc": "vgl. LDT",
   "oid": "",
   "page": 101
  },
@@ -4249,20 +4199,10 @@
   "oid": "",
   "page": 102
  },
- "8407": {
-  "name": "Geschlecht",
-  "type": "",
-  "len": "≤",
-  "format": "",
-  "values": "",
-  "desc": "vgl. 3110, wo wird diese FK benötigt???",
-  "oid": "",
-  "page": 102
- },
  "8410": {
   "name": "Test-Ident",
   "type": "a",
-  "len": "8",
+  "len": "≤ 8",
   "format": "",
   "values": "",
   "desc": "Der Test-Ident ist die Kurzbezeichnung eines Analyts. Mit diesem Ident erfolgt eine eineindeutige Zuordnung aller Eigenschaften dieses Analyts, wie z.B. Normbereich, Preis und Dimension zum aktuellen Zeitpunkt.",
@@ -4462,7 +4402,7 @@
  "8438": {
   "name": "Datenstrom",
   "type": "a",
-  "len": "var ≤",
+  "len": "var",
   "format": "",
   "values": "",
   "desc": "",
@@ -4472,7 +4412,7 @@
  "8440": {
   "name": "Keim-Ident",
   "type": "a",
-  "len": "8",
+  "len": "≤ 8",
   "format": "",
   "values": "",
   "desc": "Freie Vergabe eines Keim-Identifikators",
@@ -4709,26 +4649,6 @@
   "oid": "",
   "page": 105
  },
- "8511": {
-  "name": "Schwangerschaftsdauer",
-  "type": "n",
-  "len": "3",
-  "format": "",
-  "values": "",
-  "desc": "Woche (?) in Wochen???",
-  "oid": "",
-  "page": 105
- },
- "8512": {
-  "name": "1. Tag des letzten Zyklus",
-  "type": "d",
-  "len": "6",
-  "format": "TTMMJJJJ",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 105
- },
  "8520": {
   "name": "Wirkstoffmenge, Menge / Bezugsmenge",
   "type": "f",
@@ -4748,46 +4668,6 @@
   "desc": "Maßeinheit für die Menge des Probenmaterials Freitext, z.B. „E“ = E, „ML“ = ml, „ST“",
   "oid": "",
   "page": 105
- },
- "8601": {
-  "name": "Name des Rechnungsempfängers",
-  "type": "a",
-  "len": "var",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 105
- },
- "8602": {
-  "name": "Titel, Vorname des Rechnungsempfängers",
-  "type": "a",
-  "len": "var",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 105
- },
- "8606": {
-  "name": "Wohnort des Rechnungsempfängers",
-  "type": "a",
-  "len": "var",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 106
- },
- "8607": {
-  "name": "Straße des Rechnungsempfängers",
-  "type": "a",
-  "len": "var",
-  "format": "",
-  "values": "",
-  "desc": "",
-  "oid": "",
-  "page": 106
  },
  "8608": {
   "name": "Kommentar/Aktenzeichen",
@@ -4875,7 +4755,7 @@
   "len": "",
   "format": "TTMMJJJJ",
   "values": "",
-  "desc": "GDT Datum der Erstellung des Befundberichtes im Format \"TTMMJJJJ\"",
+  "desc": "Datum der Erstellung des Befundberichtes im Format \"TTMMJJJJ\"",
   "oid": "",
   "page": 106
  },
@@ -5135,8 +5015,8 @@
   "len": "var",
   "format": "n {n} { „.“ n {n} }",
   "values": "",
-  "desc": "http://de.wikipedia.org/wiki/Object_Identifier http://www.dimdi.de/static/de/klassi/oid/index.htm (Anzahl der übermittelten Felder Ende Satzart Kommunikations-Header (Anzahl der übermittelten Felder Beschreibung des Inhalts der …. Beschreibung des Inhalts der …. Beschreibung des Inhalts der …. (Anzahl der übermittelten Felder",
-  "oid": "des Objektes) der Satzart) Anzahl der übermittelten Felder der Satzart)",
+  "desc": "http://de.wikipedia.org/wiki/Object_Identifier http://www.dimdi.de/static/de/klassi/oid/index.htm",
+  "oid": "",
   "page": 109
  }
 }
