@@ -333,8 +333,10 @@ function bdt(patients, today) {
       F("3626", "0000 000000"),
     ] });
     const f = [F("8000", "6200"), F("8100", null), F("3000", p.id), F("6200", dmy(berlin(today).d)), F("6201", hms(berlin(today).d))];
-    // BDT 3.0: Test-Ident genau 8 Zeichen (Feldtabelle S. 102), daher eigenes lesbares Kürzel je Analyt
+    // BDT 3.0: Test-Ident höchstens 8 Zeichen (Feldtabelle S. 102), daher eigenes lesbares Kürzel je Analyt
     for (const t of p.tests) f.push(F("8410", t.id8 || (t.id + "TESTTEST").slice(0, 8)), F("8411", t.name), F("8420", t.value), F("8421", t.unit), F("8461", t.low), F("8462", t.high));
+    // Pflicht-Kennzeichnung als Testdaten. 8480 ist ein Erläuterungstext zum Messergebnis (BDT 3.0, S. 105);
+    // ein allgemeines Kommentarfeld für Behandlungsdaten gibt es in der Feldtabelle nicht.
     f.push(F("8480", TEST_NOTE));
     recs.push({ type: "6200", fields: f });
   }

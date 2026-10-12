@@ -136,7 +136,7 @@ ${heroHtml({
 <tbody>
 ${tableRows}
 </tbody></table></div>
-<p>Beispiele für BDT-Exporte aus der Praxissoftware stehen in der <a href="${href("#beispiele")}">Beispielliste des Viewers</a>. Wie Sie eine eigene Datei öffnen, erklärt <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a>.</p>
+<p>Ein BDT-Export aus der Praxissoftware wird auf der Seite <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a> Zeile für Zeile erklärt. Wie Sie eine eigene Datei öffnen, erklärt <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a>.</p>
 
 <h2 id="aufbau">So ist eine LDT-Datei aufgebaut</h2>
 <p>Jede Zeile beginnt mit ihrer Länge in Bytes: Inhalt plus 9 (3 Zeichen Länge, 4 Zeichen Feldkennung, 2 Zeichen Zeilenende CR LF). ${src("ldt3", "Kap. 6.4.1")} Zeilen werden zu <strong>Sätzen</strong> zusammengefasst, die mit Feld 8000 beginnen und mit Feld 8001 enden. ${src("ldt3", "Kap. 6.2 und 6.3")} Innerhalb eines Satzes bündeln <strong>Objekte</strong> zusammengehörige Felder, etwa alle Angaben zum Patienten. Ein Objekt beginnt mit Feld 8002 und endet mit Feld 8003. ${src("ldt3", "Kap. 6.3")}</p>
@@ -181,7 +181,7 @@ ${w.tail}
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("Eigene LDT-Datei ansehen", "Öffnen Sie Ihre eigene Befunddatei im Viewer und vergleichen Sie sie mit den Beispielen. Die Datei bleibt auf Ihrem Rechner.")}
-${relatedHtml(["ldt-datei-oeffnen/", "was-ist-ldt/", "fehler/", "feldkennungen/"])}
+${relatedHtml(["ldt-datei-oeffnen/", "was-ist-ldt/", "fehler/", "bdt-datei-beispiel/"])}
 </main>`;
 
   const dataset = {

@@ -279,6 +279,22 @@ BEISPIELE.push(
       return encode(lines.join(CRLF), "cp437");
     },
   },
+  {
+    file: "BDT_FEHLER_Satzlaenge.bdt",
+    group: "fehler",
+    title: "BDT: Zeile gelöscht, Satzlänge stimmt nicht",
+    short: "Fehler: Satzlänge 8100 (BDT)",
+    shows: "Im ersten Patientenstamm-Satz (6100) fehlt die Zeile mit der Telefonnummer. Im klassischen BDT-Aufbau steht die Satzlänge im zweiten Feld 8100; sie passt danach nicht mehr zum Satz.",
+    cause: "Ein Filterprogramm oder eine Bearbeitung von Hand hat eine Zeile entfernt, ohne die Satzlänge neu zu berechnen.",
+    fix: "Export in der Praxissoftware wiederholen; Satzlängen nicht von Hand korrigieren.",
+    expect: { code: "RECLEN", cause: "Zeile entfernt" },
+    build: (now) => {
+      const base = BEISPIELE.find((b) => b.file === "BEISPIEL_BDT_Export.bdt").build(now);
+      const lines = latin(base).split(CRLF);
+      lines.splice(lines.findIndex((l) => l.slice(3, 7) === "3626"), 1);
+      return encode(lines.join(CRLF), "iso-8859-15");
+    },
+  },
 );
 
 /** Metadaten ohne Bauanleitung, z. B. für die Auswahl im Viewer. */

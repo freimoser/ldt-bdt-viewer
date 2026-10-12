@@ -64,6 +64,7 @@ export const GUIDES = [
   ["feldkennungen/", "Feldkennungen", "Vollständige Referenz der Feldkennungen und Satzarten."],
   ["fehler/", "Fehler in LDT-Dateien", "Häufige Fehler, ihre Bedeutung und die Lösung."],
   ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
+  ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
 ];
 
 function head(p) {
