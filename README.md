@@ -59,6 +59,15 @@ Geprüft gegen die 9 offiziellen KBV-Testdateien zu LDT 3.2.20: 0 Fehler, 0 Warn
 
 Bei jedem Push auf `main` testet und baut die GitHub Action die Seite und veröffentlicht sie auf GitHub Pages. Danach meldet sie die URLs der Sitemap per [IndexNow](https://www.indexnow.org/) an Bing und weitere Suchmaschinen (Schlüsseldatei in `src/static/`); schlägt das fehl, bleibt das Deployment gültig.
 
+## Livegang-Prüfung
+
+```bash
+node scripts/build.mjs
+npm run check:launch
+```
+
+Prüft den Build auf Blocker (Exit 1): Impressum mit ladungsfähiger Anschrift und Kontakt, Links auf Impressum und Datenschutz, Canonical, Sitemap gegen `noindex` in beiden Richtungen, Titellängen, Favicons (96 px für Google), keine Einbindung fremder Server. Die GitHub Action führt die Prüfung vor jedem Deployment aus. Alle Symbole entstehen aus einer Quelle: `npm run icons` (Chrome, `scripts/assets/icon.html`).
+
 ## Lokal starten
 
 ```bash
@@ -81,7 +90,7 @@ Automatische Tests mit selbst erzeugten Testdateien: gültige LDT-2-, LDT-3- und
 Browser-Test mit Chrome (große Datei ohne Einfrieren, 360 px, Tastatur, offline):
 
 ```bash
-npm install --no-save puppeteer-core
+npm install --no-save puppeteer-core axe-core sharp
 node tests/e2e/browser.mjs
 ```
 

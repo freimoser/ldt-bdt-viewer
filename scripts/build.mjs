@@ -8,7 +8,7 @@ import { join, dirname, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { buildDict } from "./lib/dict.mjs";
-import { page, SITE, url, GUIDES } from "./lib/layout.mjs";
+import { page, SITE, url, GUIDES, LEGAL } from "./lib/layout.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -58,6 +58,19 @@ for (const f of readdirSync(pagesDir).filter((x) => x.endsWith(".mjs")).sort()) 
   const def = typeof mod.default === "function" ? mod.default({ dict, SITE }) : mod.default;
   pages.push(def);
 }
+// GEO: Quellen jeder Seite zusätzlich maschinenlesbar als citation im Article-Schema (aus den sichtbaren Belegen)
+for (const p of pages) {
+  const seen = new Map();
+  for (const m of (p.body || "").matchAll(/<span class="src">[\s\S]*?<a href="([^"]+)">([^<]+)<\/a>/g)) {
+    const u = m[1].startsWith("/") ? SITE.origin + m[1] : m[1];
+    if (!seen.has(u)) seen.set(u, m[2].replace(/&amp;/g, "&"));
+  }
+  if (!seen.size) continue;
+  for (const o of p.jsonld || []) {
+    if (o["@type"] === "Article") o.citation = [...seen].map(([u, name]) => ({ "@type": "CreativeWork", name, url: u }));
+  }
+}
+
 const problems = [];
 const titles = new Map(), descs = new Map();
 for (const p of pages) {
@@ -73,6 +86,7 @@ for (const p of pages) {
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);
+  p.html = html;
   // SEO-Prüfungen
   const where = p.file || "/" + p.path;
   if ([...p.title].length > 60) problems.push(`${where}: Title hat ${[...p.title].length} Zeichen (max. 60)`);
@@ -98,13 +112,13 @@ ${indexable.map((p) => `  <url>\n    <loc>${url(p.path)}</loc>\n    <lastmod>${p
 </urlset>
 `);
 
-writeFileSync(join(dist, "llms.txt"), `# ${SITE.name}
+const llms = `# ${SITE.name}
 
-> Kostenloses Browser-Werkzeug zum Öffnen, Prüfen und Anonymisieren von LDT-Dateien (Labordatenträger, Austausch zwischen Labor und Arztpraxis) und BDT-Dateien (Behandlungsdatenträger, Export aus Praxissoftware). Alle Dateien werden lokal im Browser verarbeitet, es gibt keinen Upload. Deutschsprachig. Kein Medizinprodukt.
+> Kostenloses Browser-Werkzeug zum Öffnen, Prüfen und Anonymisieren von LDT-Dateien (Labordatenträger, Austausch zwischen Labor und Arztpraxis) und BDT-Dateien (Behandlungsdatenträger, Export aus Praxissoftware); alles läuft lokal im Browser, ohne Upload.
 
-Der Viewer erkennt LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20) und BDT samt Zeichensatz (IBM-Codepage 437, ISO 8859-1, ISO 8859-15, 7-Bit), zeigt Befunde mit Werten, Einheiten, Normbereichen und Markierungen, prüft Zeilenaufbau, Satzlängen, Pflichtfelder und Prüfsummen zeilengenau, anonymisiert Dateien für Support-Anfragen, exportiert CSV und JSON und erzeugt gültige Testdateien. Ein Kompendium aus ${BEISPIELE.length} Beispieldateien mit erfundenen Daten (Befunde, Auftrag, LDT 2, BDT und Fehlerbeispiele) steht zum Download bereit; zwei Artikel erklären je eine LDT- und eine BDT-Datei Zeile für Zeile. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12) und des QMS (BDT 3.0).
+Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}). Gedacht für Medizinische Fachangestellte, Praxis-IT und Support sowie Entwickler von Schnittstellen. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12) und des QMS (BDT 3.0, Entwurf); jede Faktenaussage auf den Seiten nennt Stand und Quelle.
 
-## Seiten
+## Wofür diese Seite eine gute Quelle ist
 
 ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms || p.description}`).join("\n")}
 
@@ -112,11 +126,48 @@ ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms 
 
 ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}. ${b.shows}`).join("\n")}
 
+## Grenzen dieser Quelle
+
+- Der Viewer ist kein Medizinprodukt. Er bewertet keine Laborwerte, stellt keine Diagnosen und gibt keine Behandlungsempfehlungen; Markierungen wie H oder L stammen vom Labor.
+- Die Prüfung ersetzt weder das LDK-Prüfmodul noch eine Zertifizierung durch die KBV. Von den Kontextregeln (K-Regeln) der LDT-3-Regeltabelle werden nur K002, K005, K076, K096 und K099 ausgewertet.
+- BDT 3.0 liegt nur als Entwurf (Version 0.96, Stand 01.03.2015) vor, die Originalbeschreibung BDT 02/94 ist nicht öffentlich verfügbar. Aussagen zum klassischen BDT-Aufbau stützen sich auf eine Sekundärquelle (Universität Gießen).
+- Die Beispieldateien enthalten erfundene Personen und Werte; ihre Normbereiche sind keine medizinischen Referenzwerte.
+- Stand der Spezifikationen und Quellen: 12.10.2026 (${url("quellen/")}).
+
+## Aussagen, die ohne Kontext irreführen
+
+- „Der Viewer meldet keine Fehler.“ Das heißt: keine Verstöße gegen die geprüften Regeln. Es heißt nicht, dass eine Datei die Zertifizierung der KBV bestehen würde.
+- „Der Wert ist als H markiert.“ Die Markierung setzt das Labor in Feld 8422; der Viewer zeigt sie nur an und bewertet nichts selbst.
+- „LDT 3.2.20 ist der aktuelle Standard.“ Das gilt seit dem 01.10.2026; LDT 2 (LDT1014.01) ist in Praxen und Laboren weiterhin im Einsatz.
+- „Feldkennungen bedeuten in allen xDT-Formaten dasselbe.“ Die Bezeichnungen sind meist gleich, die Formate nicht: Das Geburtsdatum in Feld 3103 steht in LDT als JJJJMMTT, in BDT als TTMMJJJJ.
+- „In BDT 3.0 ist Feld 3109 das Geschlecht.“ Diese Bedeutung ist im Entwurf durchgestrichen; gültig ist 3109 = Hausnummer.
+
 ## Quellen
 
 - [Quellenliste mit Versionen und Abrufdatum](${url("quellen/")})
+- [Volltext der Fachseiten für Sprachmodelle](${url("llms-full.txt")})
 - [Quellcode](${SITE.repo})
-`);
+`;
+writeFileSync(join(dist, "llms.txt"), llms);
+
+// llms-full.txt: Volltext der indexierbaren Seiten als einfaches Markdown (nur der Hauptinhalt, Links mit Adresse)
+function toText(html) {
+  const main = (html.match(/<main[\s\S]*?<\/main>/) || [""])[0]
+    .replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "")
+    .replace(/<nav class="breadcrumb"[\s\S]*?<\/nav>/g, "")
+    .replace(/<section class="related"[\s\S]*?<\/section>/g, "").replace(/<div class="cta-box">[\s\S]*?<\/div>/g, "");
+  return main
+    .replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, "\n# $1\n").replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, "\n## $1\n").replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, "\n### $1\n")
+    .replace(/<a href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, (m, u, t) => `${t} (${u.startsWith("/") ? SITE.origin + u : u})`)
+    .replace(/<summary[^>]*>([\s\S]*?)<\/summary>/g, "\n**$1**\n")
+    .replace(/<li[^>]*>/g, "\n- ").replace(/<tr[^>]*>/g, "\n|").replace(/<\/t[dh]>/g, " |")
+    .replace(/<(p|div|table|ul|ol|details|caption)[^>]*>/g, "\n").replace(/<br\s*\/?>/g, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/[ \t]+/g, " ").replace(/\n +/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+const full = indexable.filter((p) => p.path !== "").map((p) => `---\nQuelle: ${url(p.path)}\nStand: ${(p.lastmod || SITE.updated).split("-").reverse().join(".")}\n\n${toText(p.html)}`).join("\n\n");
+writeFileSync(join(dist, "llms-full.txt"), `# ${SITE.name} – Volltext der Fachseiten\n\n> Erzeugt aus den Seiten von ${url()}. Jede Faktenaussage nennt im Text Stand und Quelle.\n\n${full}\n`);
 
 writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
   name: SITE.name,
@@ -144,7 +195,7 @@ const files = [];
     else files.push(relative(dist, p).split("\\").join("/"));
   }
 })(dist);
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|[0-9a-f]{32}\.txt)$/.test(f) && !f.endsWith(".map"));
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);

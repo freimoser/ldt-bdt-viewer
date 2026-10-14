@@ -26,6 +26,10 @@ jobs:
         run: node --test tests/*.test.mjs
       - name: Build (inkl. SEO- und Linkprüfung)
         run: node scripts/build.mjs
+      # Sperre vor dem Livegang: Impressum mit ladungsfähiger Anschrift, Sitemap ↔ noindex, Favicons, keine Fremdeinbindungen
+      - name: Livegang-Prüfung
+        if: github.event_name != 'pull_request'
+        run: node scripts/check-launch.mjs
       - name: Pages-Artefakt hochladen
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
