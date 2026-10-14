@@ -96,7 +96,7 @@ ${stepsHtml(steps)}
 <li><strong>Prüfmeldungen sichern:</strong> Notieren Sie Fehler und Warnungen aus dem Reiter „Prüfung“ mit Zeilennummer. Die Längenregel (Inhalt plus 9) gilt in BDT wie in LDT. ${src("bdt3", "Kap. 3.3")} Viele Meldungen erklärt deshalb auch die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</li>
 <li><strong>Externe Dateien klären:</strong> Dateien in anderen Formaten, auch Abrechnungsnotizen, bezieht BDT 3.0 nur über Referenzen ein. ${src("bdt3", "Kap. 2 und 3.6.1")} Im Viewer sehen Sie nur den Verweis. Klären Sie mit beiden Anbietern, wie Dokumente, Bilder und Briefe mitkommen.</li>
 <li><strong>Anonymisieren für den neuen Anbieter:</strong> Möchte der neue Anbieter vorab eine Beispieldatei für einen Importtest, nutzen Sie die Schaltfläche „Anonymisieren“. Sie ersetzt Namen, Geburtsdaten, Adressen, Versichertennummern, Telefonnummern und Patientennummern und lädt eine neue Datei herunter. Sehen Sie Freitexte vor dem Versand trotzdem kurz durch.</li>
-<li><strong>Testdateien nutzen:</strong> Für Tests ganz ohne echte Daten erzeugt der Bereich „Testdateien erzeugen“ eine BDT-Datei im klassischen Aufbau mit 1 bis 200 erfundenen Patienten, deren Namen mit „Test-“ beginnen.</li>
+<li><strong>Testdateien nutzen:</strong> Für Tests ganz ohne echte Daten erzeugt der Bereich „Testdateien erzeugen“ eine BDT-Datei im klassischen Aufbau mit 1 bis 200 erfundenen Patienten, deren Namen mit „Test-“ beginnen. Eine fertige Beispieldatei mit Erklärung jeder Zeile zeigt die Seite <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a>.</li>
 </ol>
 
 <h3>Was der Viewer bei BDT nicht prüft</h3>
@@ -104,6 +104,6 @@ ${stepsHtml(steps)}
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("BDT-Datei jetzt prüfen", "Öffnen Sie Ihren Export im Viewer. Die Datei bleibt auf Ihrem Rechner.")}
-${relatedHtml(["was-ist-bdt/", "xdt-gdt-ldt-bdt/", "fehler/", "feldkennungen/"])}
+${relatedHtml(["was-ist-bdt/", "bdt-datei-beispiel/", "fehler/", "feldkennungen/"])}
 </main>`,
 };

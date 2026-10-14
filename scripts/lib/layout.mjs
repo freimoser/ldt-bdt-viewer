@@ -32,7 +32,7 @@ export const Q = {
   gdt: { t: "QMS, GDT 2.1 (englische Fassung)", u: "https://www.qms-standards.de/files/GDT_2_1_0501_english.pdf" },
   qms: { t: "QMS, Marktgestaltung und GDT", u: "https://www.qms-standards.de/Marktgestaltung.html" },
   qmsWechsel: { t: "QMS, Update PVS-Wechselschnittstelle (Juli 2026)", u: "https://www.qms-standards.de/files/QMSArtikelPVS-Wechselschnittstelle.pdf" },
-  tool: { t: "Quellenliste des LDT & BDT Viewers", u: "https://github.com/freimoser/ldt-bdt-viewer/blob/main/quellen.md" },
+  tool: { t: "Quellenliste des LDT & BDT Viewers", u: SITE.base + "quellen/" },
   pruefpaket: { t: "KBV, Prüfpaket Labordatenkommunikation Version 1.23", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf" },
   eulumdat: { t: "DIAL GmbH, LDT Editor (EULUMDAT-Dateien)", u: "https://www.dialux.com/de-DE/ldt-editor" },
 };
@@ -120,7 +120,7 @@ function footer() {
 <div><h2>Tool</h2><ul>
 <li><a href="${href()}">LDT &amp; BDT Viewer</a></li>
 <li><a href="${href("feldkennungen/")}">Feldkennungen</a></li>
-<li><a href="${SITE.repo}/blob/main/quellen.md">Quellen</a></li>
+<li><a href="${href("quellen/")}">Quellen</a></li>
 <li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>
 </ul></div>
 <div><h2>Ratgeber</h2><ul>

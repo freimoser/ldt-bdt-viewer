@@ -669,9 +669,15 @@ for (const btn of document.querySelectorAll("[data-example]")) {
   });
 }
 
-// Link aus einem Artikel: /?beispiel=Dateiname öffnet das Beispiel direkt (nur Dateien aus der Liste)
-const wanted = new URLSearchParams(location.search).get("beispiel");
-if (wanted) document.querySelector(`[data-example="${CSS.escape(wanted)}"]`)?.click();
+// Link aus einem Artikel: /#beispiel=Dateiname öffnet das Beispiel direkt (nur Dateien aus der Liste).
+// Der Hash erzeugt für Suchmaschinen keine eigene Adresse; ?beispiel= bleibt für ältere Links gültig.
+function openWantedExample() {
+  const fromHash = /^#beispiel=(.+)$/.exec(location.hash);
+  const wanted = fromHash ? decodeURIComponent(fromHash[1]) : new URLSearchParams(location.search).get("beispiel");
+  if (wanted) document.querySelector(`[data-example="${CSS.escape(wanted)}"]`)?.click();
+}
+openWantedExample();
+window.addEventListener("hashchange", openWantedExample);
 
 /* ------------------------------------------------------------ Generator */
 

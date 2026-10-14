@@ -13,7 +13,7 @@ Schwesterprojekt: [GDT Viewer](https://freimoser.github.io/gdt-viewer/) für Ger
 
 | Funktion | Beschreibung |
 |----------|--------------|
-| **Öffnen** | Datei wählen oder hineinziehen (`.ldt`, `.bdt`, `.dat`, `.txt`), mehrere Dateien gleichzeitig; Beispiele per Klick oder Link (`?beispiel=Dateiname`) |
+| **Öffnen** | Datei wählen oder hineinziehen (`.ldt`, `.bdt`, `.dat`, `.txt`), mehrere Dateien gleichzeitig; Beispiele per Klick oder Link (`#beispiel=Dateiname`) |
 | **Beispieldateien** | Kompendium mit 18 Dateien aus erfundenen Daten: LDT-3-Befunde (unauffällig, auffällig mit Extremwert, Teilbefund, Sammelbefund), LDT-3-Auftrag, LDT 2 in Codepage 437 und ISO 8859-15, BDT-Export und zehn Fehlerbeispiele mit Ursache und Behebung (`src/assets/js/core/beispiele.js`) |
 | **Erkennen** | LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20), BDT (klassisch mit Satzlänge 8100 oder BDT 3.0), GDT mit Hinweis auf den GDT Viewer; Zeichensatz (IBM-Codepage 437, ISO 8859-1, ISO 8859-15, 7-Bit DIN 66003, UTF-8) mit Umschalter |
 | **Zusammenfassung** | Dateityp und Version, Richtung, Absender, Empfänger, Datum, Sätze, Patienten, Befunde oder Aufträge, Extremwerte, Teilbefunde und noch folgende Werte; Warnhinweis, wenn die Datei Fehler enthält |

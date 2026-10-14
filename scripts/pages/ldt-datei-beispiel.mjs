@@ -115,7 +115,7 @@ const faq = [
 
 export default function ({ dict }) {
   const w = walkthrough()(dict);
-  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${groupLabel[b.group]}</td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("?beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
+  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${groupLabel[b.group]}</td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
 
   const body = `<main id="inhalt">
 ${heroHtml({
@@ -143,7 +143,7 @@ ${tableRows}
 <p>Ein Befund vom Labor an die Praxis besteht aus drei Satzarten: dem Kopf des Datenpakets (8220), einem Befund je Patient (8205) und dem Abschluss (8221). ${src("ldt3", "Kap. 6.2")} Die Datei muss im Zeichensatz ISO 8859-15 gespeichert sein ${src("ldt3", "Kap. 6.6")}, und ihr Name beginnt mit <code>Z01</code> und endet auf <code>.ldt</code>. ${src("ldt3", "Kap. 6.7")}</p>
 
 <h2 id="zeile-fuer-zeile">Ein LDT-3-Laborbefund Zeile für Zeile</h2>
-<p>Grundlage ist die Beispieldatei <a href="${href("beispiele/Z01_LDT3_Befund_unauffaellig.ldt")}" download>Z01_LDT3_Befund_unauffaellig.ldt</a> (<a href="${href("?beispiel=Z01_LDT3_Befund_unauffaellig.ldt")}">im Viewer ansehen</a>): ein abgeschlossener Befund für die erfundene Patientin Erika Test-Musterfrau mit sechs Werten im Normbereich, insgesamt ${w.lines} Zeilen. Die Bedeutungen der Felder stammen aus der Feldtabelle und der Regeltabelle der KBV. ${src("ldt3", "Kap. 9 und 10")}</p>
+<p>Grundlage ist die Beispieldatei <a href="${href("beispiele/Z01_LDT3_Befund_unauffaellig.ldt")}" download>Z01_LDT3_Befund_unauffaellig.ldt</a> (<a href="${href("#beispiel=Z01_LDT3_Befund_unauffaellig.ldt")}">im Viewer ansehen</a>): ein abgeschlossener Befund für die erfundene Patientin Erika Test-Musterfrau mit sechs Werten im Normbereich, insgesamt ${w.lines} Zeilen. Die Bedeutungen der Felder stammen aus der Feldtabelle und der Regeltabelle der KBV. ${src("ldt3", "Kap. 9 und 10")}</p>
 <p>So lesen Sie die Tabellen: In der mittleren Spalte ist die Feldkennung fett gesetzt; davor steht die Länge, danach der Inhalt. Blasse Zeilen sind reine Struktur: Ein Attribut (z. B. „Kopfdaten“) kündigt ein Objekt an, das mit 8002 beginnt und mit 8003 endet. Dazwischen stehen die eigentlichen Angaben.</p>
 <h3>1. Kopf des Datenpakets</h3>
 <p>Der Kopf sagt, wer die Datei geschickt hat, mit welcher Software, wann, und nach welcher Version sie aufgebaut ist.</p>
@@ -160,15 +160,15 @@ ${w.tail}
 </details>
 
 <h2 id="auffaellig">So sehen auffällige Werte und Teilbefunde aus</h2>
-<p>Bei auffälligen Werten steht in Feld 8422 statt N zum Beispiel H (schwach erhöht), HH (stark erhöht), L oder LL (erniedrigt). Bei extremen Werten (!H oder !L) muss das Labor zusätzlich eine Aufmerksamkeitsmeldung (Obj_0026) mitschicken. ${src("ldt3", "Regeln E005 und K099")} Das zeigt die Datei <a href="${href("?beispiel=Z01_LDT3_Befund_auffaellig.ldt")}">Laborbefund mit auffälligen Werten</a>:</p>
+<p>Bei auffälligen Werten steht in Feld 8422 statt N zum Beispiel H (schwach erhöht), HH (stark erhöht), L oder LL (erniedrigt). Bei extremen Werten (!H oder !L) muss das Labor zusätzlich eine Aufmerksamkeitsmeldung (Obj_0026) mitschicken. ${src("ldt3", "Regeln E005 und K099")} Das zeigt die Datei <a href="${href("#beispiel=Z01_LDT3_Befund_auffaellig.ldt")}">Laborbefund mit auffälligen Werten</a>:</p>
 <pre><code>0118422!H
 0378126Fehlermeldung_Aufmerksamkeit
 0178002Obj_0026
 01072802</code></pre>
-<p>Der Grund 2 in Feld 7280 bedeutet „Lebensbedrohlicher Zustand“. ${src("ldt3", "Regel E049")} Ist der Auftrag noch nicht fertig, trägt der Befund in Feld 8401 den Status 1, und einzelne Ergebnisse haben den Status 02 „Ergebnis folgt“ ohne Wert. ${src("ldt3", "Regeln E006 und E007")} Ein vollständig abgeschlossener Befund darf solche vorläufigen Ergebnisse nicht enthalten. ${src("ldt3", "Regel K096")} Beides zeigt die Datei <a href="${href("?beispiel=Z01_LDT3_Teilbefund.ldt")}">Teilbefund</a>.</p>
+<p>Der Grund 2 in Feld 7280 bedeutet „Lebensbedrohlicher Zustand“. ${src("ldt3", "Regel E049")} Ist der Auftrag noch nicht fertig, trägt der Befund in Feld 8401 den Status 1, und einzelne Ergebnisse haben den Status 02 „Ergebnis folgt“ ohne Wert. ${src("ldt3", "Regeln E006 und E007")} Ein vollständig abgeschlossener Befund darf solche vorläufigen Ergebnisse nicht enthalten. ${src("ldt3", "Regel K096")} Beides zeigt die Datei <a href="${href("#beispiel=Z01_LDT3_Teilbefund.ldt")}">Teilbefund</a>.</p>
 
 <h2 id="ldt2">Und wie sieht LDT 2 aus?</h2>
-<p>Im älteren LDT 2 gibt es keine Objekte und kein Satzende-Feld. Stattdessen steht im zweiten Feld jedes Satzes die Satzlänge (Feld 8100), und der Zeichensatz wird in Feld 9106 und im ersten Buchstaben des Dateinamens angegeben, zum Beispiel X für den DOS-Zeichensatz Codepage 437. ${src("ldt2", "Kap. 2.3.3, 2.6 und 2.7.3")} Markierungen lauten dort +, ++, - oder --. ${src("ldt2", "Feld 8422")} Beispiele sind die Dateien <a href="${href("?beispiel=X01BEFND.LDT")}">X01BEFND.LDT</a> und <a href="${href("?beispiel=Z01TEILB.LDT")}">Z01TEILB.LDT</a>. Alle Unterschiede stehen im Vergleich <a href="${href("ldt-2-vs-ldt-3/")}">LDT 3 und LDT 2</a>.</p>
+<p>Im älteren LDT 2 gibt es keine Objekte und kein Satzende-Feld. Stattdessen steht im zweiten Feld jedes Satzes die Satzlänge (Feld 8100), und der Zeichensatz wird in Feld 9106 und im ersten Buchstaben des Dateinamens angegeben, zum Beispiel X für den DOS-Zeichensatz Codepage 437. ${src("ldt2", "Kap. 2.3.3, 2.6 und 2.7.3")} Markierungen lauten dort +, ++, - oder --. ${src("ldt2", "Feld 8422")} Beispiele sind die Dateien <a href="${href("#beispiel=X01BEFND.LDT")}">X01BEFND.LDT</a> und <a href="${href("#beispiel=Z01TEILB.LDT")}">Z01TEILB.LDT</a>. Alle Unterschiede stehen im Vergleich <a href="${href("ldt-2-vs-ldt-3/")}">LDT 3 und LDT 2</a>.</p>
 
 <h2 id="wer">Welches Beispiel passt zu Ihrer Frage?</h2>
 <ul>

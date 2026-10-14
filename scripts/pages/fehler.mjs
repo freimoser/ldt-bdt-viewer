@@ -58,7 +58,7 @@ let EX = {};
 const err = (id, h, msg, meaning, fix) => {
   const ex = EX[id] || [];
   const quote = ex.length ? ex.map((e) => `„${esc(e.text)}“`).join(" oder ") : msg;
-  const tryIt = ex.length ? `<p class="try-it"><strong>Zum Ausprobieren:</strong> ${ex.map((e) => `<a href="${href("?beispiel=" + encodeURIComponent(e.file))}">${esc(e.title)}</a> (<a href="${href("beispiele/" + e.file)}" download>herunterladen</a>)${e.cause ? `, der Viewer nennt als wahrscheinliche Ursache „${esc(e.cause)}“` : ""}`).join("; ")}.</p>` : "";
+  const tryIt = ex.length ? `<p class="try-it"><strong>Zum Ausprobieren:</strong> ${ex.map((e) => `<a href="${href("#beispiel=" + encodeURIComponent(e.file))}">${esc(e.title)}</a> (<a href="${href("beispiele/" + e.file)}" download>herunterladen</a>)${e.cause ? `, der Viewer nennt als wahrscheinliche Ursache „${esc(e.cause)}“` : ""}`).join("; ")}.</p>` : "";
   return `<h3 id="${id}">${h}</h3>
 <p><strong>Meldung im Viewer:</strong> ${quote}</p>
 <p><strong>Bedeutung:</strong> ${meaning}</p>

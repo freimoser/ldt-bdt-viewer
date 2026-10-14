@@ -1,6 +1,6 @@
 /**
  * Formatwissen aus den Spezifikationen. Jede Angabe trägt ihre Quelle.
- * Vollständige Liste der Quellen: /quellen.md im Repository.
+ * Vollständige Liste der Quellen: quellen.md im Repository, auf der Website unter /quellen/.
  */
 
 export const SOURCES = {

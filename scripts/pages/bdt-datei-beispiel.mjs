@@ -64,12 +64,12 @@ const faq = [
   { q: "Kann ich mit der Beispieldatei einen Wechsel der Praxissoftware testen?", a: "Nur sehr eingeschränkt. Die Beispieldatei enthält Stammdaten und Laborwerte. Echte Exporte enthalten viel mehr, etwa Diagnosen, Abrechnungsdaten, Medikation und Dokumente, und jede Praxissoftware nutzt BDT etwas anders. Lesen Sie Testdateien außerdem nur in eine Testumgebung ein, nie in den echten Patientenbestand." },
   { q: "Warum steht das Datum anders als in LDT?", a: "BDT schreibt Daten als TTMMJJJJ, also Tag, Monat, Jahr. LDT 3 verwendet JJJJMMTT. Der Viewer zeigt beide Formate lesbar an." },
   { q: "Enthält die Datei echte Patientendaten?", a: "Nein. Alle Namen beginnen mit „Test-“, alle Untersuchungen heißen „(Testwert)“, Nummern und Werte sind erfunden, und die Normbereiche sind keine medizinischen Referenzwerte." },
-  { q: "Warum gibt es nur so wenige BDT-Beispiele?", a: "Weil wir nur erzeugen, was sich belegen lässt. Die ursprüngliche BDT-Beschreibung 02/94 ist nicht mehr öffentlich verfügbar, und für BDT 3.0 fehlt der Objektkatalog. Welche Quellen genutzt wurden und welche fehlen, steht in der <a href=\"https://github.com/freimoser/ldt-bdt-viewer/blob/main/quellen.md\">Quellenliste</a>." },
+  { q: "Warum gibt es nur so wenige BDT-Beispiele?", a: `Weil wir nur erzeugen, was sich belegen lässt. Die ursprüngliche BDT-Beschreibung 02/94 ist nicht mehr öffentlich verfügbar, und für BDT 3.0 fehlt der Objektkatalog. Welche Quellen genutzt wurden und welche fehlen, steht in der <a href="${href("quellen/")}">Quellenliste</a>.` },
 ];
 
 export default function ({ dict }) {
   const w = walkthrough(dict);
-  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("?beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
+  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
 
   const body = `<main id="inhalt">
 ${heroHtml({
@@ -95,7 +95,7 @@ ${tableRows}
 <p>Die ursprüngliche Beschreibung BDT 02/94 ist nicht mehr öffentlich verfügbar. Die Bedeutung der einzelnen Felder stammt deshalb aus der Feldtabelle von BDT 3.0. ${src("tool", "Abschnitt Lücken")} Mehr zur Herkunft und zu den Grenzen von BDT steht unter <a href="${href("was-ist-bdt/")}">Was ist BDT?</a>.</p>
 
 <h2 id="zeile-fuer-zeile">Der BDT-Export Zeile für Zeile</h2>
-<p>Grundlage ist die Datei <a href="${href("beispiele/BEISPIEL_BDT_Export.bdt")}" download>BEISPIEL_BDT_Export.bdt</a> (<a href="${href("?beispiel=BEISPIEL_BDT_Export.bdt")}">im Viewer ansehen</a>) mit zwei erfundenen Patienten, insgesamt ${w.lines} Zeilen. Für jeden Patienten gibt es zwei Sätze: zuerst die Stammdaten, dann die Behandlungsdaten mit Laborwerten. Die Feldbedeutungen stammen aus der BDT-3.0-Feldtabelle. ${src("bdt3", "Feldtabelle, S. 70–105")}</p>
+<p>Grundlage ist die Datei <a href="${href("beispiele/BEISPIEL_BDT_Export.bdt")}" download>BEISPIEL_BDT_Export.bdt</a> (<a href="${href("#beispiel=BEISPIEL_BDT_Export.bdt")}">im Viewer ansehen</a>) mit zwei erfundenen Patienten, insgesamt ${w.lines} Zeilen. Für jeden Patienten gibt es zwei Sätze: zuerst die Stammdaten, dann die Behandlungsdaten mit Laborwerten. Die Feldbedeutungen stammen aus der BDT-3.0-Feldtabelle. ${src("bdt3", "Feldtabelle, S. 70–105")}</p>
 <h3>1. Patientenstamm</h3>
 ${w.stamm}
 <h3>2. Behandlungsdaten mit Laborwerten</h3>
@@ -114,7 +114,7 @@ ${w.behandlung}
 </ul>
 
 <h2 id="fehler">Typischer Fehler: Satzlänge passt nicht</h2>
-<p>Im klassischen Aufbau muss die Satzlänge in Feld 8100 zur tatsächlichen Länge des Satzes passen. Wird nachträglich eine Zeile gelöscht oder eingefügt, stimmt sie nicht mehr. Das zeigt die Datei <a href="${href("?beispiel=BDT_FEHLER_Satzlaenge.bdt")}">BDT_FEHLER_Satzlaenge.bdt</a>: Der Viewer meldet die Abweichung zeilengenau und nennt die wahrscheinliche Ursache. Wie Sie eine eigene BDT-Datei prüfen, steht unter <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p>
+<p>Im klassischen Aufbau muss die Satzlänge in Feld 8100 zur tatsächlichen Länge des Satzes passen. Wird nachträglich eine Zeile gelöscht oder eingefügt, stimmt sie nicht mehr. Das zeigt die Datei <a href="${href("#beispiel=BDT_FEHLER_Satzlaenge.bdt")}">BDT_FEHLER_Satzlaenge.bdt</a>: Der Viewer meldet die Abweichung zeilengenau und nennt die wahrscheinliche Ursache. Wie Sie eine eigene BDT-Datei prüfen, steht unter <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p>
 
 <h2 id="entwickler">Hinweis für Entwickler</h2>
 <p>Die BDT-3.0-Beschreibung ist ein Entwurf mit sichtbaren Änderungsmarkierungen. Gestrichene Einträge gelten nicht mehr. Ein Beispiel ist Feld 3109: Gültig ist „Hausnummer“, die frühere Bedeutung „Geschlecht des Patienten aus administrativer Sicht“ ist durchgestrichen. ${src("bdt3", "S. 72")} Ebenso sind die Felder zu Selektivverträgen von 3120–3124 auf 3130–3134 umnummeriert. ${src("bdt3", "S. 74")} Die <a href="${href("feldkennungen/")}">Feldkennungs-Referenz</a> enthält nur die gültigen Einträge.</p>

@@ -19,6 +19,8 @@ const faq = [
 
 export default {
   path: "",
+  // Beispielliste und Generator am 12.10.2026 erweitert
+  lastmod: "2026-10-12",
   title: "LDT Viewer – LDT & BDT Dateien online öffnen, ohne Upload",
   description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, Fehler finden, anonymisieren, Testdateien erzeugen. Alles im Browser, kein Upload.",
   ogTitle: "LDT & BDT Viewer – Laborbefunde und Praxis-Exporte lesen",
@@ -182,7 +184,7 @@ ${exampleList}
 <li><strong>Für Praxis-IT und Support:</strong> Sätze, Objekte und Rohzeilen mit Feldkennung, Bedeutung und Länge, Prüfung mit Zeilennummer und Erklärung, Anonymisierung für Support-Anfragen.</li>
 <li><strong>Für Entwickler:</strong> gültige Testdateien und eine Referenz aller Feldkennungen aus den offiziellen Spezifikationen.</li>
 </ul>
-<p>Die Feldtabellen stammen aus der LDT-3-Satzbeschreibung 3.2.20 und der Datensatzbeschreibung LDT 5.12 der KBV sowie der BDT-3.0-Satzbeschreibung des QMS. Alle Quellen mit Version und Abrufdatum stehen in der <a href="${SITE.repo}/blob/main/quellen.md">Quellenliste</a>.</p>
+<p>Die Feldtabellen stammen aus der LDT-3-Satzbeschreibung 3.2.20 und der Datensatzbeschreibung LDT 5.12 der KBV sowie der BDT-3.0-Satzbeschreibung des QMS. Alle Quellen mit Version und Abrufdatum stehen in der <a href="${href("quellen/")}">Quellenliste</a>.</p>
 </div>
 <div class="card-grid">
 ${GUIDES.slice(0, 6).map(([p, l, d]) => `<a class="card-link" href="${href(p)}"><h3>${esc(l)}</h3><p>${esc(d)}</p></a>`).join("\n")}

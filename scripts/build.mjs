@@ -110,7 +110,7 @@ ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms 
 
 ## Quellen
 
-- [Quellenliste mit Versionen und Abrufdatum](${SITE.repo}/blob/main/quellen.md)
+- [Quellenliste mit Versionen und Abrufdatum](${url("quellen/")})
 - [Quellcode](${SITE.repo})
 `);
 

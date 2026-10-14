@@ -1,4 +1,9 @@
-import { esc, href, heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src } from "../lib/layout.mjs";
+import { esc, href, heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src as srcAt } from "../lib/layout.mjs";
+
+// Tabelle am 12.10.2026 korrigiert (BDT-Änderungsmarkierungen, getrennte Wörter); Stand entsprechend
+const STAND = "12.10.2026";
+const UPDATED = "2026-10-12";
+const src = (k, d) => srcAt(k, d, STAND);
 import { SATZARTEN, SOURCES } from "../../src/assets/js/core/spec.js";
 
 const path = "feldkennungen/";
@@ -78,6 +83,7 @@ ${Object.entries(SATZARTEN[key]).map(([k, v]) => `<tr><td><code>${esc(k)}</code>
   const total = list.length;
   return {
     path,
+    lastmod: UPDATED,
     title: "LDT Feldkennungen: Referenz für LDT 2, LDT 3 und BDT",
     description: `Alle ${total} Feldkennungen aus LDT 2 (KBV 5.12), LDT 3.2.20 und BDT 3.0 als durchsuchbare Tabelle mit Bedeutung, Länge, Typ und Satzarten.`,
     ogType: "article",
@@ -85,12 +91,13 @@ ${Object.entries(SATZARTEN[key]).map(([k, v]) => `<tr><td><code>${esc(k)}</code>
     minInternalLinks: 3,
     llms: `Durchsuchbare Tabelle aller ${total} Feldkennungen aus LDT 2, LDT 3.2.20 und BDT 3.0 mit Bedeutung, Länge, Typ, Seitenangabe der Quelle und den Satzarten.`,
     jsonld: [
-      articleLd({ headline: "LDT Feldkennungen: Referenz für LDT 2, LDT 3 und BDT", description: "Vollständige Referenz der Feldkennungen und Satzarten aus den Spezifikationen LDT 2 (KBV 5.12), LDT 3.2.20 (KBV) und BDT 3.0 (QMS).", path }),
+      articleLd({ headline: "LDT Feldkennungen: Referenz für LDT 2, LDT 3 und BDT", description: "Vollständige Referenz der Feldkennungen und Satzarten aus den Spezifikationen LDT 2 (KBV 5.12), LDT 3.2.20 (KBV) und BDT 3.0 (QMS).", path, updated: UPDATED }),
       breadcrumbLd(crumbs),
       faqLd(faq),
     ],
     body: `<main id="inhalt">
 ${heroHtml({
+  stand: STAND,
   crumbs,
   h1: "LDT Feldkennungen: Referenz für LDT 2, LDT 3 und BDT",
   lead: `Feldkennungen sind die vierstelligen Nummern, die in jeder Zeile einer LDT- oder BDT-Datei festlegen, was im Feld steht. Diese Seite listet alle <strong>${total} Feldkennungen</strong> aus den offiziellen Feldtabellen: ${counts.ldt2} aus LDT 2, ${counts.ldt3} aus LDT 3.2.20 und ${counts.bdt} aus BDT 3.0.`,
@@ -104,7 +111,7 @@ ${heroHtml({
 <li>LDT 3: <a href="${esc(SOURCES.ldt3.url)}">${esc(SOURCES.ldt3.title)}</a>, Feldtabelle Kap. 9, Regeltabelle Kap. 10</li>
 <li>BDT 3.0: <a href="${esc(SOURCES.bdt3.url)}">${esc(SOURCES.bdt3.title)}</a>, Feldtabelle Kap. 6; Feld 8100 (Satzlänge im klassischen BDT): <a href="${esc(SOURCES.bdtClassic.url)}">${esc(SOURCES.bdtClassic.title)}</a></li>
 </ul>
-<p class="src">Stand 08.10.2026. Die Spalte „S.“ nennt die Seite im jeweiligen Dokument. Die Tabelle wurde automatisch aus den PDF-Dokumenten übernommen; maßgeblich ist immer das Originaldokument.</p>
+<p class="src">Stand ${STAND}. Die Spalte „S.“ nennt die Seite im jeweiligen Dokument. Die Tabelle wurde automatisch aus den PDF-Dokumenten übernommen; maßgeblich ist immer das Originaldokument.</p>
 </div>
 
 <h2 id="tabelle">Alle Feldkennungen</h2>
