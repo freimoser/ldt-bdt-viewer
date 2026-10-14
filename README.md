@@ -55,6 +55,10 @@ Geprüft gegen die 9 offiziellen KBV-Testdateien zu LDT 3.2.20: 0 Fehler, 0 Warn
 
 ---
 
+## Deployment
+
+Bei jedem Push auf `main` testet und baut die GitHub Action die Seite und veröffentlicht sie auf GitHub Pages. Danach meldet sie die URLs der Sitemap per [IndexNow](https://www.indexnow.org/) an Bing und weitere Suchmaschinen (Schlüsseldatei in `src/static/`); schlägt das fehl, bleibt das Deployment gültig.
+
 ## Lokal starten
 
 ```bash

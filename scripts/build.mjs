@@ -144,7 +144,7 @@ const files = [];
     else files.push(relative(dist, p).split("\\").join("/"));
   }
 })(dist);
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html)$/.test(f) && !f.endsWith(".map"));
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|[0-9a-f]{32}\.txt)$/.test(f) && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);
