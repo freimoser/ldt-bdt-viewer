@@ -69,7 +69,8 @@ export const GUIDES = [
 
 function head(p) {
   const canonical = p.noindex ? "" : `<link rel="canonical" href="${esc(url(p.path))}">`;
-  const robots = p.noindex ? "noindex, follow" : "index, follow, max-image-preview:large";
+  // Lange Auszüge erlauben: wichtig für Hervorhebungen und KI-Antworten, die Inhalte zitieren
+  const robots = p.noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1";
   const ogTitle = p.ogTitle || p.title;
   const ogDesc = p.ogDescription || p.description;
   const ld = (p.jsonld || []).map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`).join("\n");
@@ -209,14 +210,15 @@ export function heroHtml({ crumbs, h1, lead, minutes, stand = SITE.updatedDe }) 
 </header>`;
 }
 
-export function articleLd({ headline, description, path, updated = SITE.updated }) {
+// published: erste Veröffentlichung (Standard: Start der Website), updated: letzte inhaltliche Änderung
+export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
     description,
     inLanguage: "de-DE",
-    datePublished: updated,
+    datePublished: published < updated ? published : updated,
     dateModified: updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },

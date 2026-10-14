@@ -9,7 +9,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const md = readFileSync(join(root, "quellen.md"), "utf8").replace(/^Alle Feldtabellen[^\n]*?Dokumente\.\s*/m, "");
 
 const path = "quellen/";
-const UPDATED = "2026-10-12";
+// Seite seit 14.10.2026; „Stand“ nennt das letzte Abrufdatum der Quellen
+const UPDATED = "2026-10-14";
 const STAND = "12.10.2026";
 const crumbs = [["LDT & BDT Viewer", ""], ["Quellen", path]];
 const title = "Quellen: Spezifikationen für LDT, BDT und GDT";
@@ -86,7 +87,7 @@ export default {
   description,
   ogType: "article",
   lastmod: UPDATED,
-  jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED }), breadcrumbLd(crumbs)],
+  jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED, published: UPDATED }), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
   llms: "Quellenliste: KBV LDT 3.2.20 (mit Objektkatalog und Testdateien), KBV LDT 5.12, KBV-Prüfpaket, QMS BDT 3.0 V0.96 (Entwurf, archiviert), Uni Gießen (klassischer BDT), QMS GDT 2.1; Lücken (BDT 02/94, BDT-3.0-Objektkatalog) und Vorgehen bei der Extraktion.",

@@ -69,7 +69,7 @@ const faq = [
 
 export default function ({ dict }) {
   const w = walkthrough(dict);
-  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
+  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}" aria-label="${esc(b.short)} im Viewer ansehen">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download aria-label="${esc(b.short)} herunterladen">Herunterladen</a></td></tr>`).join("\n");
 
   const body = `<main id="inhalt">
 ${heroHtml({
@@ -145,7 +145,7 @@ ${relatedHtml(["bdt-datei-oeffnen/", "was-ist-bdt/", "xdt-gdt-ldt-bdt/", "ldt-da
     ogTitle: "BDT-Beispieldatei: Praxisdaten-Export Zeile für Zeile erklärt",
     ogType: "article",
     lastmod: UPDATED,
-    jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED }), dataset, faqLd(faq), breadcrumbLd(crumbs)],
+    jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED, published: "2026-10-12" }), dataset, faqLd(faq), breadcrumbLd(crumbs)],
     body,
     minInternalLinks: 3,
     llms: "BDT-Beispieldateien mit erfundenen Daten zum Download; ein BDT-Export im klassischen Aufbau (Satzarten 6100 Patientenstamm und 6200 Behandlungsdaten) Zeile für Zeile erklärt, Unterschiede zu LDT, Fehlerbeispiel Satzlänge 8100.",

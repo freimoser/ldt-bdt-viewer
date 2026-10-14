@@ -89,7 +89,7 @@ for (const p of pages) {
 }
 
 // 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
-const order = ["", ...GUIDES.map(([p]) => p), "impressum/", "datenschutz/"];
+const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "impressum/", "datenschutz/"];
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
@@ -107,6 +107,10 @@ Der Viewer erkennt LDT 2.x (LDT1014.01), LDT 3.x (LDT3.2.20) und BDT samt Zeiche
 ## Seiten
 
 ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms || p.description}`).join("\n")}
+
+## Beispieldateien (erfundene Testdaten zum Herunterladen)
+
+${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}. ${b.shows}`).join("\n")}
 
 ## Quellen
 

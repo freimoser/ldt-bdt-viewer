@@ -115,7 +115,7 @@ const faq = [
 
 export default function ({ dict }) {
   const w = walkthrough()(dict);
-  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${groupLabel[b.group]}</td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download>Herunterladen</a></td></tr>`).join("\n");
+  const tableRows = LIST.map((b) => `<tr><td><strong>${esc(b.title)}</strong><br><code>${esc(b.file)}</code></td><td>${groupLabel[b.group]}</td><td>${esc(b.shows)}</td><td class="nowrap"><a href="${href("#beispiel=" + encodeURIComponent(b.file))}" aria-label="${esc(b.short)} im Viewer ansehen">Im Viewer ansehen</a><br><a href="${href("beispiele/" + b.file)}" download aria-label="${esc(b.short)} herunterladen">Herunterladen</a></td></tr>`).join("\n");
 
   const body = `<main id="inhalt">
 ${heroHtml({
@@ -205,7 +205,7 @@ ${relatedHtml(["ldt-datei-oeffnen/", "was-ist-ldt/", "fehler/", "bdt-datei-beisp
     ogTitle: "LDT-Beispieldateien: Laborbefund Zeile für Zeile erklärt",
     ogType: "article",
     lastmod: UPDATED,
-    jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED }), dataset, faqLd(faq), breadcrumbLd(crumbs)],
+    jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED, published: "2026-10-12" }), dataset, faqLd(faq), breadcrumbLd(crumbs)],
     body,
     minInternalLinks: 3,
     llms: `${LIST.length} LDT-Beispieldateien (LDT 3.2.20 und LDT 2) mit erfundenen Daten zum Download, darunter Fehlerbeispiele; ein vollständiger LDT-3-Laborbefund Zeile für Zeile erklärt (Satzarten 8220/8205/8221, Objekte, Ergebnisstatus, Grenzwertindikator, Prüfsumme 9300).`,

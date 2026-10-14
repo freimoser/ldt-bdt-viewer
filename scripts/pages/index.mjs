@@ -30,6 +30,7 @@ export default {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
+      dateModified: "2026-10-12",
       name: SITE.name,
       alternateName: ["LDT Viewer", "BDT Viewer"],
       url: url(),
@@ -107,7 +108,7 @@ ${QUICK.map(([f, l]) => `<button type="button" class="btn btn-ghost btn-sm" data
 </div>
 <details class="example-list" id="beispiele">
 <summary>Alle ${BSP.length} Beispieldateien ansehen, auch mit typischen Fehlern</summary>
-<p class="muted small">Alle Personen, Einrichtungen und Werte sind erfunden. „Öffnen“ zeigt die Datei hier im Viewer, „Herunterladen“ speichert sie, zum Beispiel zum Testen einer Praxissoftware.</p>
+<p class="muted small">Alle Personen, Einrichtungen und Werte sind erfunden. „Öffnen“ zeigt die Datei hier im Viewer, „Herunterladen“ speichert sie, zum Beispiel zum Testen einer Praxissoftware. Zeile für Zeile erklärt werden eine <a href="${href("ldt-datei-beispiel/")}">LDT-Beispieldatei</a> und eine <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a>; typische Fehler beschreibt die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</p>
 ${exampleList}
 </details>
 <p class="disclaimer"><strong>Kein Medizinprodukt.</strong> Dient nur zur Anzeige und Prüfung von Dateien, nicht zur Diagnose.</p>
