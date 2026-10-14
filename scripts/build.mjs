@@ -122,7 +122,7 @@ Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}
 
 ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms || p.description}`).join("\n")}
 
-## Beispieldateien (erfundene Testdaten zum Herunterladen)
+## Beispieldateien (erfundene Testdaten zum Herunterladen, Lizenz CC0 1.0)
 
 ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}. ${b.shows}`).join("\n")}
 

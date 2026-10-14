@@ -2,21 +2,21 @@
 
 /**
  * Einzige Quelle für alle Rechtsangaben (Impressum, Datenschutz, Autorenangaben).
- * Herkunft: https://freimoser.github.io/freimoser.de/impressum/ (abgerufen 08.10.2026).
+ * Herkunft: Stammdaten des Betreibers für Rechtstexte, zur Übernahme freigegeben am 15.10.2026.
  * Leere Felder bleiben leer, nichts wird ergänzt oder erfunden. Fehlen Straße oder Postleitzahl,
  * meldet scripts/check-launch.mjs einen Blocker: § 5 DDG verlangt eine ladungsfähige Anschrift.
  */
 export const LEGAL = {
-  operator: "S. Thomas Freimoser",
-  companyName: "", // Betrieb als Privatperson, keine Firma
-  street: "",
-  zip: "",
+  operator: "Thomas Freimoser",
+  companyName: "", // Betrieb als Privatperson, nicht über eine Firma
+  street: "Schinkelstraße 15",
+  zip: "80805",
   city: "München",
   country: "Deutschland",
-  email: "kontakt [at] freimoser.de",
+  email: "91Serdar [at] gmail.com", // „[at]“ als einfacher Spamschutz (GitHub Pages verschleiert Adressen nicht)
   phone: "", // keine Pflicht (EuGH C-298/07), E-Mail genügt
-  vatId: "",
-  responsible: "S. Thomas Freimoser",
+  vatId: "", // nur angeben, wenn eine USt-IdNr. erteilt wurde
+  responsible: "Thomas Freimoser",
   url: "https://freimoser.github.io/freimoser.de/",
 };
 

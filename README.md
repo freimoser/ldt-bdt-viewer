@@ -105,3 +105,7 @@ node tests/e2e/browser.mjs
 
 - **Homepage:** https://freimoser.github.io/ldt-bdt-viewer/
 - **Code und Issues:** https://github.com/freimoser/ldt-bdt-viewer
+
+## Lizenz
+
+Quellcode: [MIT](LICENSE). Die erzeugten Beispieldateien (`.ldt`, `.bdt` unter `/beispiele/`) stehen unter [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) und dürfen ohne Einschränkung verwendet werden.
