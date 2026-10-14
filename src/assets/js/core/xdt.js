@@ -506,6 +506,7 @@ function validate(m, progress) {
     else addIssue(m, null, "warnung", "FORMAT_UNKNOWN", "Das Format konnte nicht sicher als LDT oder BDT erkannt werden.", "Die Zeilen werden trotzdem angezeigt. Die Feldbedeutungen fehlen, weil unklar ist, welche Feldtabelle gilt.");
   }
   checkRecords(m);
+  if (m.format === "ldt3") checkContextRules(m);
   checkVersion(m);
   checkFilename(m);
 }
@@ -551,23 +552,71 @@ function recLength(m, rec) {
   return sum;
 }
 
+/**
+ * LDT 3: Auswahl eindeutig prüfbarer Kontextregeln der Regeltabelle (KBV LDT 3.2.20, Kap. 10), alle mit Fehlerstatus F.
+ * K002 (S. 103), K005 (S. 103), K076 (S. 110), K096 (S. 112), K099 (S. 113). Übrige K-Regeln werden nicht ausgewertet.
+ */
+function checkContextRules(m) {
+  const n = m.lines.n;
+  const val = (i) => content(m, i).trim();
+  const nextField = (i) => { for (let k = i + 1; k < n; k++) if (m.fk[k] >= 0) return k; return -1; };
+  for (const rec of m.records) {
+    if (rec.type !== "8205") continue;
+    let status = "";
+    for (let i = rec.start; i <= rec.end; i++) if (m.fk[i] === 8401) { status = val(i); break; }
+    for (let i = rec.start; i <= rec.end; i++) {
+      const f = m.fk[i];
+      if (f === 8418 && status === "2" && ["02", "05", "10"].includes(val(i))) {
+        addIssue(m, i, "fehler", "K096", `Zeile ${i + 1}: Ergebnisstatus ${val(i)} in einem Befund mit Status „Auftrag abgeschlossen“ (8401 = 2).`, "Regel K096 der KBV (LDT 3.2.20, S. 112): In einem abgeschlossenen Befund dürfen keine fehlenden oder vorläufigen Werte stehen (Ergebnisstatus 02, 05 oder 10). Entweder ist der Befund in Wahrheit ein Teilbefund (8401 = 1), oder der Ergebnisstatus ist falsch gesetzt.");
+      }
+      if (f === 4121 && status === "1") {
+        addIssue(m, i, "fehler", "K005", `Zeile ${i + 1}: Abrechnungsangabe 4121 in einem Teilbefund (8401 = 1).`, "Regel K005 der KBV (LDT 3.2.20, S. 103): Abrechnungsinformationen dürfen nur in Befunden mit dem Status „Auftrag abgeschlossen“ übertragen werden.");
+      }
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    const f = m.fk[i];
+    if (f === 8419) {
+      const v = val(i), j = nextField(i), hasUnit = j >= 0 && m.fk[j] === 8421;
+      if ((v === "1" || v === "2") && !hasUnit) addIssue(m, i, "fehler", "K002", `Zeile ${i + 1}: Einheitensystem ${v} angegeben, aber keine Maßeinheit 8421 dahinter.`, "Regel K002 der KBV (LDT 3.2.20, S. 103): Bei Einheitensystem 1 (SI) oder 2 (abweichende Einheit) muss die Maßeinheit in Feld 8421 folgen; nur bei 9 (dimensionslos) entfällt sie.");
+      if (v === "9" && hasUnit) addIssue(m, i, "fehler", "K002", `Zeile ${i + 1}: Einheitensystem 9 (dimensionslos), trotzdem folgt eine Maßeinheit 8421.`, "Regel K002 der KBV (LDT 3.2.20, S. 103): Bei einer dimensionslosen Größe darf keine Maßeinheit angegeben werden.");
+    }
+    if (f === 8422 && ["!L", "!-", "!H", "!+"].includes(val(i))) {
+      const j = nextField(i);
+      if (j < 0 || m.fk[j] !== 8126) addIssue(m, i, "fehler", "K099", `Zeile ${i + 1}: Extremwert-Markierung ${val(i)} ohne Aufmerksamkeitsmeldung 8126 direkt dahinter.`, "Regel K099 der KBV (LDT 3.2.20, S. 113): Bei Extremwerten muss das Labor eine Aufmerksamkeitsmeldung (Obj_0026) mitschicken, damit die Praxis gezielt auf den Wert hingewiesen wird.");
+    }
+  }
+  // K076: Ergebnis mit Wert braucht einen Messzeitpunkt 8225 im selben Untersuchungsergebnis
+  for (const o of m.objects) {
+    if (!RESULT_OBJECTS.has(o.id) || o.end < 0) continue;
+    let status = "", statusLine = -1, has8225 = false;
+    for (let i = o.start; i <= o.end; i++) {
+      if (m.fk[i] === 8418 && !status) { status = val(i); statusLine = i; }
+      if (m.fk[i] === 8225) has8225 = true;
+    }
+    if (status && !["01", "02", "09", "11", "12"].includes(status) && !has8225) {
+      addIssue(m, statusLine, "fehler", "K076", `Zeile ${statusLine + 1}: Untersuchungsergebnis mit Ergebnisstatus ${status}, aber ohne Zeitpunkt der Messung (8225).`, "Regel K076 der KBV (LDT 3.2.20, S. 110): Der Zeitpunkt der Messung muss immer angegeben werden, außer bei fehlendem Material, fehlendem Wert oder Stornierung.");
+    }
+  }
+}
+
 /** LDT 3: Mussfelder (Feldart „M“) direkt in jedem Objekt laut Objektkatalog (KBV LDT 3.2.20, Kap. 11). */
-function checkObjectFields(m, rec, where) {
+// Ein Durchgang über alle Zeilen und einer über alle Objekte (linear, auch bei 20-MB-Dateien)
+function checkObjectFields(m) {
   const cat = m.dict && m.dict.objects;
   if (!cat) return;
-  const direct = new Map();
-  for (let i = rec.start; i <= rec.end; i++) {
+  const direct = new Array(m.objects.length);
+  for (let i = 0; i < m.lines.n; i++) {
     const o = m.lineObj[i];
     if (o < 0 || m.objects[o].start === i) continue;
-    if (!direct.has(o)) direct.set(o, new Set());
-    direct.get(o).add(fkString(m.fk[i]));
+    (direct[o] ||= new Set()).add(fkString(m.fk[i]));
   }
+  const none = new Set();
   for (let k = 0; k < m.objects.length; k++) {
     const o = m.objects[k];
-    if (o.start < rec.start || o.start > rec.end) continue;
     const def = cat[o.id];
     if (!def || !def.m.length) continue;
-    const have = direct.get(k) || new Set();
+    const have = direct[k] || none;
     for (const f of def.m) {
       if (have.has(f)) continue;
       const d = fieldDef(m, Number(f));
@@ -619,7 +668,6 @@ function checkRecords(m) {
         }
       }
     }
-    if (fmt === "ldt3") checkObjectFields(m, rec, where);
     if (fmt === "ldt3") {
       const last = rec.end;
       if (m.fk[last] !== 8001) {
@@ -639,6 +687,7 @@ function checkRecords(m) {
       }
     }
   }
+  if (fmt === "ldt3") checkObjectFields(m);
   if (fmt === "ldt2" || fmt === "ldt3") checkPackage(m);
 }
 

@@ -31,7 +31,7 @@ Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket
 - **BDT 02/94 (ZI)**: Die Originalspezifikation ist nicht mehr öffentlich abrufbar. Felder, die nur dort definiert sind, zeigt das Tool als „unbekannt“ an. Die Feldbedeutungen stammen aus der BDT-3.0-Feldtabelle des QMS.
 - **BDT-3.0-Objektkatalog (QMS)**: Im Webarchiv liegt nur eine HTML-Seite, das PDF ist nicht gesichert. BDT-3.0-Objekte (z. B. Obj_Patient) werden deshalb nicht gegen ihren Aufbau geprüft. Der Generator erzeugt BDT im klassischen Aufbau.
 - **BDT-Kopf- und Abschlusssätze im klassischen Aufbau** (Datenträger-/Datenpaket-Header): Ihr Inhalt ist für BDT 02/94 nicht öffentlich dokumentiert. Der Generator lässt sie weg.
-- **Kontextregeln (K-Regeln) der LDT-3-Regeltabelle** werden nicht ausgewertet. Geprüft werden Zeilenaufbau, Satz- und Objektstruktur, Pflichtfelder der Satzebene und die unbedingten Mussfelder je Objekt (Objektkatalog), Feldlänge, Feldtyp, erlaubte Inhalte (E-Regeln), Version, Zeichensatz und Prüfsumme.
+- **Kontextregeln (K-Regeln) der LDT-3-Regeltabelle** werden nur in Auswahl ausgewertet: K002, K005, K076, K096 und K099 (seit 14.10.2026, an den 9 KBV-Testdateien ohne Fehlalarm geprüft). Die übrigen K-Regeln prüft der Viewer nicht. Geprüft werden außerdem Zeilenaufbau, Satz- und Objektstruktur, Pflichtfelder der Satzebene und die unbedingten Mussfelder je Objekt (Objektkatalog), Feldlänge, Feldtyp, erlaubte Inhalte (E-Regeln), Version, Zeichensatz und Prüfsumme.
 
 ## Extraktion
 
