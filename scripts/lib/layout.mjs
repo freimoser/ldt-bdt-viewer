@@ -102,6 +102,7 @@ function head(p) {
 ${canonical}
 <meta name="robots" content="${robots}">
 <meta name="google-site-verification" content="${SITE.verification}" />
+<meta name="msvalidate.01" content="E1F30DEB311AAF5458907DB431B481AC" />
 <meta name="theme-color" content="${SITE.themeColor}">
 <meta name="author" content="${esc(SITE.author.name)}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
