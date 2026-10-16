@@ -7,7 +7,9 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "check:launch": "node scripts/check-launch.mjs",
+    "icons": "node scripts/gen-icons.mjs"
   },
   "license": "MIT"
 }

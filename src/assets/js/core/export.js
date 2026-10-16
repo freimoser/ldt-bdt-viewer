@@ -1,7 +1,7 @@
 /** Export der Befundtabelle (CSV für Excel) und der Rohdaten (JSON). */
 import { rowInfo } from "./xdt.js";
 
-const CSV_HEAD = ["Patient", "Geburtsdatum", "Geschlecht", "Patientennummer", "Auftragsnummer", "Berichtsdatum", "Satzart", "Test-Kürzel", "Untersuchung", "Ergebnis", "Einheit", "Normbereich", "Markierung laut Datei", "Ergebnistext", "Hinweise", "Zeile"];
+const CSV_HEAD = ["Patient", "Geburtsdatum", "Geschlecht", "Patientennummer", "Auftragsnummer", "Berichtsdatum", "Satzart", "Test-Kürzel", "Untersuchung", "Ergebnis", "Einheit", "Normbereich", "Markierung laut Datei", "Ergebnisstatus", "Ergebnistext", "Hinweise", "Zeile"];
 
 function cell(v) {
   let s = String(v ?? "");
@@ -30,7 +30,8 @@ export function befundeCsv(befunde) {
         rows.push([
           name, b.patient.birth || "", b.patient.sex || "", b.patient.id || "", b.order || b.labOrder || "", b.reported || "", b.satzart,
           t.id, t.name, r.value, r.unit, rangeText(r),
-          r.flag ? `${r.flagText} (${r.flag})` : "", r.text.join(" "), t.notes.join(" "), r.line || t.line,
+          r.flag ? `${r.flagText} (${r.flag})` : "", t.status ? `${t.statusText || "laut Datei"} (${t.status})` : "", r.text.join(" "),
+          [...(t.alerts || []).map((a) => "Meldung des Labors: " + a), ...t.notes].join(" "), r.line || t.line,
         ]);
       }
     }

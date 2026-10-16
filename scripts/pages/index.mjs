@@ -1,4 +1,14 @@
 import { SITE, url, href, esc, faqHtml, faqLd, GUIDES } from "../lib/layout.mjs";
+import { beispielListe } from "../../src/assets/js/core/beispiele.js";
+
+// Beispielauswahl: drei Schnellknöpfe und die vollständige Liste aus dem Kompendium
+const BSP = beispielListe();
+const QUICK = [["Z01_LDT3_Befund_auffaellig.ldt", "LDT 3: Laborbefund"], ["X01BEFND.LDT", "LDT 2: Laborbefund"], ["BEISPIEL_BDT_Export.bdt", "BDT-Export"]];
+const GROUPS = [["ldt3", "LDT 3 (aktuelle Version)"], ["ldt2", "LDT 2 (ältere Version, noch verbreitet)"], ["bdt", "BDT (Export aus der Praxissoftware)"], ["fehler", "Dateien mit typischen Fehlern"]];
+const exampleList = GROUPS.map(([g, label]) => `<h3>${esc(label)}</h3>
+<ul class="example-items">
+${BSP.filter((b) => b.group === g).map((b) => `<li><div class="example-text"><strong>${esc(b.title)}</strong><span>${esc(b.shows)}</span><code>${esc(b.file)}</code></div><div class="example-actions"><button type="button" class="btn btn-ghost btn-sm" data-example="${esc(b.file)}" aria-label="${esc(b.short)} öffnen">Öffnen</button><a class="btn btn-ghost btn-sm" href="${href("beispiele/" + b.file)}" download aria-label="${esc(b.short)} herunterladen">Herunterladen</a></div></li>`).join("\n")}
+</ul>`).join("\n");
 
 const faq = [
   { q: "Wird meine Datei hochgeladen?", a: "Nein. Der Viewer liest die Datei mit JavaScript direkt in Ihrem Browser. Es gibt keinen Server, der Dateien annimmt, keine Cookies und kein Tracking. Sie können das selbst prüfen: Seite laden, Internet trennen und die Datei trotzdem öffnen." },
@@ -9,6 +19,8 @@ const faq = [
 
 export default {
   path: "",
+  // Beispielliste und Generator am 12.10.2026 erweitert
+  lastmod: "2026-10-12",
   title: "LDT Viewer – LDT & BDT Dateien online öffnen, ohne Upload",
   description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, Fehler finden, anonymisieren, Testdateien erzeugen. Alles im Browser, kein Upload.",
   ogTitle: "LDT & BDT Viewer – Laborbefunde und Praxis-Exporte lesen",
@@ -18,6 +30,7 @@ export default {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
+      dateModified: "2026-10-12",
       name: SITE.name,
       alternateName: ["LDT Viewer", "BDT Viewer"],
       url: url(),
@@ -91,10 +104,13 @@ export default {
 </div>
 <div class="examples" role="group" aria-label="Beispieldateien">
 <span>Beispiel ausprobieren:</span>
-<button type="button" class="btn btn-ghost btn-sm" data-example="Z01BEISPIEL_LDT3.ldt">LDT 3</button>
-<button type="button" class="btn btn-ghost btn-sm" data-example="X01BSPL.LDT">LDT 2 (Codepage 437)</button>
-<button type="button" class="btn btn-ghost btn-sm" data-example="BEISPIEL_BDT.bdt">BDT</button>
+${QUICK.map(([f, l]) => `<button type="button" class="btn btn-ghost btn-sm" data-example="${esc(f)}">${esc(l)}</button>`).join("\n")}
 </div>
+<details class="example-list" id="beispiele">
+<summary>Alle ${BSP.length} Beispieldateien ansehen, auch mit typischen Fehlern</summary>
+<p class="muted small">Alle Personen, Einrichtungen und Werte sind erfunden. „Öffnen“ zeigt die Datei hier im Viewer, „Herunterladen“ speichert sie, zum Beispiel zum Testen einer Praxissoftware. Lizenz der Beispieldateien: <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>. Zeile für Zeile erklärt werden eine <a href="${href("ldt-datei-beispiel/")}">LDT-Beispieldatei</a> und eine <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a>; typische Fehler beschreibt die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</p>
+${exampleList}
+</details>
 <p class="disclaimer"><strong>Kein Medizinprodukt.</strong> Dient nur zur Anzeige und Prüfung von Dateien, nicht zur Diagnose.</p>
 </section>
 
@@ -130,6 +146,7 @@ export default {
 <label class="field">Format
 <select id="genFormat">
 <option value="ldt3">LDT 3.2.20 (Befund)</option>
+<option value="ldt3order">LDT 3.2.20 (Auftrag an das Labor)</option>
 <option value="ldt2">LDT 2.x, LDT1014.01 (Labor-Bericht)</option>
 <option value="bdt">BDT, klassischer Aufbau</option>
 </select></label>
@@ -147,7 +164,7 @@ export default {
 <button type="button" class="btn btn-ghost" id="genDownloadBtn">Erzeugen und herunterladen</button>
 </div>
 </div>
-<p class="hint" id="genCharsetHint">LDT 3 und BDT 3.0 schreiben ISO 8859-15 vor; der Zeichensatz ist dort fest.</p>
+<p class="hint" id="genCharsetHint">LDT 3 schreibt ISO 8859-15 vor. BDT erzeugt der Generator im klassischen Aufbau, ebenfalls in ISO 8859-15.</p>
 <p class="hint" id="genHint" aria-live="polite"></p>
 </section>
 
@@ -168,7 +185,7 @@ export default {
 <li><strong>Für Praxis-IT und Support:</strong> Sätze, Objekte und Rohzeilen mit Feldkennung, Bedeutung und Länge, Prüfung mit Zeilennummer und Erklärung, Anonymisierung für Support-Anfragen.</li>
 <li><strong>Für Entwickler:</strong> gültige Testdateien und eine Referenz aller Feldkennungen aus den offiziellen Spezifikationen.</li>
 </ul>
-<p>Die Feldtabellen stammen aus der LDT-3-Satzbeschreibung 3.2.20 und der Datensatzbeschreibung LDT 5.12 der KBV sowie der BDT-3.0-Satzbeschreibung des QMS. Alle Quellen mit Version und Abrufdatum stehen in der <a href="${SITE.repo}/blob/main/quellen.md">Quellenliste</a>.</p>
+<p>Die Feldtabellen stammen aus der LDT-3-Satzbeschreibung 3.2.20 und der Datensatzbeschreibung LDT 5.12 der KBV sowie der BDT-3.0-Satzbeschreibung des QMS. Alle Quellen mit Version und Abrufdatum stehen in der <a href="${href("quellen/")}">Quellenliste</a>.</p>
 </div>
 <div class="card-grid">
 ${GUIDES.slice(0, 6).map(([p, l, d]) => `<a class="card-link" href="${href(p)}"><h3>${esc(l)}</h3><p>${esc(d)}</p></a>`).join("\n")}

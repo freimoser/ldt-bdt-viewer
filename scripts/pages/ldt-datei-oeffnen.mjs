@@ -13,7 +13,8 @@ const steps = [
   },
   {
     name: "Datei wählen oder ins Feld ziehen",
-    text: "Klicken Sie im Bereich „Datei öffnen“ auf „Datei wählen“ oder ziehen Sie die Datei in das Feld. Möglich sind .ldt, .dat und .txt, auch mehrere Dateien auf einmal. Zum Ausprobieren gibt es die Beispiele „LDT 3“ und „LDT 2 (Codepage 437)“.",
+    text: "Klicken Sie im Bereich „Datei öffnen“ auf „Datei wählen“ oder ziehen Sie die Datei in das Feld. Möglich sind .ldt, .dat und .txt, auch mehrere Dateien auf einmal. Zum Ausprobieren ohne eigene Datei gibt es Beispiele, etwa „LDT 3: Laborbefund“.",
+    html: `Klicken Sie im Bereich „Datei öffnen“ auf „Datei wählen“ oder ziehen Sie die Datei in das Feld. Möglich sind .ldt, .dat und .txt, auch mehrere Dateien auf einmal. Zum Ausprobieren ohne eigene Datei gibt es Beispiele, etwa „LDT 3: Laborbefund“. Alle Beispiele mit Erklärung jeder Zeile stehen unter <a href="${href("ldt-datei-beispiel/")}">LDT-Beispieldateien</a>.`,
   },
   {
     name: "Zusammenfassung lesen",
@@ -133,6 +134,6 @@ ${stepsHtml(steps)}
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("LDT-Datei jetzt öffnen", "Ziehen Sie Ihren Laborbefund in den Viewer. Die Datei bleibt auf Ihrem Rechner.")}
-${relatedHtml(["was-ist-ldt/", "fehler/", "ldt-2-vs-ldt-3/", "feldkennungen/"])}
+${relatedHtml(["was-ist-ldt/", "fehler/", "ldt-datei-beispiel/", "feldkennungen/"])}
 </main>`,
 };

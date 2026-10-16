@@ -31,21 +31,28 @@ try {
     page.setDefaultTimeout(180000);
     await page.setViewport({ width: w, height: h });
     await page.goto(`http://localhost:${PORT}/ldt-bdt-viewer/`, { waitUntil: "networkidle0" });
-    await tap(page, '[data-example="Z01BEISPIEL_LDT3.ldt"]');
+    await tap(page, '[data-example="Z01_LDT3_Befund_auffaellig.ldt"]');
     await page.waitForSelector(".befund");
     await audit(page, `${w}px Befunde`);
+    await page.$eval("#beispiele", (d) => { d.open = true; });
+    await audit(page, `${w}px Beispielliste`);
+    await tap(page, '[data-example="Z01_LDT3_Auftrag.ldt"]');
+    await page.waitForSelector(".order-facts");
+    await audit(page, `${w}px Auftrag`);
+    await tap(page, '[data-example="Z01_LDT3_Befund_auffaellig.ldt"]');
+    await page.waitForFunction(() => document.getElementById("fileName").textContent === "Z01_LDT3_Befund_auffaellig.ldt" && document.querySelector(".befund-table"));
     await tap(page, "#tab-struktur"); await page.waitForSelector(".rows tbody tr");
     await tap(page, ".line-btn");
     await audit(page, `${w}px Struktur`);
     // Datei mit Fehlern für die Prüfansicht
-    await tap(page, '[data-example="X01BSPL.LDT"]');
-    await page.waitForFunction(() => document.getElementById("fileName").textContent === "X01BSPL.LDT");
+    await tap(page, '[data-example="Z01_FEHLER_UTF8.ldt"]');
+    await page.waitForFunction(() => document.getElementById("fileName").textContent === "Z01_FEHLER_UTF8.ldt");
     await tap(page, "#tab-pruefung"); await page.waitForSelector("#panel .notice-ok, #panel .issue");
     await audit(page, `${w}px Prüfung`);
     await page.type("#lookupInput", "3101"); await page.waitForSelector(".lookup-list");
     await audit(page, `${w}px Nachschlagen`);
   }
-  for (const p of ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "impressum/", "datenschutz/", "gibt-es-nicht/"]) {
+  for (const p of ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"]) {
     const page = await browser.newPage();
     page.setDefaultTimeout(180000);
     await page.goto(`http://localhost:${PORT}/ldt-bdt-viewer/${p}`, { waitUntil: "load" });

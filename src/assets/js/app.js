@@ -82,6 +82,14 @@ engine.onProgress = (p) => {
   $("progressBar").value = Math.round((p.pct || 0) * 100);
 };
 
+/** Zum Arbeitsbereich springen und den Dateinamen fokussieren (ohne Animation bei „Bewegung reduzieren“). */
+function showWorkspace() {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("workspace").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  $("fileName").setAttribute("tabindex", "-1");
+  $("fileName").focus({ preventScroll: true });
+}
+
 async function openBuffer(name, buffer) {
   const key = "f" + ++state.seq;
   $("progress").hidden = false;
@@ -95,7 +103,7 @@ async function openBuffer(name, buffer) {
     renderAll();
     const s = view.summary;
     announce(`${name} geöffnet: ${FORMAT_HELP[view.format]}, ${plural(s.issues.fehler || 0, "Fehler", "Fehler")}, ${plural(s.issues.warnung || 0, "Warnung", "Warnungen")}.`);
-    $("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
+    showWorkspace();
   } catch (err) {
     showGlobalError(`„${name}“ konnte nicht gelesen werden: ${err.message}`);
   } finally {
@@ -104,7 +112,7 @@ async function openBuffer(name, buffer) {
 }
 
 function defaultTab(view) {
-  if ((view.format === "ldt2" || view.format === "ldt3") && view.befunde > 0) return "befunde";
+  if ((view.format === "ldt2" || view.format === "ldt3" || view.format === "bdt") && (view.befunde > 0 || view.auftraege > 0)) return "befunde";
   if (view.issueCounts.fehler > 0 && view.format === "unknown") return "pruefung";
   return "struktur";
 }
@@ -180,8 +188,17 @@ function renderNotices(f) {
   if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
     box.append(h("div", { class: "notice notice-warn", role: "note" }, "Das Format wurde nicht erkannt."));
   }
+  // Fehler in der Datei: oben warnen, bevor jemand Werte übernimmt (Ursache, falls erkannt)
+  if (v.issueCounts.fehler > 0 && v.format !== "unknown") {
+    box.append(h("div", { class: "notice notice-err", role: "note" },
+      h("strong", null, `Achtung: Die Prüfung hat ${plural(v.issueCounts.fehler, "Fehler", "Fehler")} gefunden. `),
+      v.diagnosis ? `Wahrscheinliche Ursache: ${v.diagnosis.title}. ` : "",
+      "Übernehmen Sie Werte aus dieser Datei nur nach Rücksprache mit dem Absender. ",
+      h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "pruefung") }, "Prüfung ansehen")));
+  }
   const cs = v.charset;
-  if (cs.conflict || cs.confidence === "niedrig") {
+  const charsetExplained = v.diagnosis && v.diagnosis.root.includes("CHARSET_WRONG");
+  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained) {
     box.append(h("div", { class: "notice notice-warn", role: "note" },
       h("strong", null, "Zeichensatz unsicher. "),
       cs.conflict ? `Die Datei gibt ${CHARSET_LABEL[cs.conflict.declared]} an, die Umlaute passen aber eher zu ${CHARSET_LABEL[cs.conflict.detected]}. ` : "Es gibt nur wenige Umlaute, an denen sich der Zeichensatz erkennen lässt. ",
@@ -203,15 +220,21 @@ function renderSummary(f) {
   const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", unknown: "Unbekannt" }[v.format] || type;
   box.append(card("Dateityp", shortType, h("span", { class: "sub" }, `${version} · ${type.replace(/^[^(]*\(|\)$/g, "")}`)));
   if (s.direction) box.append(card("Richtung", s.direction));
+  // Im klassischen BDT gibt es keinen beschriebenen Kopfsatz: leere Kacheln würden wie Fehler wirken
+  const skipEmpty = v.format === "bdt";
   if (v.format !== "gdt" && v.format !== "unknown") {
-    box.append(card("Absender", s.sender || "nicht angegeben"));
-    box.append(card("Empfänger", s.receiver || "nicht angegeben"));
+    if (s.sender || !skipEmpty) box.append(card("Absender", s.sender || "nicht angegeben"));
+    if (s.receiver || !skipEmpty) box.append(card("Empfänger", s.receiver || "nicht angegeben"));
   }
-  box.append(card("Datum", s.date || "nicht angegeben"));
+  if (s.date || !skipEmpty) box.append(card("Datum", s.date || "nicht angegeben"));
   box.append(card("Sätze", nf.format(s.records), h("span", { class: "sub" }, plural(s.lines, "Zeile", "Zeilen"))));
-  if (v.format === "ldt2" || v.format === "ldt3" || v.format === "bdt") {
-    const flagged = s.flagged ? ` · ${nf.format(s.flagged)} markiert` : "";
-    box.append(card("Patienten und Befunde", `${plural(s.patients || 0, "Patient", "Patienten")}`, h("span", { class: "sub" }, `${plural(s.befunde || 0, "Befund", "Befunde")} · ${plural(s.tests || 0, "Untersuchung", "Untersuchungen")}${flagged}`)));
+  if (s.orders && !s.befunde) {
+    box.append(card("Patienten und Aufträge", plural(s.orderPatients, "Patient", "Patienten"), h("span", { class: "sub" }, `${plural(s.orders, "Auftrag", "Aufträge")} · ${plural(s.orderTests, "angeforderte Untersuchung", "angeforderte Untersuchungen")}`)));
+  } else if (v.format === "ldt2" || v.format === "ldt3" || v.format === "bdt") {
+    const flagged = s.flagged ? ` · ${nf.format(s.flagged)} markiert${s.extreme ? `, davon ${plural(s.extreme, "Extremwert", "Extremwerte")}` : ""}` : "";
+    const partial = s.partial ? ` · ${plural(s.partial, "Teilbefund", "Teilbefunde")}` : "";
+    const pending = s.pending ? ` · ${plural(s.pending, "Wert folgt", "Werte folgen")} noch` : "";
+    box.append(card("Patienten und Befunde", `${plural(s.patients || 0, "Patient", "Patienten")}`, h("span", { class: "sub" }, `${plural(s.befunde || 0, "Befund", "Befunde")} · ${plural(s.tests || 0, "Untersuchung", "Untersuchungen")}${flagged}${partial}${pending}`)));
   }
   // Zeichensatz mit Umschalter
   const sel = h("select", { id: "charsetSelect", "aria-label": "Zeichensatz wählen" });
@@ -227,7 +250,7 @@ function renderSummary(f) {
   const checkBtn = h("button", { type: "button", class: "summary-card summary-check status-" + status, onclick: () => switchTab(f, "pruefung") },
     h("span", { class: "label" }, "Prüfung"),
     h("span", { class: "value" }, ic.fehler || ic.warnung ? `${plural(ic.fehler || 0, "Fehler", "Fehler")}, ${plural(ic.warnung || 0, "Warnung", "Warnungen")}` : "Keine Fehler gefunden"),
-    h("span", { class: "sub" }, ic.hinweis ? plural(ic.hinweis, "Hinweis", "Hinweise") + " · Details ansehen" : "Details ansehen"));
+    h("span", { class: "sub" }, v.diagnosis ? v.diagnosis.title + " · Details ansehen" : ic.hinweis ? plural(ic.hinweis, "Hinweis", "Hinweise") + " · Details ansehen" : "Details ansehen"));
   box.append(checkBtn);
 }
 
@@ -253,7 +276,7 @@ function renderViewTabs(f) {
   for (const [id, label] of TABS) {
     let text = label;
     if (id === "pruefung") { const n = (f.view.issueCounts.fehler || 0) + (f.view.issueCounts.warnung || 0); if (n) text += ` (${nf.format(n)})`; }
-    if (id === "befunde") text += ` (${nf.format(f.view.befunde)})`;
+    if (id === "befunde") text = !f.view.befunde && f.view.auftraege ? `Aufträge (${nf.format(f.view.auftraege)})` : `${label} (${nf.format(f.view.befunde)})`;
     const sel = f.tab === id;
     list.append(h("button", {
       type: "button", role: "tab", id: "tab-" + id, "aria-selected": sel ? "true" : "false", "aria-controls": "panel", tabindex: sel ? "0" : "-1",
@@ -317,9 +340,14 @@ function flagInfo(flag) {
   return { cls: "flag-other", sym: "!" };
 }
 
+/** Dezimalzahl für Menschen: 12.9 → 12,9 (nur reine Zahlen, auch mit < oder >; Struktur zeigt den Originalinhalt). */
+function deNum(v) {
+  return typeof v === "string" && /^[<>≤≥]?\s?-?\d+\.\d+$/.test(v) ? v.replace(".", ",") : v;
+}
+
 function rangeText(r) {
   const parts = [];
-  if (r.low !== "" || r.high !== "") parts.push(`${r.low || "…"} – ${r.high || "…"}`);
+  if (r.low !== "" || r.high !== "") parts.push(`${deNum(r.low) || "…"} – ${deNum(r.high) || "…"}`);
   if (r.range) parts.push(r.range);
   return parts.join(" · ");
 }
@@ -329,8 +357,12 @@ async function renderBefunde(f, panel) {
   const out = [];
   out.push(h("p", { class: "legend" },
     h("strong", null, "So lesen Sie die Tabelle: "),
-    "Markierungen (▲ erhöht, ▼ erniedrigt, ! auffällig) stehen genau so in der Datei, wie das Labor sie gesendet hat. Der Viewer bewertet keine Werte selbst."));
-  if (!res.all) {
+    "Markierungen (▲ erhöht, ▼ erniedrigt, ! auffällig) stehen genau so in der Datei, wie das Labor sie gesendet hat. Der Viewer bewertet keine Werte selbst. Zahlen erscheinen hier mit Komma; in der Datei und unter „Struktur“ steht ein Punkt."));
+  if (!res.all && res.orders?.length) {
+    out.length = 0;
+    out.push(h("p", { class: "legend" }, h("strong", null, "Auftrag an das Labor: "), "Diese Datei bestellt Untersuchungen. Ergebnisse enthält sie noch nicht; die kommen später als Befund zurück."));
+    for (const a of res.orders) out.push(orderCard(f, a));
+  } else if (!res.all) {
     out.push(h("p", { class: "empty" }, f.view.format === "ldt2" || f.view.format === "ldt3"
       ? "Diese Datei enthält keine Befundsätze. Aufträge an das Labor (Satzart 8218/8219 bzw. 8215) enthalten noch keine Ergebnisse. Die Inhalte sehen Sie unter „Struktur“."
       : "In dieser Datei wurden keine Laborwerte gefunden. Die Inhalte sehen Sie unter „Struktur“."));
@@ -338,8 +370,27 @@ async function renderBefunde(f, panel) {
     out.push(h("p", { class: "empty" }, `Keine Treffer für „${f.query}“.`));
   }
   for (const b of res.items) out.push(befundCard(f, b));
-  out.push(pager(res.page, res.pages, res.total, ["Befund", "Befunde"], (p) => { f.pages.befunde = p; renderPanel(f); $("panel").scrollIntoView({ block: "start" }); }));
+  if (!res.orders?.length) out.push(pager(res.page, res.pages, res.total, ["Befund", "Befunde"], (p) => { f.pages.befunde = p; renderPanel(f); $("panel").scrollIntoView({ block: "start" }); }));
   panel.replaceChildren(...out);
+}
+
+function orderCard(f, a) {
+  const p = a.patient;
+  const name = [p.last, p.first].filter(Boolean).join(", ") || `Auftrag ${a.order || ""}`;
+  const meta = [p.birth && `geb. ${p.birth}`, p.sexText, p.id && `Patientennr. ${p.id}`, a.order && `Auftrag ${a.order}`, a.date && `erstellt ${a.date}`].filter(Boolean);
+  const rows = [
+    ["Angefordert", a.tests.length ? h("ul", { class: "plain-list" }, ...a.tests.map((t) => h("li", null, t.name || t.id, t.name && t.id ? h("span", { class: "test-id" }, t.id) : null, t.urgent ? h("span", { class: "status-badge" }, t.urgent) : null))) : "–"],
+    ["Diagnose", a.diagnoses.length ? a.diagnoses.map((d) => `${d.certainty ? d.certainty + " " : ""}${d.icd}`).join(", ") : "–"],
+    ["Material", a.material.join(", ") || "–"],
+    ["Abrechnung", a.billing || "–"],
+  ];
+  return h("article", { class: "befund" },
+    h("header", { class: "befund-head" },
+      h("h3", null, name),
+      h("p", { class: "befund-meta" }, meta.join(" · ")),
+      h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "struktur", { line: a.line }) }, `Ab Zeile ${nf.format(a.line)} in der Struktur zeigen`)),
+    h("dl", { class: "order-facts" }, ...rows.flatMap(([k, v]) => [h("dt", null, k), h("dd", null, v)])),
+    a.notes.length ? h("p", { class: "befund-notes" }, h("strong", null, "Hinweise: "), a.notes.join(" ")) : null);
 }
 
 function befundCard(f, b) {
@@ -367,7 +418,10 @@ function befundCard(f, b) {
         h("td", { "data-label": "Untersuchung" },
           k === 0 ? h("span", { class: "test-name" }, t.name || t.id || "Untersuchung") : h("span", { class: "muted" }, "weiterer Wert"),
           k === 0 && t.id && t.name ? h("span", { class: "test-id" }, t.id) : null),
-        h("td", { "data-label": "Ergebnis", class: "result" }, r.value || null, text ? h("span", { class: "result-text" }, text) : null, !r.value && !text ? "–" : null),
+        h("td", { "data-label": "Ergebnis", class: "result" },
+          deNum(r.value) || null, text ? h("span", { class: "result-text" }, text) : null,
+          !r.value && !text ? (t.statusText && k === 0 ? h("span", { class: "status-badge" }, t.statusText) : "–") : null,
+          (r.value || text) && k === 0 && t.statusText && !t.statusFinal ? h("span", { class: "status-badge", title: t.statusNote || null }, t.statusText) : null),
         h("td", { "data-label": "Einheit" }, r.unit || "–"),
         h("td", { "data-label": "Normbereich" }, rangeText(r) || "–"),
         h("td", { "data-label": "Markierung" }, fi
@@ -375,6 +429,8 @@ function befundCard(f, b) {
           : h("span", { class: "muted" }, "keine")));
       tb.append(tr);
     });
+    if (t.alerts?.length) tb.append(h("tr", { class: "alert-row" }, h("td", { colspan: "5" }, h("strong", null, h("span", { "aria-hidden": "true" }, "⚠ "), "Meldung des Labors: "), t.alerts.join(" "))));
+    if (t.statusNote && !t.statusFinal) tb.append(h("tr", { class: "note-row" }, h("td", { colspan: "5" }, h("span", { class: "muted" }, `Status „${t.statusText}“: `), t.statusNote)));
     if (t.notes.length) tb.append(h("tr", { class: "note-row" }, h("td", { colspan: "5" }, h("span", { class: "muted" }, "Hinweis: "), t.notes.join(" "))));
   }
   table.append(tb);
@@ -383,6 +439,7 @@ function befundCard(f, b) {
       h("h3", null, name),
       h("p", { class: "befund-meta" }, meta.join(" · ")),
       h("button", { type: "button", class: "link-btn", onclick: () => switchTab(f, "struktur", { line: b.line }) }, `Ab Zeile ${nf.format(b.line)} in der Struktur zeigen`)),
+    b.partial ? h("p", { class: "partial-note", role: "note" }, h("strong", null, "Teilbefund: "), `Das Labor hat noch nicht alle Werte geschickt (Status „${b.statusText}“). Weitere Ergebnisse folgen mit einem späteren Befund.`) : null,
     h("div", { class: "table-wrap" }, table),
     b.notes.length ? h("p", { class: "befund-notes" }, h("strong", null, "Hinweise: "), b.notes.join(" ")) : null,
     b.filtered ? h("p", { class: "muted" }, "Gefiltert: nur passende Untersuchungen werden gezeigt.") : null);
@@ -422,15 +479,21 @@ async function renderStruktur(f, panel) {
     h("thead", null, h("tr", null, h("th", { scope: "col" }, "Zeile"), h("th", { scope: "col" }, "Länge"), h("th", { scope: "col" }, "Feld"), h("th", { scope: "col" }, "Bedeutung"), h("th", { scope: "col" }, "Inhalt"))));
   const tb = h("tbody");
   const rowEls = new Map();
+  // LDT 3: Gerüstzeilen (Objektanfang, -ende, Attribut) knapp beschriften und zurücknehmen
+  const isLdt3 = f.view.format === "ldt3";
+  const structKind = (r) => !isLdt3 ? "" : r.fk === "8002" ? "start" : r.fk === "8003" ? "end"
+    : Number(r.fk) >= 8100 && Number(r.fk) <= 8299 && /^[A-Za-z]/.test(r.content) ? "attr" : "";
+  const structLabel = { start: (r) => `Objekt beginnt${r.objName ? ": " + r.objName : ""}`, end: (r) => `Objekt endet${r.objName ? ": " + r.objName : ""}`, attr: () => "kündigt das folgende Objekt an" };
   for (const r of res.rows) {
     const lenBad = r.len && Number(r.len) !== r.actual;
+    const sk = structKind(r);
     const sevTxt = r.sev === 3 ? "Fehler" : r.sev === 2 ? "Warnung" : r.sev === 1 ? "Hinweis" : "";
-    const tr = h("tr", { class: `sev-${r.sev}${r.known ? "" : " unknown"}`, dataset: { line: r.line, rec: r.rec, obj: r.obj } },
+    const tr = h("tr", { class: `sev-${r.sev}${r.known ? "" : " unknown"}${sk ? " row-struct" : ""}`, dataset: { line: r.line, rec: r.rec, obj: r.obj } },
       h("td", { class: "col-line" }, h("button", { type: "button", class: "line-btn", "aria-label": `Zeile ${r.line} auswählen`, onclick: () => selectLine(r.line, false) }, nf.format(r.line)),
         sevTxt ? h("span", { class: "sev-mark", title: sevTxt }, h("span", { class: "sr-only" }, sevTxt), h("span", { "aria-hidden": "true" }, r.sev === 3 ? "✖" : r.sev === 2 ? "⚠" : "ℹ")) : null),
       h("td", { class: "col-len" + (lenBad ? " bad" : "") }, r.len || "–", lenBad ? h("span", { class: "len-should" }, ` (richtig: ${String(r.actual).padStart(3, "0")})`) : null),
       h("td", { class: "col-id" }, r.fk || "–"),
-      h("td", { class: "col-label", style: r.depth ? `padding-left:${0.9 + Math.min(r.depth, 8) * 0.8}rem` : null }, r.label),
+      h("td", { class: "col-label", style: r.depth ? `padding-left:${0.9 + Math.min(r.depth, 8) * 0.8}rem` : null }, sk ? structLabel[sk](r) : r.label),
       h("td", { class: "col-value" }, r.content));
     rowEls.set(r.line, tr);
     tb.append(tr);
@@ -471,7 +534,17 @@ async function renderPruefung(f, panel) {
   for (const [sev, label] of [["", `Alle (${nf.format((c.fehler || 0) + (c.warnung || 0) + (c.hinweis || 0))})`], ["fehler", `Fehler (${nf.format(c.fehler || 0)})`], ["warnung", `Warnungen (${nf.format(c.warnung || 0)})`], ["hinweis", `Hinweise (${nf.format(c.hinweis || 0)})`]]) {
     filters.append(h("button", { type: "button", class: "chip" + (f.sev === sev ? " active" : ""), "aria-pressed": f.sev === sev ? "true" : "false", onclick: () => { f.sev = sev; f.pages.pruefung = 0; renderPanel(f); } }, label));
   }
-  const out = [filters];
+  const out = [];
+  if (res.diagnosis) {
+    const d = res.diagnosis;
+    out.push(h("div", { class: "diagnosis", role: "note" },
+      h("p", { class: "diagnosis-kicker" }, "Wahrscheinliche Ursache"),
+      h("p", { class: "diagnosis-title" }, d.title),
+      h("p", null, d.text),
+      h("p", null, h("strong", null, "Was tun? "), d.todo),
+      d.follows ? h("p", { class: "muted small" }, `${plural(d.follows, "weitere Meldung ist eine Folge", "weitere Meldungen sind Folgen")} davon und ${d.follows === 1 ? "steht" : "stehen"} unten als „Folgefehler“.`) : null));
+  }
+  out.push(filters);
   if (!res.total) {
     out.push(h("div", { class: "notice notice-ok" },
       h("strong", null, f.sev || f.query ? "Keine passenden Meldungen." : "Keine Fehler gefunden."),
@@ -480,8 +553,8 @@ async function renderPruefung(f, panel) {
   }
   const list = h("ol", { class: "issues" });
   for (const i of res.items) {
-    list.append(h("li", { class: "issue issue-" + i.sev },
-      h("span", { class: "badge badge-" + i.sev }, SEV_LABEL[i.sev]),
+    list.append(h("li", { class: "issue issue-" + i.sev + (i.follow ? " issue-follow" : "") },
+      h("span", { class: "badge badge-" + i.sev }, SEV_LABEL[i.sev], i.follow ? h("span", { class: "follow-tag" }, "Folgefehler") : null),
       h("div", { class: "issue-body" },
         h("p", { class: "issue-text" }, i.text),
         h("details", null, h("summary", null, "Was bedeutet das in der Praxis?"), h("p", null, i.why)),
@@ -583,6 +656,9 @@ window.addEventListener("drop", (e) => { e.preventDefault(); if (e.target.closes
 for (const btn of document.querySelectorAll("[data-example]")) {
   btn.addEventListener("click", async () => {
     const file = btn.dataset.example;
+    // Beispiele haben festen Inhalt: schon geöffnet, dann nur nach vorn holen
+    const open = [...state.files.values()].find((x) => x.name === file);
+    if (open) { state.current = open.key; renderAll(); showWorkspace(); return; }
     btn.disabled = true;
     try {
       const r = await fetch(BASE + "beispiele/" + file);
@@ -592,6 +668,16 @@ for (const btn of document.querySelectorAll("[data-example]")) {
     finally { btn.disabled = false; }
   });
 }
+
+// Link aus einem Artikel: /#beispiel=Dateiname öffnet das Beispiel direkt (nur Dateien aus der Liste).
+// Der Hash erzeugt für Suchmaschinen keine eigene Adresse; ?beispiel= bleibt für ältere Links gültig.
+function openWantedExample() {
+  const fromHash = /^#beispiel=(.+)$/.exec(location.hash);
+  const wanted = fromHash ? decodeURIComponent(fromHash[1]) : new URLSearchParams(location.search).get("beispiel");
+  if (wanted) document.querySelector(`[data-example="${CSS.escape(wanted)}"]`)?.click();
+}
+openWantedExample();
+window.addEventListener("hashchange", openWantedExample);
 
 /* ------------------------------------------------------------ Generator */
 
@@ -657,5 +743,15 @@ lookupInput.addEventListener("focus", () => loadDict(), { once: true });
 /* ------------------------------------------------------------ Offline */
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  // Neue Version: Der Service Worker übernimmt sofort, diese Seite läuft aber noch mit dem alten Code
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController || document.getElementById("updateToast")) return;
+    const open = state.files.size;
+    document.body.append(h("div", { id: "updateToast", class: "update-toast", role: "status" },
+      h("span", null, "Eine neue Version des Viewers ist verfügbar.", open ? " Geöffnete Dateien müssen danach erneut geöffnet werden." : ""),
+      h("button", { type: "button", class: "btn btn-primary btn-sm", onclick: () => location.reload() }, "Neu laden"),
+      h("button", { type: "button", class: "btn btn-ghost btn-sm", onclick: (e) => e.target.closest(".update-toast").remove() }, "Später")));
+  });
   window.addEventListener("load", () => navigator.serviceWorker.register(BASE + "sw.js", { scope: BASE }).catch(() => {}));
 }

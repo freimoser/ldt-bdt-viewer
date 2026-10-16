@@ -1,5 +1,25 @@
 /** Gemeinsames Seitenlayout für alle Seiten. */
 
+/**
+ * Einzige Quelle für alle Rechtsangaben (Impressum, Datenschutz, Autorenangaben).
+ * Herkunft: Stammdaten des Betreibers für Rechtstexte, zur Übernahme freigegeben am 15.10.2026.
+ * Leere Felder bleiben leer, nichts wird ergänzt oder erfunden. Fehlen Straße oder Postleitzahl,
+ * meldet scripts/check-launch.mjs einen Blocker: § 5 DDG verlangt eine ladungsfähige Anschrift.
+ */
+export const LEGAL = {
+  operator: "Thomas Freimoser",
+  companyName: "", // Betrieb als Privatperson, nicht über eine Firma
+  street: "Schinkelstraße 15",
+  zip: "80805",
+  city: "München",
+  country: "Deutschland",
+  email: "91Serdar [at] gmail.com", // „[at]“ als einfacher Spamschutz (GitHub Pages verschleiert Adressen nicht)
+  phone: "", // keine Pflicht (EuGH C-298/07), E-Mail genügt
+  vatId: "", // nur angeben, wenn eine USt-IdNr. erteilt wurde
+  responsible: "Thomas Freimoser",
+  url: "https://freimoser.github.io/freimoser.de/",
+};
+
 export const SITE = {
   origin: "https://freimoser.github.io",
   base: "/ldt-bdt-viewer/",
@@ -7,7 +27,7 @@ export const SITE = {
   tagline: "Labordaten und Praxisdaten-Exporte im Browser lesen – ohne Upload",
   verification: "6pYvtFCnU7UFcQFajtMSkQ7tYMy3Z_Bt7teKiT5yKNg",
   themeColor: "#0f1419",
-  author: { name: "S. Thomas Freimoser", url: "https://freimoser.github.io/freimoser.de/" },
+  author: { name: LEGAL.operator, url: LEGAL.url },
   repo: "https://github.com/freimoser/ldt-bdt-viewer",
   updated: "2026-10-08",
   updatedDe: "08.10.2026",
@@ -32,13 +52,15 @@ export const Q = {
   gdt: { t: "QMS, GDT 2.1 (englische Fassung)", u: "https://www.qms-standards.de/files/GDT_2_1_0501_english.pdf" },
   qms: { t: "QMS, Marktgestaltung und GDT", u: "https://www.qms-standards.de/Marktgestaltung.html" },
   qmsWechsel: { t: "QMS, Update PVS-Wechselschnittstelle (Juli 2026)", u: "https://www.qms-standards.de/files/QMSArtikelPVS-Wechselschnittstelle.pdf" },
-  tool: { t: "Quellenliste des LDT & BDT Viewers", u: "https://github.com/freimoser/ldt-bdt-viewer/blob/main/quellen.md" },
+  tool: { t: "Quellenliste des LDT & BDT Viewers", u: SITE.base + "quellen/" },
+  pruefpaket: { t: "KBV, Prüfpaket Labordatenkommunikation Version 1.23", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf" },
+  eulumdat: { t: "DIAL GmbH, LDT Editor (EULUMDAT-Dateien)", u: "https://www.dialux.com/de-DE/ldt-editor" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
-export function src(key, detail = "") {
+export function src(key, detail = "", stand = SITE.updatedDe) {
   const q = Q[key];
-  return `<span class="src">(Stand ${SITE.updatedDe}, Quelle: <a href="${esc(q.u)}">${esc(q.t)}</a>${detail ? ", " + esc(detail) : ""})</span>`;
+  return `<span class="src">(Stand ${stand}, Quelle: <a href="${esc(q.u)}">${esc(q.t)}</a>${detail ? ", " + esc(detail) : ""})</span>`;
 }
 
 const NAV = [
@@ -49,6 +71,7 @@ const NAV = [
   ["was-ist-bdt/", "Was ist BDT?"],
   ["feldkennungen/", "Feldkennungen"],
   ["fehler/", "Fehler"],
+  ["ldt-datei-beispiel/", "Beispiele"],
 ];
 
 export const GUIDES = [
@@ -60,11 +83,14 @@ export const GUIDES = [
   ["xdt-gdt-ldt-bdt/", "xDT: GDT, LDT, BDT", "Die Formatfamilie im Überblick und das passende Tool."],
   ["feldkennungen/", "Feldkennungen", "Vollständige Referenz der Feldkennungen und Satzarten."],
   ["fehler/", "Fehler in LDT-Dateien", "Häufige Fehler, ihre Bedeutung und die Lösung."],
+  ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
+  ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
 ];
 
 function head(p) {
   const canonical = p.noindex ? "" : `<link rel="canonical" href="${esc(url(p.path))}">`;
-  const robots = p.noindex ? "noindex, follow" : "index, follow, max-image-preview:large";
+  // Lange Auszüge erlauben: wichtig für Hervorhebungen und KI-Antworten, die Inhalte zitieren
+  const robots = p.noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1";
   const ogTitle = p.ogTitle || p.title;
   const ogDesc = p.ogDescription || p.description;
   const ld = (p.jsonld || []).map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`).join("\n");
@@ -80,8 +106,8 @@ ${canonical}
 <meta name="author" content="${esc(SITE.author.name)}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="${href("favicon.svg")}" type="image/svg+xml">
+<link rel="icon" href="${href("favicon-96.png")}" type="image/png" sizes="96x96">
 <link rel="icon" href="${href("favicon-32.png")}" type="image/png" sizes="32x32">
-<link rel="icon" href="${href("favicon-16.png")}" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="${href("apple-touch-icon.png")}" sizes="180x180">
 <link rel="manifest" href="${href("site.webmanifest")}">
 <meta property="og:type" content="${p.ogType || "website"}">
@@ -115,7 +141,7 @@ function footer() {
 <div><h2>Tool</h2><ul>
 <li><a href="${href()}">LDT &amp; BDT Viewer</a></li>
 <li><a href="${href("feldkennungen/")}">Feldkennungen</a></li>
-<li><a href="${SITE.repo}/blob/main/quellen.md">Quellen</a></li>
+<li><a href="${href("quellen/")}">Quellen</a></li>
 <li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>
 </ul></div>
 <div><h2>Ratgeber</h2><ul>
@@ -195,24 +221,25 @@ ${p.after || ""}
 }
 
 /** Kopf einer Inhaltsseite: Brotkrumen, H1, direkte Antwort im ersten Satz, Stand. */
-export function heroHtml({ crumbs, h1, lead, minutes }) {
+export function heroHtml({ crumbs, h1, lead, minutes, stand = SITE.updatedDe }) {
   return `${breadcrumbHtml(crumbs)}
 <header class="hero-article">
 <h1>${esc(h1)}</h1>
 <p class="lead">${lead}</p>
-<p class="meta-line">Stand: ${SITE.updatedDe}${minutes ? ` · Lesedauer ca. ${minutes} Minuten` : ""} · von <a href="${SITE.author.url}">${esc(SITE.author.name)}</a></p>
+<p class="meta-line">Stand: ${stand}${minutes ? ` · Lesedauer ca. ${minutes} Minuten` : ""} · von <a href="${SITE.author.url}">${esc(SITE.author.name)}</a></p>
 </header>`;
 }
 
-export function articleLd({ headline, description, path }) {
+// published: erste Veröffentlichung (Standard: Start der Website), updated: letzte inhaltliche Änderung
+export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
     description,
     inLanguage: "de-DE",
-    datePublished: SITE.updated,
-    dateModified: SITE.updated,
+    datePublished: published < updated ? published : updated,
+    dateModified: updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     mainEntityOfPage: url(path),

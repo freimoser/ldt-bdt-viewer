@@ -73,7 +73,7 @@ ${heroHtml({
 <li><strong>Parser:</strong> Statt Satzlängen zu prüfen, wertet die Software Objektattribute (8100 bis 8299), Objektgrenzen 8002/8003 und das Satzende 8001 aus. ${src("ldt3", "Kap. 6.3 und 7")}</li>
 <li><strong>Integrität:</strong> Statt der Gesamtlänge in Feld 9202 sichert eine SHA-1-Prüfsumme in Feld 9300 die Datei. Wird die Datei nachträglich verändert, passt die Prüfsumme nicht mehr. ${src("ldt3", "Regel E157")}</li>
 <li><strong>Prüfmodul:</strong> Das LDK-Prüfmodul muss in allen Systemen zur Prüfung exportierter und zu importierender Dateien eingebunden und standardmäßig aktiviert sein. ${src("faq", "Kap. 2")}</li>
-<li><strong>Testdaten:</strong> Die KBV stellt Testdateien zu LDT 3.2.20 als ZIP-Archiv im Update-Verzeichnis bereit. ${src("kbvdir")} Erfundene Testdateien für beide Generationen erzeugt auch der <a href="${href("#generator")}">Generator im Viewer</a>.</li>
+<li><strong>Testdaten:</strong> Die KBV stellt Testdateien zu LDT 3.2.20 als ZIP-Archiv im Update-Verzeichnis bereit. ${src("kbvdir")} Erfundene Testdateien für beide Generationen erzeugt auch der <a href="${href("#generator")}">Generator im Viewer</a>; fertige Beispiele für LDT 2 und LDT 3 zum Vergleichen stehen unter <a href="${href("ldt-datei-beispiel/")}">LDT-Beispieldateien</a>.</li>
 </ul>
 <h3>Warum LDT 2 trotzdem noch vorkommt</h3>
 <p>Die KBV schrieb 2022, dass trotz des etablierten LDT 3 „an einigen Stellen noch der LDT 2 Standard eingesetzt“ wird. Für diese Fälle empfiehlt sie Erweiterungen der Satzarten 8218, 8201 und 8203, unter anderem für die Muster 10C und OEGD, und stellt klar, dass dies keine Weiterentwicklung von LDT 2 durch die KBV ist. ${src("ldt2emp", "Kap. 1 und 2")}</p>

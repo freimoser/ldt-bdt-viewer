@@ -24,8 +24,8 @@ export function createHandler(post, dictUrl) {
         charset: m.charset.charset, source: m.charset.source, confidence: m.charset.confidence,
         candidates: m.charset.candidates, conflict: m.charset.conflict || null, declaredBy: m.charset.declaredBy || null,
       },
-      issueCounts: m.issueCounts, truncated: m.truncated,
-      records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length,
+      issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null,
+      records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length, auftraege: (m.auftraege || []).length,
       sources: SOURCES,
     };
   }
@@ -109,7 +109,7 @@ export function createHandler(post, dictUrl) {
         const size = msg.size || 20;
         const pages = Math.max(1, Math.ceil(list.length / size));
         const page = Math.min(Math.max(0, msg.page || 0), pages - 1);
-        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, all: (m.befunde || []).length } };
+        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, all: (m.befunde || []).length, orders: (m.befunde || []).length ? [] : (m.auftraege || []).slice(0, 200) } };
       }
       case "allBefunde": {
         const m = files.get(msg.file);
@@ -140,13 +140,14 @@ export function createHandler(post, dictUrl) {
       }
       case "issues": {
         const m = files.get(msg.file);
-        let list = m.issues;
+        // Ursache zuerst, Folgefehler ans Ende (stabil, sonst Zeilenreihenfolge)
+        let list = m.diagnosis ? [...m.issues.filter((i) => !i.follow), ...m.issues.filter((i) => i.follow)] : m.issues;
         if (msg.sev) list = list.filter((i) => i.sev === msg.sev);
         if (msg.query) { const q = msg.query.toLowerCase(); list = list.filter((i) => i.text.toLowerCase().includes(q) || String(i.line) === q); }
         const size = msg.size || 100;
         const pages = Math.max(1, Math.ceil(list.length / size));
         const page = Math.min(Math.max(0, msg.page || 0), pages - 1);
-        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, counts: m.issueCounts, truncated: m.truncated } };
+        return { result: { items: list.slice(page * size, page * size + size), total: list.length, page, pages, counts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null } };
       }
       case "anonymize": {
         const m = files.get(msg.file);

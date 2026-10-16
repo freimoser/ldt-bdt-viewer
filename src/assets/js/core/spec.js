@@ -1,6 +1,6 @@
 /**
  * Formatwissen aus den Spezifikationen. Jede Angabe trägt ihre Quelle.
- * Vollständige Liste der Quellen: /quellen.md im Repository.
+ * Vollständige Liste der Quellen: quellen.md im Repository, auf der Website unter /quellen/.
  */
 
 export const SOURCES = {
@@ -137,7 +137,7 @@ export const INDICATOR = {
   ldt2: { "+": "leicht erhöht", "++": "stark erhöht", "-": "mäßig erniedrigt", "--": "stark erniedrigt", "!": "auffällig" },
   // KBV LDT 3.2.20, Regel E005
   ldt3: {
-    N: "im Normalbereich bzw. normal",
+    N: "normal",
     H: "schwach erhöht", "+": "schwach erhöht",
     HH: "stark erhöht", "++": "stark erhöht",
     L: "schwach erniedrigt", "-": "schwach erniedrigt",
@@ -186,6 +186,7 @@ export const LDT3_OBJECTS = {
   Obj_0019: "Betriebsstätte",
   Obj_0022: "Einsenderidentifikation",
   Obj_0026: "Fehlermeldung/Aufmerksamkeit",
+  Obj_0027: "Veranlassungsgrund",
   Obj_0031: "Kommunikationsdaten",
   Obj_0032: "Kopfdaten",
   Obj_0034: "Krebsfrüherkennung Zervix-Karzinom (Muster 39)",
@@ -231,6 +232,42 @@ export const REPORT_STATUS = {
   ldt2: { E: "Endbefund", T: "Teilbefund", V: "Vorläufiger Befund", A: "Archiv-Befund", N: "Nachforderung" },
   ldt3: { 1: "Auftrag nicht abgeschlossen", 2: "Auftrag abgeschlossen" },
 };
+
+/**
+ * Ergebnisstatus 8418: KBV LDT 3.2.20 (Regel E007, S. 78) bzw. Test-Status KBV LDT 5.12 (Regel 138, S. 53).
+ * note: kurze Erklärung für die Befundansicht; final: normaler Endzustand, der nicht eigens hervorgehoben wird.
+ */
+export const RESULT_STATUS = {
+  ldt3: {
+    "01": { text: "keine gesicherte Information" },
+    "02": { text: "Ergebnis folgt", note: "Der Wert ist noch nicht da und kommt mit einem späteren Befund." },
+    "03": { text: "Ergebnis (technisch validiert)", final: true },
+    "04": { text: "Ergebnis korrigiert", note: "Ein früher gesendeter Wert wurde korrigiert." },
+    "05": { text: "Ergebnis ermittelt, Absicherung läuft", note: "Ärztlich validiert, kann sich aber noch ändern; dann folgt ein korrigiertes Ergebnis." },
+    "06": { text: "Befundergebnis", final: true },
+    "07": { text: "Befundergebnis bereits berichtet", note: "Unverändert, wurde schon einmal gesendet." },
+    "08": { text: "Befundergebnis korrigiert", note: "Gilt statt aller früheren Ergebnisse zu dieser Untersuchung." },
+    "09": { text: "Ergebnis fehlt", note: "Das Ergebnis kann nicht mehr ermittelt werden." },
+    "10": { text: "Erweiterte Analytik erforderlich", note: "Weitere Ergebnisse folgen in späteren Befunden." },
+    "11": { text: "Material fehlt", note: "Für diese Untersuchung war kein Material vorhanden." },
+    "12": { text: "Storniert", note: "Die Untersuchung wurde storniert." },
+  },
+  ldt2: {
+    B: { text: "bereits berichtet", note: "Der Wert wurde schon einmal gesendet." },
+    K: { text: "korrigierter Wert", note: "Ein früher gesendeter Wert wurde korrigiert." },
+    F: { text: "fehlt/folgt", note: "Der Wert fehlt noch oder folgt später." },
+  },
+};
+
+/** LDT 3 Auftrag: Abrechnungsinfo 7303 (E050, S. 88), Diagnosesicherheit 6003 (E037, S. 86), Dringlichkeit 8501 (E032, S. 85). */
+export const ORDER_TEXT = {
+  billing: { 1: "GKV, Laborfacharzt", 2: "GKV, Laborgemeinschaft", 3: "PKV, Laborfacharzt", 4: "PKV, Laborgemeinschaft", 5: "Selektivvertrag", 6: "IGeL", 7: "sonstige Kostenübernahme", 8: "ASV", 9: "GKV, Laborfacharzt präventiv", 10: "GKV, Laborgemeinschaft präventiv", 11: "keine Zuordnung", 12: "präoperative Laborleistungen", 13: "GKV, Krankenhaus", 14: "PKV, Krankenhaus", 15: "GKV, Muster 6/39", 16: "GKV, Muster 10C", 17: "Öffentlicher Gesundheitsdienst", 99: "storniert" },
+  certainty: { G: "gesichert", A: "Ausschluss", V: "Verdacht auf", Z: "Zustand nach" },
+  urgency: { 1: "Notfall", 2: "eilig" },
+};
+
+/** Befundstatus, bei denen noch Werte folgen können (LDT 3 E006 = 1; LDT 2 Regel 135 = T, V). */
+export const PARTIAL_STATUS = { ldt3: new Set(["1"]), ldt2: new Set(["T", "V"]) };
 
 /** Geschlecht 3110: KBV LDT 5.12 (Regel 533), KBV LDT 3.2.20 (E019), QMS BDT 3.0 (Feld 3110). */
 export const SEX = {

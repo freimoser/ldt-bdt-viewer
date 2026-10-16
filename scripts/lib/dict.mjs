@@ -10,12 +10,24 @@ import { dirname, join } from "node:path";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const read = (f) => JSON.parse(readFileSync(join(root, "data", f), "utf8"));
 
+// Wörter, die in den PDF-Tabellen am Zellenrand getrennt wurden (geprüft gegen die Spezifikationen)
+const BROKEN = [
+  ["PostfachWohnsitzlaenderc ode", "PostfachWohnsitzlaendercode"], ["Diagnoseausnahmetatbes tand", "Diagnoseausnahmetatbestand"],
+  ["Kostenübernahmeerklärun g", "Kostenübernahmeerklärung"], ["Wiederholungsuntersuchu ng", "Wiederholungsuntersuchung"],
+  ["Blutgruppenzugehoerigkei t", "Blutgruppenzugehoerigkeit"], ["Untersuchungsabrechnun g", "Untersuchungsabrechnung"],
+  ["Untersuchungsanforderun g", "Untersuchungsanforderung"], ["Aktenzeiche n", "Aktenzeichen"],
+  ["Nebenbetriebsstättennum mer", "Nebenbetriebsstättennummer"], ["Krebsfrueherkennung_Zer vix", "Krebsfrueherkennung_Zervix"],
+  ["Herku nft", "Herkunft"],
+];
+
 function tidy(s) {
-  return String(s || "")
+  let t = String(s || "");
+  for (const [a, b] of BROKEN) t = t.split(a).join(b);
+  return t
     .replace(/\s+/g, " ")
     .replace(/_ (?=\S)/g, "_")
     .replace(/(\S) _(?=\S)/g, "$1_")
-    .replace(/(\p{Ll})- (\p{Lu})/gu, "$1-$2")
+    .replace(/(\p{L})- (\p{Lu})/gu, "$1-$2")
     .trim();
 }
 
@@ -24,7 +36,12 @@ export function buildDict() {
   const ldt3 = read("ldt3-feldtabelle.json");
   const bdt = read("bdt3-feldtabelle.json");
   const rules = read("ldt3-regeltabelle.json");
-  const out = { ldt2: {}, ldt3: {}, bdt: {}, rules: {} };
+  const objects = read("ldt3-objekte.json");
+  const out = { ldt2: {}, ldt3: {}, bdt: {}, rules: {}, objects: {} };
+  // Objektkatalog LDT 3.2.20 (Kap. 11): je Objekt die unbedingten Mussfelder (Feldart „M“ direkt im Objekt)
+  for (const [id, o] of Object.entries(objects)) {
+    out.objects[id] = { n: o.name, p: o.page, m: o.fields.filter((f) => f.level === 2 && f.art === "M").map((f) => f.fk) };
+  }
   for (const [fk, v] of Object.entries(ldt2)) {
     out.ldt2[fk] = { n: tidy(v.name), l: tidy(v.len), t: tidy(v.type), r: tidy(v.rules), v: tidy(v.values), e: tidy(v.example), p: v.page };
   }

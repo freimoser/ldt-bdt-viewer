@@ -101,6 +101,7 @@ ${heroHtml({
 </tbody>
 </table></div>
 <p>${src("giessen")}</p>
+<p>Einen vollständigen Export in diesem Aufbau mit zwei erfundenen Patienten, Stammdaten und Laborwerten, erklärt Zeile für Zeile die <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a>.</p>
 <h3>Beispiel: BDT 3.0</h3>
 <p>Der Datei-Header aus dem Beispiel im nicht normativen Anhang der BDT-3.0-Beschreibung:</p>
 <div class="table-wrap"><table>
@@ -129,7 +130,7 @@ ${heroHtml({
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("BDT-Export prüfen", "Öffnen Sie einen BDT-Export im Viewer und sehen Sie Sätze, Felder und Patienten, bevor Sie ihn ins neue System übernehmen. Ohne Upload.")}
-${relatedHtml(["bdt-datei-oeffnen/", "was-ist-ldt/", "xdt-gdt-ldt-bdt/", "feldkennungen/"])}
+${relatedHtml(["bdt-datei-oeffnen/", "bdt-datei-beispiel/", "xdt-gdt-ldt-bdt/", "feldkennungen/"])}
 </main>`;
 
 export default {

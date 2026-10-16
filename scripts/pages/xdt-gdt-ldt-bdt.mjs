@@ -107,7 +107,7 @@ ${heroHtml({
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("LDT- oder BDT-Datei öffnen", "Der Viewer erkennt Format, Version und Zeichensatz selbst und zeigt Sätze, Felder und Werte. Für GDT-Dateien nutzen Sie den GDT Viewer.")}
-${relatedHtml(["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "feldkennungen/"])}
+${relatedHtml(["was-ist-ldt/", "was-ist-bdt/", "ldt-datei-beispiel/", "bdt-datei-beispiel/"])}
 </main>`;
 
 export default {

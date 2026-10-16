@@ -5,7 +5,7 @@
  * Tastaturbedienung, Offline-Betrieb über den Service Worker.
  */
 import { spawn } from "node:child_process";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
@@ -76,7 +76,7 @@ try {
 
   // 2) Beispiele und Befundansicht
   await page.goto(BASE, { waitUntil: "networkidle0" });
-  for (const ex of ["Z01BEISPIEL_LDT3.ldt", "X01BSPL.LDT", "BEISPIEL_BDT.bdt"]) {
+  for (const ex of ["Z01_LDT3_Befund_auffaellig.ldt", "X01BEFND.LDT", "BEISPIEL_BDT_Export.bdt"]) {
     await tap(page, `[data-example="${ex}"]`);
     await page.waitForFunction((n) => [...document.querySelectorAll("#fileName")].some((e) => e.textContent === n), {}, ex);
   }
@@ -95,11 +95,11 @@ try {
   const mobile = await browser.newPage();
   mobile.setDefaultTimeout(120000);
   await mobile.setViewport({ width: 360, height: 780, isMobile: true, hasTouch: true });
-  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
+  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
   for (const p of pages) {
     const res = await mobile.goto(BASE + p, { waitUntil: "load" });
     if (p === "") {
-      await tap(mobile, '[data-example="Z01BEISPIEL_LDT3.ldt"]');
+      await tap(mobile, '[data-example="Z01_LDT3_Befund_auffaellig.ldt"]');
       await mobile.waitForSelector(".befund");
     }
     const w = await mobile.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
@@ -115,7 +115,7 @@ try {
   await new Promise((r) => setTimeout(r, 1500));
   await off.setOfflineMode(true);
   await off.reload({ waitUntil: "load" });
-  await tap(off, '[data-example="X01BSPL.LDT"]');
+  await tap(off, '[data-example="X01BEFND.LDT"]');
   await off.waitForSelector(".befund", { timeout: 120000 });
   const offlineName = await off.$eval(".befund h3", (e) => e.textContent);
   check("Offline nach dem ersten Laden nutzbar", /Test-/.test(offlineName), offlineName);
@@ -123,6 +123,21 @@ try {
   const subH1 = sub ? await off.$eval("h1", (e) => e.textContent).catch(() => "") : "";
   check("Ratgeberseite offline aus dem Cache", /LDT/.test(subH1) && !/nicht gefunden/.test(subH1), subH1);
   await off.setOfflineMode(false);
+
+  // 6) Neue Version: Hinweis erst nach einem Update des Service Workers, nicht bei der Erstinstallation
+  const upd = await browser.newPage();
+  upd.setDefaultTimeout(120000);
+  await upd.goto(BASE, { waitUntil: "networkidle0" });
+  await upd.waitForFunction(() => navigator.serviceWorker.controller !== null);
+  const before = await upd.$("#updateToast");
+  const swPath = join(root, "dist", "sw.js");
+  const sw = readFileSync(swPath, "utf8");
+  try {
+    writeFileSync(swPath, sw.replace(/const VERSION = "([^"]+)"/, 'const VERSION = "$1-test"'));
+    await upd.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
+    await upd.waitForSelector("#updateToast");
+    check("Hinweis auf neue Version nach Update (nicht beim ersten Laden)", before === null, await upd.$eval("#updateToast", (e) => e.innerText.replace(/\n/g, " ")));
+  } finally { writeFileSync(swPath, sw); }
 } catch (err) {
   check("Ablauf ohne Ausnahme", false, err.message + (err.cause ? " (" + err.cause.message + ")" : ""));
 } finally {

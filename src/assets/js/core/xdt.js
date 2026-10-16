@@ -187,8 +187,10 @@ export function openFile(bytes, name, dict, opts = {}) {
   buildStructure(m, progress);
   progress("Datei wird geprüft", 0.6);
   validate(m, progress);
+  m.diagnosis = diagnose(m);
   progress("Befunde werden zusammengestellt", 0.85);
   m.befunde = extractBefunde(m);
+  m.auftraege = extractAuftraege(m);
   m.summary = buildSummary(m);
   progress("Fertig", 1);
   return m;
@@ -504,6 +506,7 @@ function validate(m, progress) {
     else addIssue(m, null, "warnung", "FORMAT_UNKNOWN", "Das Format konnte nicht sicher als LDT oder BDT erkannt werden.", "Die Zeilen werden trotzdem angezeigt. Die Feldbedeutungen fehlen, weil unklar ist, welche Feldtabelle gilt.");
   }
   checkRecords(m);
+  if (m.format === "ldt3") checkContextRules(m);
   checkVersion(m);
   checkFilename(m);
 }
@@ -547,6 +550,81 @@ function recLength(m, rec) {
   let sum = 0;
   for (let i = rec.start; i <= rec.end; i++) sum += contentBytes(m, i) + 9;
   return sum;
+}
+
+/**
+ * LDT 3: Auswahl eindeutig prüfbarer Kontextregeln der Regeltabelle (KBV LDT 3.2.20, Kap. 10), alle mit Fehlerstatus F.
+ * K002 (S. 103), K005 (S. 103), K076 (S. 110), K096 (S. 112), K099 (S. 113). Übrige K-Regeln werden nicht ausgewertet.
+ */
+function checkContextRules(m) {
+  const n = m.lines.n;
+  const val = (i) => content(m, i).trim();
+  const nextField = (i) => { for (let k = i + 1; k < n; k++) if (m.fk[k] >= 0) return k; return -1; };
+  for (const rec of m.records) {
+    if (rec.type !== "8205") continue;
+    let status = "";
+    for (let i = rec.start; i <= rec.end; i++) if (m.fk[i] === 8401) { status = val(i); break; }
+    for (let i = rec.start; i <= rec.end; i++) {
+      const f = m.fk[i];
+      if (f === 8418 && status === "2" && ["02", "05", "10"].includes(val(i))) {
+        addIssue(m, i, "fehler", "K096", `Zeile ${i + 1}: Ergebnisstatus ${val(i)} in einem Befund mit Status „Auftrag abgeschlossen“ (8401 = 2).`, "Regel K096 der KBV (LDT 3.2.20, S. 112): In einem abgeschlossenen Befund dürfen keine fehlenden oder vorläufigen Werte stehen (Ergebnisstatus 02, 05 oder 10). Entweder ist der Befund in Wahrheit ein Teilbefund (8401 = 1), oder der Ergebnisstatus ist falsch gesetzt.");
+      }
+      if (f === 4121 && status === "1") {
+        addIssue(m, i, "fehler", "K005", `Zeile ${i + 1}: Abrechnungsangabe 4121 in einem Teilbefund (8401 = 1).`, "Regel K005 der KBV (LDT 3.2.20, S. 103): Abrechnungsinformationen dürfen nur in Befunden mit dem Status „Auftrag abgeschlossen“ übertragen werden.");
+      }
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    const f = m.fk[i];
+    if (f === 8419) {
+      const v = val(i), j = nextField(i), hasUnit = j >= 0 && m.fk[j] === 8421;
+      if ((v === "1" || v === "2") && !hasUnit) addIssue(m, i, "fehler", "K002", `Zeile ${i + 1}: Einheitensystem ${v} angegeben, aber keine Maßeinheit 8421 dahinter.`, "Regel K002 der KBV (LDT 3.2.20, S. 103): Bei Einheitensystem 1 (SI) oder 2 (abweichende Einheit) muss die Maßeinheit in Feld 8421 folgen; nur bei 9 (dimensionslos) entfällt sie.");
+      if (v === "9" && hasUnit) addIssue(m, i, "fehler", "K002", `Zeile ${i + 1}: Einheitensystem 9 (dimensionslos), trotzdem folgt eine Maßeinheit 8421.`, "Regel K002 der KBV (LDT 3.2.20, S. 103): Bei einer dimensionslosen Größe darf keine Maßeinheit angegeben werden.");
+    }
+    if (f === 8422 && ["!L", "!-", "!H", "!+"].includes(val(i))) {
+      const j = nextField(i);
+      if (j < 0 || m.fk[j] !== 8126) addIssue(m, i, "fehler", "K099", `Zeile ${i + 1}: Extremwert-Markierung ${val(i)} ohne Aufmerksamkeitsmeldung 8126 direkt dahinter.`, "Regel K099 der KBV (LDT 3.2.20, S. 113): Bei Extremwerten muss das Labor eine Aufmerksamkeitsmeldung (Obj_0026) mitschicken, damit die Praxis gezielt auf den Wert hingewiesen wird.");
+    }
+  }
+  // K076: Ergebnis mit Wert braucht einen Messzeitpunkt 8225 im selben Untersuchungsergebnis
+  for (const o of m.objects) {
+    if (!RESULT_OBJECTS.has(o.id) || o.end < 0) continue;
+    let status = "", statusLine = -1, has8225 = false;
+    for (let i = o.start; i <= o.end; i++) {
+      if (m.fk[i] === 8418 && !status) { status = val(i); statusLine = i; }
+      if (m.fk[i] === 8225) has8225 = true;
+    }
+    if (status && !["01", "02", "09", "11", "12"].includes(status) && !has8225) {
+      addIssue(m, statusLine, "fehler", "K076", `Zeile ${statusLine + 1}: Untersuchungsergebnis mit Ergebnisstatus ${status}, aber ohne Zeitpunkt der Messung (8225).`, "Regel K076 der KBV (LDT 3.2.20, S. 110): Der Zeitpunkt der Messung muss immer angegeben werden, außer bei fehlendem Material, fehlendem Wert oder Stornierung.");
+    }
+  }
+}
+
+/** LDT 3: Mussfelder (Feldart „M“) direkt in jedem Objekt laut Objektkatalog (KBV LDT 3.2.20, Kap. 11). */
+// Ein Durchgang über alle Zeilen und einer über alle Objekte (linear, auch bei 20-MB-Dateien)
+function checkObjectFields(m) {
+  const cat = m.dict && m.dict.objects;
+  if (!cat) return;
+  const direct = new Array(m.objects.length);
+  for (let i = 0; i < m.lines.n; i++) {
+    const o = m.lineObj[i];
+    if (o < 0 || m.objects[o].start === i) continue;
+    (direct[o] ||= new Set()).add(fkString(m.fk[i]));
+  }
+  const none = new Set();
+  for (let k = 0; k < m.objects.length; k++) {
+    const o = m.objects[k];
+    const def = cat[o.id];
+    if (!def || !def.m.length) continue;
+    const have = direct[k] || none;
+    for (const f of def.m) {
+      if (have.has(f)) continue;
+      const d = fieldDef(m, Number(f));
+      const objName = def.n.replace(/^Obj_/, "");
+      const attr = o.attr ? o.attr.replace(/_/g, " ") : "";
+      addIssue(m, o.start, "fehler", "OBJ_REQUIRED", `Zeile ${o.start + 1}: Im Objekt ${o.id} (${objName}${attr && attr !== objName ? ", als " + attr : ""}) fehlt das Pflichtfeld ${f}${d ? " (" + d.n + ")" : ""}.`, `Laut Objektkatalog (KBV LDT 3.2.20, Kap. 11, S. ${def.p}) muss dieses Feld in jedem ${o.id} stehen. Fehlt es, lehnen zertifizierte Praxisprogramme den Befund oft ab oder übernehmen ihn unvollständig. Der Hersteller der sendenden Software muss den Export korrigieren.`);
+    }
+  }
 }
 
 function checkRecords(m) {
@@ -609,6 +687,7 @@ function checkRecords(m) {
       }
     }
   }
+  if (fmt === "ldt3") checkObjectFields(m);
   if (fmt === "ldt2" || fmt === "ldt3") checkPackage(m);
 }
 
@@ -801,8 +880,11 @@ export function extractBefunde(m) {
         case 3564: {
           const ft = path.find((o) => o.id === "Obj_0068");
           const isResultText = ft && ft.attrLine >= 0 && m.fk[ft.attrLine] === 8237;
-          if (test && isResultText) { (res || newResult()); res.text.push(v); }
-          else if (v) (test ? test.notes : r.notes).push(v);
+          // In LDT 3 gehört ein Freitext nur dann zum Test, wenn er im Ergebnisobjekt steht; sonst zum ganzen Befund
+          const inResult = m.format !== "ldt3" || path.some((o) => RESULT_OBJECTS.has(o.id));
+          if (test && inResult && isResultText) { (res || newResult()); res.text.push(v); }
+          else if (v && test && inResult && inObj("Obj_0026")) (test.alerts ||= []).push(v);
+          else if (v) (test && inResult ? test.notes : r.notes).push(v);
           break;
         }
         case 8490: r.notes.push(v); break;
@@ -812,12 +894,126 @@ export function extractBefunde(m) {
     if (m.format === "bdt" && r.patient.id && stamm.has(r.patient.id)) r.patient = { ...stamm.get(r.patient.id), ...Object.fromEntries(Object.entries(r.patient).filter(([, v]) => v)) };
     if (r.patient.sex) r.patient.sexText = sexMap[r.patient.sex] || r.patient.sex;
     if (r.status) r.statusText = statusMap[r.status] || r.status;
+    if (r.status && S.PARTIAL_STATUS[m.format]?.has(r.status)) r.partial = true;
+    const rs = S.RESULT_STATUS[m.format] || {};
+    for (const t of r.tests) if (t.status && rs[t.status]) { t.statusText = rs[t.status].text; t.statusNote = rs[t.status].note || ""; t.statusFinal = !!rs[t.status].final; }
     r.tests = r.tests.filter((t) => t.id || t.name || t.results.length);
     for (const t of r.tests) if (!t.name && t.kind && !t.id) t.name = t.kind;
     for (const t of r.tests) if (!t.results.length) t.results.push({ value: "", unit: "", low: "", high: "", range: "", flag: "", flagText: "", text: [], line: t.line });
     if (r.tests.length || m.format !== "bdt") out.push(r);
   }
   return out;
+}
+
+/* --------------------------------------------------------- Aufträge (LDT 3, Satzart 8215) */
+
+/** Übersicht je Auftrag: Patient, Auftragsnummer, Datum, Diagnosen, Abrechnung, Material, angeforderte Untersuchungen. */
+export function extractAuftraege(m) {
+  const out = [];
+  if (m.format !== "ldt3") return out;
+  const T = S.ORDER_TEXT;
+  for (const rec of m.records) {
+    if (rec.type !== "8215") continue;
+    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", material: [], tests: [], notes: [] };
+    let diag = null, test = null;
+    for (let i = rec.start; i <= rec.end; i++) {
+      const f = m.fk[i];
+      if (f < 0) continue;
+      const v = content(m, i).trim();
+      const path = objectPath(m, i);
+      const inner = path[0]?.id || "";
+      const has = (id) => path.some((o) => o.id === id);
+      if (has("Obj_0045")) {
+        if (inner === "Obj_0047") {
+          if (f === 3101) a.patient.last = v; else if (f === 3102) a.patient.first = v;
+          else if (f === 3103) a.patient.birth = fmtDate(v, "JJJJMMTT"); else if (f === 3110) a.patient.sexText = S.SEX.ldt3[v] || v;
+        } else if (inner === "Obj_0045" && f === 3000) a.patient.id = v;
+        continue;
+      }
+      if (inner === "Obj_0013" && f === 8310) a.order = v;
+      else if (inner === "Obj_0054" && f === 7278 && has("Obj_0013") && !a.date) a.date = fmtDate(v, "JJJJMMTT");
+      else if (inner === "Obj_0100" && f === 6001) { diag = { icd: v, certainty: "" }; a.diagnoses.push(diag); }
+      else if (inner === "Obj_0100" && f === 6003 && diag) diag.certainty = T.certainty[v] || v;
+      else if (inner === "Obj_0027" && f === 7303 && !a.billing) a.billing = T.billing[v] || v;
+      else if (inner === "Obj_0037" && f === 8430) a.material.push(v);
+      else if (inner === "Obj_0059" && f === 8410) { test = { id: v, name: "", urgent: "" }; a.tests.push(test); }
+      else if (inner === "Obj_0059" && f === 8411 && test) test.name = v;
+      else if (inner === "Obj_0059" && f === 8501 && test) test.urgent = T.urgency[v] || v;
+      else if (inner === "Obj_0068" && f === 3564 && path.length === 1) a.notes.push(v);
+    }
+    out.push(a);
+  }
+  return out;
+}
+
+/* --------------------------------------------------------- Ursache erkennen */
+
+/**
+ * Sucht unter den Meldungen eine gemeinsame Ursache und markiert die Folgefehler (issue.follow).
+ * Reihenfolge der Regeln: die grundlegendste Ursache zuerst. Gibt null zurück, wenn keine Regel passt.
+ */
+export function diagnose(m) {
+  const has = (code) => (m.codeCounts[code] || 0) > 0;
+  const lastRec = m.records[m.records.length - 1];
+  const inLast = (i) => lastRec && i.line != null && i.line >= lastRec.start;
+  const rules = [
+    {
+      when: () => has("CHARSET_WRONG") && m.charset.charset === "utf-8",
+      title: "Die Datei wurde als UTF-8 gespeichert",
+      text: "Ein Editor, ein Mailprogramm oder ein Skript hat den Zeichensatz umgewandelt. Umlaute belegen jetzt zwei Bytes. Deshalb stimmen Längenangaben und Prüfsummen nicht mehr, und Namen erscheinen im Praxisprogramm verstümmelt.",
+      todo: "Die Originaldatei erneut abholen und unverändert weitergeben. LDT- und BDT-Dateien nicht in einem Texteditor öffnen und speichern.",
+      root: ["CHARSET_WRONG"], follow: ["LEN", "LEN_UTF8", "CHECKSUM", "TOTAL", "RECLEN", "MOJIBAKE"],
+    },
+    {
+      when: () => has("EOL_LF") || has("EOL_CR"),
+      title: "Die Zeilenenden wurden umgewandelt",
+      text: "Statt CR LF endet jede Zeile nur mit LF (bzw. CR). Das passiert, wenn eine Datei über ein Unix-System, ein Git-Repository oder ein Skript läuft. Weil sich die Bytes ändern, passen Prüfsumme und Satzlängen nicht mehr.",
+      todo: "Zeilenenden auf CR LF zurückstellen (z. B. mit unix2dos) oder die Originaldatei neu holen.",
+      root: ["EOL_LF", "EOL_CR"], follow: ["CHECKSUM", "TOTAL", "RECLEN"],
+    },
+    {
+      when: () => has("ORDER_TRAILER") && m.issues.some((i) => ["OBJ_OPEN", "RECEND_MISSING", "RECLEN", "TOTAL"].includes(i.code) && inLast(i)),
+      title: "Die Datei ist abgeschnitten",
+      text: "Die Datei endet mitten in einem Satz: Der Abschluss-Satz fehlt, und im letzten Satz sind Objekte oder Satzende offen. Meist wurde der Export oder die Übertragung abgebrochen, oder die Datei wurde abgeholt, während sie noch geschrieben wurde.",
+      todo: "Die Datei beim Labor bzw. im Praxisprogramm neu erzeugen lassen. Die Befunde vor dem abgeschnittenen Satz sind lesbar, aber die Datei als Ganzes ist unvollständig.",
+      root: ["ORDER_TRAILER"], follow: ["OBJ_OPEN", "RECEND_MISSING", "REQUIRED", "OBJ_REQUIRED", "RECLEN", "TOTAL", "CHECKSUM", "FIELDCOUNT"], followIf: inLast,
+    },
+    {
+      when: () => has("CHARSET_CONFLICT"),
+      title: "Die Zeichensatz-Angabe passt nicht zum Inhalt",
+      text: "Die Datei kündigt einen Zeichensatz an, gespeichert sind die Umlaute aber in einem anderen. Programme, die sich auf die Angabe verlassen, zeigen falsche Zeichen. Der Viewer liest die Datei mit dem Zeichensatz, der zu den Umlauten passt.",
+      todo: "Zum Lesen reicht der Viewer. Dauerhaft muss die sendende Software Angabe (Dateiname bzw. Feld 9106) und Inhalt angleichen.",
+      root: ["CHARSET_CONFLICT"], follow: ["MOJIBAKE"],
+    },
+    {
+      when: () => has("LEN") && !has("LEN_UTF8"),
+      title: "Die Datei wurde vermutlich von Hand bearbeitet",
+      text: "Mindestens eine Zeile ist länger oder kürzer, als ihre Längenangabe sagt. Typisch ist eine Änderung im Texteditor. Prüfsumme und Satzlängen passen dann meist auch nicht mehr.",
+      todo: "Die Datei nicht von Hand ändern, sondern neu erzeugen lassen. Bei Befunden: Werte nur aus der Originaldatei übernehmen.",
+      root: ["LEN"], follow: ["CHECKSUM", "TOTAL", "RECLEN"],
+    },
+    {
+      when: () => has("RECLEN") && !has("LEN"),
+      title: "Im Satz wurde eine Zeile entfernt oder ergänzt",
+      text: "Jede Zeile hat für sich die richtige Länge, aber die Satzlänge in Feld 8100 passt nicht mehr zur Summe der Zeilen. Typisch ist, dass eine Zeile gelöscht oder eingefügt wurde, etwa von Hand oder durch ein Filterprogramm.",
+      todo: "Die Datei neu erzeugen lassen. Satz- und Gesamtlängen nicht von Hand korrigieren.",
+      root: ["RECLEN"], follow: ["TOTAL", "CHECKSUM"],
+    },
+    {
+      when: () => has("CHECKSUM") && !has("LEN"),
+      title: "Die Datei wurde nach dem Erstellen verändert",
+      text: "Aufbau und Längen stimmen, aber die SHA-1-Prüfsumme in Feld 9300 passt nicht zum Inhalt. Irgendetwas in der Datei wurde nach dem Erstellen geändert – bei einem Befund möglicherweise ein Wert.",
+      todo: "Den Befund nicht verwenden, sondern beim Labor neu anfordern und klären, wo die Datei verändert wurde.",
+      root: ["CHECKSUM"], follow: [],
+    },
+  ];
+  const rule = rules.find((r) => r.when());
+  if (!rule) return null;
+  let follows = 0;
+  for (const i of m.issues) {
+    if (rule.follow.includes(i.code) && (!rule.followIf || rule.followIf(i))) { i.follow = true; follows++; }
+  }
+  return { title: rule.title, text: rule.text, todo: rule.todo, root: rule.root, follows };
 }
 
 /* --------------------------------------------------------- Zusammenfassung */
@@ -856,7 +1052,9 @@ function buildSummary(m) {
       s.sender = org ? `Praxis: ${org}` : einsender ? `Praxis: ${einsender}` : "";
       const labObj = body ? m.objects.find((o) => o.id === "Obj_0036" && o.record === body.index) : null;
       const lab = labObj ? firstContent(m, 1250, labObj.start, labObj.end) : "";
-      s.receiver = lab ? `Labor: ${lab}` : "";
+      // Ohne Laborname: Kennung des Empfängers aus dem sendenden System (FK 8315, Obj_0051)
+      const recvId = firstContent(m, 8315, head.start, head.end);
+      s.receiver = lab ? `Labor: ${lab}` : recvId ? `Labor (Kennung ${recvId})` : "";
     }
     s.date = fmtDate(firstContent(m, 7278, head.start, head.end), "JJJJMMTT");
     s.direction = head.type === "8220" ? "Befund vom Labor an die Praxis" : "Auftrag von der Praxis an das Labor";
@@ -877,6 +1075,15 @@ function buildSummary(m) {
   s.befunde = bef.length;
   s.tests = bef.reduce((a, b) => a + b.tests.length, 0);
   s.flagged = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag && r.flag !== "N").length, 0), 0);
+  // Für die Kachel: Extremwerte (!H, !L, !+, !-), Teilbefunde und Werte, die noch folgen (LDT 3: 02, LDT 2: F)
+  // Aufträge (LDT 3, 8215): Patienten und angeforderte Untersuchungen
+  const orders = m.auftraege || [];
+  s.orders = orders.length;
+  s.orderPatients = new Set(orders.map((a) => [a.patient.last, a.patient.first, a.patient.birth, a.patient.id].join("|"))).size;
+  s.orderTests = orders.reduce((a, o) => a + o.tests.length, 0);
+  s.extreme = bef.reduce((a, b) => a + b.tests.reduce((x, t) => x + t.results.filter((r) => r.flag.startsWith("!")).length, 0), 0);
+  s.partial = bef.filter((b) => b.partial).length;
+  s.pending = bef.reduce((a, b) => a + b.tests.filter((t) => t.status === "02" || (m.format === "ldt2" && t.status === "F")).length, 0);
   if (m.checksum) s.checksum = m.checksum;
   return s;
 }
@@ -899,6 +1106,7 @@ export function rowInfo(m, i) {
     sev: m.lineSev ? m.lineSev[i] : 0,
     rec: m.lineRec ? m.lineRec[i] : -1,
     obj: objIdx,
+    objName: objIdx >= 0 ? m.objects[objIdx].name || "" : "",
     depth: objIdx >= 0 ? m.objects[objIdx].depth + 1 : 0,
   };
 }

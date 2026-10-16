@@ -25,7 +25,7 @@ const faq = [
   },
   {
     q: "Wo bekomme ich offizielle LDT-Testdateien?",
-    a: "Die KBV stellt im <a href=\"https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/\">Update-Verzeichnis Labordatenkommunikation</a> ein ZIP-Archiv mit Testdateien zu LDT 3.2.20 bereit. Erfundene Testdateien für LDT 3 und LDT 2 erzeugt außerdem der <a href=\"" + href("#generator") + "\">Generator im Viewer</a>.",
+    a: "Die KBV stellt im <a href=\"https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/\">Update-Verzeichnis Labordatenkommunikation</a> ein ZIP-Archiv mit Testdateien zu LDT 3.2.20 bereit. Erfundene Beispieldateien, darunter ein Laborbefund mit Erklärung jeder Zeile, gibt es unter <a href=\"" + href("ldt-datei-beispiel/") + "\">LDT-Beispieldateien</a>; beliebig viele Testdateien erzeugt der <a href=\"" + href("#generator") + "\">Generator im Viewer</a>.",
   },
 ];
 
@@ -114,7 +114,7 @@ ${heroHtml({
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("LDT-Datei ansehen", "Öffnen Sie einen Laborbefund im Viewer: Satzarten, Objekte und Werte werden lesbar angezeigt und geprüft. Die Datei bleibt auf Ihrem Rechner.")}
-${relatedHtml(["ldt-datei-oeffnen/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "fehler/"])}
+${relatedHtml(["ldt-datei-oeffnen/", "ldt-2-vs-ldt-3/", "ldt-datei-beispiel/", "fehler/"])}
 </main>`;
 
 export default {
