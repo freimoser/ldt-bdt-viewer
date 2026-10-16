@@ -1,5 +1,25 @@
 /** Gemeinsames Seitenlayout für alle Seiten. */
 
+/**
+ * Einzige Quelle für alle Rechtsangaben (Impressum, Datenschutz, Autorenangaben).
+ * Herkunft: Stammdaten des Betreibers für Rechtstexte, zur Übernahme freigegeben am 15.10.2026.
+ * Leere Felder bleiben leer, nichts wird ergänzt oder erfunden. Fehlen Straße oder Postleitzahl,
+ * meldet scripts/check-launch.mjs einen Blocker: § 5 DDG verlangt eine ladungsfähige Anschrift.
+ */
+export const LEGAL = {
+  operator: "Thomas Freimoser",
+  companyName: "", // Betrieb als Privatperson, nicht über eine Firma
+  street: "Schinkelstraße 15",
+  zip: "80805",
+  city: "München",
+  country: "Deutschland",
+  email: "91Serdar [at] gmail.com", // „[at]“ als einfacher Spamschutz (GitHub Pages verschleiert Adressen nicht)
+  phone: "", // keine Pflicht (EuGH C-298/07), E-Mail genügt
+  vatId: "", // nur angeben, wenn eine USt-IdNr. erteilt wurde
+  responsible: "Thomas Freimoser",
+  url: "https://freimoser.github.io/freimoser.de/",
+};
+
 export const SITE = {
   origin: "https://freimoser.github.io",
   base: "/ldt-bdt-viewer/",
@@ -7,7 +27,7 @@ export const SITE = {
   tagline: "Labordaten und Praxisdaten-Exporte im Browser lesen – ohne Upload",
   verification: "6pYvtFCnU7UFcQFajtMSkQ7tYMy3Z_Bt7teKiT5yKNg",
   themeColor: "#0f1419",
-  author: { name: "S. Thomas Freimoser", url: "https://freimoser.github.io/freimoser.de/" },
+  author: { name: LEGAL.operator, url: LEGAL.url },
   repo: "https://github.com/freimoser/ldt-bdt-viewer",
   updated: "2026-10-08",
   updatedDe: "08.10.2026",
@@ -86,8 +106,8 @@ ${canonical}
 <meta name="author" content="${esc(SITE.author.name)}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="${href("favicon.svg")}" type="image/svg+xml">
+<link rel="icon" href="${href("favicon-96.png")}" type="image/png" sizes="96x96">
 <link rel="icon" href="${href("favicon-32.png")}" type="image/png" sizes="32x32">
-<link rel="icon" href="${href("favicon-16.png")}" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="${href("apple-touch-icon.png")}" sizes="180x180">
 <link rel="manifest" href="${href("site.webmanifest")}">
 <meta property="og:type" content="${p.ogType || "website"}">

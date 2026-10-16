@@ -81,7 +81,7 @@ ${heroHtml({
 })}
 <div class="prose">
 <h2 id="downloads">Beispieldateien zum Herunterladen</h2>
-<p>Alle Personen und Werte sind erfunden. „Im Viewer ansehen“ öffnet die Datei direkt im Browser, ohne Upload.</p>
+<p>Alle Personen und Werte sind erfunden. „Im Viewer ansehen“ öffnet die Datei direkt im Browser, ohne Upload. Die Beispieldateien stehen unter <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a> und dürfen ohne Einschränkung verwendet werden.</p>
 <div class="table-wrap"><table>
 <caption>BDT-Beispieldateien</caption>
 <thead><tr><th scope="col">Beispiel</th><th scope="col">Was die Datei zeigt</th><th scope="col">Datei</th></tr></thead>
@@ -132,6 +132,7 @@ ${relatedHtml(["bdt-datei-oeffnen/", "was-ist-bdt/", "xdt-gdt-ldt-bdt/", "ldt-da
     url: url(path),
     inLanguage: "de-DE",
     isAccessibleForFree: true,
+    license: "https://creativecommons.org/publicdomain/zero/1.0/",
     keywords: ["BDT", "Behandlungsdatenträger", "xDT", "Beispieldatei", "Testdatei", "Praxissoftware"],
     creator: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     dateModified: UPDATED,

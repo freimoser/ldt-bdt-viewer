@@ -129,7 +129,7 @@ ${heroHtml({
 <div class="callout"><span class="callout-title">Nicht verwechseln</span><p>Die Endung .ldt verwenden auch EULUMDAT-Dateien aus der Lichtplanung, die Daten von Leuchten enthalten. ${src("eulumdat")} Diese Seite behandelt den Labordatenträger LDT der Kassenärztlichen Bundesvereinigung, mit dem Arztpraxen und Labore Aufträge und Befunde austauschen. ${src("ldt3", "Kap. 4")}</p></div>
 
 <h2 id="downloads">Beispieldateien zum Herunterladen</h2>
-<p>Alle Dateien enthalten nur erfundene Personen und Werte. Jede Datei, die nicht ausdrücklich ein Fehlerbeispiel ist, besteht die Prüfung des Viewers ohne Fehler und Warnungen. „Im Viewer ansehen“ öffnet die Datei direkt, ohne dass etwas hochgeladen wird.</p>
+<p>Alle Dateien enthalten nur erfundene Personen und Werte. Jede Datei, die nicht ausdrücklich ein Fehlerbeispiel ist, besteht die Prüfung des Viewers ohne Fehler und Warnungen. „Im Viewer ansehen“ öffnet die Datei direkt, ohne dass etwas hochgeladen wird. Die Beispieldateien stehen unter <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.de">CC0 1.0</a>: Sie dürfen sie ohne Einschränkung verwenden, auch in eigener Software und ohne Namensnennung.</p>
 <div class="table-wrap"><table>
 <caption>LDT-Beispieldateien</caption>
 <thead><tr><th scope="col">Beispiel</th><th scope="col">Format</th><th scope="col">Was die Datei zeigt</th><th scope="col">Datei</th></tr></thead>
@@ -192,6 +192,7 @@ ${relatedHtml(["ldt-datei-oeffnen/", "was-ist-ldt/", "fehler/", "bdt-datei-beisp
     url: url(path),
     inLanguage: "de-DE",
     isAccessibleForFree: true,
+    license: "https://creativecommons.org/publicdomain/zero/1.0/",
     keywords: ["LDT", "Labordatenträger", "LDT 3", "LDT 2", "Beispieldatei", "Testdatei", "xDT"],
     creator: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     dateModified: UPDATED,
