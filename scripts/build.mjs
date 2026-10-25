@@ -71,11 +71,35 @@ for (const p of pages) {
   }
 }
 
+
+// Sprungmarken: jede Überschrift im Hauptinhalt bekommt eine stabile id (Deeplinks für Suche und KI-Zitate)
+const slug = (t) => t.toLowerCase().replace(/<[^>]+>/g, "").replace(/&amp;/g, "und").replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+  .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60).replace(/-+$/, "");
+function headingIds(html, withToc) {
+  const m = html.match(/<main[\s\S]*?<\/main>/);
+  if (!m) return html;
+  const used = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((x) => x[1]));
+  let main = m[0].replace(/<(h[23])>([\s\S]*?)<\/\1>/g, (all, tag, inner) => {
+    let id = slug(inner) || tag, n = 2;
+    while (used.has(id)) id = `${slug(inner)}-${n++}`;
+    used.add(id);
+    return `<${tag} id="${id}">${inner}</${tag}>`;
+  });
+  // Inhaltsverzeichnis ab vier Abschnitten, vor der ersten Zwischenüberschrift
+  const h2 = [...main.matchAll(/<h2 id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)].filter((x) => x[1] !== "weiterlesen");
+  if (withToc && h2.length >= 4) {
+    const toc = `<nav class="toc" aria-label="Inhalt dieser Seite"><p class="toc-title">Auf dieser Seite</p><ol>${h2.map((x) => `<li><a href="#${x[1]}">${x[2].replace(/<[^>]+>/g, "")}</a></li>`).join("")}</ol></nav>\n`;
+    const first = main.indexOf(h2[0][0]);
+    main = main.slice(0, first) + toc + main.slice(first);
+  }
+  return html.replace(m[0], main);
+}
+
 const problems = [];
 const titles = new Map(), descs = new Map();
 for (const p of pages) {
   let tableNo = 0;
-  const html = page(p)
+  let html = page(p)
     .replace(/<link rel="stylesheet" href="[^"]*styles\.css">/, `<style>${css}</style>`)
     // scrollbare Tabellenbereiche per Tastatur erreichbar machen (WCAG 2.1.1)
     .replace(/<div class="table-wrap">([\s\S]*?<table[^>]*>\s*(?:<caption[^>]*>([^<]*)<\/caption>)?(?:\s*<thead><tr><th[^>]*>([^<]*))?)/g, (m, rest, cap, th) => {
@@ -83,6 +107,8 @@ for (const p of pages) {
       const label = (cap || "").trim() || `Tabelle ${tableNo}${th ? ": " + th.trim() : ""}`;
       return `<div class="table-wrap" tabindex="0" role="region" aria-label="${label.replace(/"/g, "&quot;")}">${rest}`;
     });
+  const withToc = !!p.path && !p.noindex && !p.file;
+  html = headingIds(html, withToc);
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);
