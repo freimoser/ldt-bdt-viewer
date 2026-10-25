@@ -69,6 +69,7 @@ export default {
   ogDescription: "Schritt-für-Schritt-Anleitung: LDT-Datei im Browser öffnen, Laborwerte und Markierungen lesen, Fehler finden. Ohne Upload.",
   ogType: "article",
   minInternalLinks: 3,
+  lastmod: "2026-10-26",
   llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
   jsonld: [
     howToLd({
@@ -86,6 +87,7 @@ ${heroHtml({
   h1: "LDT-Datei öffnen: Laborbefund lesen und prüfen",
   lead: `Eine LDT-Datei öffnen Sie am einfachsten im kostenlosen <a href="${href()}">LDT &amp; BDT Viewer</a>: Seite aufrufen, die Datei ins Feld ziehen oder auf „Datei wählen“ klicken. Der Viewer zeigt die Laborwerte als Tabelle, den Aufbau der Datei und eine Prüfung auf Fehler. Die Datei bleibt dabei in Ihrem Browser, nichts wird hochgeladen.`,
   minutes: 5,
+  stand: "26.10.2026",
 })}
 <div class="prose">
 <p>LDT steht für Labordatenträger: Mit diesem Format tauschen Labore und Arztpraxen Aufträge und Befundberichte aus. ${src("ldt2", "Kap. 1.1")} Was dahintersteckt, erklärt <a href="${href("was-ist-ldt/")}">Was ist LDT? Der Labordatenträger</a>. Hier geht es um die Praxis: Datei öffnen, Werte lesen, Probleme finden.</p>

@@ -2,12 +2,17 @@ import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml
 
 const path = "xdt-gdt-ldt-bdt/";
 const crumbs = [["LDT & BDT Viewer", ""], ["xDT: GDT, LDT, BDT", path]];
-const title = "xDT Schnittstelle: GDT, LDT, BDT im Überblick";
-const description = "xDT-Schnittstelle erklärt: GDT, LDT und BDT im Vergleich, gemeinsamer Zeilenaufbau, gleiche Feldkennungen und wie Sie das Format einer Datei erkennen.";
-const h1 = "xDT-Schnittstelle: GDT, LDT und BDT im Überblick";
+const title = "xDT Schnittstelle: GDT, LDT, BDT und KVDT im Überblick";
+const description = "xDT-Schnittstelle erklärt: GDT, LDT, BDT und die KVDT-Abrechnung im Vergleich, gemeinsamer Zeilenaufbau und wie Sie das Format einer Datei erkennen.";
+const h1 = "xDT-Schnittstelle: GDT, LDT, BDT und KVDT im Überblick";
+const STAND = "26.10.2026";
 const GDT_VIEWER = "https://freimoser.github.io/gdt-viewer/";
 
 const faq = [
+  {
+    q: "Was ist KVDT?",
+    a: `KVDT steht für Kassenärztliche Vereinigung-Datentransfer. Mit diesem Format überträgt die Arztpraxis ihre Abrechnungsdaten an die zuständige Kassenärztliche Vereinigung. Die Datensatzbeschreibung gibt die KBV heraus; sie nutzt denselben Zeilenaufbau aus Länge, Feldkennung und Inhalt wie LDT und BDT. ${src("kvdt", "Kap. 1.1 und 1.2", STAND)}`,
+  },
   {
     q: "Gibt es eine Datei im Format xDT?",
     a: "Nein. xDT bezeichnet die Familie der Standards. Eine konkrete Datei folgt immer einer bestimmten Beschreibung, etwa GDT, LDT oder BDT, und welche das ist, verrät die Satzart in Feld 8000. GDT-Dateien öffnen Sie im <a href=\"" + GDT_VIEWER + "\">GDT Viewer</a>, LDT- und BDT-Dateien im <a href=\"" + href() + "\">Viewer auf dieser Website</a>.",
@@ -31,7 +36,8 @@ ${heroHtml({
   crumbs,
   h1,
   lead: `<strong>xDT ist</strong> eine Familie von Datensatzbeschreibungen für den Datenaustausch von Praxissoftware, zu der GDT, LDT und BDT gehören. Alle nutzen denselben Zeilenaufbau aus Länge, Feldkennung und Inhalt, und den Feldkatalog aller Felder der xDT-Familie führt die Kassenärztliche Bundesvereinigung (KBV). ${src("bdt3", "Kap. 2 und 3.3")}`,
-  minutes: 6,
+  minutes: 7,
+  stand: STAND,
 })}
 <div class="prose">
 <p>Welches Werkzeug Sie brauchen, hängt vom Format ab: GDT-Dateien aus der Geräteanbindung öffnen Sie im <a href="${GDT_VIEWER}">GDT Viewer</a>, LDT-Laborbefunde und BDT-Exporte im <a href="${href()}">LDT &amp; BDT Viewer</a>. Die Grundlagen der einzelnen Formate erklären die Seiten <a href="${href("was-ist-ldt/")}">Was ist LDT?</a>, <a href="${href("was-ist-bdt/")}">Was ist BDT?</a> und <a href="https://freimoser.github.io/gdt-viewer/wissen/was-ist-gdt.html">Was ist GDT?</a>.</p>
@@ -87,6 +93,22 @@ ${heroHtml({
 <p>${src("gdt", "Kap. 2.2, 2.3.1 und 3")} ${src("ldt3", "Kap. 6.2, 6.3, 6.6 und 6.7")} ${src("bdt3", "Kap. 2.1, 3.2, 3.6.1 und 8.1")}</p>
 <p>Ältere Fassungen ähneln hier GDT 2.1: LDT 2 und der klassische BDT-Aufbau tragen die Satzlänge ebenfalls in Feld 8100 als zweitem Feld. ${src("ldt2", "Kap. 2.3.3")} ${src("giessen")} Die Unterschiede innerhalb von LDT stehen im Vergleich <a href="${href("ldt-2-vs-ldt-3/")}">LDT 3 und LDT 2</a>.</p>
 <p>Berührungspunkte gibt es auch zur Abrechnung: Für Abrechnungsnotizen nennt BDT 3.0 die Abrechnungs-Satzarten des KVDT (0101 bis 0104, 0109, sad1 bis sad3); Abrechnungsnotizen im xDT-Format werden innerhalb des BDT-Exports übertragen. ${src("bdt3", "Kap. 3.6.1")}</p>
+<h2 id="kvdt">KVDT: die Abrechnung an die Kassenärztliche Vereinigung</h2>
+<p><strong>KVDT</strong> (Kassenärztliche Vereinigung-Datentransfer) ist das xDT-Format, mit dem eine Arztpraxis ihre Abrechnungsdaten an die zuständige Kassenärztliche Vereinigung überträgt. Die Datensatzbeschreibung stammt von der KBV und liegt in Version 6.08 vom 24.08.2026 vor; ihre Änderungen gelten ab der Abrechnung des 4. Quartals 2026. ${src("kvdt", "S. 1, Dokumentenhistorie und Kap. 1.1", STAND)}</p>
+<p>Eine KVDT-Datei ist ein Container: Sie beginnt mit dem Satz <code>con0</code>, enthält die Betriebsstättendaten <code>besa</code> und ein oder mehrere Datenpakete und endet mit <code>con9</code>. Jedes Feld besteht wie in LDT und BDT aus 3 Bytes Länge, 4 Bytes Feldkennung, dem Inhalt und CR LF. ${src("kvdt", "Kap. 1.2 und 1.4", STAND)}</p>
+<div class="table-wrap"><table>
+<caption>Datenpakete einer KVDT-Datei</caption>
+<thead><tr><th scope="col">Datenpaket</th><th scope="col">Inhalt</th><th scope="col">Satzarten</th></tr></thead>
+<tbody>
+<tr><td>ADT</td><td>Abrechnungsdaten</td><td>adt0, 0101 Ambulante Behandlung, 0102 Überweisung, 0103 Belegärztliche Behandlung, 0104 Notfalldienst/Vertretung/Notfall, adt9</td></tr>
+<tr><td>KADT</td><td>kurärztliche Abrechnungsdaten</td><td>kad0, 0109, kad9</td></tr>
+<tr><td>SADT</td><td>Abrechnungsdaten zum Schwangerschaftsabbruch (NRW)</td><td>sad0, sad1 bis sad3, sad9</td></tr>
+<tr><td>HDRG</td><td>Hybrid-DRG</td><td>hdrg0, hdrg1, hdrg9</td></tr>
+</tbody></table></div>
+<p>${src("kvdt", "Kap. 1.1 und 1.2", STAND)}</p>
+<p>Zeichensatz ist ISO 8859-15. Der Dateiname folgt dem Muster <code>Zhhnnnnnnnnn_TT.MM.JJJJ_hh.mm.CON</code>: <code>hh</code> kodiert hexadezimal die enthaltenen Datenpakete (ADT 01, KADT 04, SADT 20, Hybrid-DRG 30), danach folgen die 9-stellige Betriebsstättennummer und ein Zeitstempel. ${src("kvdt", "Kap. 1.8 und 1.9.2", STAND)} Die Abrechnung muss leitungsgebunden elektronisch übermittelt werden. ${src("kvdt", "Kap. 1.9.1", STAND)}</p>
+<p>Der LDT &amp; BDT Viewer erkennt KVDT-Dateien, zeigt Sätze und Zeilen mit den Satzarten aus der KBV-Beschreibung und prüft den Zeilenaufbau. Die Abrechnungsregeln prüft er nicht; das übernimmt das Prüfmodul in der Praxissoftware.</p>
+
 
 <h2>Welches Format hat meine Datei?</h2>
 <p>Entscheidend ist der Inhalt von Feld 8000, die Satzart. Öffnen Sie die Datei in einem Texteditor und suchen Sie die Zeilen, deren Zeichen 4 bis 7 „8000“ lauten. Die Ziffern dahinter sagen Ihnen, womit Sie es zu tun haben:</p>
@@ -99,11 +121,12 @@ ${heroHtml({
 <tr><td>8220, 8221, 8230, 8231</td><td>LDT, Kopf- oder Abschlusssatz (in LDT 2 und LDT 3)</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
 <tr><td>6100 oder 6200</td><td>BDT (Patientenstamm, Behandlungsdaten)</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
 <tr><td>0001 oder 0010</td><td>BDT (in BDT 3.0 Kommunikations-Header bzw. Praxisstammdaten)</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
+<tr><td>con0, besa, adt0, 0101 bis 0104</td><td>KVDT (Abrechnung an die Kassenärztliche Vereinigung)</td><td><a href="${href()}">LDT &amp; BDT Viewer</a> (Zeilen und Aufbau)</td></tr>
 <tr><td>0020 oder 0021</td><td>nicht eindeutig: Datenträger-Header in LDT 2, Datei-Header in BDT 3.0</td><td>weitere Satzarten ansehen</td></tr>
 </tbody>
 </table></div>
-<p>${src("gdt", "Kap. 3")} ${src("ldt2", "Kap. 2.3.1")} ${src("ldt3", "Kap. 6.2")} ${src("bdt3", "Kap. 3.6.1")} ${src("giessen")}</p>
-<p>Schneller geht es mit dem Viewer: Er erkennt LDT 2, LDT 3, BDT und GDT automatisch und verweist bei GDT auf den GDT Viewer. Schritt für Schritt zeigen das die Anleitungen <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a> und <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p>
+<p>${src("gdt", "Kap. 3")} ${src("ldt2", "Kap. 2.3.1")} ${src("ldt3", "Kap. 6.2")} ${src("bdt3", "Kap. 3.6.1")} ${src("giessen")} ${src("kvdt", "Kap. 1.2", STAND)}</p>
+<p>Schneller geht es mit dem Viewer: Er erkennt LDT 2, LDT 3, BDT, KVDT und GDT automatisch und verweist bei GDT auf den GDT Viewer. Schritt für Schritt zeigen das die Anleitungen <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a> und <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p>
 </div>
 ${faqHtml(faq)}
 ${ctaHtml("LDT- oder BDT-Datei öffnen", "Der Viewer erkennt Format, Version und Zeichensatz selbst und zeigt Sätze, Felder und Werte. Für GDT-Dateien nutzen Sie den GDT Viewer.")}
@@ -117,8 +140,9 @@ export default {
   ogTitle: "xDT-Schnittstelle: GDT, LDT und BDT einfach erklärt",
   ogDescription: "Die xDT-Familie im Überblick: wofür GDT, LDT und BDT da sind, was sie gemeinsam haben, wie sie sich unterscheiden und welches Tool zu Ihrer Datei passt.",
   ogType: "article",
-  jsonld: [articleLd({ headline: h1, description, path }), faqLd(faq), breadcrumbLd(crumbs)],
+  lastmod: "2026-10-26",
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
-  llms: "Überblick über die xDT-Familie: GDT (Geräte, QMS), LDT (Labor, KBV) und BDT (Praxisdaten-Export, QMS) mit Zweck, Richtung, Pflege und Version, gemeinsamem Zeilenaufbau, gemeinsamen Feldkennungen 3000/3101/3102/3103/8000, Unterschieden und Erkennung über die Satzart; GDT-Dateien öffnet der GDT Viewer.",
+  llms: "Überblick über die xDT-Familie: GDT (Geräte, QMS), LDT (Labor, KBV) und BDT (Praxisdaten-Export, QMS) mit Zweck, Richtung, Pflege und Version, gemeinsamem Zeilenaufbau, gemeinsamen Feldkennungen 3000/3101/3102/3103/8000, Unterschieden und Erkennung über die Satzart; dazu KVDT (Abrechnung Praxis → KV, KBV-Version 6.08): Container con0/besa/con9, Datenpakete ADT, KADT, SADT, HDRG, Dateiname Zhh…CON; GDT-Dateien öffnet der GDT Viewer.",
 };

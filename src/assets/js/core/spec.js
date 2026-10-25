@@ -31,6 +31,7 @@ export const FORMAT_LABEL = {
   ldt3: "LDT 3.x",
   bdt: "BDT",
   gdt: "GDT",
+  kvdt: "KVDT",
   unknown: "Unbekanntes Format",
 };
 
@@ -79,6 +80,15 @@ export const SATZARTEN = {
     text: "Kürzel für Textbausteine",
     "6100": "Patientenstammdaten",
     "6200": "Behandlungsdaten",
+  },
+  // KBV Datensatzbeschreibung KVDT 6.08, Kap. 1.2
+  kvdt: {
+    con0: "Container-Header", con9: "Container-Abschluss", besa: "Betriebsstättendaten", rvsa: "Ringversuchszertifikate",
+    adt0: "ADT-Datenpaket-Header", adt9: "ADT-Datenpaket-Abschluss",
+    "0101": "Ambulante Behandlung", "0102": "Überweisung", "0103": "Belegärztliche Behandlung", "0104": "Notfalldienst/Vertretung/Notfall",
+    kad0: "KADT-Datenpaket-Header", kad9: "KADT-Datenpaket-Abschluss", "0109": "Abrechnung von kurärztlicher Behandlung",
+    sad0: "SADT-Datenpaket-Header", sad9: "SADT-Datenpaket-Abschluss", sad1: "SADT-Ambulante Behandlung", sad2: "SADT-Überweisung", sad3: "SADT-Belegärztliche Behandlung",
+    hdrg0: "HDRG-Datenpaket-Header", hdrg9: "HDRG-Datenpaket-Abschluss", hdrg1: "HDRG-Datenpaket",
   },
 };
 

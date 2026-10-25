@@ -93,6 +93,10 @@ export function detectFormat(bytes, ln, fk) {
   const sa = [...satzarten];
   const anyOf = (list) => list.some((x) => satzarten.has(x));
 
+  // KVDT (Abrechnung an die KV): Container- und Datenpaket-Satzarten laut KBV-Datensatzbeschreibung KVDT, Kap. 1.2
+  if (anyOf(["con0", "con9", "besa", "adt0", "kad0", "sad0", "hdrg0"])) {
+    return { format: "kvdt", version: v9212 || "", satzarten: sa };
+  }
   if (sa.some((x) => /^63\d\d$/.test(x)) && (v9218 || !anyOf(["8220", "8230", "6100", "6200"]))) {
     return { format: "gdt", version: v9218 || "", satzarten: sa };
   }
@@ -527,6 +531,7 @@ function validate(m, progress) {
   }
 
   checkCharset(m);
+  if (m.format === "kvdt") addIssue(m, null, "hinweis", "KVDT_INFO", "Das ist eine KVDT-Abrechnungsdatei. Der Viewer zeigt ihre Zeilen, prüft aber nur den Zeilenaufbau, nicht die KVDT-Regeln.", "Verbindlich prüft das KBV-Prüfmodul in Ihrer Praxissoftware. Feldbedeutungen für KVDT sind im Viewer nicht hinterlegt.");
   if (m.format === "unknown") {
     if (firstRecord < 0 && n > 0) addIssue(m, null, "fehler", "NOT_XDT", "In der Datei wurde kein Satzbeginn (Feld 8000) gefunden. Es ist vermutlich keine LDT- oder BDT-Datei.", "Prüfen Sie, ob Sie die richtige Datei gewählt haben. LDT-Dateien enden meist auf .ldt, BDT-Dateien auf .bdt oder .dat.");
     else addIssue(m, null, "warnung", "FORMAT_UNKNOWN", "Das Format konnte nicht sicher als LDT oder BDT erkannt werden.", "Die Zeilen werden trotzdem angezeigt. Die Feldbedeutungen fehlen, weil unklar ist, welche Feldtabelle gilt.");
@@ -657,7 +662,7 @@ function checkRecords(m) {
   const { records } = m;
   const fmt = m.format;
   if (fmt === "unknown" || fmt === "gdt") return;
-  const satzNames = fmt === "ldt2" ? S.SATZARTEN.ldt2 : fmt === "ldt3" ? S.SATZARTEN.ldt3 : S.SATZARTEN.bdt;
+  const satzNames = fmt === "ldt2" ? S.SATZARTEN.ldt2 : fmt === "ldt3" ? S.SATZARTEN.ldt3 : fmt === "kvdt" ? S.SATZARTEN.kvdt : S.SATZARTEN.bdt;
   const req = fmt === "ldt2" ? S.REQUIRED.ldt2 : fmt === "ldt3" ? S.REQUIRED.ldt3 : m.bdtVariant === "3.0" ? S.REQUIRED.bdt3 : {};
   const classic = fmt === "ldt2" || (fmt === "bdt" && m.bdtVariant !== "3.0");
   for (const rec of records) {

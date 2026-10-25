@@ -62,6 +62,7 @@ const FORMAT_HELP = {
   ldt3: "LDT 3.x (Labordatenträger)",
   bdt: "BDT (Behandlungsdatenträger)",
   gdt: "GDT (Gerätedatentransfer)",
+  kvdt: "KVDT (Abrechnung an die Kassenärztliche Vereinigung)",
   unknown: "Unbekanntes Format",
 };
 const CHARSET_LABEL = {
@@ -185,6 +186,12 @@ function renderNotices(f) {
       h("a", { href: "https://freimoser.github.io/gdt-viewer/" }, "GDT Viewer"),
       ". Hier sehen Sie die Zeilen trotzdem in der Strukturansicht."));
   }
+  if (v.format === "kvdt") {
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, "Das ist eine KVDT-Abrechnungsdatei" + (v.version ? ` (Satzbeschreibung ${v.version})` : "") + "."),
+      " Mit KVDT schickt die Praxis ihre Abrechnungsdaten an die Kassenärztliche Vereinigung. Der Viewer zeigt die Zeilen in der Strukturansicht und prüft ihren Aufbau, nicht die Abrechnungsregeln. ",
+      h("a", { href: "/ldt-bdt-viewer/xdt-gdt-ldt-bdt/#kvdt" }, "Was ist KVDT?")));
+  }
   if (v.lichtdatei) {
     const l = v.lichtdatei;
     box.append(h("div", { class: "notice notice-info", role: "note" },
@@ -224,12 +231,12 @@ function renderSummary(f) {
   box.replaceChildren();
   const type = FORMAT_HELP[v.format] || v.format;
   const version = v.format === "bdt" ? (v.bdtVariant === "3.0" ? "BDT 3.0" : "klassischer Aufbau (Satzlänge in 8100)") : v.version || "Version nicht angegeben";
-  const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", unknown: "Unbekannt" }[v.format] || type;
+  const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", kvdt: "KVDT", unknown: "Unbekannt" }[v.format] || type;
   box.append(card("Dateityp", shortType, h("span", { class: "sub" }, `${version} · ${type.replace(/^[^(]*\(|\)$/g, "")}`)));
   if (s.direction) box.append(card("Richtung", s.direction));
   // Im klassischen BDT gibt es keinen beschriebenen Kopfsatz: leere Kacheln würden wie Fehler wirken
-  const skipEmpty = v.format === "bdt";
-  if (v.format !== "gdt" && v.format !== "unknown") {
+  const skipEmpty = v.format === "bdt" || v.format === "kvdt";
+  if (v.format !== "gdt" && v.format !== "unknown" && v.format !== "kvdt") {
     if (s.sender || !skipEmpty) box.append(card("Absender", s.sender || "nicht angegeben"));
     if (s.receiver || !skipEmpty) box.append(card("Empfänger", s.receiver || "nicht angegeben"));
   }

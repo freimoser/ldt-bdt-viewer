@@ -252,3 +252,12 @@ test("EULUMDAT-Lichtdatei wird erkannt und nicht als fehlerhafte Labordatei geme
   assert.equal(m.lichtdatei.leuchte, "Prolicht E30-0019");
   assert.equal(m.issueCounts.fehler, 0);
 });
+
+test("KVDT-Abrechnungsdatei wird erkannt, Satzarten benannt, keine Fehlalarme", () => {
+  const f = fromLines(["8000con0", "910326102026", "91063", "91321", "8000besa", "0201123456700", "8000adt0", "9212ADT1026.01", "80000101", "3000Mustermann", "8000adt9", "8000con9"]);
+  const m = open(f, "Z01123456700_26.10.2026_10.00.CON");
+  assert.equal(m.format, "kvdt");
+  assert.equal(m.version, "ADT1026.01");
+  assert.deepEqual(codes(m), { KVDT_INFO: 1 });
+  assert.equal(m.records.find((r) => r.type === "0101").label, "Ambulante Behandlung");
+});
