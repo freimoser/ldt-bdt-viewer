@@ -24,7 +24,7 @@ export function createHandler(post, dictUrl) {
         charset: m.charset.charset, source: m.charset.source, confidence: m.charset.confidence,
         candidates: m.charset.candidates, conflict: m.charset.conflict || null, declaredBy: m.charset.declaredBy || null,
       },
-      issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null,
+      issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null, lichtdatei: m.lichtdatei || null,
       records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length, auftraege: (m.auftraege || []).length,
       sources: SOURCES,
     };

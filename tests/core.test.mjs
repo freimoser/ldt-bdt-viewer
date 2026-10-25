@@ -242,3 +242,13 @@ test("BDT 3.0: Feldlänge 000 bedeutet „nicht angegeben“ und ist kein Fehler
   assert.equal(m.bdtVariant, "3.0");
   assert.ok(!m.issues.some((i) => i.code === "LEN" && i.line === 2), JSON.stringify(m.issues.filter((i) => i.code === "LEN")));
 });
+
+test("EULUMDAT-Lichtdatei wird erkannt und nicht als fehlerhafte Labordatei gemeldet", async () => {
+  const { openFile } = await import("../src/assets/js/core/xdt.js");
+  const txt = ["Ingemann", "2", "0", "20", "18", "37", "5", "VFR-190926-0236-MS", "Prolicht E30-0019", "", "datei.ldt", "26/09/2019", "1245", "240"].join("\r\n");
+  const m = openFile(new TextEncoder().encode(txt), "licht.ldt", {});
+  assert.equal(m.format, "unknown");
+  assert.equal(m.lichtdatei.hersteller, "Ingemann");
+  assert.equal(m.lichtdatei.leuchte, "Prolicht E30-0019");
+  assert.equal(m.issueCounts.fehler, 0);
+});

@@ -185,7 +185,14 @@ function renderNotices(f) {
       h("a", { href: "https://freimoser.github.io/gdt-viewer/" }, "GDT Viewer"),
       ". Hier sehen Sie die Zeilen trotzdem in der Strukturansicht."));
   }
-  if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
+  if (v.lichtdatei) {
+    const l = v.lichtdatei;
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, "Das ist eine EULUMDAT-Lichtdatei, keine Labordatei."),
+      ` Sie beschreibt die Lichtverteilung einer Leuchte${l.leuchte ? ` („${l.leuchte}“` + (l.hersteller ? `, ${l.hersteller})` : ")") : ""}. `,
+      "Die Endung .ldt teilen sich zwei Formate. Lichtdateien öffnen Lichtplanungsprogramme wie DIALux. ",
+      h("a", { href: "/ldt-bdt-viewer/ldt-datei-oeffnen/#lichtdatei" }, "So unterscheiden Sie die beiden")));
+  } else if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
     box.append(h("div", { class: "notice notice-warn", role: "note" }, "Das Format wurde nicht erkannt."));
   }
   // Fehler in der Datei: oben warnen, bevor jemand Werte übernimmt (Ursache, falls erkannt)
@@ -198,7 +205,7 @@ function renderNotices(f) {
   }
   const cs = v.charset;
   const charsetExplained = v.diagnosis && v.diagnosis.root.includes("CHARSET_WRONG");
-  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained) {
+  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained && !v.lichtdatei) {
     box.append(h("div", { class: "notice notice-warn", role: "note" },
       h("strong", null, "Zeichensatz unsicher. "),
       cs.conflict ? `Die Datei gibt ${CHARSET_LABEL[cs.conflict.declared]} an, die Umlaute passen aber eher zu ${CHARSET_LABEL[cs.conflict.detected]}. ` : "Es gibt nur wenige Umlaute, an denen sich der Zeichensatz erkennen lässt. ",

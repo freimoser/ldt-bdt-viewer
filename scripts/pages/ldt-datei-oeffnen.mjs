@@ -40,6 +40,10 @@ const steps = [
 
 const faq = [
   {
+    q: "Meine LDT-Datei kommt von einem Leuchtenhersteller. Kann ich sie hier öffnen?",
+    a: `Nein. Das ist eine EULUMDAT-Lichtdatei mit derselben Endung .ldt. Sie beschreibt, wie eine Leuchte Licht abstrahlt, und hat mit Laborbefunden nichts zu tun. ${src("eulumdatFormat")} Solche Dateien öffnen Lichtplanungsprogramme wie DIALux. ${src("eulumdat")} Der Viewer erkennt Lichtdateien und weist darauf hin.`,
+  },
+  {
     q: "Kann ich eine LDT-Datei auch mit dem Editor öffnen?",
     a: `Ja, eine LDT-Datei ist eine Textdatei. Sie sehen dann aber nur Rohzeilen wie 0178002Obj_0032 ohne Erklärung. Speichern Sie die Datei im Editor nicht: Schon kleine Änderungen machen Längenangaben falsch, und in LDT 3 passt die Prüfsumme in Feld 9300 nicht mehr, weil sie über alle Zeichen davor berechnet wird. ${src("ldt3", "Regel E157")}`,
   },
@@ -85,6 +89,20 @@ ${heroHtml({
 })}
 <div class="prose">
 <p>LDT steht für Labordatenträger: Mit diesem Format tauschen Labore und Arztpraxen Aufträge und Befundberichte aus. ${src("ldt2", "Kap. 1.1")} Was dahintersteckt, erklärt <a href="${href("was-ist-ldt/")}">Was ist LDT? Der Labordatenträger</a>. Hier geht es um die Praxis: Datei öffnen, Werte lesen, Probleme finden.</p>
+
+<h2 id="lichtdatei">Labordatei oder Lichtdatei? Zwei Formate mit der Endung .ldt</h2>
+<p>Nicht jede Datei mit der Endung .ldt ist ein Laborbefund. Leuchtenhersteller liefern die Lichtverteilung ihrer Leuchten im Format EULUMDAT aus, ebenfalls als .ldt. ${src("eulumdatFormat")} So unterscheiden Sie die beiden in einem Texteditor:</p>
+<div class="table-wrap"><table>
+<caption>LDT-Labordatei und EULUMDAT-Lichtdatei im Vergleich</caption>
+<thead><tr><th scope="col">Merkmal</th><th scope="col">Labordatei (LDT der KBV)</th><th scope="col">Lichtdatei (EULUMDAT)</th></tr></thead>
+<tbody>
+<tr><th scope="row">Zweck</th><td>Laboraufträge und Befunde zwischen Praxis und Labor ${src("ldt3", "Kap. 4")}</td><td>Lichtverteilung einer Leuchte für die Lichtplanung</td></tr>
+<tr><th scope="row">Jede Zeile</th><td>dreistellige Länge, vierstellige Feldkennung, Inhalt, etwa <code>01380008220</code> ${src("ldt3", "Kap. 6.4.1")}</td><td>ein einzelner Wert ohne Feldkennung</td></tr>
+<tr><th scope="row">Erste Zeilen</th><td>Satzart, etwa 8220 für den Beginn eines Datenpakets ${src("ldt3", "Regel E001")}</td><td>Hersteller, dann einzelne Ziffern für Leuchtentyp und Symmetrie und die Anzahl der Messebenen</td></tr>
+<tr><th scope="row">Öffnen mit</th><td>Praxissoftware, Laborsystem oder diesem Viewer</td><td>Lichtplanungsprogrammen wie DIALux ${src("eulumdat")}</td></tr>
+</tbody></table></div>
+<p>Öffnen Sie eine Lichtdatei im Viewer, erkennt er sie und sagt Ihnen, dass es keine Labordatei ist.</p>
+
 
 <h2 id="anleitung">Anleitung: LDT-Datei öffnen in 7 Schritten</h2>
 ${stepsHtml(steps)}

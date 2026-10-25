@@ -113,6 +113,20 @@ function dictKey(format) {
   return format === "ldt2" ? "ldt2" : format === "ldt3" ? "ldt3" : format === "bdt" ? "bdt" : null;
 }
 
+/**
+ * EULUMDAT-Lichtdatei (gleiche Endung .ldt, anderes Format): Zeile 2 Ityp 0–3, Zeile 3 Isym 0–4,
+ * Zeile 4 Mc und Zeile 6 Ng als Anzahl, Zeile 5 Dc als Zahl. Aufbau nach Paul Bourke, „ldt EULUMDAT File Format“.
+ * Gibt Hersteller (Zeile 1) und Leuchtenname (Zeile 9) zurück oder null.
+ */
+export function detectEulumdat(bytes) {
+  let s = "";
+  for (let i = 0, n = Math.min(bytes.length, 4096); i < n; i++) s += String.fromCharCode(bytes[i]);
+  const z = s.split(/\r?\n/).map((x) => x.trim());
+  if (z.length < 12) return null;
+  const ok = /^[0-3]$/.test(z[1]) && /^[0-4]$/.test(z[2]) && /^\d{1,3}$/.test(z[3]) && /^\d+([.,]\d+)?$/.test(z[4]) && /^\d{1,3}$/.test(z[5]) && /^\d+([.,]\d+)?$/.test(z[6]);
+  return ok ? { hersteller: z[0], leuchte: z[8] || "" } : null;
+}
+
 /* ------------------------------------------------------------- Öffnen */
 
 /**
@@ -153,6 +167,18 @@ export function openFile(bytes, name, dict, opts = {}) {
   const det = detectFormat(bytes, ln, fk);
   m.format = det.format; m.version = det.version; m.bdtVariant = det.variant || null;
   m.key = dictKey(m.format);
+  if (m.format === "unknown") {
+    const licht = detectEulumdat(bytes);
+    if (licht) {
+      // Keine xDT-Datei: Zeilenprüfung wäre nur Rauschen
+      m.lichtdatei = licht;
+      m.records = []; m.objects = [];
+      m.charset = { charset: "iso-8859-15", source: "keine xDT-Datei", confidence: "niedrig", candidates: ["iso-8859-15"] };
+      addIssue(m, null, "hinweis", "EULUMDAT", "Das ist eine EULUMDAT-Lichtdatei, keine Labordatei.", "Die Endung .ldt verwenden auch Leuchtenhersteller für Lichtverteilungen. Solche Dateien öffnen Lichtplanungsprogramme wie DIALux, nicht dieser Viewer.");
+      m.summary = buildSummary(m);
+      return m;
+    }
+  }
 
   // Zeichensatz
   const stats = byteStats(bytes);

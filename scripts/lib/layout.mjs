@@ -55,6 +55,7 @@ export const Q = {
   tool: { t: "Quellenliste des LDT & BDT Viewers", u: SITE.base + "quellen/" },
   pruefpaket: { t: "KBV, Prüfpaket Labordatenkommunikation Version 1.23", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf" },
   eulumdat: { t: "DIAL GmbH, LDT Editor (EULUMDAT-Dateien)", u: "https://www.dialux.com/de-DE/ldt-editor" },
+  eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
