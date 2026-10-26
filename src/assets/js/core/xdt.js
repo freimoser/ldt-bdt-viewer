@@ -93,6 +93,10 @@ export function detectFormat(bytes, ln, fk) {
   const sa = [...satzarten];
   const anyOf = (list) => list.some((x) => satzarten.has(x));
 
+  // KVDT (Abrechnung an die KV): Container- und Datenpaket-Satzarten laut KBV-Datensatzbeschreibung KVDT, Kap. 1.2
+  if (anyOf(["con0", "con9", "besa", "adt0", "kad0", "sad0", "hdrg0"])) {
+    return { format: "kvdt", version: v9212 || "", satzarten: sa };
+  }
   if (sa.some((x) => /^63\d\d$/.test(x)) && (v9218 || !anyOf(["8220", "8230", "6100", "6200"]))) {
     return { format: "gdt", version: v9218 || "", satzarten: sa };
   }
@@ -111,6 +115,20 @@ export function detectFormat(bytes, ln, fk) {
 
 function dictKey(format) {
   return format === "ldt2" ? "ldt2" : format === "ldt3" ? "ldt3" : format === "bdt" ? "bdt" : null;
+}
+
+/**
+ * EULUMDAT-Lichtdatei (gleiche Endung .ldt, anderes Format): Zeile 2 Ityp 0–3, Zeile 3 Isym 0–4,
+ * Zeile 4 Mc und Zeile 6 Ng als Anzahl, Zeile 5 Dc als Zahl. Aufbau nach Paul Bourke, „ldt EULUMDAT File Format“.
+ * Gibt Hersteller (Zeile 1) und Leuchtenname (Zeile 9) zurück oder null.
+ */
+export function detectEulumdat(bytes) {
+  let s = "";
+  for (let i = 0, n = Math.min(bytes.length, 4096); i < n; i++) s += String.fromCharCode(bytes[i]);
+  const z = s.split(/\r?\n/).map((x) => x.trim());
+  if (z.length < 12) return null;
+  const ok = /^[0-3]$/.test(z[1]) && /^[0-4]$/.test(z[2]) && /^\d{1,3}$/.test(z[3]) && /^\d+([.,]\d+)?$/.test(z[4]) && /^\d{1,3}$/.test(z[5]) && /^\d+([.,]\d+)?$/.test(z[6]);
+  return ok ? { hersteller: z[0], leuchte: z[8] || "" } : null;
 }
 
 /* ------------------------------------------------------------- Öffnen */
@@ -132,7 +150,7 @@ export function openFile(bytes, name, dict, opts = {}) {
     m.lines = scanLines(bytes);
     m.records = []; m.objects = [];
     m.charset = { charset: "iso-8859-15", source: "leere Datei", confidence: "hoch", candidates: ["iso-8859-15"] };
-    addIssue(m, null, "fehler", "EMPTY", "Die Datei ist leer.", "Es gibt nichts anzuzeigen. Oft wurde der Export abgebrochen oder die Datei beim Kopieren beschädigt. Lassen Sie die Datei erneut erzeugen.");
+    addIssue(m, null, "fehler", "EMPTY", "Die Datei ist leer.", "Es gibt nichts anzuzeigen. Mögliche Ursachen: Der Export wurde abgebrochen oder die Datei beim Kopieren beschädigt. Lassen Sie die Datei erneut erzeugen.");
     m.summary = buildSummary(m);
     return m;
   }
@@ -153,6 +171,18 @@ export function openFile(bytes, name, dict, opts = {}) {
   const det = detectFormat(bytes, ln, fk);
   m.format = det.format; m.version = det.version; m.bdtVariant = det.variant || null;
   m.key = dictKey(m.format);
+  if (m.format === "unknown") {
+    const licht = detectEulumdat(bytes);
+    if (licht) {
+      // Keine xDT-Datei: Zeilenprüfung wäre nur Rauschen
+      m.lichtdatei = licht;
+      m.records = []; m.objects = [];
+      m.charset = { charset: "iso-8859-15", source: "keine xDT-Datei", confidence: "niedrig", candidates: ["iso-8859-15"] };
+      addIssue(m, null, "hinweis", "EULUMDAT", "Das ist eine EULUMDAT-Lichtdatei, keine Labordatei.", "Die Endung .ldt verwenden auch Leuchtenhersteller für Lichtverteilungen. Solche Dateien öffnen Lichtplanungsprogramme wie DIALux, nicht dieser Viewer.");
+      m.summary = buildSummary(m);
+      return m;
+    }
+  }
 
   // Zeichensatz
   const stats = byteStats(bytes);
@@ -191,9 +221,50 @@ export function openFile(bytes, name, dict, opts = {}) {
   progress("Befunde werden zusammengestellt", 0.85);
   m.befunde = extractBefunde(m);
   m.auftraege = extractAuftraege(m);
+  m.anhaenge = listAnhaenge(m);
   m.summary = buildSummary(m);
   progress("Fertig", 1);
   return m;
+}
+
+/* ------------------------------------------------------------ Anhänge */
+
+const MIME = { PDF: "application/pdf", JPG: "image/jpeg", JPEG: "image/jpeg", PNG: "image/png", TIF: "image/tiff", TIFF: "image/tiff", TXT: "text/plain", XML: "application/xml", HTML: "text/html" };
+
+/**
+ * Eingebettete Anhänge in LDT 3: Obj_0010 mit Dateiformat 6303, Beschreibung 6327, Dokumententyp 9970;
+ * der Inhalt steht Base64-kodiert in den Zeilen 6329 des folgenden Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
+ */
+export function listAnhaenge(m) {
+  if (m.format !== "ldt3" || !m.objects) return [];
+  const out = [];
+  for (const o of m.objects) {
+    if (o.id !== "Obj_0010" || o.end < 0) continue;
+    const a = { object: o.index, start: o.start, end: o.end, format: "", beschreibung: "", typ: "", zeilen: 0, base64Laenge: 0 };
+    for (let i = o.start; i <= o.end; i++) {
+      const f = m.fk[i];
+      if (f === 6303 && !a.format) a.format = content(m, i).trim();
+      else if (f === 6327 && !a.beschreibung) a.beschreibung = content(m, i).trim();
+      else if (f === 9970 && !a.typ) a.typ = content(m, i).trim();
+      else if (f === 6329) { a.zeilen++; a.base64Laenge += m.lines.end[i] - m.lines.start[i] - 7; }
+    }
+    if (a.zeilen) {
+      a.groesse = Math.floor(a.base64Laenge * 3 / 4);
+      a.mime = MIME[a.format.toUpperCase().replace(/^\./, "")] || "application/octet-stream";
+      out.push(a);
+    }
+  }
+  return out;
+}
+
+/** Dekodiert einen Anhang aus listAnhaenge zu Bytes. */
+export function anhangBytes(m, a) {
+  let b64 = "";
+  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) b64 += content(m, i).trim();
+  const bin = atob(b64.replace(/[^A-Za-z0-9+/=]/g, ""));
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
 }
 
 function findFirst(fk, value, limit) {
@@ -294,7 +365,7 @@ function buildStructure(m, progress) {
           const id = asciiContent(m.bytes, ln, i, 12);
           const top = stack.length ? objects[stack[stack.length - 1]] : null;
           if (!top) {
-            addIssue(m, i, "fehler", "OBJ_END_ORPHAN", `Zeile ${i + 1}: Objektende ${id} ohne passenden Objektanfang (8002).`, "Die Verschachtelung der Objekte ist kaputt. Das Praxisprogramm kann die Werte danach oft nicht mehr zuordnen. Die Datei muss vom Labor neu erzeugt werden.");
+            addIssue(m, i, "fehler", "OBJ_END_ORPHAN", `Zeile ${i + 1}: Objektende ${id} ohne passenden Objektanfang (8002).`, "Die Verschachtelung der Objekte ist kaputt. Das Praxisprogramm kann die Werte danach möglicherweise nicht mehr zuordnen. Die Datei muss vom Labor neu erzeugt werden.");
           } else if (top.id !== id) {
             addIssue(m, i, "fehler", "OBJ_END_MISMATCH", `Zeile ${i + 1}: Objektende ${id} passt nicht zum offenen Objekt ${top.id} (begonnen in Zeile ${top.start + 1}).`, "Objekte müssen in umgekehrter Reihenfolge geschlossen werden, in der sie geöffnet wurden (KBV LDT 3.2.20, Kap. 6.3). Sonst landen Angaben im falschen Zusammenhang.");
             const pos = stack.lastIndexOf(stack.find((x) => objects[x].id === id));
@@ -345,13 +416,13 @@ function addIssue(m, line, sev, code, text, why) {
 }
 
 const WHY = {
-  LEN: "Die ersten drei Ziffern jeder Zeile geben an, wie lang die Zeile ist (Inhalt + 9 Bytes). Stimmt das nicht, lehnen viele Praxisprogramme die Datei ab oder lesen ab hier falsch weiter. Häufige Ursachen: falscher Zeichensatz (ein Umlaut belegt dann zwei Bytes) oder die Datei wurde nachträglich von Hand bearbeitet.",
-  SYNTAX: "Jede Zeile muss mit 3 Ziffern Länge und 4 Ziffern Feldkennung beginnen. Diese Zeile kann das Praxisprogramm nicht zuordnen. Oft ist das ein Zeilenumbruch mitten im Inhalt oder eine fremde Datei.",
-  EMPTY_FIELD: "Felder ohne Inhalt oder nur mit Leerzeichen sind laut Spezifikation nicht zulässig. Meist stört das nicht, einige Prüfmodule melden es aber als Fehler.",
-  UNKNOWN: "Diese Feldkennung steht nicht in der Feldtabelle der erkannten Version. Das empfangende Programm ignoriert das Feld meist oder meldet einen Fehler. Häufige Ursachen: herstellereigene Erweiterung, andere Version oder ein Tippfehler in der Schnittstelle.",
+  LEN: "Die ersten drei Ziffern jeder Zeile geben an, wie lang die Zeile ist (Inhalt + 9 Bytes). Stimmt das nicht, kann ein Praxisprogramm die Datei ablehnen oder ab hier falsch weiterlesen. Mögliche Ursachen: falscher Zeichensatz (ein Umlaut belegt dann zwei Bytes) oder die Datei wurde nachträglich von Hand bearbeitet.",
+  SYNTAX: "Jede Zeile muss mit 3 Ziffern Länge und 4 Ziffern Feldkennung beginnen. Diese Zeile kann das Praxisprogramm nicht zuordnen. Mögliche Ursachen: ein Zeilenumbruch mitten im Inhalt oder eine fremde Datei.",
+  EMPTY_FIELD: "Felder ohne Inhalt oder nur mit Leerzeichen sind laut Spezifikation nicht zulässig. Je nach Programm stört das nicht oder wird als Fehler gemeldet.",
+  UNKNOWN: "Diese Feldkennung steht nicht in der Feldtabelle der erkannten Version. Das empfangende Programm kann das Feld ignorieren oder einen Fehler melden. Mögliche Ursachen: herstellereigene Erweiterung, andere Version oder ein Tippfehler in der Schnittstelle.",
   REQUIRED: "Ein Pflichtfeld fehlt. Je nach Praxisprogramm wird der ganze Befund abgelehnt oder ohne diese Angabe übernommen. Das Labor bzw. der Hersteller der sendenden Software muss den Export korrigieren.",
-  RECLEN: "Feld 8100 enthält die Summe aller Zeilenlängen des Satzes. Stimmt sie nicht, kann das Praxisprogramm den Satz ablehnen. Oft wurde die Datei nach dem Erzeugen verändert.",
-  FORMAT: "Der Inhalt hat nicht das Format, das die Feldtabelle vorgibt (z. B. Datum, Zahl, Länge). Viele Programme übernehmen den Wert trotzdem, manche verwerfen ihn.",
+  RECLEN: "Feld 8100 enthält die Summe aller Zeilenlängen des Satzes. Stimmt sie nicht, kann das Praxisprogramm den Satz ablehnen. Möglicherweise wurde die Datei nach dem Erzeugen verändert.",
+  FORMAT: "Der Inhalt hat nicht das Format, das die Feldtabelle vorgibt (z. B. Datum, Zahl, Länge). Je nach Programm wird der Wert trotzdem übernommen oder verworfen.",
   VALUE: "Der Wert gehört nicht zu den erlaubten Inhalten dieses Feldes. Das Praxisprogramm kann ihn dann nicht deuten, z. B. eine Markierung „auffällig“.",
 };
 
@@ -425,7 +496,7 @@ function validate(m, progress) {
   for (let i = 0; i < n; i++) {
     const L = ln.end[i] - ln.start[i];
     if (L === 0) {
-      if (i !== n - 1) addIssue(m, i, "warnung", "BLANK", `Zeile ${i + 1}: Leere Zeile.`, "Leere Zeilen sind im xDT-Format nicht vorgesehen. Viele Programme überspringen sie, manche brechen den Import ab.");
+      if (i !== n - 1) addIssue(m, i, "warnung", "BLANK", `Zeile ${i + 1}: Leere Zeile.`, "Leere Zeilen sind im xDT-Format nicht vorgesehen. Je nach Programm werden sie übersprungen, oder der Import bricht ab.");
       continue;
     }
     if (fk[i] < 0 || len[i] < 0) {
@@ -433,7 +504,7 @@ function validate(m, progress) {
       continue;
     }
     if (firstRecord < 0 && fk[i] !== 8000 && m.format !== "unknown") {
-      addIssue(m, i, "fehler", "BEFORE_RECORD", `Zeile ${i + 1}: Diese Zeile steht vor dem ersten Satzbeginn (Feld 8000).`, "Jeder Satz beginnt mit Feld 8000 (Satzart). Zeilen davor gehören zu keinem Satz und werden meist ignoriert. Möglicherweise fehlt der Anfang der Datei.");
+      addIssue(m, i, "fehler", "BEFORE_RECORD", `Zeile ${i + 1}: Diese Zeile steht vor dem ersten Satzbeginn (Feld 8000).`, "Jeder Satz beginnt mit Feld 8000 (Satzart). Zeilen davor gehören zu keinem Satz und werden möglicherweise ignoriert. Möglicherweise fehlt der Anfang der Datei.");
     }
     if (fk[i] === 8000 && firstRecord < 0) firstRecord = i;
     const cb = contentBytes(m, i);
@@ -477,9 +548,9 @@ function validate(m, progress) {
     if ((t === "num" || t === "n") && !/^\d+$/.test(c)) {
       addIssue(m, i, "warnung", "TYPE_NUM", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) muss nur aus Ziffern bestehen, enthält aber „${short(c)}“.`, WHY.FORMAT);
     } else if ((t === "date" || t === "d") && !validDate(c, m.format === "bdt" ? "TTMMJJJJ" : "JJJJMMTT")) {
-      addIssue(m, i, "warnung", "TYPE_DATE", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) ist kein gültiges Datum im Format ${dateOrder}: „${short(c)}“.`, "Ein ungültiges Datum wird oft als leer oder als falscher Tag übernommen. Prüfen Sie, ob Tag und Monat vertauscht sind.");
+      addIssue(m, i, "warnung", "TYPE_DATE", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) ist kein gültiges Datum im Format ${dateOrder}: „${short(c)}“.`, "Ein ungültiges Datum kann als leer oder als falscher Tag übernommen werden. Prüfen Sie, ob Tag und Monat vertauscht sind.");
     } else if (t === "d0" && !(/^\d{8}$/.test(c))) {
-      addIssue(m, i, "warnung", "TYPE_DATE", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) ist kein Datum im Format TTMMJJJJ: „${short(c)}“.`, "Ein ungültiges Datum wird oft als leer oder als falscher Tag übernommen.");
+      addIssue(m, i, "warnung", "TYPE_DATE", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) ist kein Datum im Format TTMMJJJJ: „${short(c)}“.`, "Ein ungültiges Datum kann als leer oder als falscher Tag übernommen werden.");
     } else if (t === "f" && !/^[+-]?\d+(\.\d+)?$/.test(c)) {
       addIssue(m, i, "hinweis", "TYPE_FLOAT", `Zeile ${i + 1}: Feld ${fkString(fk[i])} (${def.n}) soll eine Zahl mit Punkt als Dezimaltrennzeichen sein, enthält aber „${short(c)}“.`, "Laut Feldtabelle ist hier eine Zahl vorgesehen (z. B. 15.1). Texte wie „<5“ oder ein Komma als Dezimaltrennzeichen können beim Einlesen falsch übernommen werden.");
     }
@@ -491,8 +562,8 @@ function validate(m, progress) {
 
   // Zeilenenden
   const st = ln.stats;
-  if (st.crOnly) addIssue(m, null, "fehler", "EOL_CR", "Die Zeilen enden nur mit CR (alter Mac-Stil) statt mit CR LF.", "Laut Spezifikation endet jedes Feld mit CR LF. Viele Programme erkennen dann gar keine Zeilen.");
-  else if (st.lfOnly > 0) addIssue(m, null, "warnung", "EOL_LF", `${st.lfOnly.toLocaleString("de-DE")} Zeilen enden nur mit LF statt mit CR LF.`, "Laut Spezifikation endet jedes Feld mit CR LF (Wagenrücklauf und Zeilenvorschub). Viele Windows-Praxisprogramme lesen solche Dateien trotzdem, manche nicht. Oft passiert das, wenn eine Datei über ein Linux-System, per Git oder mit einem Texteditor gespeichert wurde.");
+  if (st.crOnly) addIssue(m, null, "fehler", "EOL_CR", "Die Zeilen enden nur mit CR (alter Mac-Stil) statt mit CR LF.", "Laut Spezifikation endet jedes Feld mit CR LF. Ein Programm, das CR LF erwartet, erkennt dann keine Zeilen.");
+  else if (st.lfOnly > 0) addIssue(m, null, "warnung", "EOL_LF", `${st.lfOnly.toLocaleString("de-DE")} Zeilen enden nur mit LF statt mit CR LF.`, "Laut Spezifikation endet jedes Feld mit CR LF (Wagenrücklauf und Zeilenvorschub). Je nach Programm werden solche Dateien trotzdem gelesen oder abgelehnt. Das kann passieren, wenn eine Datei über ein Linux-System, per Git oder mit einem Texteditor gespeichert wurde.");
   if (lenErrors > 5 && lenDiffMinus1 / lenErrors > 0.9) {
     addIssue(m, null, "hinweis", "LEN_PATTERN", "Fast alle falschen Längenangaben sind genau um 1 zu klein.", "Vermutlich hat das erzeugende Programm nur 1 Byte für das Zeilenende gezählt (LF statt CR LF). Richtig ist: Länge = Inhalt + 9.");
   }
@@ -501,8 +572,9 @@ function validate(m, progress) {
   }
 
   checkCharset(m);
+  if (m.format === "kvdt") addIssue(m, null, "hinweis", "KVDT_INFO", "Das ist eine KVDT-Abrechnungsdatei. Der Viewer zeigt ihre Zeilen, prüft aber nur den Zeilenaufbau, nicht die KVDT-Regeln.", "Verbindlich prüft das KBV-Prüfmodul in Ihrer Praxissoftware. Feldbedeutungen für KVDT sind im Viewer nicht hinterlegt.");
   if (m.format === "unknown") {
-    if (firstRecord < 0 && n > 0) addIssue(m, null, "fehler", "NOT_XDT", "In der Datei wurde kein Satzbeginn (Feld 8000) gefunden. Es ist vermutlich keine LDT- oder BDT-Datei.", "Prüfen Sie, ob Sie die richtige Datei gewählt haben. LDT-Dateien enden meist auf .ldt, BDT-Dateien auf .bdt oder .dat.");
+    if (firstRecord < 0 && n > 0) addIssue(m, null, "fehler", "NOT_XDT", "In der Datei wurde kein Satzbeginn (Feld 8000) gefunden. Es ist vermutlich keine LDT- oder BDT-Datei.", "Prüfen Sie, ob Sie die richtige Datei gewählt haben. LDT-Dateien enden auf .ldt, BDT-Dateien laut BDT 3.0 auf .bdt.");
     else addIssue(m, null, "warnung", "FORMAT_UNKNOWN", "Das Format konnte nicht sicher als LDT oder BDT erkannt werden.", "Die Zeilen werden trotzdem angezeigt. Die Feldbedeutungen fehlen, weil unklar ist, welche Feldtabelle gilt.");
   }
   checkRecords(m);
@@ -622,7 +694,7 @@ function checkObjectFields(m) {
       const d = fieldDef(m, Number(f));
       const objName = def.n.replace(/^Obj_/, "");
       const attr = o.attr ? o.attr.replace(/_/g, " ") : "";
-      addIssue(m, o.start, "fehler", "OBJ_REQUIRED", `Zeile ${o.start + 1}: Im Objekt ${o.id} (${objName}${attr && attr !== objName ? ", als " + attr : ""}) fehlt das Pflichtfeld ${f}${d ? " (" + d.n + ")" : ""}.`, `Laut Objektkatalog (KBV LDT 3.2.20, Kap. 11, S. ${def.p}) muss dieses Feld in jedem ${o.id} stehen. Fehlt es, lehnen zertifizierte Praxisprogramme den Befund oft ab oder übernehmen ihn unvollständig. Der Hersteller der sendenden Software muss den Export korrigieren.`);
+      addIssue(m, o.start, "fehler", "OBJ_REQUIRED", `Zeile ${o.start + 1}: Im Objekt ${o.id} (${objName}${attr && attr !== objName ? ", als " + attr : ""}) fehlt das Pflichtfeld ${f}${d ? " (" + d.n + ")" : ""}.`, `Laut Objektkatalog (KBV LDT 3.2.20, Kap. 11, S. ${def.p}) muss dieses Feld in jedem ${o.id} stehen. Fehlt es, kann ein Praxisprogramm den Befund ablehnen oder unvollständig übernehmen. Der Hersteller der sendenden Software muss den Export korrigieren.`);
     }
   }
 }
@@ -631,14 +703,14 @@ function checkRecords(m) {
   const { records } = m;
   const fmt = m.format;
   if (fmt === "unknown" || fmt === "gdt") return;
-  const satzNames = fmt === "ldt2" ? S.SATZARTEN.ldt2 : fmt === "ldt3" ? S.SATZARTEN.ldt3 : S.SATZARTEN.bdt;
+  const satzNames = fmt === "ldt2" ? S.SATZARTEN.ldt2 : fmt === "ldt3" ? S.SATZARTEN.ldt3 : fmt === "kvdt" ? S.SATZARTEN.kvdt : S.SATZARTEN.bdt;
   const req = fmt === "ldt2" ? S.REQUIRED.ldt2 : fmt === "ldt3" ? S.REQUIRED.ldt3 : m.bdtVariant === "3.0" ? S.REQUIRED.bdt3 : {};
   const classic = fmt === "ldt2" || (fmt === "bdt" && m.bdtVariant !== "3.0");
   for (const rec of records) {
     rec.label = satzNames[rec.type] || (fmt === "bdt" && /^\d{4}$/.test(rec.type) ? "Satzart (nicht in der BDT-3.0-Satzartenliste)" : "unbekannte Satzart");
     const where = `Satz ab Zeile ${rec.start + 1} (Satzart ${rec.type}${satzNames[rec.type] ? " " + satzNames[rec.type] : ""})`;
     if (!satzNames[rec.type] && !(fmt === "bdt")) {
-      addIssue(m, rec.start, "warnung", "SATZART_UNKNOWN", `${where}: Diese Satzart ist im ${S.FORMAT_LABEL[fmt]} nicht definiert.`, "Das Praxisprogramm weiß nicht, wie es diesen Satz verarbeiten soll, und überspringt ihn meist.");
+      addIssue(m, rec.start, "warnung", "SATZART_UNKNOWN", `${where}: Diese Satzart ist im ${S.FORMAT_LABEL[fmt]} nicht definiert.`, "Das Praxisprogramm weiß nicht, wie es diesen Satz verarbeiten soll, und kann ihn überspringen.");
     }
     // Pflichtfelder
     const need = req[rec.type];
@@ -671,7 +743,7 @@ function checkRecords(m) {
     if (fmt === "ldt3") {
       const last = rec.end;
       if (m.fk[last] !== 8001) {
-        addIssue(m, rec.start, "fehler", "RECEND_MISSING", `${where}: Das Satzende (Feld 8001) fehlt.`, "In LDT 3 endet jeder Satz mit Feld 8001, das die Satzart wiederholt (KBV LDT 3.2.20, Kap. 6.3). Fehlt es, ist die Datei oft abgeschnitten.");
+        addIssue(m, rec.start, "fehler", "RECEND_MISSING", `${where}: Das Satzende (Feld 8001) fehlt.`, "In LDT 3 endet jeder Satz mit Feld 8001, das die Satzart wiederholt (KBV LDT 3.2.20, Kap. 6.3). Fehlt es, ist die Datei möglicherweise abgeschnitten.");
       } else if (content(m, last) !== rec.type) {
         addIssue(m, last, "fehler", "RECEND_MISMATCH", `Zeile ${last + 1}: Satzende 8001 enthält „${content(m, last)}“, erwartet wird „${rec.type}“.`, "Satzbeginn (8000) und Satzende (8001) müssen dieselbe Satzart nennen. Sonst ist die Satzstruktur durcheinander.");
       }
@@ -704,7 +776,7 @@ function checkPackage(m) {
     return;
   }
   if (last.type !== trailer) {
-    addIssue(m, last.start, "fehler", "ORDER_TRAILER", `Der letzte Satz ist ${last.type}, erwartet wird der Abschluss-Satz ${trailer}.`, `Jede Datei endet mit genau einem Abschluss-Satz (${src}). Fehlt er, ist die Datei meist unvollständig übertragen worden.`);
+    addIssue(m, last.start, "fehler", "ORDER_TRAILER", `Der letzte Satz ist ${last.type}, erwartet wird der Abschluss-Satz ${trailer}.`, `Jede Datei endet mit genau einem Abschluss-Satz (${src}). Fehlt er, wurde die Datei möglicherweise unvollständig übertragen.`);
   }
   let headers = 0;
   for (const r of recs) {
@@ -726,7 +798,7 @@ function checkPackage(m) {
       const withoutTrailer = total - (last.length ?? recLength(m, last));
       if (declared !== total) {
         if (declared === withoutTrailer) {
-          addIssue(m, i9202, "hinweis", "TOTAL_EXCL", `Zeile ${i9202 + 1}: Die Gesamtlänge in 9202 (${declared}) enthält den Abschluss-Satz nicht mit.`, "Die KBV beschreibt 9202 als „Summe aller Satzlängen des Datenpaketes“. Ob der Abschluss-Satz mitzählt, ist dort nicht ausdrücklich geregelt. Manche Programme rechnen ihn mit (Ergebnis hier: " + total + ").");
+          addIssue(m, i9202, "hinweis", "TOTAL_EXCL", `Zeile ${i9202 + 1}: Die Gesamtlänge in 9202 (${declared}) enthält den Abschluss-Satz nicht mit.`, "Die KBV beschreibt 9202 als „Summe aller Satzlängen des Datenpaketes“. Ob der Abschluss-Satz mitzählt, ist dort nicht ausdrücklich geregelt. Deshalb nennt der Viewer auch die Summe mit Abschluss-Satz (hier: " + total + ").");
         } else {
           addIssue(m, i9202, "fehler", "TOTAL", `Zeile ${i9202 + 1}: Die Gesamtlänge des Datenpakets in Feld 9202 (${declared}) passt nicht zur Summe der Satzlängen (${total}).`, "Das Praxisprogramm kann daran erkennen, dass die Datei unvollständig oder verändert ist, und lehnt sie dann ab.");
         }
@@ -756,17 +828,17 @@ function checkVersion(m) {
   if (m.format === "ldt3") {
     const v = m.version;
     if (!v) addIssue(m, null, "fehler", "VERSION_MISSING", "Die Version (Feld 0001 in den Kopfdaten) fehlt.", "LDT 3 verlangt die Versionsangabe in Obj_0032 (Kopfdaten).");
-    else if (v !== S.VERSION.ldt3.expected) addIssue(m, null, "warnung", "VERSION_OTHER", `Die Datei wurde nach ${v} erstellt. Aktuell gültig ist ${S.VERSION.ldt3.expected} (in Kraft seit ${S.VERSION.ldt3.validFrom}).`, "Regel E001 der KBV erlaubt in Feld 0001 nur die aktuelle Version und meldet sonst eine Warnung. Ältere Versionen werden von vielen Praxisprogrammen trotzdem gelesen.");
+    else if (v !== S.VERSION.ldt3.expected) addIssue(m, null, "warnung", "VERSION_OTHER", `Die Datei wurde nach ${v} erstellt. Aktuell gültig ist ${S.VERSION.ldt3.expected} (in Kraft seit ${S.VERSION.ldt3.validFrom}).`, "Regel E001 der KBV erlaubt in Feld 0001 nur die aktuelle Version und meldet sonst eine Warnung, keinen Fehler. Ob Ihr Praxisprogramm ältere Versionen noch liest, hängt von seinem Hersteller ab.");
   }
 }
 
 function checkFilename(m) {
   const base = m.name.split(/[\\/]/).pop();
   if (m.format === "ldt3" && !/^Z01[A-Z0-9_]*\.ldt$/i.test(base)) {
-    addIssue(m, null, "hinweis", "FILENAME", `Der Dateiname „${base}“ folgt nicht der LDT-3-Namensregel (Z01…​.ldt).`, "KBV LDT 3.2.20, Kap. 6.7: Der Name beginnt mit „Z01“, danach folgen Buchstaben, Ziffern oder Unterstrich, Endung .ldt. Für die Anzeige hier spielt das keine Rolle, manche Praxisprogramme holen aber nur passende Dateien ab.");
+    addIssue(m, null, "hinweis", "FILENAME", `Der Dateiname „${base}“ folgt nicht der LDT-3-Namensregel (Z01…​.ldt).`, "KBV LDT 3.2.20, Kap. 6.7: Der Name beginnt mit „Z01“, danach folgen Buchstaben, Ziffern oder Unterstrich, Endung .ldt. Für die Anzeige hier spielt das keine Rolle; ein Praxisprogramm, das nach diesem Muster sucht, holt andere Dateien aber möglicherweise nicht ab.");
   }
   if (m.format === "ldt2" && !/^[XSAZ]\d\d.{0,5}\.ldt$/i.test(base)) {
-    addIssue(m, null, "hinweis", "FILENAME", `Der Dateiname „${base}“ folgt nicht der LDT-2-Namensregel (z. B. X01L0505.LDT).`, "KBV LDT 5.12, Kap. 2.7.3: Der erste Buchstabe nennt den Zeichensatz (X = IBM-Code, S = 7-Bit, A = ISO 8859-1, Z = ISO 8859-15). Manche Praxisprogramme holen nur passende Dateien ab.");
+    addIssue(m, null, "hinweis", "FILENAME", `Der Dateiname „${base}“ folgt nicht der LDT-2-Namensregel (z. B. X01L0505.LDT).`, "KBV LDT 5.12, Kap. 2.7.3: Der erste Buchstabe nennt den Zeichensatz (X = IBM-Code, S = 7-Bit, A = ISO 8859-1, Z = ISO 8859-15). Ein Praxisprogramm, das nach diesem Muster sucht, holt andere Dateien möglicherweise nicht ab.");
   }
 }
 
@@ -974,7 +1046,7 @@ export function diagnose(m) {
     {
       when: () => has("ORDER_TRAILER") && m.issues.some((i) => ["OBJ_OPEN", "RECEND_MISSING", "RECLEN", "TOTAL"].includes(i.code) && inLast(i)),
       title: "Die Datei ist abgeschnitten",
-      text: "Die Datei endet mitten in einem Satz: Der Abschluss-Satz fehlt, und im letzten Satz sind Objekte oder Satzende offen. Meist wurde der Export oder die Übertragung abgebrochen, oder die Datei wurde abgeholt, während sie noch geschrieben wurde.",
+      text: "Die Datei endet mitten in einem Satz: Der Abschluss-Satz fehlt, und im letzten Satz sind Objekte oder Satzende offen. Wahrscheinlich wurde der Export oder die Übertragung abgebrochen, oder die Datei wurde abgeholt, während sie noch geschrieben wurde.",
       todo: "Die Datei beim Labor bzw. im Praxisprogramm neu erzeugen lassen. Die Befunde vor dem abgeschnittenen Satz sind lesbar, aber die Datei als Ganzes ist unvollständig.",
       root: ["ORDER_TRAILER"], follow: ["OBJ_OPEN", "RECEND_MISSING", "REQUIRED", "OBJ_REQUIRED", "RECLEN", "TOTAL", "CHECKSUM", "FIELDCOUNT"], followIf: inLast,
     },
@@ -988,14 +1060,14 @@ export function diagnose(m) {
     {
       when: () => has("LEN") && !has("LEN_UTF8"),
       title: "Die Datei wurde vermutlich von Hand bearbeitet",
-      text: "Mindestens eine Zeile ist länger oder kürzer, als ihre Längenangabe sagt. Typisch ist eine Änderung im Texteditor. Prüfsumme und Satzlängen passen dann meist auch nicht mehr.",
+      text: "Mindestens eine Zeile ist länger oder kürzer, als ihre Längenangabe sagt. Eine mögliche Ursache ist eine Änderung im Texteditor; dann passen auch Prüfsumme (LDT 3) bzw. Satzlängen (LDT 2) nicht mehr.",
       todo: "Die Datei nicht von Hand ändern, sondern neu erzeugen lassen. Bei Befunden: Werte nur aus der Originaldatei übernehmen.",
       root: ["LEN"], follow: ["CHECKSUM", "TOTAL", "RECLEN"],
     },
     {
       when: () => has("RECLEN") && !has("LEN"),
       title: "Im Satz wurde eine Zeile entfernt oder ergänzt",
-      text: "Jede Zeile hat für sich die richtige Länge, aber die Satzlänge in Feld 8100 passt nicht mehr zur Summe der Zeilen. Typisch ist, dass eine Zeile gelöscht oder eingefügt wurde, etwa von Hand oder durch ein Filterprogramm.",
+      text: "Jede Zeile hat für sich die richtige Länge, aber die Satzlänge in Feld 8100 passt nicht mehr zur Summe der Zeilen. Wahrscheinlich wurde eine Zeile gelöscht oder eingefügt, etwa von Hand oder durch ein Filterprogramm.",
       todo: "Die Datei neu erzeugen lassen. Satz- und Gesamtlängen nicht von Hand korrigieren.",
       root: ["RECLEN"], follow: ["TOTAL", "CHECKSUM"],
     },

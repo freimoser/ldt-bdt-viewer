@@ -99,6 +99,11 @@ for (const pg of pages) {
   }
   if (TRACKER.test(pg.html) && ds && !TRACKER.test(ds.html)) blocker.push(`${pg.route}: Messwerkzeug eingebunden, die Datenschutzerklärung erwähnt es nicht.`);
 }
+// Jeder Inhabernachweis im Seitenkopf muss in der Datenschutzerklärung stehen (Bing-Tag kam am 16.10.2026 ohne Erwähnung hinzu)
+const NACHWEIS = { "google-site-verification": /Google Search Console/, "msvalidate.01": /Bing Webmaster/, "yandex-verification": /Yandex/, "p:domain_verify": /Pinterest/ };
+for (const [tag, muster] of Object.entries(NACHWEIS)) {
+  if (start && start.html.includes(`name="${tag}"`) && ds && !muster.test(text(ds.html))) blocker.push(`Seitenkopf enthält ${tag}, die Datenschutzerklärung erwähnt den Dienst nicht.`);
+}
 if (ds && !/keine (Analyse|Messung)|nicht gemessen/i.test(text(ds.html)) && !pages.some((p) => TRACKER.test(p.html))) hinweis.push("Datenschutz sagt nicht ausdrücklich, dass nicht gemessen wird.");
 if (!pages.some((p) => TRACKER.test(p.html))) hinweis.push("Keine Messung eingebunden (gewollt: die Datenschutzerklärung sagt das ausdrücklich).");
 
@@ -108,6 +113,31 @@ for (const pg of pages) {
   for (const m of pg.html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     const o = JSON.parse(m[1]);
     if (o["@type"] === "Dataset" && !o.license) hinweis.push(`${pg.route}: Dataset ohne license (Search Console warnt; Entscheidung des Betreibers).`);
+  }
+}
+
+// 7b) Strukturierte Daten gegen die sichtbare Seite und die Sitemap (Google-Richtlinien für Rich Results)
+const lastmod = new Map([...xml.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => [new URL(m[1]).pathname.replace(SITE.base, "/"), m[2]]));
+const norm = (t) => t.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+for (const pg of pages) {
+  if (/<meta name="robots" content="noindex/.test(pg.html)) continue;
+  const sichtbar = norm(text(pg.html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "")));
+  for (const m of pg.html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const o = JSON.parse(m[1]);
+    if (o["@type"] === "FAQPage") {
+      for (const q of o.mainEntity || []) if (!sichtbar.includes(norm(q.name))) blocker.push(`${pg.route}: FAQ-Frage „${q.name}“ steht im Schema, aber nicht sichtbar auf der Seite.`);
+    }
+    if (o["@type"] === "Article") {
+      if (!o.headline || [...o.headline].length > 110) blocker.push(`${pg.route}: Article-headline fehlt oder ist länger als 110 Zeichen.`);
+      if (!o.image || !o.author || !o.datePublished) blocker.push(`${pg.route}: Article ohne image, author oder datePublished.`);
+      if (o.datePublished > o.dateModified) blocker.push(`${pg.route}: datePublished liegt nach dateModified.`);
+    }
+    if (o.dateModified && lastmod.has(pg.route) && o.dateModified !== lastmod.get(pg.route)) hinweis.push(`${pg.route}: dateModified ${o.dateModified} (${o["@type"]}) weicht von lastmod ${lastmod.get(pg.route)} in der Sitemap ab.`);
+    if (o["@type"] === "BreadcrumbList") {
+      const last = (o.itemListElement || []).at(-1);
+      const c = (pg.html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+      if (last && c && last.item !== c) blocker.push(`${pg.route}: letzter Breadcrumb ${last.item} ist nicht das Canonical ${c}.`);
+    }
   }
 }
 

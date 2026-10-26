@@ -31,6 +31,7 @@ export const FORMAT_LABEL = {
   ldt3: "LDT 3.x",
   bdt: "BDT",
   gdt: "GDT",
+  kvdt: "KVDT",
   unknown: "Unbekanntes Format",
 };
 
@@ -79,6 +80,15 @@ export const SATZARTEN = {
     text: "Kürzel für Textbausteine",
     "6100": "Patientenstammdaten",
     "6200": "Behandlungsdaten",
+  },
+  // KBV Datensatzbeschreibung KVDT 6.08, Kap. 1.2
+  kvdt: {
+    con0: "Container-Header", con9: "Container-Abschluss", besa: "Betriebsstättendaten", rvsa: "Ringversuchszertifikate",
+    adt0: "ADT-Datenpaket-Header", adt9: "ADT-Datenpaket-Abschluss",
+    "0101": "Ambulante Behandlung", "0102": "Überweisung", "0103": "Belegärztliche Behandlung", "0104": "Notfalldienst/Vertretung/Notfall",
+    kad0: "KADT-Datenpaket-Header", kad9: "KADT-Datenpaket-Abschluss", "0109": "Abrechnung von kurärztlicher Behandlung",
+    sad0: "SADT-Datenpaket-Header", sad9: "SADT-Datenpaket-Abschluss", sad1: "SADT-Ambulante Behandlung", sad2: "SADT-Überweisung", sad3: "SADT-Belegärztliche Behandlung",
+    hdrg0: "HDRG-Datenpaket-Header", hdrg9: "HDRG-Datenpaket-Abschluss", hdrg1: "HDRG-Datenpaket",
   },
 };
 
@@ -274,4 +284,15 @@ export const SEX = {
   ldt2: { M: "männlich", W: "weiblich", U: "unbekannt", X: "unbestimmt" },
   ldt3: { M: "männlich", W: "weiblich", D: "divers", X: "unbestimmt", U: "unbekannt" },
   bdt: { 0: "unbekannt", U: "unbekannt", 1: "männlich", M: "männlich", 2: "weiblich", W: "weiblich", 3: "anders", A: "anders" },
+};
+
+/** Dokumententyp in Feld 9970 (KBV LDT 3.2.20, Regel E053). */
+export const DOKUMENTTYP = {
+  "006": "Muster 6", "010": "Muster 10", "10A": "Muster 10A", "039": "Muster 39",
+  "090": "Auftragsdokument PKV-FA", "091": "Auftragsdokument PKV-LG", "092": "Auftragsdokument IGeL", "093": "Auftragsdokument Sonstige Kostenübernahme", "094": "Auftragsdokument Selektivvertrag",
+  "100": "Laborbefund", "101": "Mutterpass", "102": "Impfpass", "103": "Notfallausweis", "110": "Patientenbefund", "120": "Medikationsplan",
+  "150": "Verlaufsbericht", "160": "Behandlungsbericht", "200": "Einverständniserklärung lt. GenDG", "250": "weitere laborspezifische Dokumente",
+  "251": "Allergie/RAST", "252": "Molekulardiagnostik", "253": "Endokrinologie", "254": "Virologie", "255": "Mikrobiologie", "256": "Funktionsdiagnostik",
+  "257": "Infektionsserologie", "258": "Kinderwunsch", "300": "Meldung gemäß IfSG", "301": "Meldung Krebsregister", "400": "Normbereichsgrafik",
+  "500": "Rechnung", "900": "LDT-Datensatz", "999": "sonstiges Dokument",
 };

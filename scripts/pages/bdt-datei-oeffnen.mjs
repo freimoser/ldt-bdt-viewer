@@ -1,4 +1,4 @@
-import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src } from "../lib/layout.mjs";
+import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src, figureHtml } from "../lib/layout.mjs";
 
 const path = "bdt-datei-oeffnen/";
 const crumbs = [["LDT & BDT Viewer", ""], ["BDT-Datei öffnen", path]];
@@ -59,6 +59,7 @@ export default {
   ogTitle: "BDT-Datei öffnen: Export aus der Praxissoftware prüfen",
   ogDescription: "BDT-Export im Browser öffnen, Patienten, Umlaute und Aufbau kontrollieren und für den Wechsel der Praxissoftware vorbereiten. Ohne Upload.",
   ogType: "article",
+  lastmod: "2026-10-26",
   minInternalLinks: 3,
   llms: "Anleitung, wie man eine BDT-Datei (Export aus der Praxissoftware) im Browser öffnet und prüft, mit Checkliste für die Datenübernahme beim Wechsel der Praxissoftware.",
   jsonld: [
@@ -67,6 +68,8 @@ export default {
       description: "Eine BDT-Datei im kostenlosen LDT & BDT Viewer öffnen, Aufbau, Patienten, Zeichensatz und Prüfmeldungen kontrollieren.",
       steps,
       path,
+      image: "bilder/bdt-viewer-struktur.webp",
+      updated: "2026-10-26",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
@@ -83,8 +86,9 @@ ${heroHtml({
 
 <h2 id="anleitung">Anleitung: BDT-Datei öffnen in 6 Schritten</h2>
 ${stepsHtml(steps)}
+${figureHtml("bdt-viewer-struktur.webp", "BDT-Export im LDT & BDT Viewer: Dateityp BDT im klassischen Aufbau mit Satzlänge in Feld 8100, Reiter Struktur mit Satz 6100 Patientenstammdaten und den Zeilen 8000, 8100, 3000, 3101, 3102, 3103 mit Länge, Feldkennung, Bedeutung und Inhalt", "Ein BDT-Export im Reiter „Struktur“ (erfundene Testdaten): links die Sätze, rechts jede Zeile mit Länge, Feldkennung, Bedeutung und Inhalt.")}
 <div class="callout"><span class="callout-title">Datenschutz</span>
-<p>Ein BDT-Export enthält oft die Daten vieler Patienten. Der Viewer liest die Datei nur in Ihrem Browser, ohne Upload, Cookies oder Tracking.</p></div>
+<p>Ein BDT-Export kann den gesamten Datenbestand einer Praxis enthalten. Der Viewer liest die Datei nur in Ihrem Browser, ohne Upload, Cookies oder Tracking.</p></div>
 
 <h2 id="praxiswechsel">Datenübernahme beim Wechsel der Praxissoftware</h2>
 <p>BDT wurde Anfang der 1990er Jahre unter anderem entwickelt, um Ärzten den Wechsel des Softwareanbieters zu erleichtern. ${src("bdt3", "Kap. 2")} Bevor Sie einen Export an den neuen Anbieter geben, gehen Sie diese Checkliste durch:</p>
@@ -93,7 +97,7 @@ ${stepsHtml(steps)}
 <li><strong>Vollständigkeit grob prüfen:</strong> Vergleichen Sie die Zahl in der Karte „Patienten und Befunde“ mit der Patientenzahl in Ihrer bisherigen Software. Meldet der Viewer ein fehlendes Satzende oder falsche Satzlängen, wurde der Export womöglich abgebrochen.</li>
 <li><strong>Stichproben ziehen:</strong> Suchen Sie im Reiter „Struktur“ über „Suchen und filtern“ fünf bis zehn bekannte Patienten. Prüfen Sie Name, Vorname, Geburtsdatum und einige Behandlungseinträge. Nehmen Sie bewusst Patienten mit Umlauten oder ß im Namen dazu.</li>
 <li><strong>Umlaute und Zeichensatz:</strong> Erscheinen Namen wie „M?ller“ oder „MÃ¼ller“, passt der Zeichensatz nicht. BDT 3.0 schreibt ISO/IEC 8859-15 vor. ${src("bdt3", "Kap. 3.7.5")} Probieren Sie in der Karte „Zeichensatz“ einen anderen und teilen Sie dem neuen Anbieter mit, welcher richtig aussieht.</li>
-<li><strong>Prüfmeldungen sichern:</strong> Notieren Sie Fehler und Warnungen aus dem Reiter „Prüfung“ mit Zeilennummer. Die Längenregel (Inhalt plus 9) gilt in BDT wie in LDT. ${src("bdt3", "Kap. 3.3")} Viele Meldungen erklärt deshalb auch die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</li>
+<li><strong>Prüfmeldungen sichern:</strong> Notieren Sie Fehler und Warnungen aus dem Reiter „Prüfung“ mit Zeilennummer. Die Längenregel (Inhalt plus 9) gilt in BDT wie in LDT. ${src("bdt3", "Kap. 3.3")} Meldungen zu Längen, Zeilenenden und Zeichensatz erklärt deshalb auch die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</li>
 <li><strong>Externe Dateien klären:</strong> Dateien in anderen Formaten, auch Abrechnungsnotizen, bezieht BDT 3.0 nur über Referenzen ein. ${src("bdt3", "Kap. 2 und 3.6.1")} Im Viewer sehen Sie nur den Verweis. Klären Sie mit beiden Anbietern, wie Dokumente, Bilder und Briefe mitkommen.</li>
 <li><strong>Anonymisieren für den neuen Anbieter:</strong> Möchte der neue Anbieter vorab eine Beispieldatei für einen Importtest, nutzen Sie die Schaltfläche „Anonymisieren“. Sie ersetzt Namen, Geburtsdaten, Adressen, Versichertennummern, Telefonnummern und Patientennummern und lädt eine neue Datei herunter. Sehen Sie Freitexte vor dem Versand trotzdem kurz durch.</li>
 <li><strong>Testdateien nutzen:</strong> Für Tests ganz ohne echte Daten erzeugt der Bereich „Testdateien erzeugen“ eine BDT-Datei im klassischen Aufbau mit 1 bis 200 erfundenen Patienten, deren Namen mit „Test-“ beginnen. Eine fertige Beispieldatei mit Erklärung jeder Zeile zeigt die Seite <a href="${href("bdt-datei-beispiel/")}">BDT-Beispieldatei</a>.</li>

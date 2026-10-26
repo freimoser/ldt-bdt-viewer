@@ -1,9 +1,9 @@
-import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src } from "../lib/layout.mjs";
+import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src, figureHtml } from "../lib/layout.mjs";
 
 const path = "ldt-datei-oeffnen/";
 const crumbs = [["LDT & BDT Viewer", ""], ["LDT-Datei öffnen", path]];
 const title = "LDT Datei öffnen: Anleitung für Laborbefunde (kostenlos)";
-const description = "LDT Datei öffnen in 7 Schritten: Laborbefund im Browser ansehen, Markierungen lesen, Fehler prüfen. Mit Checkliste, wenn ein Befund nicht ankommt.";
+const description = "LDT Datei öffnen in 7 Schritten: Laborbefund im Browser ansehen, eingebettetes PDF speichern, Fehler prüfen. Mit Checkliste, wenn ein Befund nicht ankommt.";
 
 const steps = [
   {
@@ -40,6 +40,14 @@ const steps = [
 
 const faq = [
   {
+    q: "Wie kann ich eine LDT-Datei in PDF umwandeln?",
+    a: `LDT-3-Befunde können den Laborbefund als PDF enthalten; die AG LDT empfiehlt das. ${src("ldt3", "Fußnote 7 zu Kap. 8.5")} Öffnen Sie die Datei im Viewer: Steht oben „Die Datei enthält ein eingebettetes Dokument“, klicken Sie auf „Speichern“ und erhalten das PDF des Labors unverändert. ${src("ldt3", "Kap. 11.10")} Ohne eingebettetes PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog „Als PDF speichern“.`,
+  },
+  {
+    q: "Meine LDT-Datei kommt von einem Leuchtenhersteller. Kann ich sie hier öffnen?",
+    a: `Nein. Das ist eine EULUMDAT-Lichtdatei mit derselben Endung .ldt. Sie beschreibt, wie eine Leuchte Licht abstrahlt, und hat mit Laborbefunden nichts zu tun. ${src("eulumdatFormat")} Solche Dateien öffnen Lichtplanungsprogramme wie DIALux. ${src("eulumdat")} Der Viewer erkennt Lichtdateien und weist darauf hin.`,
+  },
+  {
     q: "Kann ich eine LDT-Datei auch mit dem Editor öffnen?",
     a: `Ja, eine LDT-Datei ist eine Textdatei. Sie sehen dann aber nur Rohzeilen wie 0178002Obj_0032 ohne Erklärung. Speichern Sie die Datei im Editor nicht: Schon kleine Änderungen machen Längenangaben falsch, und in LDT 3 passt die Prüfsumme in Feld 9300 nicht mehr, weil sie über alle Zeichen davor berechnet wird. ${src("ldt3", "Regel E157")}`,
   },
@@ -65,13 +73,16 @@ export default {
   ogDescription: "Schritt-für-Schritt-Anleitung: LDT-Datei im Browser öffnen, Laborwerte und Markierungen lesen, Fehler finden. Ohne Upload.",
   ogType: "article",
   minInternalLinks: 3,
-  llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
+  lastmod: "2026-10-26",
+  llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest, ein eingebettetes PDF (Obj_0010, Feld 6329) speichert oder den Befund als PDF druckt, LDT-Labordateien von EULUMDAT-Lichtdateien unterscheidet und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
   jsonld: [
     howToLd({
       name: "LDT-Datei öffnen und einen Laborbefund lesen",
       description: "Eine LDT-Datei im kostenlosen LDT & BDT Viewer öffnen, Laborwerte, Struktur und Prüfmeldungen ansehen und den Zeichensatz umschalten.",
       steps,
       path,
+      image: "bilder/ldt-viewer-laborbefund.webp",
+      updated: "2026-10-26",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
@@ -82,9 +93,24 @@ ${heroHtml({
   h1: "LDT-Datei öffnen: Laborbefund lesen und prüfen",
   lead: `Eine LDT-Datei öffnen Sie am einfachsten im kostenlosen <a href="${href()}">LDT &amp; BDT Viewer</a>: Seite aufrufen, die Datei ins Feld ziehen oder auf „Datei wählen“ klicken. Der Viewer zeigt die Laborwerte als Tabelle, den Aufbau der Datei und eine Prüfung auf Fehler. Die Datei bleibt dabei in Ihrem Browser, nichts wird hochgeladen.`,
   minutes: 5,
+  stand: "26.10.2026",
 })}
 <div class="prose">
 <p>LDT steht für Labordatenträger: Mit diesem Format tauschen Labore und Arztpraxen Aufträge und Befundberichte aus. ${src("ldt2", "Kap. 1.1")} Was dahintersteckt, erklärt <a href="${href("was-ist-ldt/")}">Was ist LDT? Der Labordatenträger</a>. Hier geht es um die Praxis: Datei öffnen, Werte lesen, Probleme finden.</p>
+
+<h2 id="lichtdatei">Labordatei oder Lichtdatei? Zwei Formate mit der Endung .ldt</h2>
+<p>Nicht jede Datei mit der Endung .ldt ist ein Laborbefund. Leuchtenhersteller liefern die Lichtverteilung ihrer Leuchten im Format EULUMDAT aus, ebenfalls als .ldt. ${src("eulumdatFormat")} So unterscheiden Sie die beiden in einem Texteditor:</p>
+<div class="table-wrap"><table>
+<caption>LDT-Labordatei und EULUMDAT-Lichtdatei im Vergleich</caption>
+<thead><tr><th scope="col">Merkmal</th><th scope="col">Labordatei (LDT der KBV)</th><th scope="col">Lichtdatei (EULUMDAT)</th></tr></thead>
+<tbody>
+<tr><th scope="row">Zweck</th><td>Laboraufträge und Befunde zwischen Praxis und Labor ${src("ldt3", "Kap. 4")}</td><td>Lichtverteilung einer Leuchte für die Lichtplanung</td></tr>
+<tr><th scope="row">Jede Zeile</th><td>dreistellige Länge, vierstellige Feldkennung, Inhalt, etwa <code>01380008220</code> ${src("ldt3", "Kap. 6.4.1")}</td><td>ein einzelner Wert ohne Feldkennung</td></tr>
+<tr><th scope="row">Erste Zeilen</th><td>Satzart, etwa 8220 für den Beginn eines Datenpakets ${src("ldt3", "Regel E001")}</td><td>Hersteller, dann einzelne Ziffern für Leuchtentyp und Symmetrie und die Anzahl der Messebenen</td></tr>
+<tr><th scope="row">Öffnen mit</th><td>Praxissoftware, Laborsystem oder diesem Viewer</td><td>Lichtplanungsprogrammen wie DIALux ${src("eulumdat")}</td></tr>
+</tbody></table></div>
+<p>Öffnen Sie eine Lichtdatei im Viewer, erkennt er sie und sagt Ihnen, dass es keine Labordatei ist.</p>
+
 
 <h2 id="anleitung">Anleitung: LDT-Datei öffnen in 7 Schritten</h2>
 ${stepsHtml(steps)}
@@ -93,6 +119,7 @@ ${stepsHtml(steps)}
 <p>Der Viewer ist kein Medizinprodukt. Er zeigt Dateien an und prüft ihren Aufbau, bewertet aber keine Laborwerte und stellt keine Diagnose.</p></div>
 
 <h2 id="befund-lesen">Laborbefund lesen: Markierungen und Werte</h2>
+${figureHtml("ldt-viewer-laborbefund.webp", "LDT-Datei im LDT & BDT Viewer geöffnet: Zusammenfassung mit Dateityp LDT 3.x, Absender Labor und Empfänger Praxis, darunter der Reiter Befunde mit Glukose, Kalium, Natrium und Kreatinin, Normbereichen und Markierungen wie stark erhöht (HH)", "Ein LDT-3-Laborbefund im Viewer (erfundene Testdaten): oben Dateityp, Richtung, Absender und Prüfergebnis, darunter die Werte mit Einheit, Normbereich und der Markierung, die das Labor in die Datei geschrieben hat.")}
 <h3>Was ▲, ▼ und ! bedeuten</h3>
 <p>Ob ein Wert erhöht oder erniedrigt ist, schreibt das Labor selbst in Feld 8422 (Grenzwertindikator). Der Viewer zeigt dieses Kennzeichen unverändert mit Symbol und Text an, etwa „▲ schwach erhöht (H)“, und rechnet nichts nach. Fragen zu einem Wert klären Sie mit dem Labor oder der behandelnden Ärztin bzw. dem behandelnden Arzt.</p>
 <div class="table-wrap"><table>
@@ -111,6 +138,15 @@ ${stepsHtml(steps)}
 
 <h3>Wo die Werte in der Datei stehen</h3>
 <p>Für Praxis-IT und Support: In LDT 2 hat jede Angabe ein eigenes Feld, etwa 8411 Testbezeichnung, 8420 Ergebniswert, 8421 Einheit und 8480 Ergebnis-Text. ${src("ldt2", "Kap. 3.8")} Die Befundart steht in Feld 8401: <code>E</code> Endbefund, <code>T</code> Teilbefund, <code>V</code> Vorläufiger Befund, <code>A</code> Archiv-Befund, <code>N</code> Nachforderung. ${src("ldt2", "Feld 8401")} Der Viewer zeigt sie im Kopf des Befunds. In LDT 3 stecken die Werte in Objekten, zum Beispiel Obj_0060 (Untersuchungsergebnis Klinische Chemie) und Obj_0042 (Normalwert). ${src("ldt3", "Kap. 11")} Jede Kennung finden Sie unter <a href="${href("feldkennungen/")}">Feldkennungen</a>.</p>
+
+<h2 id="pdf">LDT-Datei in PDF umwandeln</h2>
+<p>Vielleicht müssen Sie gar nichts umwandeln: Ein LDT-3-Befund kann Dokumente als Anhang mitbringen, im Objekt „Anhang“ (Obj_0010) mit Dateiformat in Feld 6303 und dem Inhalt als Base64-kodierte Zeilen in Feld 6329. ${src("ldt3", "Kap. 11.10, Regel K100")} Der Dokumententyp in Feld 9970 sagt, was es ist, zum Beispiel 100 für „Laborbefund“ oder 10A für „Muster 10A“. ${src("ldt3", "Regel E053")} Die AG LDT empfiehlt, immer eine PDF-Datei des Befundes einzubetten. ${src("ldt3", "Fußnote 7 zu Kap. 8.5")}</p>
+<ol>
+<li><strong>Eingebettetes PDF speichern:</strong> Öffnen Sie die Datei im <a href="${href()}">Viewer</a>. Enthält sie einen Anhang, erscheint oben „Die Datei enthält ein eingebettetes Dokument“ mit Typ, Format und Größe. „Öffnen“ zeigt das PDF in einem neuen Tab, „Speichern“ lädt es herunter. Es ist das Original des Labors, der Viewer entpackt es nur und lädt nichts hoch.</li>
+<li><strong>Ohne Anhang drucken:</strong> Enthält die Datei kein PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog des Browsers „Als PDF speichern“. Das ergibt eine Tabelle mit Untersuchung, Ergebnis, Einheit, Normbereich und Markierung, aber kein Dokument des Labors.</li>
+</ol>
+<p>Eine EULUMDAT-Lichtdatei lässt sich auf diesem Weg nicht in ein PDF umwandeln; dafür sind Lichtplanungsprogramme zuständig (siehe <a href="#lichtdatei">Labordatei oder Lichtdatei?</a>).</p>
+
 
 <h2 id="befund-kommt-nicht-an">Was tun, wenn ein Laborbefund nicht in der Praxissoftware ankommt?</h2>
 <p>Gehen Sie die Punkte der Reihe nach durch. Ab Punkt 2 öffnen Sie die LDT-Datei im Viewer und schauen in die Karte „Prüfung“.</p>

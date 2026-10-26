@@ -62,6 +62,7 @@ const FORMAT_HELP = {
   ldt3: "LDT 3.x (Labordatenträger)",
   bdt: "BDT (Behandlungsdatenträger)",
   gdt: "GDT (Gerätedatentransfer)",
+  kvdt: "KVDT (Abrechnung an die Kassenärztliche Vereinigung)",
   unknown: "Unbekanntes Format",
 };
 const CHARSET_LABEL = {
@@ -185,7 +186,20 @@ function renderNotices(f) {
       h("a", { href: "https://freimoser.github.io/gdt-viewer/" }, "GDT Viewer"),
       ". Hier sehen Sie die Zeilen trotzdem in der Strukturansicht."));
   }
-  if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
+  if (v.format === "kvdt") {
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, "Das ist eine KVDT-Abrechnungsdatei" + (v.version ? ` (Satzbeschreibung ${v.version})` : "") + "."),
+      " Mit KVDT schickt die Praxis ihre Abrechnungsdaten an die Kassenärztliche Vereinigung. Der Viewer zeigt die Zeilen in der Strukturansicht und prüft ihren Aufbau, nicht die Abrechnungsregeln. ",
+      h("a", { href: "/ldt-bdt-viewer/xdt-gdt-ldt-bdt/#kvdt" }, "Was ist KVDT?")));
+  }
+  if (v.lichtdatei) {
+    const l = v.lichtdatei;
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, "Das ist eine EULUMDAT-Lichtdatei, keine Labordatei."),
+      ` Sie beschreibt die Lichtverteilung einer Leuchte${l.leuchte ? ` („${l.leuchte}“` + (l.hersteller ? `, ${l.hersteller})` : ")") : ""}. `,
+      "Die Endung .ldt teilen sich zwei Formate. Lichtdateien öffnen Lichtplanungsprogramme wie DIALux. ",
+      h("a", { href: "/ldt-bdt-viewer/ldt-datei-oeffnen/#lichtdatei" }, "So unterscheiden Sie die beiden")));
+  } else if (v.format === "unknown" && v.summary.records === 0 && !v.issueCounts.fehler) {
     box.append(h("div", { class: "notice notice-warn", role: "note" }, "Das Format wurde nicht erkannt."));
   }
   // Fehler in der Datei: oben warnen, bevor jemand Werte übernimmt (Ursache, falls erkannt)
@@ -198,13 +212,41 @@ function renderNotices(f) {
   }
   const cs = v.charset;
   const charsetExplained = v.diagnosis && v.diagnosis.root.includes("CHARSET_WRONG");
-  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained) {
+  if ((cs.conflict || cs.confidence === "niedrig") && !charsetExplained && !v.lichtdatei) {
     box.append(h("div", { class: "notice notice-warn", role: "note" },
       h("strong", null, "Zeichensatz unsicher. "),
       cs.conflict ? `Die Datei gibt ${CHARSET_LABEL[cs.conflict.declared]} an, die Umlaute passen aber eher zu ${CHARSET_LABEL[cs.conflict.detected]}. ` : "Es gibt nur wenige Umlaute, an denen sich der Zeichensatz erkennen lässt. ",
       "Wenn Namen wie „M?ller“ oder „MÃ¼ller“ erscheinen, wählen Sie unten bei „Zeichensatz“ einen anderen."));
   }
+  // Eingebettete Dokumente (LDT 3, Obj_0010): lokal dekodieren, öffnen oder speichern
+  if (v.anhaenge && v.anhaenge.length) {
+    const list = h("ul", { class: "anhang-list" });
+    v.anhaenge.forEach((a, index) => {
+      const label = `${a.typ || "Dokument"}${a.beschreibung ? ": " + a.beschreibung : ""} (${a.format || "Datei"}, ${kb(a.groesse)})`;
+      const viewable = a.mime === "application/pdf" || /^image\/(png|jpeg)$/.test(a.mime);
+      list.append(h("li", null, label, " ",
+        viewable ? h("button", { type: "button", class: "link-btn", onclick: () => openAnhang(f, index, false) }, "Öffnen") : null,
+        viewable ? " · " : null,
+        h("button", { type: "button", class: "link-btn", onclick: () => openAnhang(f, index, true) }, "Speichern")));
+    });
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, v.anhaenge.length === 1 ? "Die Datei enthält ein eingebettetes Dokument." : `Die Datei enthält ${v.anhaenge.length} eingebettete Dokumente.`),
+      " Der Viewer entpackt es nur in Ihrem Browser.", list));
+  }
   if (f.lastAnon) box.append(f.lastAnon);
+}
+
+function kb(bytes) {
+  return bytes >= 1048576 ? `${(bytes / 1048576).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+async function openAnhang(f, index, save) {
+  const res = await engine.call("anhang", { file: f.key, index });
+  const blob = new Blob([res.buffer], { type: res.mime });
+  if (save) { download(res.name, blob); return; }
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener");
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 function card(label, value, extra) {
@@ -217,12 +259,12 @@ function renderSummary(f) {
   box.replaceChildren();
   const type = FORMAT_HELP[v.format] || v.format;
   const version = v.format === "bdt" ? (v.bdtVariant === "3.0" ? "BDT 3.0" : "klassischer Aufbau (Satzlänge in 8100)") : v.version || "Version nicht angegeben";
-  const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", unknown: "Unbekannt" }[v.format] || type;
+  const shortType = { ldt2: "LDT 2.x", ldt3: "LDT 3.x", bdt: "BDT", gdt: "GDT", kvdt: "KVDT", unknown: "Unbekannt" }[v.format] || type;
   box.append(card("Dateityp", shortType, h("span", { class: "sub" }, `${version} · ${type.replace(/^[^(]*\(|\)$/g, "")}`)));
   if (s.direction) box.append(card("Richtung", s.direction));
   // Im klassischen BDT gibt es keinen beschriebenen Kopfsatz: leere Kacheln würden wie Fehler wirken
-  const skipEmpty = v.format === "bdt";
-  if (v.format !== "gdt" && v.format !== "unknown") {
+  const skipEmpty = v.format === "bdt" || v.format === "kvdt";
+  if (v.format !== "gdt" && v.format !== "unknown" && v.format !== "kvdt") {
     if (s.sender || !skipEmpty) box.append(card("Absender", s.sender || "nicht angegeben"));
     if (s.receiver || !skipEmpty) box.append(card("Empfänger", s.receiver || "nicht angegeben"));
   }

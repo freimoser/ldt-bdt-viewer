@@ -2,11 +2,11 @@
  * Gemeinsame Logik für Worker und Fallback im Hauptthread.
  * Jede Anfrage: { id, type, ...daten } → { result, transfer }
  */
-import { openFile, rowInfo, fkString, fieldLabel, content } from "./core/xdt.js";
+import { openFile, rowInfo, fkString, fieldLabel, content, anhangBytes } from "./core/xdt.js";
 import { anonymize } from "./core/anonymize.js";
 import { generate } from "./core/generator.js";
 import { befundeCsv, rawJsonParts } from "./core/export.js";
-import { SOURCES } from "./core/spec.js";
+import { SOURCES, DOKUMENTTYP } from "./core/spec.js";
 
 export function createHandler(post, dictUrl) {
   const files = new Map();
@@ -24,7 +24,8 @@ export function createHandler(post, dictUrl) {
         charset: m.charset.charset, source: m.charset.source, confidence: m.charset.confidence,
         candidates: m.charset.candidates, conflict: m.charset.conflict || null, declaredBy: m.charset.declaredBy || null,
       },
-      issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null,
+      issueCounts: m.issueCounts, truncated: m.truncated, diagnosis: m.diagnosis || null, lichtdatei: m.lichtdatei || null,
+      anhaenge: (m.anhaenge || []).map((a) => ({ format: a.format, beschreibung: a.beschreibung, typ: DOKUMENTTYP[a.typ] || a.typ, groesse: a.groesse, mime: a.mime })),
       records: m.records.length, lines: m.lines.n, befunde: (m.befunde || []).length, auftraege: (m.auftraege || []).length,
       sources: SOURCES,
     };
@@ -154,6 +155,15 @@ export function createHandler(post, dictUrl) {
         const a = anonymize(m);
         const buf = a.bytes.buffer.slice(a.bytes.byteOffset, a.bytes.byteOffset + a.bytes.byteLength);
         return { result: { buffer: buf, name: a.name, report: a.report }, transfer: [buf] };
+      }
+      case "anhang": {
+        const m = files.get(msg.file);
+        const a = (m.anhaenge || [])[msg.index];
+        if (!a) throw new Error("Anhang nicht gefunden.");
+        const bytes = anhangBytes(m, a);
+        const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+        const ext = (a.format || "bin").toLowerCase().replace(/[^a-z0-9]/g, "") || "bin";
+        return { result: { buffer: buf, mime: a.mime, name: `${m.name.replace(/\.[^.]+$/, "")}_anhang${msg.index + 1}.${ext}` }, transfer: [buf] };
       }
       case "csv": {
         const m = files.get(msg.file);

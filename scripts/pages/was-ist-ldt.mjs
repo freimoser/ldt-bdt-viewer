@@ -3,10 +3,15 @@ import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml
 const path = "was-ist-ldt/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Was ist LDT?", path]];
 const title = "LDT Labordatenträger: Definition, Versionen, Ablauf";
-const description = "LDT (Labordatenträger) einfach erklärt: KBV-Standard für Laboraufträge und Befunde, Versionen LDT 2 und 3.2.20, Satzarten, Dateiaufbau und Dateiname.";
+const description = "LDT (Labordatenträger, auch Labordatentransfer genannt) erklärt: KBV-Standard für Laboraufträge und Befunde, Versionen, Satzarten und Dateiaufbau.";
 const h1 = "LDT (Labordatenträger): Definition, Versionen und Ablauf";
+const STAND = "26.10.2026";
 
 const faq = [
+  {
+    q: "Heißt LDT Labordatenträger oder Labordatentransfer?",
+    a: `In der Spezifikation der KBV heißt LDT „LaborDatenTräger“. ${src("ldt3", "Kap. 5.1")} Handbücher von Praxissoftware, etwa von tomedo, schreiben auch „Labordatentransfer“; gemeint ist dasselbe Format. ${src("tomedoLdt", "", STAND)} Das ganze Verfahren mit Muster 10, Muster 10A, LDT-Auftrag und LDT-Befund nennt die KBV Labordatenkommunikation (LDK). ${src("faq", "Kap. 1")}`,
+  },
   {
     q: "Wofür steht die Abkürzung LDT?",
     a: "LDT steht für Labordatenträger. Die ältere LDT-2-Beschreibung der KBV regelt noch den Versand auf Disketten. Für LDT 3 geht die KBV dagegen davon aus, dass keine Datenträger mehr verschickt werden, sondern komplett elektronisch über installierte Infrastruktur übertragen wird.",
@@ -35,11 +40,14 @@ ${heroHtml({
   h1,
   lead: `<strong>LDT (Labordatenträger) ist</strong> das Datenformat der Kassenärztlichen Bundesvereinigung (KBV), mit dem Arztpraxen Laboraufträge elektronisch an ein Labor senden und Labore ihre Befundberichte zurückschicken. ${src("ldt3", "Kap. 4 und 5.1")}`,
   minutes: 6,
+  stand: STAND,
 })}
 <div class="prose">
 <h2>Wer gibt den LDT heraus?</h2>
 <p>Der LDT ist ein Standard der sogenannten xDT-Familie und wird von der KBV gepflegt und weiterentwickelt, genauer vom Dezernat Digitalisierung und IT. ${src("ldt3", "Titelblatt und Kap. 4")}</p>
 <p>Zwei Begriffe aus der Spezifikation sollten Sie kennen: Der <strong>Einsender</strong> ist die Einrichtung, die einen Untersuchungsauftrag und das Material an ein Labor schickt, meist die Arztpraxis. ${src("ldt3", "Kap. 3.4")} Als <strong>Labor</strong> gelten zum Beispiel Praxen, in denen der Patient in der Regel nicht vorstellig wird und eingesandtes Körpermaterial untersucht wird, MVZ mit eigenem Laboratorium oder Laborgemeinschaften. ${src("ldt3", "Kap. 3.5")}</p>
+<h3>Labordatenträger, Labordatentransfer, Labordatenkommunikation</h3>
+<p>Drei Begriffe, die sich leicht verwechseln lassen: Die Spezifikation der KBV nennt das Format <strong>LaborDatenTräger</strong>. ${src("ldt3", "Kap. 5.1")} In Handbüchern von Praxissoftware steht für dasselbe Format auch <strong>Labordatentransfer</strong>, zum Beispiel bei tomedo und CGM TURBOMED. ${src("tomedoLdt", "", STAND)} ${src("cgmLdt", "", STAND)} <strong>Labordatenkommunikation (LDK)</strong> ist dagegen der Oberbegriff der KBV für das ganze Verfahren: den Einsatz der digitalen Muster 10 und 10A sowie von LDT-Auftrag und LDT-Befund. ${src("faq", "Kap. 1")}</p>
 <p>Mit GDT (Geräteanbindung) und BDT (Datenexport aus der Praxissoftware) teilt LDT den gleichen Zeilenaufbau. Wie die drei Formate zusammenhängen, zeigt der <a href="${href("xdt-gdt-ldt-bdt/")}">Überblick über die xDT-Schnittstelle</a>.</p>
 
 <h2>Welche LDT-Versionen gibt es?</h2>
@@ -52,6 +60,13 @@ ${heroHtml({
 </tbody>
 </table></div>
 <p>${src("ldt2", "S. 1, Satzart 8220")} ${src("ldt3", "S. 1–2, Regel E001")} ${src("faq", "Kap. 2")}</p>
+<h3 id="neu-in-3-2-20">Was ist neu in LDT 3.2.20?</h3>
+<p>Laut Dokumentenhistorie der KBV bringt Version 3.2.20 (13.05.2026, in Kraft seit 01.10.2026) zwei Änderungen gegenüber 3.2.19 vom 01.07.2025: ${src("ldt3", "S. 1–2, Dokumentenhistorie")}</p>
+<ul>
+<li><strong>Versionskennung:</strong> Regel E001 erlaubt in Feld 0001 jetzt <code>LDT3.2.20</code>. Steht dort eine andere Version, etwa noch <code>LDT3.2.19</code>, ist das laut Regel eine Warnung, kein Fehler. ${src("ldt3", "Regel E001")}</li>
+<li><strong>DMP-Kennzeichen:</strong> Die erlaubten Werte für die DMP-Kennzeichnung in Feld 4132 wurden angepasst (Regel E020). Die aktuelle Liste reicht von 00 (keine Angabe) über einzelne Programme wie 01 (Diabetes mellitus Typ 2) bis zu Kombinationen wie 58. ${src("ldt3", "Regel E020")}</li>
+</ul>
+<p>Der Viewer prüft nach 3.2.20: Eine Datei mit <code>LDT3.2.19</code> öffnet er normal und meldet die ältere Version als Warnung. Was die Meldung bedeutet, steht unter <a href="${href("fehler/#version")}">Fehler: Ältere oder falsche Version</a>.</p>
 <p>Was sich zwischen beiden Generationen geändert hat, von den Satzarten bis zur Prüfsumme, steht im ausführlichen Vergleich <a href="${href("ldt-2-vs-ldt-3/")}">LDT 3 und LDT 2</a>. Die folgenden Abschnitte beschreiben LDT 3.</p>
 
 <h2>So läuft der Austausch zwischen Praxis und Labor</h2>
@@ -85,7 +100,7 @@ ${heroHtml({
 </tbody>
 </table></div>
 <h3>Satz und Objekt</h3>
-<p>Jeder Satz beginnt mit Feld 8000 (Satzart) und endet mit Feld 8001, das dieselbe Satzart wiederholt. Ein Objekt wird durch ein Objektattribut angekündigt (Feldkennungen 8100 bis 8299), beginnt mit Feld 8002 (Objekt-ID) und endet mit Feld 8003 mit derselben Objekt-ID. ${src("ldt3", "Kap. 6.3")}</p>
+<p>Jeder Satz beginnt mit Feld 8000 (Satzart) und endet mit Feld 8001, das dieselbe Satzart wiederholt. Ein Objekt wird durch ein Objektattribut angekündigt (Feldkennungen 8100 bis 8299), beginnt mit Feld 8002 (Objekt-ID) und endet mit Feld 8003 mit derselben Objekt-ID. ${src("ldt3", "Kap. 6.3")} Kurzdefinitionen zu Satz, Objekt, Prüfsumme und weiteren Begriffen stehen im <a href="${href("glossar/")}">Glossar</a>.</p>
 <p>Die Spezifikation zeigt das am Kopfsatz 8220 des Labors. Ein Ausschnitt mit dem Zeitstempel der Dateierstellung: ${src("ldt3", "Kap. 7, Implementierungshinweis")}</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Zeile</th><th scope="col">Feldkennung</th><th scope="col">Bedeutung</th></tr></thead>
@@ -124,8 +139,9 @@ export default {
   ogTitle: "Was ist LDT? Der Labordatenträger einfach erklärt",
   ogDescription: "Labordatenträger LDT: wer ihn pflegt, welche Versionen gelten, wie Auftrag und Befund zwischen Praxis und Labor laufen und wie eine LDT-Datei aufgebaut ist.",
   ogType: "article",
-  jsonld: [articleLd({ headline: h1, description, path }), faqLd(faq), breadcrumbLd(crumbs)],
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
+  lastmod: "2026-10-26",
   minInternalLinks: 3,
   llms: "Was LDT (Labordatenträger) ist: KBV-Standard für Laboraufträge und Befunde, Versionen LDT 2.x und LDT 3.2.20, Satzarten 8230/8215/8231 und 8220/8205/8221, Feld- und Objektaufbau, Zeichensatz ISO 8859-15 und Dateiname.",
 };
