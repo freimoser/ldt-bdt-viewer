@@ -112,6 +112,11 @@ for (const p of pages) {
       const label = (cap || "").trim() || `Tabelle ${tableNo}${th ? ": " + th.trim() : ""}`;
       return `<div class="table-wrap" tabindex="0" role="region" aria-label="${label.replace(/"/g, "&quot;")}">${rest}`;
     });
+  // Sichtbares Datum im Seitenkopf = lastmod (eine Quelle für Seite, Schema und Sitemap); Abrufdaten stehen an den Quellen
+  if (!p.noindex) {
+    const iso = p.lastmod || SITE.updated, de = iso.split("-").reverse().join(".");
+    html = html.replace(/<p class="meta-line">Stand: [0-9.]+/, `<p class="meta-line">Aktualisiert: <time datetime="${iso}">${de}</time>`);
+  }
   const withToc = !!p.path && !p.noindex && !p.file;
   html = headingIds(html, withToc);
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");

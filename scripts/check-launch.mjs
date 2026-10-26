@@ -141,6 +141,12 @@ for (const pg of pages) {
   }
 }
 
+// 7d) Sichtbares Aktualisierungsdatum = Sitemap-lastmod
+for (const pg of pages) {
+  const t = (pg.html.match(/<p class="meta-line">Aktualisiert: <time datetime="([^"]+)"/) || [])[1];
+  if (t && lastmod.has(pg.route) && t !== lastmod.get(pg.route)) blocker.push(`${pg.route}: sichtbar aktualisiert am ${t}, Sitemap sagt ${lastmod.get(pg.route)}.`);
+}
+
 // 7c) Vorschaubild jeder Seite muss im Build liegen (sonst zeigen Teams, LinkedIn und Co. keine Vorschau)
 for (const pg of pages) {
   const og = (pg.html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
