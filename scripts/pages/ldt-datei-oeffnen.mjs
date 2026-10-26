@@ -41,7 +41,7 @@ const steps = [
 const faq = [
   {
     q: "Wie kann ich eine LDT-Datei in PDF umwandeln?",
-    a: `Viele LDT-3-Befunde enthalten den Laborbefund bereits als PDF. Öffnen Sie die Datei im Viewer: Steht oben „Die Datei enthält ein eingebettetes Dokument“, klicken Sie auf „Speichern“ und erhalten das PDF des Labors unverändert. ${src("ldt3", "Kap. 11.10")} Ohne eingebettetes PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog „Als PDF speichern“.`,
+    a: `LDT-3-Befunde können den Laborbefund als PDF enthalten; die AG LDT empfiehlt das. ${src("ldt3", "Fußnote 7 zu Kap. 8.5")} Öffnen Sie die Datei im Viewer: Steht oben „Die Datei enthält ein eingebettetes Dokument“, klicken Sie auf „Speichern“ und erhalten das PDF des Labors unverändert. ${src("ldt3", "Kap. 11.10")} Ohne eingebettetes PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog „Als PDF speichern“.`,
   },
   {
     q: "Meine LDT-Datei kommt von einem Leuchtenhersteller. Kann ich sie hier öffnen?",
