@@ -99,8 +99,11 @@ function headingIds(html, withToc) {
 
 const problems = [];
 const titles = new Map(), descs = new Map();
+// Seiten mit lateBody (Inhaltsübersicht) zuletzt rendern: sie lesen die fertigen Seiten der anderen
+pages.sort((a, b) => Number(!!a.lateBody) - Number(!!b.lateBody));
 for (const p of pages) {
   let tableNo = 0;
+  if (p.lateBody) p.body = p.lateBody(pages);
   let html = page(p)
     .replace(/<link rel="stylesheet" href="[^"]*styles\.css">/, `<style>${css}</style>`)
     // scrollbare Tabellenbereiche per Tastatur erreichbar machen (WCAG 2.1.1)
@@ -131,7 +134,7 @@ for (const p of pages) {
 }
 
 // 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
-const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "impressum/", "datenschutz/"];
+const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "inhalt/", "impressum/", "datenschutz/"];
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>

@@ -157,6 +157,7 @@ function footer() {
 <li><a href="${href()}">LDT &amp; BDT Viewer</a></li>
 <li><a href="${href("feldkennungen/")}">Feldkennungen</a></li>
 <li><a href="${href("quellen/")}">Quellen</a></li>
+<li><a href="${href("inhalt/")}">Alle Seiten</a></li>
 <li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>
 </ul></div>
 <div><h2>Ratgeber</h2><ul>
