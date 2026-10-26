@@ -159,7 +159,12 @@ ${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === pat
 </nav>
 </div>
 </header>
-<script>document.querySelector(".site-nav [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });</script>`;
+<script>(() => {
+  document.querySelector(".site-nav [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });
+  // Tatsächliche Kopfhöhe für alles, was darunter andockt (Suchleiste, Strukturbaum, Sprungmarken)
+  const h = document.querySelector(".site-header"), set = () => document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px");
+  set(); if (window.ResizeObserver) new ResizeObserver(set).observe(h);
+})();</script>`;
 }
 
 /** Gliederung der Website: eine Quelle für Footer und Inhaltsübersicht (/inhalt/). */
