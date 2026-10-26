@@ -285,3 +285,14 @@ export const SEX = {
   ldt3: { M: "männlich", W: "weiblich", D: "divers", X: "unbestimmt", U: "unbekannt" },
   bdt: { 0: "unbekannt", U: "unbekannt", 1: "männlich", M: "männlich", 2: "weiblich", W: "weiblich", 3: "anders", A: "anders" },
 };
+
+/** Dokumententyp in Feld 9970 (KBV LDT 3.2.20, Regel E053). */
+export const DOKUMENTTYP = {
+  "006": "Muster 6", "010": "Muster 10", "10A": "Muster 10A", "039": "Muster 39",
+  "090": "Auftragsdokument PKV-FA", "091": "Auftragsdokument PKV-LG", "092": "Auftragsdokument IGeL", "093": "Auftragsdokument Sonstige Kostenübernahme", "094": "Auftragsdokument Selektivvertrag",
+  "100": "Laborbefund", "101": "Mutterpass", "102": "Impfpass", "103": "Notfallausweis", "110": "Patientenbefund", "120": "Medikationsplan",
+  "150": "Verlaufsbericht", "160": "Behandlungsbericht", "200": "Einverständniserklärung lt. GenDG", "250": "weitere laborspezifische Dokumente",
+  "251": "Allergie/RAST", "252": "Molekulardiagnostik", "253": "Endokrinologie", "254": "Virologie", "255": "Mikrobiologie", "256": "Funktionsdiagnostik",
+  "257": "Infektionsserologie", "258": "Kinderwunsch", "300": "Meldung gemäß IfSG", "301": "Meldung Krebsregister", "400": "Normbereichsgrafik",
+  "500": "Rechnung", "900": "LDT-Datensatz", "999": "sonstiges Dokument",
+};

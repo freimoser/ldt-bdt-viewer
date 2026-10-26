@@ -218,7 +218,35 @@ function renderNotices(f) {
       cs.conflict ? `Die Datei gibt ${CHARSET_LABEL[cs.conflict.declared]} an, die Umlaute passen aber eher zu ${CHARSET_LABEL[cs.conflict.detected]}. ` : "Es gibt nur wenige Umlaute, an denen sich der Zeichensatz erkennen lässt. ",
       "Wenn Namen wie „M?ller“ oder „MÃ¼ller“ erscheinen, wählen Sie unten bei „Zeichensatz“ einen anderen."));
   }
+  // Eingebettete Dokumente (LDT 3, Obj_0010): lokal dekodieren, öffnen oder speichern
+  if (v.anhaenge && v.anhaenge.length) {
+    const list = h("ul", { class: "anhang-list" });
+    v.anhaenge.forEach((a, index) => {
+      const label = `${a.typ || "Dokument"}${a.beschreibung ? ": " + a.beschreibung : ""} (${a.format || "Datei"}, ${kb(a.groesse)})`;
+      const viewable = a.mime === "application/pdf" || /^image\/(png|jpeg)$/.test(a.mime);
+      list.append(h("li", null, label, " ",
+        viewable ? h("button", { type: "button", class: "link-btn", onclick: () => openAnhang(f, index, false) }, "Öffnen") : null,
+        viewable ? " · " : null,
+        h("button", { type: "button", class: "link-btn", onclick: () => openAnhang(f, index, true) }, "Speichern")));
+    });
+    box.append(h("div", { class: "notice notice-info", role: "note" },
+      h("strong", null, v.anhaenge.length === 1 ? "Die Datei enthält ein eingebettetes Dokument." : `Die Datei enthält ${v.anhaenge.length} eingebettete Dokumente.`),
+      " Der Viewer entpackt es nur in Ihrem Browser.", list));
+  }
   if (f.lastAnon) box.append(f.lastAnon);
+}
+
+function kb(bytes) {
+  return bytes >= 1048576 ? `${(bytes / 1048576).toLocaleString("de-DE", { maximumFractionDigits: 1 })} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+async function openAnhang(f, index, save) {
+  const res = await engine.call("anhang", { file: f.key, index });
+  const blob = new Blob([res.buffer], { type: res.mime });
+  if (save) { download(res.name, blob); return; }
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener");
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 function card(label, value, extra) {

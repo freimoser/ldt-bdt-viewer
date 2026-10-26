@@ -221,9 +221,50 @@ export function openFile(bytes, name, dict, opts = {}) {
   progress("Befunde werden zusammengestellt", 0.85);
   m.befunde = extractBefunde(m);
   m.auftraege = extractAuftraege(m);
+  m.anhaenge = listAnhaenge(m);
   m.summary = buildSummary(m);
   progress("Fertig", 1);
   return m;
+}
+
+/* ------------------------------------------------------------ Anhänge */
+
+const MIME = { PDF: "application/pdf", JPG: "image/jpeg", JPEG: "image/jpeg", PNG: "image/png", TIF: "image/tiff", TIFF: "image/tiff", TXT: "text/plain", XML: "application/xml", HTML: "text/html" };
+
+/**
+ * Eingebettete Anhänge in LDT 3: Obj_0010 mit Dateiformat 6303, Beschreibung 6327, Dokumententyp 9970;
+ * der Inhalt steht Base64-kodiert in den Zeilen 6329 des folgenden Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
+ */
+export function listAnhaenge(m) {
+  if (m.format !== "ldt3" || !m.objects) return [];
+  const out = [];
+  for (const o of m.objects) {
+    if (o.id !== "Obj_0010" || o.end < 0) continue;
+    const a = { object: o.index, start: o.start, end: o.end, format: "", beschreibung: "", typ: "", zeilen: 0, base64Laenge: 0 };
+    for (let i = o.start; i <= o.end; i++) {
+      const f = m.fk[i];
+      if (f === 6303 && !a.format) a.format = content(m, i).trim();
+      else if (f === 6327 && !a.beschreibung) a.beschreibung = content(m, i).trim();
+      else if (f === 9970 && !a.typ) a.typ = content(m, i).trim();
+      else if (f === 6329) { a.zeilen++; a.base64Laenge += m.lines.end[i] - m.lines.start[i] - 7; }
+    }
+    if (a.zeilen) {
+      a.groesse = Math.floor(a.base64Laenge * 3 / 4);
+      a.mime = MIME[a.format.toUpperCase().replace(/^\./, "")] || "application/octet-stream";
+      out.push(a);
+    }
+  }
+  return out;
+}
+
+/** Dekodiert einen Anhang aus listAnhaenge zu Bytes. */
+export function anhangBytes(m, a) {
+  let b64 = "";
+  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) b64 += content(m, i).trim();
+  const bin = atob(b64.replace(/[^A-Za-z0-9+/=]/g, ""));
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
 }
 
 function findFirst(fk, value, limit) {

@@ -261,3 +261,17 @@ test("KVDT-Abrechnungsdatei wird erkannt, Satzarten benannt, keine Fehlalarme", 
   assert.deepEqual(codes(m), { KVDT_INFO: 1 });
   assert.equal(m.records.find((r) => r.type === "0101").label, "Ambulante Behandlung");
 });
+
+test("LDT 3: eingebettetes PDF (Obj_0010, Feld 6329) wird gefunden und unverändert dekodiert", async () => {
+  const { anhangBytes } = await import("../src/assets/js/core/xdt.js");
+  const pdf = "%PDF-1.4\n%%EOF\n";
+  const b64 = Buffer.from(pdf, "latin1").toString("base64");
+  const f = fromLines(["80008220", "0001LDT3.2.20", "80008205", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068",
+    "6329" + b64.slice(0, 12), "6329" + b64.slice(12), "8003Obj_0068", "6303PDF", "8003Obj_0010", "80008221"]);
+  const m = open(f, "anhang.ldt");
+  assert.equal(m.format, "ldt3");
+  assert.equal(m.anhaenge.length, 1);
+  assert.equal(m.anhaenge[0].format, "PDF");
+  assert.equal(m.anhaenge[0].typ, "100");
+  assert.equal(new TextDecoder("latin1").decode(anhangBytes(m, m.anhaenge[0])), pdf);
+});

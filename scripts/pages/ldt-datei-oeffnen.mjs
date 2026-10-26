@@ -3,7 +3,7 @@ import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relat
 const path = "ldt-datei-oeffnen/";
 const crumbs = [["LDT & BDT Viewer", ""], ["LDT-Datei öffnen", path]];
 const title = "LDT Datei öffnen: Anleitung für Laborbefunde (kostenlos)";
-const description = "LDT Datei öffnen in 7 Schritten: Laborbefund im Browser ansehen, Markierungen lesen, Fehler prüfen. Mit Checkliste, wenn ein Befund nicht ankommt.";
+const description = "LDT Datei öffnen in 7 Schritten: Laborbefund im Browser ansehen, eingebettetes PDF speichern, Fehler prüfen. Mit Checkliste, wenn ein Befund nicht ankommt.";
 
 const steps = [
   {
@@ -40,6 +40,10 @@ const steps = [
 
 const faq = [
   {
+    q: "Wie kann ich eine LDT-Datei in PDF umwandeln?",
+    a: `Viele LDT-3-Befunde enthalten den Laborbefund bereits als PDF. Öffnen Sie die Datei im Viewer: Steht oben „Die Datei enthält ein eingebettetes Dokument“, klicken Sie auf „Speichern“ und erhalten das PDF des Labors unverändert. ${src("ldt3", "Kap. 11.10")} Ohne eingebettetes PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog „Als PDF speichern“.`,
+  },
+  {
     q: "Meine LDT-Datei kommt von einem Leuchtenhersteller. Kann ich sie hier öffnen?",
     a: `Nein. Das ist eine EULUMDAT-Lichtdatei mit derselben Endung .ldt. Sie beschreibt, wie eine Leuchte Licht abstrahlt, und hat mit Laborbefunden nichts zu tun. ${src("eulumdatFormat")} Solche Dateien öffnen Lichtplanungsprogramme wie DIALux. ${src("eulumdat")} Der Viewer erkennt Lichtdateien und weist darauf hin.`,
   },
@@ -70,7 +74,7 @@ export default {
   ogType: "article",
   minInternalLinks: 3,
   lastmod: "2026-10-26",
-  llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
+  llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest, ein eingebettetes PDF (Obj_0010, Feld 6329) speichert oder den Befund als PDF druckt, LDT-Labordateien von EULUMDAT-Lichtdateien unterscheidet und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
   jsonld: [
     howToLd({
       name: "LDT-Datei öffnen und einen Laborbefund lesen",
@@ -131,6 +135,15 @@ ${stepsHtml(steps)}
 
 <h3>Wo die Werte in der Datei stehen</h3>
 <p>Für Praxis-IT und Support: In LDT 2 hat jede Angabe ein eigenes Feld, etwa 8411 Testbezeichnung, 8420 Ergebniswert, 8421 Einheit und 8480 Ergebnis-Text. ${src("ldt2", "Kap. 3.8")} Die Befundart steht in Feld 8401: <code>E</code> Endbefund, <code>T</code> Teilbefund, <code>V</code> Vorläufiger Befund, <code>A</code> Archiv-Befund, <code>N</code> Nachforderung. ${src("ldt2", "Feld 8401")} Der Viewer zeigt sie im Kopf des Befunds. In LDT 3 stecken die Werte in Objekten, zum Beispiel Obj_0060 (Untersuchungsergebnis Klinische Chemie) und Obj_0042 (Normalwert). ${src("ldt3", "Kap. 11")} Jede Kennung finden Sie unter <a href="${href("feldkennungen/")}">Feldkennungen</a>.</p>
+
+<h2 id="pdf">LDT-Datei in PDF umwandeln</h2>
+<p>Oft müssen Sie nichts umwandeln: Ein LDT-3-Befund kann Dokumente als Anhang mitbringen, im Objekt „Anhang“ (Obj_0010) mit Dateiformat in Feld 6303 und dem Inhalt als Base64-kodierte Zeilen in Feld 6329. ${src("ldt3", "Kap. 11.10, Regel K100")} Der Dokumententyp in Feld 9970 sagt, was es ist, zum Beispiel 100 für „Laborbefund“ oder 10A für „Muster 10A“. ${src("ldt3", "Regel E053")} Die AG LDT empfiehlt, immer eine PDF-Datei des Befundes einzubetten. ${src("ldt3", "Fußnote 7 zu Kap. 8.5")}</p>
+<ol>
+<li><strong>Eingebettetes PDF speichern:</strong> Öffnen Sie die Datei im <a href="${href()}">Viewer</a>. Enthält sie einen Anhang, erscheint oben „Die Datei enthält ein eingebettetes Dokument“ mit Typ, Format und Größe. „Öffnen“ zeigt das PDF in einem neuen Tab, „Speichern“ lädt es herunter. Es ist das Original des Labors, der Viewer entpackt es nur und lädt nichts hoch.</li>
+<li><strong>Ohne Anhang drucken:</strong> Enthält die Datei kein PDF, etwa bei LDT 2, öffnen Sie den Reiter „Befunde“, klicken auf „Drucken“ und wählen im Druckdialog des Browsers „Als PDF speichern“. Das ergibt eine Tabelle mit Untersuchung, Ergebnis, Einheit, Normbereich und Markierung, aber kein Dokument des Labors.</li>
+</ol>
+<p>Eine EULUMDAT-Lichtdatei lässt sich auf diesem Weg nicht in ein PDF umwandeln; dafür sind Lichtplanungsprogramme zuständig (siehe <a href="#lichtdatei">Labordatei oder Lichtdatei?</a>).</p>
+
 
 <h2 id="befund-kommt-nicht-an">Was tun, wenn ein Laborbefund nicht in der Praxissoftware ankommt?</h2>
 <p>Gehen Sie die Punkte der Reihe nach durch. Ab Punkt 2 öffnen Sie die LDT-Datei im Viewer und schauen in die Karte „Prüfung“.</p>
