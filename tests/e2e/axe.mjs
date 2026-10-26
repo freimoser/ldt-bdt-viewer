@@ -52,7 +52,7 @@ try {
     await page.type("#lookupInput", "3101"); await page.waitForSelector(".lookup-list");
     await audit(page, `${w}px Nachschlagen`);
   }
-  for (const p of ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "glossar/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"]) {
+  for (const p of ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "glossar/", "inhalt/", "ueber/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"]) {
     const page = await browser.newPage();
     page.setDefaultTimeout(180000);
     await page.goto(`http://localhost:${PORT}/ldt-bdt-viewer/${p}`, { waitUntil: "load" });

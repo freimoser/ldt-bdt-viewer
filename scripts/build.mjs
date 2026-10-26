@@ -99,8 +99,11 @@ function headingIds(html, withToc) {
 
 const problems = [];
 const titles = new Map(), descs = new Map();
+// Seiten mit lateBody (Inhaltsübersicht) zuletzt rendern: sie lesen die fertigen Seiten der anderen
+pages.sort((a, b) => Number(!!a.lateBody) - Number(!!b.lateBody));
 for (const p of pages) {
   let tableNo = 0;
+  if (p.lateBody) p.body = p.lateBody(pages);
   let html = page(p)
     .replace(/<link rel="stylesheet" href="[^"]*styles\.css">/, `<style>${css}</style>`)
     // scrollbare Tabellenbereiche per Tastatur erreichbar machen (WCAG 2.1.1)
@@ -109,6 +112,11 @@ for (const p of pages) {
       const label = (cap || "").trim() || `Tabelle ${tableNo}${th ? ": " + th.trim() : ""}`;
       return `<div class="table-wrap" tabindex="0" role="region" aria-label="${label.replace(/"/g, "&quot;")}">${rest}`;
     });
+  // Sichtbares Datum im Seitenkopf = lastmod (eine Quelle für Seite, Schema und Sitemap); Abrufdaten stehen an den Quellen
+  if (!p.noindex) {
+    const iso = p.lastmod || SITE.updated, de = iso.split("-").reverse().join(".");
+    html = html.replace(/<p class="meta-line">Stand: [0-9.]+/, `<p class="meta-line">Aktualisiert: <time datetime="${iso}">${de}</time>`);
+  }
   const withToc = !!p.path && !p.noindex && !p.file;
   html = headingIds(html, withToc);
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
@@ -131,7 +139,7 @@ for (const p of pages) {
 }
 
 // 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
-const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "impressum/", "datenschutz/"];
+const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "ueber/", "inhalt/", "impressum/", "datenschutz/"];
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
@@ -253,7 +261,7 @@ const files = [];
   }
 })(dist);
 // Bildschirmfotos der Ratgeber braucht der Viewer offline nicht
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.endsWith(".map"));
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.startsWith("og/") && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);

@@ -95,7 +95,7 @@ try {
   const mobile = await browser.newPage();
   mobile.setDefaultTimeout(120000);
   await mobile.setViewport({ width: 360, height: 780, isMobile: true, hasTouch: true });
-  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
+  const pages = ["", "ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "feldkennungen/", "fehler/", "ldt-datei-beispiel/", "bdt-datei-beispiel/", "glossar/", "inhalt/", "ueber/", "quellen/", "impressum/", "datenschutz/", "gibt-es-nicht/"];
   for (const p of pages) {
     const res = await mobile.goto(BASE + p, { waitUntil: "load" });
     if (p === "") {
@@ -104,6 +104,23 @@ try {
     }
     const w = await mobile.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));
     check(`360 px ohne seitliches Scrollen: /${p}`, w.sw <= w.cw, `${w.sw}/${w.cw}, Status ${res.status()}`);
+  }
+
+  // 4b) Navigation: mitlaufend, einzeilig, aktiver Punkt sichtbar (Desktop und 360 px)
+  for (const [vp, label] of [[{ width: 1280, height: 900 }, "1280 px"], [{ width: 360, height: 780, isMobile: true, hasTouch: true }, "360 px"]]) {
+    const nv = await browser.newPage();
+    await nv.setViewport(vp);
+    await nv.goto(BASE + "fehler/", { waitUntil: "load" });
+    await nv.evaluate(() => window.scrollTo(0, 3000));
+    await new Promise((r) => setTimeout(r, 200));
+    const n = await nv.evaluate(() => {
+      const h = document.querySelector(".site-header").getBoundingClientRect();
+      const links = [...document.querySelectorAll(".site-nav a")].map((a) => a.getBoundingClientRect());
+      const cur = document.querySelector(".site-nav [aria-current]").getBoundingClientRect();
+      return { top: Math.round(h.top), rows: new Set(links.map((r) => Math.round(r.top))).size, curVisible: cur.left >= 0 && cur.right <= innerWidth };
+    });
+    check(`Navigation ${label}: oben fixiert, einzeilig, aktiver Punkt sichtbar`, n.top === 0 && n.rows === 1 && n.curVisible, JSON.stringify(n));
+    await nv.close();
   }
 
   // 5) Offline

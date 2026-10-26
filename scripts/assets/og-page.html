@@ -1,0 +1,22 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(139,92,246,.35),transparent),#0f1419;color:#e8eef4;font-family:-apple-system,"Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column;justify-content:space-between;padding:70px 90px 64px;box-sizing:border-box}
+.brand{display:flex;align-items:center;gap:22px;font-size:30px;font-weight:700;color:#c4b5fd}
+.logo{width:76px;height:76px;border-radius:20px;background:linear-gradient(145deg,#a78bfa,#8b5cf6 45%,#6d28d9);display:grid;place-items:center;font-weight:800;font-size:24px;letter-spacing:.04em;color:#fff}
+.kicker{font-size:28px;font-weight:600;color:#a78bfa;text-transform:uppercase;letter-spacing:.06em;margin:0 0 18px}
+h1{margin:0;font-size:68px;letter-spacing:-.02em;line-height:1.08;max-width:1020px}
+.foot{display:flex;gap:16px}
+.b{padding:10px 22px;border-radius:999px;border:2px solid #2e3a4a;background:#1a222c;font-size:24px;font-weight:600}
+.b.v{background:rgba(139,92,246,.18);border-color:#8b5cf6;color:#c4b5fd}
+</style></head><body>
+<div class="brand"><div class="logo">LDT</div>LDT &amp; BDT Viewer</div>
+<div><p class="kicker" id="k"></p><h1 id="t"></h1></div>
+<div class="foot"><span class="b">kostenlos</span><span class="b">mit Quellen</span><span class="b v">100 % lokal – kein Upload</span></div>
+<script>
+const q = new URLSearchParams(location.search);
+document.getElementById("t").textContent = q.get("t") || "";
+document.getElementById("k").textContent = q.get("k") || "";
+// lange Titel kleiner setzen, damit sie in drei Zeilen passen
+const h = document.getElementById("t"); let s = 68; while (h.scrollHeight > 3 * 1.08 * s + 4 && s > 44) { s -= 2; h.style.fontSize = s + "px"; }
+</script>
+</body></html>

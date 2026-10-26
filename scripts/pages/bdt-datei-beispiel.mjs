@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src as srcAt, href, url, esc, SITE } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src as srcAt, href, url, esc, SITE, PERSON_LD } from "../lib/layout.mjs";
 import { BEISPIELE } from "../../src/assets/js/core/beispiele.js";
 import { openFile, rowInfo } from "../../src/assets/js/core/xdt.js";
 
@@ -134,7 +134,7 @@ ${relatedHtml(["bdt-datei-oeffnen/", "was-ist-bdt/", "xdt-gdt-ldt-bdt/", "ldt-da
     isAccessibleForFree: true,
     license: "https://creativecommons.org/publicdomain/zero/1.0/",
     keywords: ["BDT", "Behandlungsdatenträger", "xDT", "Beispieldatei", "Testdatei", "Praxissoftware"],
-    creator: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+    creator: PERSON_LD,
     dateModified: UPDATED,
     distribution: LIST.map((b) => ({ "@type": "DataDownload", name: b.title, contentUrl: url("beispiele/" + b.file), encodingFormat: "text/plain" })),
   };

@@ -48,11 +48,20 @@ a:hover { color: var(--text); }
 .page { max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
 .page-content { max-width: 780px; }
 
-/* Navigation */
-.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.15rem; margin: 0 0 1.5rem; padding: 0.45rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; }
-.site-nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0.7rem; border-radius: 8px; transition: color 0.15s, background 0.15s; }
+/* Kopf mit Navigation: auf jeder Seite gleich, beim Scrollen oben fixiert */
+:root { --header-h: 3.7rem; }
+html { scroll-padding-top: calc(var(--header-h) + 1rem); }
+.site-header { position: sticky; top: 0; z-index: 15; background: var(--bg); background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+.site-header-inner { max-width: 1080px; margin: 0 auto; padding: 0.45rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+.site-brand { display: flex; align-items: center; gap: 0.55rem; flex: none; color: var(--text); text-decoration: none; font-weight: 700; font-size: 0.92rem; white-space: nowrap; padding: 0.25rem 0.4rem 0.25rem 0; border-radius: 8px; }
+.site-brand:hover, .site-brand[aria-current="page"] { color: var(--accent-hover); }
+.logo.logo-sm { width: 2rem; height: 2rem; border-radius: 8px; font-size: 0.6rem; box-shadow: none; }
+.site-nav { display: flex; flex-wrap: nowrap; align-items: center; gap: 0.1rem; margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 0.75rem, #000 calc(100% - 0.75rem), transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 0.75rem, #000 calc(100% - 0.75rem), transparent 100%); padding: 0 0.6rem; }
+.site-nav::-webkit-scrollbar { display: none; }
+.site-nav a { flex: none; color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0.5rem; border-radius: 8px; white-space: nowrap; transition: color 0.15s, background 0.15s; }
 .site-nav a:hover { color: var(--text); background: var(--bg-soft); }
-.site-nav a[aria-current="page"] { color: var(--accent-hover); background: var(--accent-dim); }
+.site-nav a[aria-current] { color: var(--accent-hover); background: var(--accent-dim); }
+.page { padding-top: 1.75rem; }
 
 /* Kopf */
 .header { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
@@ -215,7 +224,7 @@ tbody tr:last-child td { border-bottom: none; }
 /* Hinweis auf neue Version */
 .update-toast { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 20; display: flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; max-width: min(36rem, calc(100vw - 2rem)); padding: 0.75rem 1rem; border-radius: 12px; background: var(--bg-soft); border: 1px solid var(--accent); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45); font-size: 0.95rem; }
 .update-toast span { flex: 1 1 14rem; }
-@media print { .update-toast { display: none; } }
+@media print { .update-toast, .site-header { display: none; } }
 
 /* Beispielauswahl */
 .example-list { margin: 0.75rem 0 0; }
@@ -245,7 +254,7 @@ tbody tr:last-child td { border-bottom: none; }
 .struct-tools p { margin: 0; font-size: 0.86rem; }
 .goto { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font-size: 0.9rem; }
 .struct { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 0.75rem; align-items: start; }
-.tree { position: sticky; top: 0.5rem; max-height: 75vh; overflow: auto; padding: 0.6rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; font-size: 0.86rem; }
+.tree { position: sticky; top: calc(var(--header-h) + 0.5rem); max-height: calc(100vh - var(--header-h) - 1.5rem); overflow: auto; padding: 0.6rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 12px; font-size: 0.86rem; }
 .tree-title { margin: 0 0 0.4rem; color: var(--muted); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
 .tree ul { list-style: none; margin: 0; padding: 0; }
 .tree ul ul { padding-left: 0.8rem; border-left: 1px solid var(--border); margin-left: 0.35rem; }
@@ -355,7 +364,7 @@ tbody tr:last-child td { border-bottom: none; }
 .related h2 { margin: 0 0 0.85rem; font-size: 1.1rem; }
 
 /* Feldkennungen */
-.ref-search { position: sticky; top: 0; z-index: 2; padding: 0.75rem 0; background: var(--bg); }
+.ref-search { position: sticky; top: var(--header-h); z-index: 2; padding: 0.75rem 0; background: var(--bg); }
 /* Feldkennungen: ein Block je Tausenderbereich, nur sichtbare Blöcke werden gezeichnet; feste Spalten halten die Blöcke bündig */
 .ref-block { content-visibility: auto; }
 .ref-block + .ref-block { margin-top: 1.25rem; }
@@ -391,8 +400,9 @@ tbody tr:last-child td { border-bottom: none; }
 
 @media (max-width: 600px) {
   .page { padding: 1rem 1rem 2rem; }
-  .site-nav { gap: 0.15rem; }
-  .site-nav a { font-size: 0.82rem; padding: 0.45rem 0.55rem; }
+  .site-header-inner { padding: 0.35rem 0.75rem 0.35rem 1rem; gap: 0.25rem; }
+  .site-brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .site-nav a { font-size: 0.84rem; padding: 0.5rem 0.55rem; }
   h1 { font-size: 1.35rem; }
   .card { padding: 1rem; }
   .dropzone { padding: 1.5rem 1rem; }
@@ -430,3 +440,9 @@ tbody tr:last-child td { border-bottom: none; }
 .glossar dd { margin: 0.35rem 0 0; }
 .glossar dd p { margin: 0 0 0.35rem; }
 .glossar-more { font-size: 0.92rem; }
+.inhalt-liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.inhalt-seite { padding: 0.9rem 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-elevated); }
+.inhalt-seite h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
+.inhalt-seite p { margin: 0 0 0.4rem; color: var(--muted); font-size: 0.94rem; }
+.inhalt-abschnitte { margin: 0; padding-left: 1.2rem; font-size: 0.92rem; columns: 2 16rem; column-gap: 1.5rem; }
+.inhalt-abschnitte li { break-inside: avoid; }
