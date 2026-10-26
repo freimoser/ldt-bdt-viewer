@@ -1,7 +1,7 @@
 # Quellen
 
 Alle Feldtabellen, Prüfregeln und Faktenaussagen des LDT & BDT Viewers stützen sich auf die folgenden Dokumente.
-Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket, den Objektkatalog und die EULUMDAT-Abgrenzung ergänzt am **12.10.2026**.
+Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket, den Objektkatalog und die EULUMDAT-Abgrenzung ergänzt am **12.10.2026**; um KVDT, die EULUMDAT-Formatbeschreibung und die BDT-3-Freigabe ergänzt am **26.10.2026**.
 
 ## Spezifikationen
 

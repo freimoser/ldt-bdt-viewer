@@ -142,15 +142,38 @@ ${indexable.map((p) => {
 </urlset>
 `);
 
+// Kurzantworten mit Sprungmarke: jede Antwort fasst eine belegte Stelle der Website zusammen; der Build prüft, dass jede Marke existiert
+const KURZ = [
+  ["Was ist eine LDT-Datei?", "Eine Textdatei im Format Labordatenträger der KBV, mit dem Arztpraxen Laboraufträge an Labore senden und Labore Befunde zurückschicken. Jede Zeile besteht aus 3 Ziffern Länge, 4 Ziffern Feldkennung und dem Inhalt (KBV LDT 3.2.20, Kap. 4 und 6.4.1).", "was-ist-ldt/"],
+  ["Wie öffne ich eine LDT-Datei?", "Im LDT & BDT Viewer die Datei ins Feld ziehen oder „Datei wählen“ klicken. Er zeigt Werte als Tabelle, den Aufbau und eine Prüfung; die Datei bleibt im Browser.", "ldt-datei-oeffnen/#anleitung"],
+  ["Wie wandle ich eine LDT-Datei in PDF um?", "LDT-3-Befunde können das PDF des Labors als Anhang enthalten (Obj_0010, Base64 in Feld 6329; KBV LDT 3.2.20, Kap. 11.10). Der Viewer öffnet und speichert es. Ohne Anhang: Reiter „Befunde“ drucken und „Als PDF speichern“ wählen.", "ldt-datei-oeffnen/#pdf"],
+  ["Die .ldt-Datei stammt von einem Leuchtenhersteller. Was ist das?", "Eine EULUMDAT-Lichtdatei mit derselben Endung. Sie beschreibt die Lichtverteilung einer Leuchte und gehört in Lichtplanungsprogramme wie DIALux, nicht in die Praxissoftware.", "ldt-datei-oeffnen/#lichtdatei"],
+  ["Was heißt BDT?", "Behandlungsdatentransfer, früher Behandlungsdatenträger: ein xDT-Standard, mit dem Praxissoftware Daten systemunabhängig exportiert, vor allem beim Wechsel des Praxisprogramms (QMS, BDT 3.0 Version 0.96, Kap. 2).", "was-ist-bdt/"],
+  ["Was ist KVDT?", "Kassenärztliche Vereinigung-Datentransfer: das xDT-Format, mit dem die Praxis ihre Abrechnungsdaten an die Kassenärztliche Vereinigung überträgt; aktuelle Datensatzbeschreibung der KBV: Version 6.08 vom 24.08.2026.", "xdt-gdt-ldt-bdt/#kvdt"],
+  ["Was unterscheidet LDT 3 von LDT 2?", "LDT 3 beendet Sätze mit Feld 8001 statt die Satzlänge in Feld 8100 anzugeben, bündelt Felder in Objekten (8002 bis 8003), erlaubt nur ISO 8859-15 und sichert die Datei mit einer SHA-1-Prüfsumme in Feld 9300 (KBV LDT 3.2.20, Kap. 6.3, 6.6 und 6.7).", "ldt-2-vs-ldt-3/"],
+  ["Warum erscheinen Umlaute in einer LDT-Datei falsch?", "Die Datei wird mit einem anderen Zeichensatz gelesen, als sie geschrieben wurde. LDT 3 erlaubt nur ISO 8859-15; in LDT 2 steht der Zeichensatz in Feld 9106.", "fehler/#zeichensatz"],
+  ["Was bedeutet „Prüfsumme in Feld 9300 passt nicht“?", "Die Datei wurde nach dem Erstellen verändert, denn die SHA-1-Prüfsumme wird über alle Zeichen davor berechnet. Den Befund beim Labor neu anfordern.", "fehler/#pruefsumme"],
+  ["Wo gibt es LDT- und BDT-Beispieldateien?", "Auf den Beispielseiten: LDT-3- und LDT-2-Befunde, ein Auftrag, ein BDT-Export und Fehlerbeispiele mit erfundenen Daten, frei nutzbar unter CC0 1.0.", "ldt-datei-beispiel/#downloads"],
+];
+for (const [, , ziel] of KURZ) {
+  const [pfad, marke] = ziel.split("#");
+  const seite = pages.find((p) => p.path === pfad);
+  if (!seite || (marke && !seite.html.includes(`id="${marke}"`))) throw new Error(`llms.txt: Sprungziel ${ziel} fehlt`);
+}
+
 const llms = `# ${SITE.name}
 
 > Kostenloses Browser-Werkzeug zum Öffnen, Prüfen und Anonymisieren von LDT-Dateien (Labordatenträger, Austausch zwischen Labor und Arztpraxis) und BDT-Dateien (Behandlungsdatenträger, Export aus Praxissoftware); alles läuft lokal im Browser, ohne Upload.
 
-Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}). Gedacht für Medizinische Fachangestellte, Praxis-IT und Support sowie Entwickler von Schnittstellen. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12) und des QMS (BDT 3.0, Entwurf); jede Faktenaussage auf den Seiten nennt Stand und Quelle.
+Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}). Gedacht für Medizinische Fachangestellte, Praxis-IT und Support sowie Entwickler von Schnittstellen. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12, KVDT 6.08) und des QMS (BDT 3.0, öffentlich nur Version 0.96); jede Faktenaussage auf den Seiten nennt Stand und Quelle. Der Viewer zeigt außerdem eingebettete PDF-Befunde aus LDT 3, erkennt KVDT-Abrechnungsdateien und unterscheidet LDT-Labordateien von EULUMDAT-Lichtdateien mit derselben Endung .ldt.
 
 ## Wofür diese Seite eine gute Quelle ist
 
 ${indexable.map((p) => `- [${p.llmsTitle || p.title}](${url(p.path)}): ${p.llms || p.description}`).join("\n")}
+
+## Kurzantworten mit Direktlink
+
+${KURZ.map(([q, a, ziel]) => `- **${q}** ${a} [Mehr](${url(ziel)})`).join("\n")}
 
 ## Beispieldateien (erfundene Testdaten zum Herunterladen, Lizenz CC0 1.0)
 
@@ -162,15 +185,16 @@ ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}
 - Die Prüfung ersetzt weder das LDK-Prüfmodul noch eine Zertifizierung durch die KBV. Von den Kontextregeln (K-Regeln) der LDT-3-Regeltabelle werden nur K002, K005, K076, K096 und K099 ausgewertet.
 - BDT 3 wurde vom QMS im September 2017 freigegeben (Deutsches Ärzteblatt, 27.09.2017), die freigegebene Fassung ist aber nicht öffentlich abrufbar. Alle BDT-3.0-Angaben beruhen auf der archivierten Version 0.96 vom 01.03.2015 (Status „Freigabe für Testimplementierungen“); die Originalbeschreibung BDT 02/94 ist ebenfalls nicht öffentlich verfügbar. Aussagen zum klassischen BDT-Aufbau stützen sich auf eine Sekundärquelle (Universität Gießen).
 - Die Beispieldateien enthalten erfundene Personen und Werte; ihre Normbereiche sind keine medizinischen Referenzwerte.
-- Stand der Spezifikationen und Quellen: 12.10.2026 (${url("quellen/")}).
+- Stand der Spezifikationen: 12.10.2026; ergänzende Quellen (KVDT 6.08, EULUMDAT-Formatbeschreibung, BDT-3-Freigabe) abgerufen am 26.10.2026 (${url("quellen/")}).
 
 ## Aussagen, die ohne Kontext irreführen
 
 - „Der Viewer meldet keine Fehler.“ Das heißt: keine Verstöße gegen die geprüften Regeln. Es heißt nicht, dass eine Datei die Zertifizierung der KBV bestehen würde.
 - „Der Wert ist als H markiert.“ Die Markierung setzt das Labor in Feld 8422; der Viewer zeigt sie nur an und bewertet nichts selbst.
+- „Eine .ldt-Datei ist ein Laborbefund.“ Dieselbe Endung nutzen EULUMDAT-Lichtdateien aus der Lichtplanung.
 - „LDT 3.2.20 ist der aktuelle Standard.“ Das gilt seit dem 01.10.2026; LDT 2 (LDT1014.01) ist in Praxen und Laboren weiterhin im Einsatz.
 - „Feldkennungen bedeuten in allen xDT-Formaten dasselbe.“ Die Bezeichnungen sind meist gleich, die Formate nicht: Das Geburtsdatum in Feld 3103 steht in LDT als JJJJMMTT, in BDT als TTMMJJJJ.
-- „In BDT 3.0 ist Feld 3109 das Geschlecht.“ Diese Bedeutung ist im Entwurf durchgestrichen; gültig ist 3109 = Hausnummer.
+- „In BDT 3.0 ist Feld 3109 das Geschlecht.“ Diese Bedeutung ist in Version 0.96 durchgestrichen; gültig ist 3109 = Hausnummer.
 
 ## Quellen
 
