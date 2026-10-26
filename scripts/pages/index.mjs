@@ -69,7 +69,8 @@ export default {
     },
     faqLd(faq),
   ],
-  body: `<header class="header">
+  body: `<main id="inhalt">
+<div class="header">
 <div class="brand">
 <span class="logo" aria-hidden="true">LDT</span>
 <div>
@@ -78,9 +79,8 @@ export default {
 </div>
 </div>
 <p class="privacy-badge"><span class="dot" aria-hidden="true"></span>100 % lokal – nichts wird hochgeladen</p>
-</header>
+</div>
 
-<main id="inhalt">
 <section class="card" aria-labelledby="open-title">
 <h2 id="open-title">Datei öffnen</h2>
 <p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst. Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></p>

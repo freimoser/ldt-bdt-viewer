@@ -77,6 +77,7 @@ const NAV = [
   ["feldkennungen/", "Feldkennungen"],
   ["fehler/", "Fehler"],
   ["ldt-datei-beispiel/", "Beispiele"],
+  ["glossar/", "Glossar"],
 ];
 
 export const GUIDES = [
@@ -136,10 +137,17 @@ ${ld}
 </head>`;
 }
 
+// Ein Kopf für alle Seiten: gleiche Breite, beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar
 function nav(path) {
-  return `<nav class="site-nav" aria-label="Hauptnavigation">
-${NAV.map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : ""}>${esc(l)}</a>`).join("\n")}
-</nav>`;
+  return `<header class="site-header">
+<div class="site-header-inner">
+<a class="site-brand" href="${href()}"${path === "" ? ' aria-current="page"' : ""}><span class="logo logo-sm" aria-hidden="true">LDT</span><span>LDT &amp; BDT Viewer</span></a>
+<nav class="site-nav" aria-label="Hauptnavigation">
+${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : ""}>${esc(l)}</a>`).join("\n")}
+</nav>
+</div>
+</header>
+<script>document.querySelector(".site-nav [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });</script>`;
 }
 
 function footer() {
@@ -216,8 +224,8 @@ export function page(p) {
 ${head(p)}
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
-<div class="page ${p.pageClass || "page-content"}">
 ${nav(p.path)}
+<div class="page ${p.pageClass || "page-content"}">
 ${p.body}
 ${footer()}
 </div>
