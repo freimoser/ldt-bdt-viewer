@@ -134,7 +134,7 @@ for (const p of pages) {
 }
 
 // 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
-const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "inhalt/", "impressum/", "datenschutz/"];
+const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "ueber/", "inhalt/", "impressum/", "datenschutz/"];
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>

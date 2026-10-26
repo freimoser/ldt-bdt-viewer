@@ -14,7 +14,7 @@ const GRUPPEN = [
   ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/"]],
   ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "glossar/"]],
   ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
-  ["Über diese Website", ["quellen/", "impressum/", "datenschutz/"]],
+  ["Über diese Website", ["ueber/", "quellen/", "impressum/", "datenschutz/"]],
 ];
 
 const plain = (s) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();

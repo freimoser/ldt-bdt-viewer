@@ -18,7 +18,7 @@ const BEREICH = {
   "ldt-datei-oeffnen/": "Anleitung", "bdt-datei-oeffnen/": "Anleitung", "fehler/": "Anleitung",
   "was-ist-ldt/": "Wissen", "was-ist-bdt/": "Wissen", "ldt-2-vs-ldt-3/": "Wissen", "xdt-gdt-ldt-bdt/": "Wissen", "glossar/": "Wissen",
   "ldt-datei-beispiel/": "Beispieldateien", "bdt-datei-beispiel/": "Beispieldateien", "feldkennungen/": "Referenz",
-  "quellen/": "Über diese Website", "inhalt/": "Über diese Website",
+  "quellen/": "Über diese Website", "inhalt/": "Über diese Website", "ueber/": "Projekt",
 };
 const plain = (s) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
 
