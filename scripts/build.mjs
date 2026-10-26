@@ -79,7 +79,9 @@ function headingIds(html, withToc) {
   const m = html.match(/<main[\s\S]*?<\/main>/);
   if (!m) return html;
   const used = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((x) => x[1]));
-  let main = m[0].replace(/<(h[23])>([\s\S]*?)<\/\1>/g, (all, tag, inner) => {
+  let main = m[0].replace(/<(h[23])>([\s\S]*?)<\/\1>/g, (all, tag, inner, at, str) => {
+    // Überschriften in Link-Karten („Weiterlesen“) sind keine Abschnitte
+    if (str.lastIndexOf("<a ", at) > str.lastIndexOf("</a>", at)) return all;
     let id = slug(inner) || tag, n = 2;
     while (used.has(id)) id = `${slug(inner)}-${n++}`;
     used.add(id);

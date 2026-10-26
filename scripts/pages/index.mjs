@@ -22,7 +22,7 @@ export default {
   path: "",
   // 26.10.2026: eingebettete PDFs, KVDT- und Lichtdatei-Erkennung
   lastmod: "2026-10-26",
-  title: "LDT Viewer – LDT & BDT Dateien online öffnen, ohne Upload",
+  title: "LDT Viewer für Laborbefunde – LDT & BDT ohne Upload öffnen",
   description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, eingebettete PDF-Befunde speichern, Fehler finden. Alles im Browser, kein Upload.",
   ogTitle: "LDT & BDT Viewer – Laborbefunde und Praxis-Exporte lesen",
   ogDescription: "LDT-Laborbefunde und BDT-Exporte verständlich anzeigen, prüfen und anonymisieren – direkt im Browser, ohne Upload.",
@@ -83,7 +83,7 @@ export default {
 <main id="inhalt">
 <section class="card" aria-labelledby="open-title">
 <h2 id="open-title">Datei öffnen</h2>
-<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst.</p>
+<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst. Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></p>
 <div id="dropzone" class="dropzone">
 <div class="drop-icon" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke-linecap="round"/></svg></div>
 <p class="drop-title" id="dropTitle">LDT- oder BDT-Datei hierher ziehen</p>
