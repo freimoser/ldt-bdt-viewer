@@ -828,7 +828,7 @@ function checkVersion(m) {
   if (m.format === "ldt3") {
     const v = m.version;
     if (!v) addIssue(m, null, "fehler", "VERSION_MISSING", "Die Version (Feld 0001 in den Kopfdaten) fehlt.", "LDT 3 verlangt die Versionsangabe in Obj_0032 (Kopfdaten).");
-    else if (v !== S.VERSION.ldt3.expected) addIssue(m, null, "warnung", "VERSION_OTHER", `Die Datei wurde nach ${v} erstellt. Aktuell gültig ist ${S.VERSION.ldt3.expected} (in Kraft seit ${S.VERSION.ldt3.validFrom}).`, "Regel E001 der KBV erlaubt in Feld 0001 nur die aktuelle Version und meldet sonst eine Warnung. Ältere Versionen werden von vielen Praxisprogrammen trotzdem gelesen.");
+    else if (v !== S.VERSION.ldt3.expected) addIssue(m, null, "warnung", "VERSION_OTHER", `Die Datei wurde nach ${v} erstellt. Aktuell gültig ist ${S.VERSION.ldt3.expected} (in Kraft seit ${S.VERSION.ldt3.validFrom}).`, "Regel E001 der KBV erlaubt in Feld 0001 nur die aktuelle Version und meldet sonst eine Warnung, keinen Fehler. Ob Ihr Praxisprogramm ältere Versionen noch liest, hängt von seinem Hersteller ab.");
   }
 }
 

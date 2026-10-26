@@ -60,6 +60,13 @@ ${heroHtml({
 </tbody>
 </table></div>
 <p>${src("ldt2", "S. 1, Satzart 8220")} ${src("ldt3", "S. 1–2, Regel E001")} ${src("faq", "Kap. 2")}</p>
+<h3 id="neu-in-3-2-20">Was ist neu in LDT 3.2.20?</h3>
+<p>Laut Dokumentenhistorie der KBV bringt Version 3.2.20 (13.05.2026, in Kraft seit 01.10.2026) zwei Änderungen gegenüber 3.2.19 vom 01.07.2025: ${src("ldt3", "S. 1–2, Dokumentenhistorie")}</p>
+<ul>
+<li><strong>Versionskennung:</strong> Regel E001 erlaubt in Feld 0001 jetzt <code>LDT3.2.20</code>. Steht dort eine andere Version, etwa noch <code>LDT3.2.19</code>, ist das laut Regel eine Warnung, kein Fehler. ${src("ldt3", "Regel E001")}</li>
+<li><strong>DMP-Kennzeichen:</strong> Die erlaubten Werte für die DMP-Kennzeichnung in Feld 4132 wurden angepasst (Regel E020). Die aktuelle Liste reicht von 00 (keine Angabe) über einzelne Programme wie 01 (Diabetes mellitus Typ 2) bis zu Kombinationen wie 58. ${src("ldt3", "Regel E020")}</li>
+</ul>
+<p>Der Viewer prüft nach 3.2.20: Eine Datei mit <code>LDT3.2.19</code> öffnet er normal und meldet die ältere Version als Warnung. Was die Meldung bedeutet, steht unter <a href="${href("fehler/#version")}">Fehler: Ältere oder falsche Version</a>.</p>
 <p>Was sich zwischen beiden Generationen geändert hat, von den Satzarten bis zur Prüfsumme, steht im ausführlichen Vergleich <a href="${href("ldt-2-vs-ldt-3/")}">LDT 3 und LDT 2</a>. Die folgenden Abschnitte beschreiben LDT 3.</p>
 
 <h2>So läuft der Austausch zwischen Praxis und Labor</h2>
