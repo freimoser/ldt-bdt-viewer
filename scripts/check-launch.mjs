@@ -141,6 +141,14 @@ for (const pg of pages) {
   }
 }
 
+// 7e) Einheitliche Navigation: genau ein Kopf, auf jeder Seite dieselben Ziele in derselben Reihenfolge
+const navZiele = (html) => ((html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/) || [""])[0].match(/href="[^"]+"/g) || []).join(" ");
+const navRef = start ? navZiele(start.html) : "";
+for (const pg of pages) {
+  if ((pg.html.match(/<header class="site-header">/g) || []).length !== 1) blocker.push(`${pg.route}: nicht genau ein Seitenkopf mit Navigation.`);
+  else if (navZiele(pg.html) !== navRef) blocker.push(`${pg.route}: Navigation weicht von der Startseite ab.`);
+}
+
 // 7d) Sichtbares Aktualisierungsdatum = Sitemap-lastmod
 for (const pg of pages) {
   const t = (pg.html.match(/<p class="meta-line">Aktualisiert: <time datetime="([^"]+)"/) || [])[1];
