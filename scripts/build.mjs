@@ -160,7 +160,7 @@ ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}
 
 - Der Viewer ist kein Medizinprodukt. Er bewertet keine Laborwerte, stellt keine Diagnosen und gibt keine Behandlungsempfehlungen; Markierungen wie H oder L stammen vom Labor.
 - Die Prüfung ersetzt weder das LDK-Prüfmodul noch eine Zertifizierung durch die KBV. Von den Kontextregeln (K-Regeln) der LDT-3-Regeltabelle werden nur K002, K005, K076, K096 und K099 ausgewertet.
-- BDT 3.0 liegt nur als Entwurf (Version 0.96, Stand 01.03.2015) vor, die Originalbeschreibung BDT 02/94 ist nicht öffentlich verfügbar. Aussagen zum klassischen BDT-Aufbau stützen sich auf eine Sekundärquelle (Universität Gießen).
+- BDT 3 wurde vom QMS im September 2017 freigegeben (Deutsches Ärzteblatt, 27.09.2017), die freigegebene Fassung ist aber nicht öffentlich abrufbar. Alle BDT-3.0-Angaben beruhen auf der archivierten Version 0.96 vom 01.03.2015 (Status „Freigabe für Testimplementierungen“); die Originalbeschreibung BDT 02/94 ist ebenfalls nicht öffentlich verfügbar. Aussagen zum klassischen BDT-Aufbau stützen sich auf eine Sekundärquelle (Universität Gießen).
 - Die Beispieldateien enthalten erfundene Personen und Werte; ihre Normbereiche sind keine medizinischen Referenzwerte.
 - Stand der Spezifikationen und Quellen: 12.10.2026 (${url("quellen/")}).
 

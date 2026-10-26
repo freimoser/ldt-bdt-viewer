@@ -48,7 +48,7 @@ ${heroHtml({
 <tbody>
 <tr><td><strong>GDT</strong><br>Gerätedatentransfer</td><td>verbindet Praxissoftware und medizinische Geräte</td><td>beide Richtungen: z. B. 6302 Untersuchung anfordern (Praxis → Gerät), 6310 Untersuchungsdaten übermitteln (Gerät → Praxis)</td><td>QMS</td><td>im Markt gängig: GDT 2.1, 3.1 und 3.5</td><td><a href="${GDT_VIEWER}">GDT Viewer</a></td></tr>
 <tr><td><strong>LDT</strong><br>Labordatenträger</td><td>Laboraufträge und Befundberichte</td><td>Auftrag Praxis → Labor, Befund Labor → Praxis</td><td>KBV</td><td>LDT 3.2.20, in Kraft seit 01.10.2026</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
-<tr><td><strong>BDT</strong><br>Behandlungsdatentransfer, früher Behandlungsdatenträger</td><td>systemunabhängiger Export von Praxisdaten, vor allem beim Softwarewechsel</td><td>bisheriges System → neues System</td><td>QMS (seit 2011), entwickelt vom ZI</td><td>BDT 3.0, Version 0.96 (Entwurf)</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
+<tr><td><strong>BDT</strong><br>Behandlungsdatentransfer, früher Behandlungsdatenträger</td><td>systemunabhängiger Export von Praxisdaten, vor allem beim Softwarewechsel</td><td>bisheriges System → neues System</td><td>QMS (seit 2011), entwickelt vom ZI</td><td>BDT 3, im September 2017 freigegeben; öffentlich nur Version 0.96 von 2015 ${src("aerzteblattBdt", "", STAND)}</td><td><a href="${href()}">LDT &amp; BDT Viewer</a></td></tr>
 </tbody>
 </table></div>
 <p>${src("qms")} ${src("gdt", "Kap. 3")} ${src("ldt3", "S. 1–2, Kap. 4 und 5.1")} ${src("bdt3", "S. 2 und Kap. 2")}</p>

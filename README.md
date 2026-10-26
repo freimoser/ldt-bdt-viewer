@@ -48,7 +48,7 @@ Feldtabellen und Prüfregeln stammen aus den offiziellen Spezifikationen (Detail
 |--------|----------|
 | LDT 3.x | KBV, LDT 3 Satzbeschreibung Version 3.2.20 (13.05.2026, in Kraft ab 01.10.2026) |
 | LDT 2.x | KBV, Datensatzbeschreibung LDT Version 5.12 (03.05.2017), LDT1014.01 |
-| BDT 3.0 | QMS, BDT 3.0 Satzbeschreibung Version 0.96 (01.03.2015, Entwurf) |
+| BDT 3.0 | QMS, BDT 3.0 Satzbeschreibung Version 0.96 (01.03.2015, Testfassung; BDT 3 laut Ärzteblatt im September 2017 freigegeben, diese Fassung ist nicht öffentlich) |
 | BDT klassisch | Universität Gießen, Beschreibung des BDT-Formats (Sekundärquelle) |
 
 Geprüft gegen die 9 offiziellen KBV-Testdateien zu LDT 3.2.20: 0 Fehler, 0 Warnungen.
