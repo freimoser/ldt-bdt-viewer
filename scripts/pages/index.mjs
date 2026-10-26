@@ -72,10 +72,9 @@ export default {
   body: `<main id="inhalt">
 <div class="header">
 <div class="brand">
-<span class="logo" aria-hidden="true">LDT</span>
 <div>
-<h1>LDT &amp; BDT Viewer</h1>
-<p class="tagline">${esc(SITE.tagline)}</p>
+<h1>LDT- und BDT-Dateien öffnen, lesen und prüfen</h1>
+<p class="tagline">Kostenloser LDT &amp; BDT Viewer für Laborbefunde und Praxisdaten-Exporte – direkt im Browser, ohne Upload</p>
 </div>
 </div>
 <p class="privacy-badge"><span class="dot" aria-hidden="true"></span>100 % lokal – nichts wird hochgeladen</p>

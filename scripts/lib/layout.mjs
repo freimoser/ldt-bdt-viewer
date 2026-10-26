@@ -120,6 +120,7 @@ ${canonical}
 <meta name="msvalidate.01" content="E1F30DEB311AAF5458907DB431B481AC" />
 <meta name="theme-color" content="${SITE.themeColor}">
 <meta name="author" content="${esc(SITE.author.name)}">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="${href("sitemap.xml")}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="${href("favicon.svg")}" type="image/svg+xml">
 <link rel="icon" href="${href("favicon-96.png")}" type="image/png" sizes="96x96">
