@@ -3,10 +3,15 @@ import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml
 const path = "was-ist-ldt/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Was ist LDT?", path]];
 const title = "LDT Labordatenträger: Definition, Versionen, Ablauf";
-const description = "LDT (Labordatenträger) einfach erklärt: KBV-Standard für Laboraufträge und Befunde, Versionen LDT 2 und 3.2.20, Satzarten, Dateiaufbau und Dateiname.";
+const description = "LDT (Labordatenträger, auch Labordatentransfer genannt) erklärt: KBV-Standard für Laboraufträge und Befunde, Versionen, Satzarten und Dateiaufbau.";
 const h1 = "LDT (Labordatenträger): Definition, Versionen und Ablauf";
+const STAND = "26.10.2026";
 
 const faq = [
+  {
+    q: "Heißt LDT Labordatenträger oder Labordatentransfer?",
+    a: `In der Spezifikation der KBV heißt LDT „LaborDatenTräger“. ${src("ldt3", "Kap. 5.1")} Handbücher von Praxissoftware, etwa von tomedo, schreiben auch „Labordatentransfer“; gemeint ist dasselbe Format. ${src("tomedoLdt", "", STAND)} Das ganze Verfahren mit Muster 10, Muster 10A, LDT-Auftrag und LDT-Befund nennt die KBV Labordatenkommunikation (LDK). ${src("faq", "Kap. 1")}`,
+  },
   {
     q: "Wofür steht die Abkürzung LDT?",
     a: "LDT steht für Labordatenträger. Die ältere LDT-2-Beschreibung der KBV regelt noch den Versand auf Disketten. Für LDT 3 geht die KBV dagegen davon aus, dass keine Datenträger mehr verschickt werden, sondern komplett elektronisch über installierte Infrastruktur übertragen wird.",
@@ -35,11 +40,14 @@ ${heroHtml({
   h1,
   lead: `<strong>LDT (Labordatenträger) ist</strong> das Datenformat der Kassenärztlichen Bundesvereinigung (KBV), mit dem Arztpraxen Laboraufträge elektronisch an ein Labor senden und Labore ihre Befundberichte zurückschicken. ${src("ldt3", "Kap. 4 und 5.1")}`,
   minutes: 6,
+  stand: STAND,
 })}
 <div class="prose">
 <h2>Wer gibt den LDT heraus?</h2>
 <p>Der LDT ist ein Standard der sogenannten xDT-Familie und wird von der KBV gepflegt und weiterentwickelt, genauer vom Dezernat Digitalisierung und IT. ${src("ldt3", "Titelblatt und Kap. 4")}</p>
 <p>Zwei Begriffe aus der Spezifikation sollten Sie kennen: Der <strong>Einsender</strong> ist die Einrichtung, die einen Untersuchungsauftrag und das Material an ein Labor schickt, meist die Arztpraxis. ${src("ldt3", "Kap. 3.4")} Als <strong>Labor</strong> gelten zum Beispiel Praxen, in denen der Patient in der Regel nicht vorstellig wird und eingesandtes Körpermaterial untersucht wird, MVZ mit eigenem Laboratorium oder Laborgemeinschaften. ${src("ldt3", "Kap. 3.5")}</p>
+<h3>Labordatenträger, Labordatentransfer, Labordatenkommunikation</h3>
+<p>Drei Begriffe, die oft durcheinandergehen: Die Spezifikation der KBV nennt das Format <strong>LaborDatenTräger</strong>. ${src("ldt3", "Kap. 5.1")} In Handbüchern von Praxissoftware steht für dasselbe Format auch <strong>Labordatentransfer</strong>, zum Beispiel bei tomedo und CGM TURBOMED. ${src("tomedoLdt", "", STAND)} ${src("cgmLdt", "", STAND)} <strong>Labordatenkommunikation (LDK)</strong> ist dagegen der Oberbegriff der KBV für das ganze Verfahren: den Einsatz der digitalen Muster 10 und 10A sowie von LDT-Auftrag und LDT-Befund. ${src("faq", "Kap. 1")}</p>
 <p>Mit GDT (Geräteanbindung) und BDT (Datenexport aus der Praxissoftware) teilt LDT den gleichen Zeilenaufbau. Wie die drei Formate zusammenhängen, zeigt der <a href="${href("xdt-gdt-ldt-bdt/")}">Überblick über die xDT-Schnittstelle</a>.</p>
 
 <h2>Welche LDT-Versionen gibt es?</h2>
@@ -124,8 +132,9 @@ export default {
   ogTitle: "Was ist LDT? Der Labordatenträger einfach erklärt",
   ogDescription: "Labordatenträger LDT: wer ihn pflegt, welche Versionen gelten, wie Auftrag und Befund zwischen Praxis und Labor laufen und wie eine LDT-Datei aufgebaut ist.",
   ogType: "article",
-  jsonld: [articleLd({ headline: h1, description, path }), faqLd(faq), breadcrumbLd(crumbs)],
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
+  lastmod: "2026-10-26",
   minInternalLinks: 3,
   llms: "Was LDT (Labordatenträger) ist: KBV-Standard für Laboraufträge und Befunde, Versionen LDT 2.x und LDT 3.2.20, Satzarten 8230/8215/8231 und 8220/8205/8221, Feld- und Objektaufbau, Zeichensatz ISO 8859-15 und Dateiname.",
 };
