@@ -85,7 +85,7 @@ ${heroHtml({
 </tbody>
 </table></div>
 <h3>Satz und Objekt</h3>
-<p>Jeder Satz beginnt mit Feld 8000 (Satzart) und endet mit Feld 8001, das dieselbe Satzart wiederholt. Ein Objekt wird durch ein Objektattribut angekündigt (Feldkennungen 8100 bis 8299), beginnt mit Feld 8002 (Objekt-ID) und endet mit Feld 8003 mit derselben Objekt-ID. ${src("ldt3", "Kap. 6.3")}</p>
+<p>Jeder Satz beginnt mit Feld 8000 (Satzart) und endet mit Feld 8001, das dieselbe Satzart wiederholt. Ein Objekt wird durch ein Objektattribut angekündigt (Feldkennungen 8100 bis 8299), beginnt mit Feld 8002 (Objekt-ID) und endet mit Feld 8003 mit derselben Objekt-ID. ${src("ldt3", "Kap. 6.3")} Kurzdefinitionen zu Satz, Objekt, Prüfsumme und weiteren Begriffen stehen im <a href="${href("glossar/")}">Glossar</a>.</p>
 <p>Die Spezifikation zeigt das am Kopfsatz 8220 des Labors. Ein Ausschnitt mit dem Zeitstempel der Dateierstellung: ${src("ldt3", "Kap. 7, Implementierungshinweis")}</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Zeile</th><th scope="col">Feldkennung</th><th scope="col">Bedeutung</th></tr></thead>

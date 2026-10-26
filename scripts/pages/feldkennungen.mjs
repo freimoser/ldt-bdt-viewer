@@ -104,7 +104,7 @@ ${heroHtml({
 })}
 <div class="prose">
 <p>So lesen Sie eine Zeile: In <code>0213101Mustermann</code> ist <code>021</code> die Länge (Inhalt + 9 Bytes), <code>3101</code> die Feldkennung (Nachname) und <code>Mustermann</code> der Inhalt. ${src("ldt3", "Kap. 6.4.1")}</p>
-<p>Einzelne Felder schlagen Sie auch direkt im <a href="${href()}#nachschlagen">Viewer</a> nach. Wie Zeilen, Sätze und Objekte zusammenspielen, erklären <a href="${href("was-ist-ldt/")}">Was ist LDT?</a> und <a href="${href("xdt-gdt-ldt-bdt/")}">xDT im Überblick</a>; Meldungen wie „Feldkennung unbekannt“ erläutert die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</p>
+<p>Einzelne Felder schlagen Sie auch direkt im <a href="${href()}#nachschlagen">Viewer</a> nach. Wie Zeilen, Sätze und Objekte zusammenspielen, erklären <a href="${href("was-ist-ldt/")}">Was ist LDT?</a>, <a href="${href("xdt-gdt-ldt-bdt/")}">xDT im Überblick</a> und das <a href="${href("glossar/")}">Glossar</a>; Meldungen wie „Feldkennung unbekannt“ erläutert die Seite <a href="${href("fehler/")}">Fehler in LDT-Dateien</a>.</p>
 <h2 id="quellen">Quellen der Tabelle</h2>
 <ul>
 <li>LDT 2: <a href="${esc(SOURCES.ldt2.url)}">${esc(SOURCES.ldt2.title)}</a>, Feldtabelle Kap. 4.1</li>

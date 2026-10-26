@@ -88,6 +88,7 @@ export const GUIDES = [
   ["fehler/", "Fehler in LDT-Dateien", "Häufige Fehler, ihre Bedeutung und die Lösung."],
   ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
   ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
+  ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
 ];
 
 function head(p) {

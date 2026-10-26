@@ -62,7 +62,7 @@ ${heroHtml({
 <tr><td><code>0163101Schmidt</code></td><td>016</td><td>3101 (Nachname)</td><td>Schmidt</td><td>7 Zeichen + 9 = 16</td></tr>
 </tbody>
 </table></div>
-<p>Weil der Aufbau gleich ist, sehen GDT-, LDT- und BDT-Dateien im Texteditor fast identisch aus. Vor allem die Satzarten verraten, welches Format vorliegt.</p>
+<p>Weil der Aufbau gleich ist, sehen GDT-, LDT- und BDT-Dateien im Texteditor fast identisch aus. Vor allem die Satzarten verraten, welches Format vorliegt. Begriffe wie Satzart, Feldkennung oder Längenangabe erklärt das <a href="${href("glossar/")}">Glossar</a> in je ein bis drei Sätzen.</p>
 
 <h2>Gemeinsame Feldkennungen</h2>
 <p>Feldkennungen sind in der xDT-Familie prinzipiell gleich benannt und gleich gemeint, Feldkennung 3000 steht zum Beispiel für die Patientennummer. Regeln und erlaubte Werte können sich aber je nach Standard und Satzart unterscheiden. ${src("bdt3", "Kap. 2")}</p>
