@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, faqHtml, faqLd, relatedHtml, ctaHtml, src, href, url, esc, SITE } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, faqHtml, faqLd, relatedHtml, ctaHtml, src, href, url, esc, SITE, PERSON_LD } from "../lib/layout.mjs";
 
 const path = "glossar/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Glossar", path]];
@@ -71,7 +71,7 @@ const pageLd = {
   inLanguage: "de-DE",
   url: url(path),
   dateModified: UPDATED,
-  author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+  author: PERSON_LD,
   mainEntity: { "@id": url(path) + "#begriffe" },
 };
 

@@ -1,4 +1,4 @@
-import { SITE, url, href, esc, faqHtml, faqLd, GUIDES } from "../lib/layout.mjs";
+import { SITE, url, href, esc, faqHtml, faqLd, GUIDES, PERSON_LD } from "../lib/layout.mjs";
 import { beispielListe } from "../../src/assets/js/core/beispiele.js";
 
 // Beispielauswahl: drei Schnellknöpfe und die vollständige Liste aus dem Kompendium
@@ -56,7 +56,7 @@ export default {
         "KVDT-Abrechnungsdateien und EULUMDAT-Lichtdateien erkennen",
         "Keine Datenübertragung an Server",
       ],
-      author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+      author: PERSON_LD,
     },
     {
       "@context": "https://schema.org",
@@ -65,7 +65,7 @@ export default {
       url: url(),
       inLanguage: "de-DE",
       description: SITE.tagline,
-      publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+      publisher: PERSON_LD,
     },
     faqLd(faq),
   ],

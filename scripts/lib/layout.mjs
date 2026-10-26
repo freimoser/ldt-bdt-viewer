@@ -36,6 +36,8 @@ export const SITE = {
   updatedDe: "08.10.2026",
 };
 
+/** Autor und Herausgeber im Schema: eine Angabe für alle Seiten; sameAs verknüpft die Person mit ihrem öffentlichen Profil. */
+export const PERSON_LD = { "@type": "Person", name: SITE.author.name, url: SITE.author.url, sameAs: ["https://github.com/freimoser"] };
 export const url = (path = "") => SITE.origin + SITE.base + path;
 export const href = (path = "") => SITE.base + path;
 
@@ -271,8 +273,8 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
     inLanguage: "de-DE",
     datePublished: published < updated ? published : updated,
     dateModified: updated,
-    author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
-    publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+    author: PERSON_LD,
+    publisher: PERSON_LD,
     mainEntityOfPage: url(path),
     image: image ? [url(image), url(ogImage({ path }))] : url(ogImage({ path })),
   };

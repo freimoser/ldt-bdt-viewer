@@ -69,6 +69,13 @@ npm run check:launch
 
 Prüft den Build auf Blocker (Exit 1): Impressum mit ladungsfähiger Anschrift und Kontakt, Links auf Impressum und Datenschutz, Canonical, Sitemap gegen `noindex` in beiden Richtungen, Titellängen, Favicons (96 px für Google), keine Einbindung fremder Server, jeder Inhabernachweis (Google, Bing) in der Datenschutzerklärung, strukturierte Daten (FAQ-Fragen sichtbar, Article mit Bild, Autor und Datum, letzter Breadcrumb = Canonical; Hinweis, wenn `dateModified` von `lastmod` abweicht). Die GitHub Action führt die Prüfung vor jedem Deployment aus. Alle Symbole entstehen aus einer Quelle: `npm run icons` (Chrome, `scripts/assets/icon.html`).
 
+## Aufbau der Website
+
+- **Kopf und Navigation:** ein Kopf für alle Seiten (`nav()` in `scripts/lib/layout.mjs`), beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar. Seiten ohne eigenen Menüpunkt markieren ihren Bereich (`BEREICH`).
+- **Gliederung:** `SECTIONS` in `layout.mjs` speist Footer und die Inhaltsübersicht `/inhalt/` (HTML-Sitemap mit allen Abschnitten).
+- **Vorschaubilder:** `npm run og` erzeugt je Seite ein Open-Graph-Bild aus `scripts/assets/og-page.html` nach `src/static/og/`; `npm run screenshots` die Bildschirmfotos der Ratgeber.
+- **Datum:** Das sichtbare „Aktualisiert“ jeder Seite kommt aus `lastmod` wie Sitemap und Schema; die Livegang-Prüfung sperrt bei Abweichung.
+
 ## Lokal starten
 
 ```bash

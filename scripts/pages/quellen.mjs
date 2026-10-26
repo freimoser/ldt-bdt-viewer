@@ -13,7 +13,7 @@ const path = "quellen/";
 const UPDATED = "2026-10-26";
 const STAND = "26.10.2026";
 const crumbs = [["LDT & BDT Viewer", ""], ["Quellen", path]];
-const title = "Quellen: Spezifikationen für LDT, BDT und GDT";
+const title = "Quellen: Spezifikationen für LDT, BDT, GDT und KVDT";
 const description = "Alle Quellen des LDT & BDT Viewers mit Version, Link und Abrufdatum: KBV LDT 3.2.20 und LDT 5.12, QMS BDT 3.0, Uni Gießen, GDT 2.1, und was fehlt.";
 const h1 = "Quellen: Spezifikationen hinter dem LDT & BDT Viewer";
 

@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, href, url, esc, SITE, LEGAL } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, href, url, esc, SITE, LEGAL, PERSON_LD } from "../lib/layout.mjs";
 
 // Herkunft und Arbeitsweise: nur Aussagen, die das Repository selbst belegt (Workflow, Skripte, Lizenzen)
 const path = "ueber/";
@@ -68,8 +68,8 @@ export default {
       url: url(path),
       dateModified: UPDATED,
       about: { "@type": "WebApplication", name: SITE.name, url: url() },
-      author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
-      publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+      author: PERSON_LD,
+      publisher: PERSON_LD,
     },
     breadcrumbLd(crumbs),
   ],
