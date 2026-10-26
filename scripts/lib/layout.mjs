@@ -254,7 +254,7 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
   };
 }
 
-export function howToLd({ name, description, steps, path, image }) {
+export function howToLd({ name, description, steps, path, image, updated }) {
   return {
     "@context": "https://schema.org",
     "@type": "HowTo",
@@ -262,6 +262,7 @@ export function howToLd({ name, description, steps, path, image }) {
     description,
     inLanguage: "de-DE",
     ...(image ? { image: url(image) } : {}),
+    ...(updated ? { dateModified: updated } : {}),
     tool: [{ "@type": "HowToTool", name: "LDT & BDT Viewer (kostenlos, im Browser)" }],
     step: steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text, url: url(path) + "#schritt-" + (i + 1) })),
   };

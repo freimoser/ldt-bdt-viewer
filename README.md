@@ -67,7 +67,7 @@ node scripts/build.mjs
 npm run check:launch
 ```
 
-Prüft den Build auf Blocker (Exit 1): Impressum mit ladungsfähiger Anschrift und Kontakt, Links auf Impressum und Datenschutz, Canonical, Sitemap gegen `noindex` in beiden Richtungen, Titellängen, Favicons (96 px für Google), keine Einbindung fremder Server. Die GitHub Action führt die Prüfung vor jedem Deployment aus. Alle Symbole entstehen aus einer Quelle: `npm run icons` (Chrome, `scripts/assets/icon.html`).
+Prüft den Build auf Blocker (Exit 1): Impressum mit ladungsfähiger Anschrift und Kontakt, Links auf Impressum und Datenschutz, Canonical, Sitemap gegen `noindex` in beiden Richtungen, Titellängen, Favicons (96 px für Google), keine Einbindung fremder Server, jeder Inhabernachweis (Google, Bing) in der Datenschutzerklärung, strukturierte Daten (FAQ-Fragen sichtbar, Article mit Bild, Autor und Datum, letzter Breadcrumb = Canonical; Hinweis, wenn `dateModified` von `lastmod` abweicht). Die GitHub Action führt die Prüfung vor jedem Deployment aus. Alle Symbole entstehen aus einer Quelle: `npm run icons` (Chrome, `scripts/assets/icon.html`).
 
 ## Lokal starten
 

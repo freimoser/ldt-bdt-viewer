@@ -116,6 +116,31 @@ for (const pg of pages) {
   }
 }
 
+// 7b) Strukturierte Daten gegen die sichtbare Seite und die Sitemap (Google-Richtlinien für Rich Results)
+const lastmod = new Map([...xml.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => [new URL(m[1]).pathname.replace(SITE.base, "/"), m[2]]));
+const norm = (t) => t.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+for (const pg of pages) {
+  if (/<meta name="robots" content="noindex/.test(pg.html)) continue;
+  const sichtbar = norm(text(pg.html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "")));
+  for (const m of pg.html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const o = JSON.parse(m[1]);
+    if (o["@type"] === "FAQPage") {
+      for (const q of o.mainEntity || []) if (!sichtbar.includes(norm(q.name))) blocker.push(`${pg.route}: FAQ-Frage „${q.name}“ steht im Schema, aber nicht sichtbar auf der Seite.`);
+    }
+    if (o["@type"] === "Article") {
+      if (!o.headline || [...o.headline].length > 110) blocker.push(`${pg.route}: Article-headline fehlt oder ist länger als 110 Zeichen.`);
+      if (!o.image || !o.author || !o.datePublished) blocker.push(`${pg.route}: Article ohne image, author oder datePublished.`);
+      if (o.datePublished > o.dateModified) blocker.push(`${pg.route}: datePublished liegt nach dateModified.`);
+    }
+    if (o.dateModified && lastmod.has(pg.route) && o.dateModified !== lastmod.get(pg.route)) hinweis.push(`${pg.route}: dateModified ${o.dateModified} (${o["@type"]}) weicht von lastmod ${lastmod.get(pg.route)} in der Sitemap ab.`);
+    if (o["@type"] === "BreadcrumbList") {
+      const last = (o.itemListElement || []).at(-1);
+      const c = (pg.html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+      if (last && c && last.item !== c) blocker.push(`${pg.route}: letzter Breadcrumb ${last.item} ist nicht das Canonical ${c}.`);
+    }
+  }
+}
+
 // 8) Grenzen des Hostings (GitHub-Pages-Projektseite)
 hinweis.push(`robots.txt und /favicon.ico liegen bei einer Projektseite auf ${SITE.origin}/ und gehören zum Repository der Hauptseite; die Sitemap wird in der Search Console eingereicht.`);
 

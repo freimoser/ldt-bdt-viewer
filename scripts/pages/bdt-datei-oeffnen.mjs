@@ -69,6 +69,7 @@ export default {
       steps,
       path,
       image: "bilder/bdt-viewer-struktur.webp",
+      updated: "2026-10-26",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),

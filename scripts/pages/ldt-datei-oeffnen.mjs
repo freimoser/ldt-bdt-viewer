@@ -82,6 +82,7 @@ export default {
       steps,
       path,
       image: "bilder/ldt-viewer-laborbefund.webp",
+      updated: "2026-10-26",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
