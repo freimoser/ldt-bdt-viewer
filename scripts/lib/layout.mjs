@@ -162,32 +162,29 @@ ${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === pat
 <script>document.querySelector(".site-nav [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });</script>`;
 }
 
+/** Gliederung der Website: eine Quelle für Footer und Inhaltsübersicht (/inhalt/). */
+export const SECTIONS = [
+  ["Werkzeug", ["", "feldkennungen/"]],
+  ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/"]],
+  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "glossar/"]],
+  ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
+  ["Über diese Website", ["ueber/", "quellen/", "inhalt/", "impressum/", "datenschutz/"]],
+];
+const LABELS = { "": "LDT & BDT Viewer", ...Object.fromEntries(GUIDES.map(([p, l]) => [p, l])), "ueber/": "Über diese Website", "quellen/": "Quellen", "inhalt/": "Alle Seiten", "impressum/": "Impressum", "datenschutz/": "Datenschutz" };
+
 function footer() {
   return `<footer class="site-footer">
 <div class="site-footer-grid">
-<div><h2>Tool</h2><ul>
-<li><a href="${href()}">LDT &amp; BDT Viewer</a></li>
-<li><a href="${href("feldkennungen/")}">Feldkennungen</a></li>
-<li><a href="${href("quellen/")}">Quellen</a></li>
-<li><a href="${href("inhalt/")}">Alle Seiten</a></li>
-<li><a href="${href("ueber/")}">Über diese Website</a></li>
-<li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>
-</ul></div>
-<div><h2>Ratgeber</h2><ul>
-${GUIDES.filter(([p]) => p !== "feldkennungen/").map(([p, l]) => `<li><a href="${href(p)}">${esc(l)}</a></li>`).join("\n")}
-</ul></div>
+${SECTIONS.map(([name, pfade]) => `<div><h2>${esc(name)}</h2><ul>
+${pfade.map((p) => `<li><a href="${href(p)}">${esc(LABELS[p])}</a></li>`).join("\n")}${name === "Über diese Website" ? `\n<li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>` : ""}
+</ul></div>`).join("\n")}
 <div><h2>Weitere kostenlose Tools</h2><ul>
 <li><a href="https://freimoser.github.io/gdt-viewer/">GDT Viewer</a></li>
 <li><a href="https://freimoser.github.io/easy-photo-editor/">Easy Photo Editor</a></li>
 <li><a href="https://freimoser.github.io/freimoser.de/">Über den Entwickler</a></li>
 </ul></div>
-<div><h2>Rechtliches</h2><ul>
-<li><a href="${href("impressum/")}">Impressum</a></li>
-<li><a href="${href("datenschutz/")}">Datenschutz</a></li>
-</ul>
-<p class="small">Kein Medizinprodukt. Dateien bleiben in Ihrem Browser.</p></div>
 </div>
-<p class="site-footer-note">Quellcode offen auf GitHub · keine Cookies, kein Tracking, kein Upload · Stand ${SITE.updatedDe}</p>
+<p class="site-footer-note">Kein Medizinprodukt · Dateien bleiben in Ihrem Browser · keine Cookies, kein Tracking, kein Upload</p>
 </footer>`;
 }
 

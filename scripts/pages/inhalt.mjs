@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, href, url, esc, SITE } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, href, url, esc, SITE, SECTIONS } from "../lib/layout.mjs";
 
 // Inhaltsübersicht (HTML-Sitemap): wird nach allen anderen Seiten gerendert und liest deren Überschriften,
 // damit jede Seite und jeder Abschnitt einen direkten Link hat, ohne dass die Liste von Hand gepflegt wird.
@@ -9,13 +9,8 @@ const description = "Inhaltsübersicht des LDT & BDT Viewers: alle Anleitungen, 
 const h1 = "Alle Seiten und Themen im Überblick";
 const UPDATED = "2026-10-26";
 
-const GRUPPEN = [
-  ["Werkzeug", ["", "feldkennungen/"]],
-  ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/"]],
-  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "glossar/"]],
-  ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
-  ["Über diese Website", ["ueber/", "quellen/", "impressum/", "datenschutz/"]],
-];
+// Gliederung aus SECTIONS (layout.mjs), dieselbe wie im Footer
+const GRUPPEN = SECTIONS.map(([name, pfade]) => [name, pfade.filter((p) => p !== path)]);
 
 const plain = (s) => s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 
