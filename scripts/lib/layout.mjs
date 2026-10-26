@@ -234,7 +234,7 @@ export function heroHtml({ crumbs, h1, lead, minutes, stand = SITE.updatedDe }) 
 }
 
 // published: erste Veröffentlichung (Standard: Start der Website), updated: letzte inhaltliche Änderung
-export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated }) {
+export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated, image }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -246,20 +246,26 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     mainEntityOfPage: url(path),
-    image: url("og-image.png"),
+    image: image ? [url(image), url("og-image.png")] : url("og-image.png"),
   };
 }
 
-export function howToLd({ name, description, steps, path }) {
+export function howToLd({ name, description, steps, path, image }) {
   return {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name,
     description,
     inLanguage: "de-DE",
+    ...(image ? { image: url(image) } : {}),
     tool: [{ "@type": "HowToTool", name: "LDT & BDT Viewer (kostenlos, im Browser)" }],
     step: steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text, url: url(path) + "#schritt-" + (i + 1) })),
   };
+}
+
+/** Bildschirmfoto mit Bildunterschrift (Dateien aus scripts/screenshots.mjs, 1038 × 1100 px). */
+export function figureHtml(file, alt, caption, width = 1038, height = 1100) {
+  return `<figure class="shot"><img src="${href("bilder/" + file)}" alt="${esc(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"><figcaption>${caption}</figcaption></figure>`;
 }
 
 /** Schritt-Liste für Anleitungen, passend zu howToLd. */

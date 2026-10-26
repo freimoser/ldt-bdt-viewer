@@ -1,4 +1,4 @@
-import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src } from "../lib/layout.mjs";
+import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src, figureHtml } from "../lib/layout.mjs";
 
 const path = "ldt-datei-oeffnen/";
 const crumbs = [["LDT & BDT Viewer", ""], ["LDT-Datei öffnen", path]];
@@ -81,6 +81,7 @@ export default {
       description: "Eine LDT-Datei im kostenlosen LDT & BDT Viewer öffnen, Laborwerte, Struktur und Prüfmeldungen ansehen und den Zeichensatz umschalten.",
       steps,
       path,
+      image: "bilder/ldt-viewer-laborbefund.webp",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
@@ -117,6 +118,7 @@ ${stepsHtml(steps)}
 <p>Der Viewer ist kein Medizinprodukt. Er zeigt Dateien an und prüft ihren Aufbau, bewertet aber keine Laborwerte und stellt keine Diagnose.</p></div>
 
 <h2 id="befund-lesen">Laborbefund lesen: Markierungen und Werte</h2>
+${figureHtml("ldt-viewer-laborbefund.webp", "LDT-Datei im LDT & BDT Viewer geöffnet: Zusammenfassung mit Dateityp LDT 3.x, Absender Labor und Empfänger Praxis, darunter der Reiter Befunde mit Glukose, Kalium, Natrium und Kreatinin, Normbereichen und Markierungen wie stark erhöht (HH)", "Ein LDT-3-Laborbefund im Viewer (erfundene Testdaten): oben Dateityp, Richtung, Absender und Prüfergebnis, darunter die Werte mit Einheit, Normbereich und der Markierung, die das Labor in die Datei geschrieben hat.")}
 <h3>Was ▲, ▼ und ! bedeuten</h3>
 <p>Ob ein Wert erhöht oder erniedrigt ist, schreibt das Labor selbst in Feld 8422 (Grenzwertindikator). Der Viewer zeigt dieses Kennzeichen unverändert mit Symbol und Text an, etwa „▲ schwach erhöht (H)“, und rechnet nichts nach. Fragen zu einem Wert klären Sie mit dem Labor oder der behandelnden Ärztin bzw. dem behandelnden Arzt.</p>
 <div class="table-wrap"><table>

@@ -133,8 +133,12 @@ const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "impressum/", "datensc
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${indexable.map((p) => `  <url>\n    <loc>${url(p.path)}</loc>\n    <lastmod>${p.lastmod || SITE.updated}</lastmod>\n  </url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${indexable.map((p) => {
+  // Bildschirmfotos der Seite als Bild-Sitemap-Einträge (Google-Bildersuche)
+  const imgs = [...new Set([...(p.html || "").matchAll(/<figure class="shot"><img src="([^"]+)"/g)].map((m) => SITE.origin + m[1]))];
+  return `  <url>\n    <loc>${url(p.path)}</loc>\n    <lastmod>${p.lastmod || SITE.updated}</lastmod>\n${imgs.map((i) => `    <image:image><image:loc>${i}</image:loc></image:image>\n`).join("")}  </url>`;
+}).join("\n")}
 </urlset>
 `);
 
@@ -221,7 +225,8 @@ const files = [];
     else files.push(relative(dist, p).split("\\").join("/"));
   }
 })(dist);
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.endsWith(".map"));
+// Bildschirmfotos der Ratgeber braucht der Viewer offline nicht
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);

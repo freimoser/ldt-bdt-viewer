@@ -1,4 +1,4 @@
-import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src } from "../lib/layout.mjs";
+import { href, heroHtml, breadcrumbLd, howToLd, stepsHtml, faqHtml, faqLd, relatedHtml, ctaHtml, src, figureHtml } from "../lib/layout.mjs";
 
 const path = "bdt-datei-oeffnen/";
 const crumbs = [["LDT & BDT Viewer", ""], ["BDT-Datei öffnen", path]];
@@ -59,6 +59,7 @@ export default {
   ogTitle: "BDT-Datei öffnen: Export aus der Praxissoftware prüfen",
   ogDescription: "BDT-Export im Browser öffnen, Patienten, Umlaute und Aufbau kontrollieren und für den Wechsel der Praxissoftware vorbereiten. Ohne Upload.",
   ogType: "article",
+  lastmod: "2026-10-26",
   minInternalLinks: 3,
   llms: "Anleitung, wie man eine BDT-Datei (Export aus der Praxissoftware) im Browser öffnet und prüft, mit Checkliste für die Datenübernahme beim Wechsel der Praxissoftware.",
   jsonld: [
@@ -67,6 +68,7 @@ export default {
       description: "Eine BDT-Datei im kostenlosen LDT & BDT Viewer öffnen, Aufbau, Patienten, Zeichensatz und Prüfmeldungen kontrollieren.",
       steps,
       path,
+      image: "bilder/bdt-viewer-struktur.webp",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
@@ -83,6 +85,7 @@ ${heroHtml({
 
 <h2 id="anleitung">Anleitung: BDT-Datei öffnen in 6 Schritten</h2>
 ${stepsHtml(steps)}
+${figureHtml("bdt-viewer-struktur.webp", "BDT-Export im LDT & BDT Viewer: Dateityp BDT im klassischen Aufbau mit Satzlänge in Feld 8100, Reiter Struktur mit Satz 6100 Patientenstammdaten und den Zeilen 8000, 8100, 3000, 3101, 3102, 3103 mit Länge, Feldkennung, Bedeutung und Inhalt", "Ein BDT-Export im Reiter „Struktur“ (erfundene Testdaten): links die Sätze, rechts jede Zeile mit Länge, Feldkennung, Bedeutung und Inhalt.")}
 <div class="callout"><span class="callout-title">Datenschutz</span>
 <p>Ein BDT-Export enthält oft die Daten vieler Patienten. Der Viewer liest die Datei nur in Ihrem Browser, ohne Upload, Cookies oder Tracking.</p></div>
 

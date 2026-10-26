@@ -1,9 +1,9 @@
-import { href, heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src as srcAt, esc, SITE } from "../lib/layout.mjs";
+import { href, heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src as srcAt, esc, SITE, figureHtml } from "../lib/layout.mjs";
 import { BEISPIELE } from "../../src/assets/js/core/beispiele.js";
 import { openFile } from "../../src/assets/js/core/xdt.js";
 
 const STAND = "12.10.2026";
-const UPDATED = "2026-10-12";
+const UPDATED = "2026-10-26";
 const src = (k, d) => srcAt(k, d, STAND);
 const now = new Date(SITE.updated + "T09:30:00Z");
 
@@ -79,7 +79,7 @@ export default function ({ dict }) {
   minInternalLinks: 3,
   llms: "Erklärt zehn Fehlermeldungen in LDT-Dateien (Zeichensatz, Längenangabe, CR LF, Pflichtfeld, Version, unbekannte Feldkennung, Satzlänge 8100 und Gesamtlänge 9202, Prüfsumme 9300, Satzende 8001, Dateiname) mit Ursache und Lösung.",
   jsonld: [
-    articleLd({ headline: "Fehler in LDT-Dateien: Meldungen, Ursachen, Lösungen", description, path, updated: UPDATED }),
+    articleLd({ headline: "Fehler in LDT-Dateien: Meldungen, Ursachen, Lösungen", description, path, updated: UPDATED, image: "bilder/ldt-viewer-pruefung-fehler.webp" }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
   ],
@@ -93,6 +93,8 @@ ${heroHtml({
 })}
 <div class="prose">
 <p>Die Meldungen betreffen nicht die Laborwerte, sondern den Aufbau der Datei. Wie Sie sie finden, zeigt die Anleitung <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a>. Grundregel: Korrigieren Sie den Inhalt nicht von Hand. Die Datei muss dort neu erzeugt werden, wo sie entstanden ist, meist beim Labor bzw. in dessen Software.</p>
+
+${figureHtml("ldt-viewer-pruefung-fehler.webp", "Fehler in einer LDT-Datei im LDT & BDT Viewer: Warnung Die Prüfung hat 1 Fehler gefunden, wahrscheinliche Ursache Die Datei wurde nach dem Erstellen verändert, und im Reiter Prüfung die Meldung Zeile 365: Die Prüfsumme in Feld 9300 passt nicht zum Dateiinhalt", "Der Reiter „Prüfung“ mit einem Fehlerbeispiel (erfundene Testdaten): Der Viewer nennt die wahrscheinliche Ursache, was zu tun ist, und jede Meldung mit Zeilennummer.")}
 
 <h2 id="uebersicht">Übersicht: Fehler in LDT-Dateien auf einen Blick</h2>
 <div class="table-wrap"><table>
