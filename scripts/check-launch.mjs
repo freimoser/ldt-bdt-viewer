@@ -141,6 +141,13 @@ for (const pg of pages) {
   }
 }
 
+// 7c) Vorschaubild jeder Seite muss im Build liegen (sonst zeigen Teams, LinkedIn und Co. keine Vorschau)
+for (const pg of pages) {
+  const og = (pg.html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1];
+  if (!og) { blocker.push(`${pg.route}: og:image fehlt.`); continue; }
+  if (og.startsWith(SITE.origin + SITE.base) && !existsSync(join(dist, og.slice((SITE.origin + SITE.base).length)))) blocker.push(`${pg.route}: Vorschaubild ${og} fehlt im Build.`);
+}
+
 // 8) Grenzen des Hostings (GitHub-Pages-Projektseite)
 hinweis.push(`robots.txt und /favicon.ico liegen bei einer Projektseite auf ${SITE.origin}/ und gehören zum Repository der Hauptseite; die Sitemap wird in der Search Console eingereicht.`);
 

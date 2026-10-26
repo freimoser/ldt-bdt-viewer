@@ -59,7 +59,7 @@ html { scroll-padding-top: 4.5rem; }
 .site-nav::-webkit-scrollbar { display: none; }
 .site-nav a { flex: none; color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0.5rem; border-radius: 8px; white-space: nowrap; transition: color 0.15s, background 0.15s; }
 .site-nav a:hover { color: var(--text); background: var(--bg-soft); }
-.site-nav a[aria-current="page"] { color: var(--accent-hover); background: var(--accent-dim); }
+.site-nav a[aria-current] { color: var(--accent-hover); background: var(--accent-dim); }
 .page { padding-top: 1.75rem; }
 
 /* Kopf */

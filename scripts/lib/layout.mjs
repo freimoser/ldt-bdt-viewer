@@ -1,4 +1,7 @@
 /** Gemeinsames Seitenlayout für alle Seiten. */
+import { existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 /**
  * Einzige Quelle für alle Rechtsangaben (Impressum, Datenschutz, Autorenangaben).
@@ -94,6 +97,11 @@ export const GUIDES = [
   ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
 ];
 
+/** Dateiname des Vorschaubilds einer Seite (scripts/og-images.mjs). */
+export const ogSlug = (path) => (path ? path.replace(/\/$/, "").replace(/\//g, "-") : "start");
+const OG_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "static", "og");
+const ogImage = (p) => (!p.noindex && existsSync(join(OG_DIR, ogSlug(p.path) + ".jpg")) ? `og/${ogSlug(p.path)}.jpg` : "og-image.png");
+
 function head(p) {
   const canonical = p.noindex ? "" : `<link rel="canonical" href="${esc(url(p.path))}">`;
   // Lange Auszüge erlauben: wichtig für Hervorhebungen und KI-Antworten, die Inhalte zitieren
@@ -124,18 +132,21 @@ ${canonical}
 <meta property="og:title" content="${esc(ogTitle)}">
 <meta property="og:description" content="${esc(ogDesc)}">
 <meta property="og:url" content="${esc(url(p.path))}">
-<meta property="og:image" content="${esc(url("og-image.png"))}">
+<meta property="og:image" content="${esc(url(ogImage(p)))}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="LDT &amp; BDT Viewer – Labordaten und Praxisdaten-Exporte im Browser lesen, ohne Upload">
+<meta property="og:image:alt" content="${esc(ogImage(p) === "og-image.png" ? "LDT & BDT Viewer – Labordaten und Praxisdaten-Exporte im Browser lesen, ohne Upload" : (p.ogTitle || p.title) + " – LDT & BDT Viewer")}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(ogTitle)}">
 <meta name="twitter:description" content="${esc(ogDesc)}">
-<meta name="twitter:image" content="${esc(url("og-image.png"))}">
+<meta name="twitter:image" content="${esc(url(ogImage(p)))}">
 <link rel="stylesheet" href="${href("assets/css/styles.css")}">
 ${ld}
 </head>`;
 }
+
+// Seiten ohne eigenen Navigationspunkt markieren ihren Bereich (aria-current="true")
+const BEREICH = { "ldt-2-vs-ldt-3/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
 
 // Ein Kopf für alle Seiten: gleiche Breite, beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar
 function nav(path) {
@@ -143,7 +154,7 @@ function nav(path) {
 <div class="site-header-inner">
 <a class="site-brand" href="${href()}"${path === "" ? ' aria-current="page"' : ""}><span class="logo logo-sm" aria-hidden="true">LDT</span><span>LDT &amp; BDT Viewer</span></a>
 <nav class="site-nav" aria-label="Hauptnavigation">
-${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : ""}>${esc(l)}</a>`).join("\n")}
+${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : BEREICH[path] === p ? ' aria-current="true"' : ""}>${esc(l)}</a>`).join("\n")}
 </nav>
 </div>
 </header>
@@ -259,7 +270,7 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     mainEntityOfPage: url(path),
-    image: image ? [url(image), url("og-image.png")] : url("og-image.png"),
+    image: image ? [url(image), url(ogImage({ path }))] : url(ogImage({ path })),
   };
 }
 
