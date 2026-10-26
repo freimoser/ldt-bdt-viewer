@@ -275,3 +275,19 @@ test("LDT 3: eingebettetes PDF (Obj_0010, Feld 6329) wird gefunden und unveränd
   assert.equal(m.anhaenge[0].typ, "100");
   assert.equal(new TextDecoder("latin1").decode(anhangBytes(m, m.anhaenge[0])), pdf);
 });
+
+test("Keine unbelegten Mengenangaben über fremde Software in Seiten und Meldungen", async () => {
+  // „viele Praxisprogramme …“, „meist …“ ohne Quelle: Aussagen über das Verhalten anderer müssen belegt oder als Möglichkeit formuliert sein
+  const { readFileSync, readdirSync } = await import("node:fs");
+  const files = [...readdirSync("scripts/pages").map((f) => "scripts/pages/" + f), "src/assets/js/core/xdt.js", "src/assets/js/core/beispiele.js", "src/assets/js/app.js", "scripts/build.mjs"];
+  const ERLAUBT = /beliebig viele|Sehr viele gleichartige|meist die Arztpraxis|in der Regel nicht vorstellig/;
+  const treffer = [];
+  for (const f of files) {
+    readFileSync(f, "utf8").split("\n").forEach((z, i) => {
+      for (const m of z.matchAll(/[^.]{0,40}\b(viele|vielen|meist|meistens|oft|häufig|manche|die meisten|üblich)\b[^.]{0,40}/gi)) {
+        if (!ERLAUBT.test(m[0])) treffer.push(`${f}:${i + 1}: ${m[0].trim()}`);
+      }
+    });
+  }
+  assert.deepEqual(treffer, []);
+});

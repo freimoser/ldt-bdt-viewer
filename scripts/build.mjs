@@ -194,7 +194,7 @@ ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}
 - „Der Wert ist als H markiert.“ Die Markierung setzt das Labor in Feld 8422; der Viewer zeigt sie nur an und bewertet nichts selbst.
 - „Eine .ldt-Datei ist ein Laborbefund.“ Dieselbe Endung nutzen EULUMDAT-Lichtdateien aus der Lichtplanung.
 - „LDT 3.2.20 ist der aktuelle Standard.“ Das gilt seit dem 01.10.2026; LDT 2 (LDT1014.01) ist in Praxen und Laboren weiterhin im Einsatz.
-- „Feldkennungen bedeuten in allen xDT-Formaten dasselbe.“ Die Bezeichnungen sind meist gleich, die Formate nicht: Das Geburtsdatum in Feld 3103 steht in LDT als JJJJMMTT, in BDT als TTMMJJJJ.
+- „Feldkennungen bedeuten in allen xDT-Formaten dasselbe.“ Die Bezeichnungen sind grundsätzlich gleich, die Formate nicht immer: Das Geburtsdatum in Feld 3103 steht in LDT als JJJJMMTT, in BDT als TTMMJJJJ.
 - „In BDT 3.0 ist Feld 3109 das Geschlecht.“ Diese Bedeutung ist in Version 0.96 durchgestrichen; gültig ist 3109 = Hausnummer.
 
 ## Quellen

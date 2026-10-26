@@ -87,12 +87,12 @@ export default function ({ dict }) {
 ${heroHtml({
   crumbs,
   h1: "Fehler in LDT-Dateien: Meldungen, Ursachen, Lösungen",
-  lead: `Welcher Fehler in einer LDT-Datei steckt, sehen Sie, wenn Sie die Datei im kostenlosen <a href="${href()}">LDT &amp; BDT Viewer</a> öffnen: Der Reiter „Prüfung“ nennt jeden Fehler mit Zeilennummer und erklärt unter „Was bedeutet das in der Praxis?“, welche Folgen er hat. Hängen mehrere Meldungen zusammen, steht oben die wahrscheinliche Ursache mit einem Vorschlag, was zu tun ist. Diese Seite erklärt zehn Fehlerarten mit Ursache und Lösung, die meisten mit einer Beispieldatei zum Ausprobieren.`,
+  lead: `Welcher Fehler in einer LDT-Datei steckt, sehen Sie, wenn Sie die Datei im kostenlosen <a href="${href()}">LDT &amp; BDT Viewer</a> öffnen: Der Reiter „Prüfung“ nennt jeden Fehler mit Zeilennummer und erklärt unter „Was bedeutet das in der Praxis?“, welche Folgen er hat. Hängen mehrere Meldungen zusammen, steht oben die wahrscheinliche Ursache mit einem Vorschlag, was zu tun ist. Diese Seite erklärt zehn Fehlerarten mit Ursache und Lösung, ${Object.keys(EXAMPLES).length} davon mit einer Beispieldatei zum Ausprobieren.`,
   minutes: 6,
   stand: STAND,
 })}
 <div class="prose">
-<p>Die Meldungen betreffen nicht die Laborwerte, sondern den Aufbau der Datei. Wie Sie sie finden, zeigt die Anleitung <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a>. Grundregel: Korrigieren Sie den Inhalt nicht von Hand. Die Datei muss dort neu erzeugt werden, wo sie entstanden ist, meist beim Labor bzw. in dessen Software.</p>
+<p>Die Meldungen betreffen nicht die Laborwerte, sondern den Aufbau der Datei. Wie Sie sie finden, zeigt die Anleitung <a href="${href("ldt-datei-oeffnen/")}">LDT-Datei öffnen</a>. Grundregel: Korrigieren Sie den Inhalt nicht von Hand. Die Datei muss dort neu erzeugt werden, wo sie entstanden ist, bei einem Befund also beim Labor bzw. in dessen Software.</p>
 
 ${figureHtml("ldt-viewer-pruefung-fehler.webp", "Fehler in einer LDT-Datei im LDT & BDT Viewer: Warnung Die Prüfung hat 1 Fehler gefunden, wahrscheinliche Ursache Die Datei wurde nach dem Erstellen verändert, und im Reiter Prüfung die Meldung Zeile 365: Die Prüfsumme in Feld 9300 passt nicht zum Dateiinhalt", "Der Reiter „Prüfung“ mit einem Fehlerbeispiel (erfundene Testdaten): Der Viewer nennt die wahrscheinliche Ursache, was zu tun ist, und jede Meldung mit Zeilennummer.")}
 
@@ -123,7 +123,7 @@ ${err("laenge", "Längenangabe passt nicht zum Inhalt",
   "Lassen Sie die Datei beim Absender neu erzeugen.")}
 ${err("zeilenende", "Zeilen enden mit LF statt mit CR LF",
   "„427 Zeilen enden nur mit LF statt mit CR LF.“, manchmal zusammen mit „Fast alle falschen Längenangaben sind genau um 1 zu klein.“",
-  `Jedes Feld endet mit CR (Wagenrücklauf) und LF (Zeilenvorschub). ${src("ldt3", "Kap. 6.4.1")} Fehlt das CR, wurde die Datei so erzeugt oder später umgewandelt; weil sich dabei die Bytes ändern, passt in LDT 3 meist auch die Prüfsumme nicht mehr. Erscheint zusätzlich „Fast alle falschen Längenangaben sind genau um 1 zu klein.“, hat das erzeugende Programm für das Zeilenende vermutlich nur ein Byte gezählt.`,
+  `Jedes Feld endet mit CR (Wagenrücklauf) und LF (Zeilenvorschub). ${src("ldt3", "Kap. 6.4.1")} Fehlt das CR, wurde die Datei so erzeugt oder später umgewandelt; weil sich dabei die Bytes ändern, passt in LDT 3 auch die Prüfsumme nicht mehr. Erscheint zusätzlich „Fast alle falschen Längenangaben sind genau um 1 zu klein.“, hat das erzeugende Programm für das Zeilenende vermutlich nur ein Byte gezählt.`,
   "Fordern Sie die Originaldatei erneut an und speichern Sie sie nicht in einem Texteditor.")}
 ${err("pflichtfeld", "Pflichtfeld fehlt",
   "„Satz ab Zeile 5 (Satzart 8201 Labor-Bericht): Pflichtfeld 8301 (Eingangsdatum des Auftrags im Labor) fehlt.“",

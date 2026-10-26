@@ -29,6 +29,8 @@ export default function ({ dict }) {
   const fks = new Set([...Object.keys(dict.ldt2), ...Object.keys(dict.ldt3), ...Object.keys(dict.bdt)]);
   const list = [...fks].sort();
   const counts = Object.fromEntries(FORMATS.map(([k]) => [k, Object.keys(dict[k]).length]));
+  const neuLdt3 = Object.keys(dict.ldt3).filter((fk) => !dict.ldt2[fk]);
+  const neuInLdt3 = neuLdt3.length, neueAttribute = neuLdt3.filter((fk) => fk >= "8100" && fk <= "8299").length;
 
   const rowHtml = list.map((fk) => {
     const e = { ldt2: dict.ldt2[fk], ldt3: dict.ldt3[fk], bdt: dict.bdt[fk] };
@@ -75,8 +77,8 @@ ${Object.entries(SATZARTEN[key]).map(([k, v]) => `<tr><td><code>${esc(k)}</code>
 
   const faq = [
     { q: "Was ist eine Feldkennung?", a: "Eine Feldkennung ist die vierstellige Zahl, die in jeder Zeile einer LDT-, BDT- oder GDT-Datei direkt nach der dreistelligen Längenangabe steht. Sie sagt, was im Feld steht, zum Beispiel 3101 für den Nachnamen oder 8420 für den Ergebniswert." },
-    { q: "Warum gibt es eine Feldkennung in LDT 3, aber nicht in LDT 2?", a: "Jede Version hat ihre eigene Feldtabelle. LDT 3 hat viele Felder neu eingeführt, vor allem die Objektattribute 8100 bis 8299, die ein Objekt ankündigen. Umgekehrt gibt es Felder wie 8100 (Satzlänge), die nur in LDT 2 und im klassischen BDT eine Rolle spielen." },
-    { q: "Was bedeutet „unbekannt“ im Viewer?", a: "Der Viewer zeigt „unbekannt“, wenn eine Feldkennung in der Feldtabelle der erkannten Version nicht vorkommt. Steht sie in einer anderen Tabelle, nennt der Viewer zusätzlich deren Bedeutung. Häufig sind das herstellereigene Erweiterungen oder Felder einer anderen Version." },
+    { q: "Warum gibt es eine Feldkennung in LDT 3, aber nicht in LDT 2?", a: `Jede Version hat ihre eigene Feldtabelle. Von den ${counts.ldt3} Feldkennungen der LDT-3-Tabelle stehen ${neuInLdt3} nicht in der LDT-2-Tabelle, darunter ${neueAttribute} Objektattribute (8100 bis 8299), die ein Objekt ankündigen. Umgekehrt gibt es Felder wie 8100 (Satzlänge), die nur in LDT 2 und im klassischen BDT eine Rolle spielen.` },
+    { q: "Was bedeutet „unbekannt“ im Viewer?", a: "Der Viewer zeigt „unbekannt“, wenn eine Feldkennung in der Feldtabelle der erkannten Version nicht vorkommt. Steht sie in einer anderen Tabelle, nennt der Viewer zusätzlich deren Bedeutung. Mögliche Ursachen sind herstellereigene Erweiterungen oder Felder einer anderen Version." },
     { q: "Was bedeuten Länge und Typ?", a: "„Länge 8“ heißt: genau 8 Zeichen, „Länge ≤ 60“: höchstens 60 Zeichen, „var“: variabel. Der Typ beschreibt den Inhalt, zum Beispiel num oder n für Ziffern, alnum oder a für Text, date oder d für ein Datum und f für eine Zahl mit Punkt als Dezimaltrennzeichen." },
   ];
 
