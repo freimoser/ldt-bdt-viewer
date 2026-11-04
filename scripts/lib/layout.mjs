@@ -20,7 +20,7 @@ export const LEGAL = {
   phone: "", // keine Pflicht (EuGH C-298/07), E-Mail genügt
   vatId: "", // nur angeben, wenn eine USt-IdNr. erteilt wurde
   responsible: "Thomas Freimoser",
-  url: "https://freimoser.github.io/freimoser.de/",
+  url: "https://freimoser.de/",
 };
 
 export const SITE = {
@@ -169,6 +169,9 @@ ${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === pat
 })();</script>`;
 }
 
+// Schwester-Tools für Praxis- und Gesundheits-IT (alle geprüft: HTTP 200 am 04.11.2026)
+const TOOLS = [["gdt-viewer", "GDT Viewer"], ["hl7v2-viewer", "HL7 v2 Viewer"], ["fhir-viewer", "FHIR Viewer"], ["cda-viewer", "CDA Viewer"], ["dicom-viewer", "DICOM Viewer"], ["e-rechnung-klartext", "E-Rechnung Klartext"], ["easy-photo-editor", "Easy Photo Editor"]];
+
 /** Gliederung der Website: eine Quelle für Footer und Inhaltsübersicht (/inhalt/). */
 export const SECTIONS = [
   ["Werkzeug", ["", "feldkennungen/"]],
@@ -186,9 +189,8 @@ ${SECTIONS.map(([name, pfade]) => `<div><h2>${esc(name)}</h2><ul>
 ${pfade.map((p) => `<li><a href="${href(p)}">${esc(LABELS[p])}</a></li>`).join("\n")}${name === "Über diese Website" ? `\n<li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>` : ""}
 </ul></div>`).join("\n")}
 <div><h2>Weitere kostenlose Tools</h2><ul>
-<li><a href="https://freimoser.github.io/gdt-viewer/">GDT Viewer</a></li>
-<li><a href="https://freimoser.github.io/easy-photo-editor/">Easy Photo Editor</a></li>
-<li><a href="https://freimoser.github.io/freimoser.de/">Über den Entwickler</a></li>
+${TOOLS.map(([p, l]) => `<li><a href="https://freimoser.github.io/${p}/">${esc(l)}</a></li>`).join("\n")}
+<li><a href="https://freimoser.de/">Über den Entwickler</a></li>
 </ul></div>
 </div>
 <p class="site-footer-note">Kein Medizinprodukt · Dateien bleiben in Ihrem Browser · keine Cookies, kein Tracking, kein Upload</p>
