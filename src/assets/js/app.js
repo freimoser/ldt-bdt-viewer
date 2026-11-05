@@ -241,12 +241,20 @@ function kb(bytes) {
 }
 
 async function openAnhang(f, index, save) {
-  const res = await engine.call("anhang", { file: f.key, index });
-  const blob = new Blob([res.buffer], { type: res.mime });
-  if (save) { download(res.name, blob); return; }
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank", "noopener");
-  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  // Fenster noch im Klick öffnen: nach dem Dekodieren zählt der Klick für Popup-Blocker (Safari) nicht mehr
+  const w = save ? null : window.open("", "_blank");
+  if (w) w.opener = null;
+  try {
+    const res = await engine.call("anhang", { file: f.key, index });
+    const blob = new Blob([res.buffer], { type: res.mime });
+    if (save || !w) { download(res.name, blob); return; }
+    const url = URL.createObjectURL(blob);
+    w.location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 10 * 60000);
+  } catch (err) {
+    if (w) w.close();
+    showGlobalError(`Der Anhang kann nicht geöffnet werden, er ist vermutlich beschädigt: ${err.message}`);
+  }
 }
 
 function card(label, value, extra) {
@@ -425,6 +433,7 @@ function orderCard(f, a) {
     ["Diagnose", a.diagnoses.length ? a.diagnoses.map((d) => `${d.certainty ? d.certainty + " " : ""}${d.icd}`).join(", ") : "–"],
     ["Material", a.material.join(", ") || "–"],
     ["Abrechnung", a.billing || "–"],
+    ["Formular", a.forms.join(", ") || "–"],
   ];
   return h("article", { class: "befund" },
     h("header", { class: "befund-head" },
@@ -720,6 +729,15 @@ function openWantedExample() {
 }
 openWantedExample();
 window.addEventListener("hashchange", openWantedExample);
+
+// Als App installiert: Dateien, die per Doppelklick im Betriebssystem geöffnet werden (File Handling API)
+if ("launchQueue" in window) {
+  window.launchQueue.setConsumer(async (params) => {
+    if (!params.files || !params.files.length) return;
+    const files = await Promise.all(params.files.map((handle) => handle.getFile()));
+    openFiles(files);
+  });
+}
 
 /* ------------------------------------------------------------ Generator */
 

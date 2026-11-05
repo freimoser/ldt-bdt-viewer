@@ -1,4 +1,7 @@
 /** Gemeinsames Seitenlayout für alle Seiten. */
+import { existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 /**
  * Einzige Quelle für alle Rechtsangaben (Impressum, Datenschutz, Autorenangaben).
@@ -17,7 +20,7 @@ export const LEGAL = {
   phone: "", // keine Pflicht (EuGH C-298/07), E-Mail genügt
   vatId: "", // nur angeben, wenn eine USt-IdNr. erteilt wurde
   responsible: "Thomas Freimoser",
-  url: "https://freimoser.github.io/freimoser.de/",
+  url: "https://freimoser.de/",
 };
 
 export const SITE = {
@@ -33,6 +36,8 @@ export const SITE = {
   updatedDe: "08.10.2026",
 };
 
+/** Autor und Herausgeber im Schema: eine Angabe für alle Seiten; sameAs verknüpft die Person mit ihrem öffentlichen Profil. */
+export const PERSON_LD = { "@type": "Person", name: SITE.author.name, url: SITE.author.url, sameAs: ["https://github.com/freimoser"] };
 export const url = (path = "") => SITE.origin + SITE.base + path;
 export const href = (path = "") => SITE.base + path;
 
@@ -58,6 +63,8 @@ export const Q = {
   aerzteblattBdt: { t: "Deutsches Ärzteblatt: Praxissoftware – Neue Version der Behandlungsdatentransfer-Schnittstelle (27.09.2017)", u: "https://www.aerzteblatt.de/news/praxissoftware-neue-version-der-behandlungsdatentransfer-schnittstelle-9bd9a2ec-8c1f-42d0-aa14-5bd7602c453b" },
   tomedoLdt: { t: "tomedo Onlinehilfe: Labordatentransfer (LDT)", u: "https://support.tomedo.de/handbuch/tomedo/labor/labordatentransfer/" },
   cgmLdt: { t: "CGM Knowledge Base, CGM TURBOMED: LDT Labordatentransfer", u: "https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer" },
+  kbvLdk: { t: "KBV, Update-Verzeichnis Labordatenkommunikation", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/" },
+  chromiumFileHandling: { t: "Chromium, Web App File Handling (Entwicklerdokumentation)", u: "https://github.com/chromium/chromium/blob/main/docs/webapps/file_handling.md" },
   kvdt: { t: "KBV, Datensatzbeschreibung KVDT Version 6.08 (24.08.2026)", u: "https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf" },
   eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };
@@ -77,6 +84,7 @@ const NAV = [
   ["feldkennungen/", "Feldkennungen"],
   ["fehler/", "Fehler"],
   ["ldt-datei-beispiel/", "Beispiele"],
+  ["glossar/", "Glossar"],
 ];
 
 export const GUIDES = [
@@ -91,7 +99,14 @@ export const GUIDES = [
   ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
   ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
   ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
+  ["muster-10-laborauftrag/", "Muster 10 und 10A digital", "Laborauftrag mit LDT 3: Formularart, Abrechnung und was die KBV verlangt."],
+  ["kbv-pruefmodul-testdateien/", "KBV-Prüfmodul und Testdateien", "XPM-LDK und die offiziellen LDT-3-Testdateien: wo es sie gibt und wofür."],
 ];
+
+/** Dateiname des Vorschaubilds einer Seite (scripts/og-images.mjs). */
+export const ogSlug = (path) => (path ? path.replace(/\/$/, "").replace(/\//g, "-") : "start");
+const OG_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "static", "og");
+const ogImage = (p) => (!p.noindex && existsSync(join(OG_DIR, ogSlug(p.path) + ".jpg")) ? `og/${ogSlug(p.path)}.jpg` : "og-image.png");
 
 function head(p) {
   const canonical = p.noindex ? "" : `<link rel="canonical" href="${esc(url(p.path))}">`;
@@ -111,6 +126,8 @@ ${canonical}
 <meta name="msvalidate.01" content="E1F30DEB311AAF5458907DB431B481AC" />
 <meta name="theme-color" content="${SITE.themeColor}">
 <meta name="author" content="${esc(SITE.author.name)}">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="${href("sitemap.xml")}">
+<link rel="alternate" type="application/atom+xml" title="Neuigkeiten zu LDT, BDT und KVDT" href="${href("feed.xml")}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="${href("favicon.svg")}" type="image/svg+xml">
 <link rel="icon" href="${href("favicon-96.png")}" type="image/png" sizes="96x96">
@@ -123,49 +140,65 @@ ${canonical}
 <meta property="og:title" content="${esc(ogTitle)}">
 <meta property="og:description" content="${esc(ogDesc)}">
 <meta property="og:url" content="${esc(url(p.path))}">
-<meta property="og:image" content="${esc(url("og-image.png"))}">
+<meta property="og:image" content="${esc(url(ogImage(p)))}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="LDT &amp; BDT Viewer – Labordaten und Praxisdaten-Exporte im Browser lesen, ohne Upload">
+<meta property="og:image:alt" content="${esc(ogImage(p) === "og-image.png" ? "LDT & BDT Viewer – Labordaten und Praxisdaten-Exporte im Browser lesen, ohne Upload" : (p.ogTitle || p.title) + " – LDT & BDT Viewer")}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(ogTitle)}">
 <meta name="twitter:description" content="${esc(ogDesc)}">
-<meta name="twitter:image" content="${esc(url("og-image.png"))}">
+<meta name="twitter:image" content="${esc(url(ogImage(p)))}">
 <link rel="stylesheet" href="${href("assets/css/styles.css")}">
 ${ld}
 </head>`;
 }
 
+// Seiten ohne eigenen Navigationspunkt markieren ihren Bereich (aria-current="true")
+const BEREICH = { "kbv-pruefmodul-testdateien/": "fehler/", "ldt-2-vs-ldt-3/": "was-ist-ldt/", "muster-10-laborauftrag/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
+
+// Ein Kopf für alle Seiten: gleiche Breite, beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar
 function nav(path) {
-  return `<nav class="site-nav" aria-label="Hauptnavigation">
-${NAV.map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : ""}>${esc(l)}</a>`).join("\n")}
-</nav>`;
+  return `<header class="site-header">
+<div class="site-header-inner">
+<a class="site-brand" href="${href()}"${path === "" ? ' aria-current="page"' : ""}><span class="logo logo-sm" aria-hidden="true">LDT</span><span>LDT &amp; BDT Viewer</span></a>
+<nav class="site-nav" aria-label="Hauptnavigation">
+${NAV.filter(([p]) => p !== "").map(([p, l]) => `<a href="${href(p)}"${p === path ? ' aria-current="page"' : BEREICH[path] === p ? ' aria-current="true"' : ""}>${esc(l)}</a>`).join("\n")}
+</nav>
+</div>
+</header>
+<script>(() => {
+  document.querySelector(".site-nav [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });
+  // Tatsächliche Kopfhöhe für alles, was darunter andockt (Suchleiste, Strukturbaum, Sprungmarken)
+  const h = document.querySelector(".site-header"), set = () => document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px");
+  set(); if (window.ResizeObserver) new ResizeObserver(set).observe(h);
+})();</script>`;
 }
+
+// Schwester-Tools für Praxis- und Gesundheits-IT (alle geprüft: HTTP 200 am 04.11.2026)
+const TOOLS = [["gdt-viewer", "GDT Viewer"], ["hl7v2-viewer", "HL7 v2 Viewer"], ["fhir-viewer", "FHIR Viewer"], ["cda-viewer", "CDA Viewer"], ["dicom-viewer", "DICOM Viewer"], ["e-rechnung-klartext", "E-Rechnung Klartext"], ["easy-photo-editor", "Easy Photo Editor"]];
+
+/** Gliederung der Website: eine Quelle für Footer und Inhaltsübersicht (/inhalt/). */
+export const SECTIONS = [
+  ["Werkzeug", ["", "feldkennungen/"]],
+  ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/", "kbv-pruefmodul-testdateien/"]],
+  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "muster-10-laborauftrag/", "xdt-gdt-ldt-bdt/", "glossar/", "neuigkeiten/"]],
+  ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
+  ["Über diese Website", ["ueber/", "quellen/", "inhalt/", "impressum/", "datenschutz/"]],
+];
+const LABELS = { "": "LDT & BDT Viewer", ...Object.fromEntries(GUIDES.map(([p, l]) => [p, l])), "ueber/": "Über diese Website", "quellen/": "Quellen", "inhalt/": "Alle Seiten", "impressum/": "Impressum", "datenschutz/": "Datenschutz", "neuigkeiten/": "Neuigkeiten" };
 
 function footer() {
   return `<footer class="site-footer">
 <div class="site-footer-grid">
-<div><h2>Tool</h2><ul>
-<li><a href="${href()}">LDT &amp; BDT Viewer</a></li>
-<li><a href="${href("feldkennungen/")}">Feldkennungen</a></li>
-<li><a href="${href("quellen/")}">Quellen</a></li>
-<li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>
-</ul></div>
-<div><h2>Ratgeber</h2><ul>
-${GUIDES.filter(([p]) => p !== "feldkennungen/").map(([p, l]) => `<li><a href="${href(p)}">${esc(l)}</a></li>`).join("\n")}
-</ul></div>
+${SECTIONS.map(([name, pfade]) => `<div><h2>${esc(name)}</h2><ul>
+${pfade.map((p) => `<li><a href="${href(p)}">${esc(LABELS[p])}</a></li>`).join("\n")}${name === "Über diese Website" ? `\n<li><a href="${SITE.repo}">Quellcode auf GitHub</a></li>` : ""}
+</ul></div>`).join("\n")}
 <div><h2>Weitere kostenlose Tools</h2><ul>
-<li><a href="https://freimoser.github.io/gdt-viewer/">GDT Viewer</a></li>
-<li><a href="https://freimoser.github.io/easy-photo-editor/">Easy Photo Editor</a></li>
-<li><a href="https://freimoser.github.io/freimoser.de/">Über den Entwickler</a></li>
+${TOOLS.map(([p, l]) => `<li><a href="https://freimoser.github.io/${p}/">${esc(l)}</a></li>`).join("\n")}
+<li><a href="https://freimoser.de/">Über den Entwickler</a></li>
 </ul></div>
-<div><h2>Rechtliches</h2><ul>
-<li><a href="${href("impressum/")}">Impressum</a></li>
-<li><a href="${href("datenschutz/")}">Datenschutz</a></li>
-</ul>
-<p class="small">Kein Medizinprodukt. Dateien bleiben in Ihrem Browser.</p></div>
 </div>
-<p class="site-footer-note">Quellcode offen auf GitHub · keine Cookies, kein Tracking, kein Upload · Stand ${SITE.updatedDe}</p>
+<p class="site-footer-note">Kein Medizinprodukt · Dateien bleiben in Ihrem Browser · keine Cookies, kein Tracking, kein Upload</p>
 </footer>`;
 }
 
@@ -216,8 +249,8 @@ export function page(p) {
 ${head(p)}
 <body>
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
-<div class="page ${p.pageClass || "page-content"}">
 ${nav(p.path)}
+<div class="page ${p.pageClass || "page-content"}">
 ${p.body}
 ${footer()}
 </div>
@@ -247,10 +280,10 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
     inLanguage: "de-DE",
     datePublished: published < updated ? published : updated,
     dateModified: updated,
-    author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
-    publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+    author: PERSON_LD,
+    publisher: PERSON_LD,
     mainEntityOfPage: url(path),
-    image: image ? [url(image), url("og-image.png")] : url("og-image.png"),
+    image: image ? [url(image), url(ogImage({ path }))] : url(ogImage({ path })),
   };
 }
 

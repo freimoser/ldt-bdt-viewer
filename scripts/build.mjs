@@ -94,13 +94,16 @@ function headingIds(html, withToc) {
     const first = main.indexOf(h2[0][0]);
     main = main.slice(0, first) + toc + main.slice(first);
   }
-  return html.replace(m[0], main);
+  return html.replace(m[0], () => main);
 }
 
 const problems = [];
 const titles = new Map(), descs = new Map();
+// Seiten mit lateBody (Inhaltsübersicht) zuletzt rendern: sie lesen die fertigen Seiten der anderen
+pages.sort((a, b) => Number(!!a.lateBody) - Number(!!b.lateBody));
 for (const p of pages) {
   let tableNo = 0;
+  if (p.lateBody) p.body = p.lateBody(pages);
   let html = page(p)
     .replace(/<link rel="stylesheet" href="[^"]*styles\.css">/, `<style>${css}</style>`)
     // scrollbare Tabellenbereiche per Tastatur erreichbar machen (WCAG 2.1.1)
@@ -109,6 +112,11 @@ for (const p of pages) {
       const label = (cap || "").trim() || `Tabelle ${tableNo}${th ? ": " + th.trim() : ""}`;
       return `<div class="table-wrap" tabindex="0" role="region" aria-label="${label.replace(/"/g, "&quot;")}">${rest}`;
     });
+  // Sichtbares Datum im Seitenkopf = lastmod (eine Quelle für Seite, Schema und Sitemap); Abrufdaten stehen an den Quellen
+  if (!p.noindex) {
+    const iso = p.lastmod || SITE.updated, de = iso.split("-").reverse().join(".");
+    html = html.replace(/<p class="meta-line">Stand: [0-9.]+/, `<p class="meta-line">Aktualisiert: <time datetime="${iso}">${de}</time>`);
+  }
   const withToc = !!p.path && !p.noindex && !p.file;
   html = headingIds(html, withToc);
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
@@ -131,7 +139,7 @@ for (const p of pages) {
 }
 
 // 5) Sitemap, llms.txt, Manifest (Startseite zuerst, Ratgeber in Menüreihenfolge, Rechtliches zuletzt)
-const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "impressum/", "datenschutz/"];
+const order = ["", ...GUIDES.map(([p]) => p), "quellen/", "ueber/", "inhalt/", "impressum/", "datenschutz/"];
 const rank = (p) => (order.includes(p.path) ? order.indexOf(p.path) : order.length);
 const indexable = pages.filter((p) => !p.noindex).sort((a, b) => rank(a) - rank(b));
 writeFileSync(join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
@@ -150,6 +158,7 @@ const KURZ = [
   ["Wie öffne ich eine LDT-Datei?", "Im LDT & BDT Viewer die Datei ins Feld ziehen oder „Datei wählen“ klicken. Er zeigt Werte als Tabelle, den Aufbau und eine Prüfung; die Datei bleibt im Browser.", "ldt-datei-oeffnen/#anleitung"],
   ["Wie wandle ich eine LDT-Datei in PDF um?", "LDT-3-Befunde können das PDF des Labors als Anhang enthalten (Obj_0010, Base64 in Feld 6329; KBV LDT 3.2.20, Kap. 11.10). Der Viewer öffnet und speichert es. Ohne Anhang: Reiter „Befunde“ drucken und „Als PDF speichern“ wählen.", "ldt-datei-oeffnen/#pdf"],
   ["Die .ldt-Datei stammt von einem Leuchtenhersteller. Was ist das?", "Eine EULUMDAT-Lichtdatei mit derselben Endung. Sie beschreibt die Lichtverteilung einer Leuchte und gehört in Lichtplanungsprogramme wie DIALux, nicht in die Praxissoftware.", "ldt-datei-oeffnen/#lichtdatei"],
+  ["Was ist der Unterschied zwischen Muster 10 und Muster 10A?", "Muster 10 ist der Überweisungsschein für Laboratoriumsuntersuchungen als Auftragsleistung, Muster 10A der Anforderungsschein bei Laborgemeinschaften. Im LDT-3-Auftrag stehen sie als 27 bzw. 28 in Feld 4239 (KBV LDT 3.2.20, Regel E009); abrechnungsbegründend ist nur das Muster, nicht der LDT-Auftrag (KBV FAQ Labordatenkommunikation).", "muster-10-laborauftrag/"],
   ["Was heißt BDT?", "Behandlungsdatentransfer, früher Behandlungsdatenträger: ein xDT-Standard, mit dem Praxissoftware Daten systemunabhängig exportiert, vor allem beim Wechsel des Praxisprogramms (QMS, BDT 3.0 Version 0.96, Kap. 2).", "was-ist-bdt/"],
   ["Was ist KVDT?", "Kassenärztliche Vereinigung-Datentransfer: das xDT-Format, mit dem die Praxis ihre Abrechnungsdaten an die Kassenärztliche Vereinigung überträgt; aktuelle Datensatzbeschreibung der KBV: Version 6.08 vom 24.08.2026.", "xdt-gdt-ldt-bdt/#kvdt"],
   ["Was ist neu in LDT 3.2.20?", "Version 3.2.20 der KBV (13.05.2026, in Kraft seit 01.10.2026) ersetzt 3.2.19: Regel E001 erlaubt in Feld 0001 nun „LDT3.2.20“ (andere Versionen sind eine Warnung), und die erlaubten DMP-Kennzeichen in Feld 4132 (Regel E020) wurden angepasst (Dokumentenhistorie).", "was-ist-ldt/#neu-in-3-2-20"],
@@ -206,6 +215,32 @@ ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}
 - [Quellcode](${SITE.repo})
 `;
 writeFileSync(join(dist, "llms.txt"), llms);
+// Atom-Feed der Neuigkeiten (eine Quelle: scripts/lib/news.mjs)
+{
+  const { NEWS } = await import(pathToFileURL(join(root, "scripts", "lib", "news.mjs")).href);
+  const x = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const neu = NEWS.map((n) => n.date).sort().at(-1);
+  writeFileSync(join(dist, "feed.xml"), `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="de">
+  <title>${x(SITE.name)}: Neuigkeiten zu LDT, BDT und KVDT</title>
+  <subtitle>Neue Versionen, Termine und Prüfmodule mit Datum und Quelle</subtitle>
+  <link rel="alternate" type="text/html" href="${url("neuigkeiten/")}"/>
+  <link rel="self" type="application/atom+xml" href="${url("feed.xml")}"/>
+  <id>${url("feed.xml")}</id>
+  <updated>${neu}T00:00:00Z</updated>
+  <author><name>${x(SITE.author.name)}</name><uri>${x(SITE.author.url)}</uri></author>
+${NEWS.map((n) => `  <entry>
+    <title>${x(n.title)}</title>
+    <link rel="alternate" type="text/html" href="${url("neuigkeiten/")}#${n.id}"/>
+    <id>${url("neuigkeiten/")}#${n.id}</id>
+    <published>${n.date}T00:00:00Z</published>
+    <updated>${n.date}T00:00:00Z</updated>
+    <summary>${x(n.text)}</summary>
+  </entry>`).join("\n")}
+</feed>
+`);
+}
+
 
 // llms-full.txt: Volltext der indexierbaren Seiten als einfaches Markdown (nur der Hauptinhalt, Links mit Adresse)
 function toText(html) {
@@ -227,6 +262,7 @@ const full = indexable.filter((p) => p.path !== "").map((p) => `---\nQuelle: ${u
 writeFileSync(join(dist, "llms-full.txt"), `# ${SITE.name} – Volltext der Fachseiten\n\n> Erzeugt aus den Seiten von ${url()}. Jede Faktenaussage nennt im Text Stand und Quelle.\n\n${full}\n`);
 
 writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
+  id: SITE.base,
   name: SITE.name,
   short_name: "LDT & BDT",
   description: SITE.tagline,
@@ -241,6 +277,14 @@ writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
     { src: SITE.base + "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
     { src: SITE.base + "icon-512-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
   ],
+  categories: ["medical", "utilities"],
+  // Installierte App öffnet LDT-/BDT-Dateien per Doppelklick (File Handling API, Chromium); Datei bleibt lokal
+  file_handlers: [{ action: SITE.base, accept: { "text/plain": [".ldt", ".bdt", ".dat", ".con"] } }],
+  shortcuts: [
+    { name: "Beispieldateien", url: SITE.base + "ldt-datei-beispiel/" },
+    { name: "Feldkennungen nachschlagen", url: SITE.base + "feldkennungen/" },
+    { name: "Fehler in LDT-Dateien", url: SITE.base + "fehler/" },
+  ],
 }, null, 2));
 
 // 6) Service Worker (offline nach dem ersten Laden)
@@ -253,7 +297,7 @@ const files = [];
   }
 })(dist);
 // Bildschirmfotos der Ratgeber braucht der Viewer offline nicht
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.endsWith(".map"));
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|feed\.xml|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.startsWith("og/") && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);

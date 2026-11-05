@@ -233,7 +233,7 @@ const MIME = { PDF: "application/pdf", JPG: "image/jpeg", JPEG: "image/jpeg", PN
 
 /**
  * Eingebettete Anhänge in LDT 3: Obj_0010 mit Dateiformat 6303, Beschreibung 6327, Dokumententyp 9970;
- * der Inhalt steht Base64-kodiert in den Zeilen 6329 des folgenden Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
+ * der Inhalt steht Base64-kodiert in den Zeilen 6329 des darin verschachtelten Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
  */
 export function listAnhaenge(m) {
   if (m.format !== "ldt3" || !m.objects) return [];
@@ -259,9 +259,11 @@ export function listAnhaenge(m) {
 
 /** Dekodiert einen Anhang aus listAnhaenge zu Bytes. */
 export function anhangBytes(m, a) {
-  let b64 = "";
-  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) b64 += content(m, i).trim();
-  const bin = atob(b64.replace(/[^A-Za-z0-9+/=]/g, ""));
+  const zeilen = [];
+  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) zeilen.push(content(m, i).replace(/[^A-Za-z0-9+/=]/g, ""));
+  const ganz = zeilen.join("");
+  // Füllt ein Erzeuger jede Zeile einzeln mit „=“ auf, wird zeilenweise dekodiert
+  const bin = /=[^=]/.test(ganz) ? zeilen.map((z) => atob(z)).join("") : atob(ganz);
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
@@ -986,7 +988,7 @@ export function extractAuftraege(m) {
   const T = S.ORDER_TEXT;
   for (const rec of m.records) {
     if (rec.type !== "8215") continue;
-    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", material: [], tests: [], notes: [] };
+    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", forms: [], material: [], tests: [], notes: [] };
     let diag = null, test = null;
     for (let i = rec.start; i <= rec.end; i++) {
       const f = m.fk[i];
@@ -1007,6 +1009,7 @@ export function extractAuftraege(m) {
       else if (inner === "Obj_0100" && f === 6001) { diag = { icd: v, certainty: "" }; a.diagnoses.push(diag); }
       else if (inner === "Obj_0100" && f === 6003 && diag) diag.certainty = T.certainty[v] || v;
       else if (inner === "Obj_0027" && f === 7303 && !a.billing) a.billing = T.billing[v] || v;
+      else if (inner === "Obj_0002" && f === 4239 && !a.forms.includes(T.form[v] || v)) a.forms.push(T.form[v] || v);
       else if (inner === "Obj_0037" && f === 8430) a.material.push(v);
       else if (inner === "Obj_0059" && f === 8410) { test = { id: v, name: "", urgent: "" }; a.tests.push(test); }
       else if (inner === "Obj_0059" && f === 8411 && test) test.name = v;

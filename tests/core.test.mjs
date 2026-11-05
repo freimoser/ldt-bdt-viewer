@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { open, gen, codes, allText, fromLines, buildFile, dict } from "./helpers.mjs";
+import { open, gen, codes, allText, fromLines, buildFile, dict, FIXED_NOW } from "./helpers.mjs";
 import { decode, encode } from "../src/assets/js/core/charsets.js";
 import { sha1Hex } from "../src/assets/js/core/sha1.js";
 import { anonymize } from "../src/assets/js/core/anonymize.js";
@@ -290,4 +290,20 @@ test("Keine unbelegten Mengenangaben über fremde Software in Seiten und Meldung
     });
   }
   assert.deepEqual(treffer, []);
+});
+
+test("Anhang mit zeilenweise aufgefülltem Base64 wird trotzdem richtig dekodiert", async () => {
+  const { anhangBytes } = await import("../src/assets/js/core/xdt.js");
+  const teil1 = Buffer.from("%PDF-1", "latin1").toString("base64"), teil2 = Buffer.from(".4 ende", "latin1").toString("base64");
+  const f = fromLines(["80008220", "0001LDT3.2.20", "80008205", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068",
+    "6329" + teil1, "6329" + teil2, "8003Obj_0068", "6303PDF", "8003Obj_0010", "80008221"]);
+  const m = open(f, "a.ldt");
+  assert.equal(new TextDecoder("latin1").decode(anhangBytes(m, m.anhaenge[0])), "%PDF-1.4 ende");
+});
+
+test("LDT-3-Auftrag: Formularart aus Feld 4239 (Muster 10A, Regel E009)", async () => {
+  const { BEISPIELE } = await import("../src/assets/js/core/beispiele.js");
+  const b = BEISPIELE.find((x) => x.file === "Z01_LDT3_Auftrag.ldt");
+  const m = open(b.build(FIXED_NOW), b.file);
+  assert.match(m.auftraege[0].forms[0], /^Muster 10A/);
 });

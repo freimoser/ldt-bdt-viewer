@@ -10,7 +10,8 @@
     "serve": "node scripts/serve.mjs",
     "check:launch": "node scripts/check-launch.mjs",
     "icons": "node scripts/gen-icons.mjs",
-    "screenshots": "node scripts/screenshots.mjs"
+    "screenshots": "node scripts/screenshots.mjs",
+    "og": "node scripts/og-images.mjs"
   },
   "license": "MIT"
 }

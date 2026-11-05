@@ -1,4 +1,4 @@
-import { SITE, url, href, esc, faqHtml, faqLd, GUIDES } from "../lib/layout.mjs";
+import { SITE, url, href, esc, faqHtml, faqLd, GUIDES, PERSON_LD } from "../lib/layout.mjs";
 import { beispielListe } from "../../src/assets/js/core/beispiele.js";
 
 // Beispielauswahl: drei Schnellknöpfe und die vollständige Liste aus dem Kompendium
@@ -56,7 +56,7 @@ export default {
         "KVDT-Abrechnungsdateien und EULUMDAT-Lichtdateien erkennen",
         "Keine Datenübertragung an Server",
       ],
-      author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+      author: PERSON_LD,
     },
     {
       "@context": "https://schema.org",
@@ -65,22 +65,21 @@ export default {
       url: url(),
       inLanguage: "de-DE",
       description: SITE.tagline,
-      publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+      publisher: PERSON_LD,
     },
     faqLd(faq),
   ],
-  body: `<header class="header">
+  body: `<main id="inhalt">
+<div class="header">
 <div class="brand">
-<span class="logo" aria-hidden="true">LDT</span>
 <div>
-<h1>LDT &amp; BDT Viewer</h1>
-<p class="tagline">${esc(SITE.tagline)}</p>
+<h1>LDT- und BDT-Dateien öffnen, lesen und prüfen</h1>
+<p class="tagline">Kostenloser LDT &amp; BDT Viewer für Laborbefunde und Praxisdaten-Exporte – direkt im Browser, ohne Upload</p>
 </div>
 </div>
 <p class="privacy-badge"><span class="dot" aria-hidden="true"></span>100 % lokal – nichts wird hochgeladen</p>
-</header>
+</div>
 
-<main id="inhalt">
 <section class="card" aria-labelledby="open-title">
 <h2 id="open-title">Datei öffnen</h2>
 <p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst. Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></p>
@@ -89,7 +88,7 @@ export default {
 <p class="drop-title" id="dropTitle">LDT- oder BDT-Datei hierher ziehen</p>
 <p class="drop-sub">oder auswählen · .ldt, .bdt, .dat, .txt · auch mehrere Dateien</p>
 <button type="button" class="btn btn-primary btn-lg" id="pickBtn">Datei wählen</button>
-<input type="file" id="fileInput" accept=".ldt,.bdt,.dat,.txt,.gdt,text/plain" multiple hidden>
+<input type="file" id="fileInput" accept=".ldt,.bdt,.dat,.txt,.gdt,.con,text/plain" multiple hidden>
 </div>
 <div class="privacy-box">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
