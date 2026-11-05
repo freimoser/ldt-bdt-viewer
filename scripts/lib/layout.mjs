@@ -63,6 +63,7 @@ export const Q = {
   aerzteblattBdt: { t: "Deutsches Ärzteblatt: Praxissoftware – Neue Version der Behandlungsdatentransfer-Schnittstelle (27.09.2017)", u: "https://www.aerzteblatt.de/news/praxissoftware-neue-version-der-behandlungsdatentransfer-schnittstelle-9bd9a2ec-8c1f-42d0-aa14-5bd7602c453b" },
   tomedoLdt: { t: "tomedo Onlinehilfe: Labordatentransfer (LDT)", u: "https://support.tomedo.de/handbuch/tomedo/labor/labordatentransfer/" },
   cgmLdt: { t: "CGM Knowledge Base, CGM TURBOMED: LDT Labordatentransfer", u: "https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer" },
+  kbvLdk: { t: "KBV, Update-Verzeichnis Labordatenkommunikation", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/" },
   kvdt: { t: "KBV, Datensatzbeschreibung KVDT Version 6.08 (24.08.2026)", u: "https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf" },
   eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };
@@ -98,6 +99,7 @@ export const GUIDES = [
   ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
   ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
   ["muster-10-laborauftrag/", "Muster 10 und 10A digital", "Laborauftrag mit LDT 3: Formularart, Abrechnung und was die KBV verlangt."],
+  ["kbv-pruefmodul-testdateien/", "KBV-Prüfmodul und Testdateien", "XPM-LDK und die offiziellen LDT-3-Testdateien: wo es sie gibt und wofür."],
 ];
 
 /** Dateiname des Vorschaubilds einer Seite (scripts/og-images.mjs). */
@@ -150,7 +152,7 @@ ${ld}
 }
 
 // Seiten ohne eigenen Navigationspunkt markieren ihren Bereich (aria-current="true")
-const BEREICH = { "ldt-2-vs-ldt-3/": "was-ist-ldt/", "muster-10-laborauftrag/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
+const BEREICH = { "kbv-pruefmodul-testdateien/": "fehler/", "ldt-2-vs-ldt-3/": "was-ist-ldt/", "muster-10-laborauftrag/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
 
 // Ein Kopf für alle Seiten: gleiche Breite, beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar
 function nav(path) {
@@ -176,7 +178,7 @@ const TOOLS = [["gdt-viewer", "GDT Viewer"], ["hl7v2-viewer", "HL7 v2 Viewer"], 
 /** Gliederung der Website: eine Quelle für Footer und Inhaltsübersicht (/inhalt/). */
 export const SECTIONS = [
   ["Werkzeug", ["", "feldkennungen/"]],
-  ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/"]],
+  ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/", "kbv-pruefmodul-testdateien/"]],
   ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "muster-10-laborauftrag/", "xdt-gdt-ldt-bdt/", "glossar/"]],
   ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
   ["Über diese Website", ["ueber/", "quellen/", "inhalt/", "impressum/", "datenschutz/"]],
