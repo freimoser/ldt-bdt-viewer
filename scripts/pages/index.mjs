@@ -12,17 +12,18 @@ ${BSP.filter((b) => b.group === g).map((b) => `<li><div class="example-text"><st
 
 const faq = [
   { q: "Wird meine Datei hochgeladen?", a: "Nein. Der Viewer liest die Datei mit JavaScript direkt in Ihrem Browser. Es gibt keinen Server, der Dateien annimmt, keine Cookies und kein Tracking. Sie können das selbst prüfen: Seite laden, Internet trennen und die Datei trotzdem öffnen." },
-  { q: "Welche Dateien kann der Viewer öffnen?", a: "LDT 2.x (LDT1014.01), LDT 3.x (aktuell LDT3.2.20) und BDT, sowohl im klassischen Aufbau mit Satzlänge als auch BDT 3.0. Übliche Endungen sind .ldt, .bdt, .dat und .txt. GDT-Dateien werden erkannt; für sie gibt es den <a href=\"https://freimoser.github.io/gdt-viewer/\">GDT Viewer</a>." },
+  { q: "Welche Dateien kann der Viewer öffnen?", a: "LDT 2.x (LDT1014.01), LDT 3.x (aktuell LDT3.2.20) und BDT, sowohl im klassischen Aufbau mit Satzlänge als auch BDT 3.0. Übliche Endungen sind .ldt, .bdt, .dat und .txt. GDT-Dateien werden erkannt; für sie gibt es den <a href=\"https://freimoser.github.io/gdt-viewer/\">GDT Viewer</a>. KVDT-Abrechnungsdateien zeigt der Viewer mit ihren Satzarten an, und er erkennt EULUMDAT-Lichtdateien, die ebenfalls auf .ldt enden." },
+  { q: "Kann ich den Laborbefund als PDF speichern?", a: "Ja, wenn das Labor ihn eingebettet hat; für LDT 3 empfiehlt die AG LDT das ausdrücklich. Der Viewer zeigt dann oben „Die Datei enthält ein eingebettetes Dokument“ mit „Öffnen“ und „Speichern“. Ohne eingebettetes PDF drucken Sie den Reiter „Befunde“ und wählen „Als PDF speichern“. Die Anleitung steht unter <a href=\"" + href("ldt-datei-oeffnen/#pdf") + "\">LDT-Datei in PDF umwandeln</a>." },
   { q: "Bewertet der Viewer meine Laborwerte?", a: "Nein. Der Viewer zeigt Werte, Einheiten, Normbereiche und Markierungen so an, wie das Labor sie in die Datei geschrieben hat. Er ist kein Medizinprodukt und stellt keine Diagnose." },
   { q: "Was kostet der Viewer?", a: "Nichts. Der LDT &amp; BDT Viewer ist kostenlos und der Quellcode ist öffentlich auf GitHub einsehbar." },
 ];
 
 export default {
   path: "",
-  // Beispielliste und Generator am 12.10.2026 erweitert
-  lastmod: "2026-10-12",
-  title: "LDT Viewer – LDT & BDT Dateien online öffnen, ohne Upload",
-  description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, Fehler finden, anonymisieren, Testdateien erzeugen. Alles im Browser, kein Upload.",
+  // 26.10.2026: eingebettete PDFs, KVDT- und Lichtdatei-Erkennung
+  lastmod: "2026-10-26",
+  title: "LDT Viewer für Laborbefunde – LDT & BDT ohne Upload öffnen",
+  description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, eingebettete PDF-Befunde speichern, Fehler finden. Alles im Browser, kein Upload.",
   ogTitle: "LDT & BDT Viewer – Laborbefunde und Praxis-Exporte lesen",
   ogDescription: "LDT-Laborbefunde und BDT-Exporte verständlich anzeigen, prüfen und anonymisieren – direkt im Browser, ohne Upload.",
   pageClass: "page-tool",
@@ -30,7 +31,7 @@ export default {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      dateModified: "2026-10-12",
+      dateModified: "2026-10-26",
       name: SITE.name,
       alternateName: ["LDT Viewer", "BDT Viewer"],
       url: url(),
@@ -45,12 +46,14 @@ export default {
         "LDT 2.x, LDT 3.x und BDT öffnen",
         "Automatische Erkennung von Format, Version und Zeichensatz",
         "Befundansicht mit Werten, Einheiten, Normbereichen und Markierungen",
+        "Eingebettete PDF-Befunde aus LDT 3 öffnen und speichern",
         "Strukturansicht mit Sätzen, Objekten und Rohzeilen",
         "Prüfung mit zeilengenauen Fehlermeldungen",
         "Anonymisieren für Support-Anfragen",
         "Export als CSV, JSON und Druckansicht",
         "Generator für LDT- und BDT-Testdateien",
         "Feldkennungen nachschlagen",
+        "KVDT-Abrechnungsdateien und EULUMDAT-Lichtdateien erkennen",
         "Keine Datenübertragung an Server",
       ],
       author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
@@ -80,7 +83,7 @@ export default {
 <main id="inhalt">
 <section class="card" aria-labelledby="open-title">
 <h2 id="open-title">Datei öffnen</h2>
-<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst.</p>
+<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst. Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></p>
 <div id="dropzone" class="dropzone">
 <div class="drop-icon" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke-linecap="round"/></svg></div>
 <p class="drop-title" id="dropTitle">LDT- oder BDT-Datei hierher ziehen</p>
@@ -181,7 +184,7 @@ ${exampleList}
 <div class="prose">
 <p>Der LDT &amp; BDT Viewer öffnet Dateien im xDT-Format, die deutsche Labore und Praxisprogramme austauschen. <strong>LDT</strong> (Labordatenträger) transportiert Laboraufträge und Laborbefunde zwischen Praxis und Labor, <strong>BDT</strong> (Behandlungsdatenträger) dient vor allem dem Export aller Daten beim Wechsel der Praxissoftware. Geräteanbindungen laufen dagegen über GDT; dafür gibt es den <a href="https://freimoser.github.io/gdt-viewer/">GDT Viewer</a> aus derselben Familie.</p>
 <ul>
-<li><strong>Für Praxisteams:</strong> Befunde als Tabelle mit Wert, Einheit, Normbereich und deutlich markierten auffälligen Werten, so wie das Labor sie gesendet hat.</li>
+<li><strong>Für Praxisteams:</strong> Befunde als Tabelle mit Wert, Einheit, Normbereich und deutlich markierten auffälligen Werten, so wie das Labor sie gesendet hat, und das PDF des Labors zum Öffnen und Speichern, wenn es in der Datei steckt (<a href="${href("ldt-datei-oeffnen/#pdf")}">LDT-Datei in PDF umwandeln</a>).</li>
 <li><strong>Für Praxis-IT und Support:</strong> Sätze, Objekte und Rohzeilen mit Feldkennung, Bedeutung und Länge, Prüfung mit Zeilennummer und Erklärung, Anonymisierung für Support-Anfragen.</li>
 <li><strong>Für Entwickler:</strong> gültige Testdateien und eine Referenz aller Feldkennungen aus den offiziellen Spezifikationen.</li>
 </ul>

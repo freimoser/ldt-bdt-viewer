@@ -55,6 +55,11 @@ export const Q = {
   tool: { t: "Quellenliste des LDT & BDT Viewers", u: SITE.base + "quellen/" },
   pruefpaket: { t: "KBV, Prüfpaket Labordatenkommunikation Version 1.23", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf" },
   eulumdat: { t: "DIAL GmbH, LDT Editor (EULUMDAT-Dateien)", u: "https://www.dialux.com/de-DE/ldt-editor" },
+  aerzteblattBdt: { t: "Deutsches Ärzteblatt: Praxissoftware – Neue Version der Behandlungsdatentransfer-Schnittstelle (27.09.2017)", u: "https://www.aerzteblatt.de/news/praxissoftware-neue-version-der-behandlungsdatentransfer-schnittstelle-9bd9a2ec-8c1f-42d0-aa14-5bd7602c453b" },
+  tomedoLdt: { t: "tomedo Onlinehilfe: Labordatentransfer (LDT)", u: "https://support.tomedo.de/handbuch/tomedo/labor/labordatentransfer/" },
+  cgmLdt: { t: "CGM Knowledge Base, CGM TURBOMED: LDT Labordatentransfer", u: "https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer" },
+  kvdt: { t: "KBV, Datensatzbeschreibung KVDT Version 6.08 (24.08.2026)", u: "https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf" },
+  eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
@@ -85,6 +90,7 @@ export const GUIDES = [
   ["fehler/", "Fehler in LDT-Dateien", "Häufige Fehler, ihre Bedeutung und die Lösung."],
   ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
   ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
+  ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
 ];
 
 function head(p) {
@@ -232,7 +238,7 @@ export function heroHtml({ crumbs, h1, lead, minutes, stand = SITE.updatedDe }) 
 }
 
 // published: erste Veröffentlichung (Standard: Start der Website), updated: letzte inhaltliche Änderung
-export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated }) {
+export function articleLd({ headline, description, path, updated = SITE.updated, published = SITE.updated, image }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -244,20 +250,27 @@ export function articleLd({ headline, description, path, updated = SITE.updated,
     author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     publisher: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
     mainEntityOfPage: url(path),
-    image: url("og-image.png"),
+    image: image ? [url(image), url("og-image.png")] : url("og-image.png"),
   };
 }
 
-export function howToLd({ name, description, steps, path }) {
+export function howToLd({ name, description, steps, path, image, updated }) {
   return {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name,
     description,
     inLanguage: "de-DE",
+    ...(image ? { image: url(image) } : {}),
+    ...(updated ? { dateModified: updated } : {}),
     tool: [{ "@type": "HowToTool", name: "LDT & BDT Viewer (kostenlos, im Browser)" }],
     step: steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text, url: url(path) + "#schritt-" + (i + 1) })),
   };
+}
+
+/** Bildschirmfoto mit Bildunterschrift (Dateien aus scripts/screenshots.mjs, 1038 × 1100 px). */
+export function figureHtml(file, alt, caption, width = 1038, height = 1100) {
+  return `<figure class="shot"><img src="${href("bilder/" + file)}" alt="${esc(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"><figcaption>${caption}</figcaption></figure>`;
 }
 
 /** Schritt-Liste für Anleitungen, passend zu howToLd. */

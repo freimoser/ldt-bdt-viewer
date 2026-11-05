@@ -5,8 +5,13 @@ const crumbs = [["LDT & BDT Viewer", ""], ["Was ist BDT?", path]];
 const title = "BDT Behandlungsdatenträger: Definition und Einsatz";
 const description = "BDT (Behandlungsdatenträger) erklärt: Herkunft vom ZI, BDT 3.0 des QMS, Export beim Praxissoftware-Wechsel, Dateiaufbau mit Beispielen und Grenzen.";
 const h1 = "BDT (Behandlungsdatenträger): Definition, Aufbau und Einsatz";
+const STAND = "26.10.2026";
 
 const faq = [
+  {
+    q: "Was heißt BDT?",
+    a: `BDT heißt in der Praxissoftware Behandlungsdatentransfer, früher Behandlungsdatenträger. Gemeint ist ein Standard der xDT-Familie, mit dem ein Praxisprogramm Patienten- und Behandlungsdaten systemunabhängig exportiert, etwa beim Wechsel der Praxissoftware. ${src("bdt3", "Kap. 2")}`,
+  },
   {
     q: "Enthält eine BDT-Datei auch Termine und Adressen?",
     a: "In BDT 3.0 ja. Die Beschreibung des QMS kennt eigene Satzarten für Adressen (adrs) und Termine (term) sowie die Anwendungsfälle 90 (Termine) und 91 (Adressen). Ältere BDT-Versionen beschrieben solche Praxisverwaltungsdaten laut QMS noch nicht.",
@@ -34,7 +39,8 @@ ${heroHtml({
   crumbs,
   h1,
   lead: `<strong>BDT (Behandlungsdatenträger, heute auch Behandlungsdatentransfer) ist</strong> ein Standard der xDT-Familie, mit dem Praxissoftware ihre Daten systemunabhängig exportiert, vor allem damit eine Arztpraxis beim Wechsel des Praxisprogramms ihre Patientendaten mitnehmen kann. ${src("bdt3", "Kap. 2")}`,
-  minutes: 6,
+  minutes: 7,
+  stand: STAND,
 })}
 <div class="prose">
 <h2>Woher kommt BDT?</h2>
@@ -46,9 +52,10 @@ ${heroHtml({
 <tr><td>15.09.1998</td><td>Stand der zuletzt gemeinfrei verfügbaren Fassung BDT 02/94. Später stellt das ZI Pflege und Weiterentwicklung ein.</td></tr>
 <tr><td>2011</td><td>Der Qualitätsring Medizinische Software (QMS) nimmt in Absprache mit ZI und KBV die Weiterentwicklung auf.</td></tr>
 <tr><td>01.03.2015</td><td>BDT 3.0, Version 0.96, erscheint mit dem Status „Freigabe für Testimplementierungen“.</td></tr>
+<tr><td>Mitte September 2017</td><td>Der QMS gibt BDT 3 zur Implementierung frei und stellt die Standarddokumente zum Herunterladen bereit (laut Deutschem Ärzteblatt). Diese freigegebene Fassung ist heute nicht öffentlich abrufbar.</td></tr>
 </tbody>
 </table></div>
-<p>${src("bdt3", "S. 2 und Kap. 2")}</p>
+<p>${src("bdt3", "S. 2 und Kap. 2")} ${src("aerzteblattBdt", "", STAND)}</p>
 
 <h2>Einsatz beim Wechsel der Praxissoftware</h2>
 <p>Der Hauptzweck ist der Umzug von Daten: Das bisherige Programm exportiert den Bestand als BDT-Datei, das neue Programm liest sie ein. BDT 3.0 nennt als wichtigste Anwendungsfälle den vollständigen Export, auch zur Archivierung, und den Import aller Daten eines Praxis-Software-Systems. ${src("bdt3", "Kap. 3.6")}</p>
@@ -71,6 +78,7 @@ ${heroHtml({
 </table></div>
 <p>${src("bdt3", "Kap. 3.6")}</p>
 <p>Inhaltlich beschreibt BDT 3.0 vor allem die „Karteikarte“ des Patienten: Stammblattdaten und datumsbezogene Verlaufsdaten der Behandlung. Im Unterschied zu älteren Versionen kommen Praxisverwaltungsdaten wie Adressen und Termine hinzu. ${src("bdt3", "Kap. 2")}</p>
+<p>Mit der Freigabe 2017 nannte der QMS weitere Einsatzzwecke: patientenbezogene Exporte, etwa für die Einsichtnahme in die Patientenakte nach § 630g BGB, für eine Fallakte oder einen Hausarztwechsel, die Bereitstellung von Daten für die Forschung und das Mitnehmen von Daten aus einer Notfall- oder Bereitschaftsdienstpraxis in die eigene Praxis. Neben Patientenstamm- und Behandlungsdaten gehören laut QMS auch Geräteanbindungen, Terminkalender, Adressbücher, Textbausteine, Makros sowie offene Aufträge und Abrechnungen dazu; externe Dokumente werden über Verweise mit Metadaten eingebunden. ${src("aerzteblattBdt", "", STAND)}</p>
 <p>Wie Sie einen Export vor der Übernahme ansehen und auf Vollständigkeit prüfen, zeigt die Anleitung <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p>
 
 <h2>Aufbau einer BDT-Datei</h2>
@@ -120,7 +128,7 @@ ${heroHtml({
 
 <h2>Grenzen von BDT</h2>
 <ul>
-<li><strong>Entwurfsstatus:</strong> BDT 3.0 liegt nur als Version 0.96 mit dem Status „Freigabe für Testimplementierungen“ vor. Der QMS schreibt selbst, sie werde „noch nicht zur Anwendung empfohlen“. ${src("bdt3", "S. 2")}</li>
+<li><strong>Öffentlich nur Version 0.96:</strong> Der QMS hat BDT 3 im September 2017 zur Implementierung freigegeben. ${src("aerzteblattBdt", "", STAND)} Öffentlich abrufbar ist aber nur die archivierte Version 0.96 vom 01.03.2015 mit dem Status „Freigabe für Testimplementierungen“, die der QMS damals „noch nicht zur Anwendung empfohlen“ hat. ${src("bdt3", "S. 2")} Alle BDT-3.0-Angaben dieser Website beruhen auf Version 0.96; in der freigegebenen Fassung können Einzelheiten abweichen.</li>
 <li><strong>Ältere Spezifikation nicht mehr verfügbar:</strong> Die Originalspezifikation BDT 02/94 ist nicht mehr öffentlich abrufbar, BDT 3.0 nur noch als archivierte Kopie. Felder, die nur in BDT 02/94 definiert sind, zeigt der Viewer deshalb als „unbekannt“ an. ${src("tool", "Abschnitte Spezifikationen und Lücken")}</li>
 <li><strong>Externe Dateien:</strong> Referenzierte Dateien in Fremdformaten stehen nicht in der BDT-Datei selbst. Sie werden separat im Originalformat und optional zusätzlich als PDF/A-1b übermittelt. Prüfen Sie beim Wechsel, ob diese Dateien vollständig mitkommen. ${src("bdt3", "Kap. 2 und 3.6.1")}</li>
 <li><strong>Keine Abrechnungsprüfung:</strong> Regeln zur Plausibilitätsprüfung von Abrechnungen sind nicht Bestandteil der BDT-Definition. Abrechnungsnotizen in anderen Formaten als xDT werden nur als Referenz auf externe Dateien übertragen. ${src("bdt3", "Kap. 3.6.1")}</li>
@@ -140,8 +148,9 @@ export default {
   ogTitle: "Was ist BDT? Der Behandlungsdatenträger einfach erklärt",
   ogDescription: "BDT-Export beim Wechsel der Praxissoftware: Geschichte, Anwendungsfälle in Feld 0010, klassischer Aufbau und BDT 3.0 mit echten Beispielzeilen sowie die Grenzen des Formats.",
   ogType: "article",
-  jsonld: [articleLd({ headline: h1, description, path }), faqLd(faq), breadcrumbLd(crumbs)],
+  lastmod: "2026-10-26",
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
-  llms: "Was BDT (Behandlungsdatenträger, Behandlungsdatentransfer) ist: Herkunft beim ZI, Weiterentwicklung durch den QMS (BDT 3.0 Entwurf 0.96), Anwendungsfälle in Feld 0010, klassischer Aufbau mit 8100 und BDT 3.0 mit 8202 sowie Grenzen beim Praxissoftware-Wechsel.",
+  llms: "Was BDT (Behandlungsdatenträger, Behandlungsdatentransfer) ist: Herkunft beim ZI, Weiterentwicklung durch den QMS (BDT 3 im September 2017 freigegeben, öffentlich nur Version 0.96 von 2015), Einsatzzwecke wie Praxiswechsel, § 630g BGB, Hausarztwechsel und Notdienstdaten, Anwendungsfälle in Feld 0010, klassischer Aufbau mit 8100 und BDT 3.0 mit 8202 sowie Grenzen beim Praxissoftware-Wechsel.",
 };

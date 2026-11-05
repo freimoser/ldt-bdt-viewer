@@ -10,8 +10,8 @@ const md = readFileSync(join(root, "quellen.md"), "utf8").replace(/^Alle Feldtab
 
 const path = "quellen/";
 // Seite seit 14.10.2026; „Stand“ nennt das letzte Abrufdatum der Quellen
-const UPDATED = "2026-10-14";
-const STAND = "12.10.2026";
+const UPDATED = "2026-10-26";
+const STAND = "26.10.2026";
 const crumbs = [["LDT & BDT Viewer", ""], ["Quellen", path]];
 const title = "Quellen: Spezifikationen für LDT, BDT und GDT";
 const description = "Alle Quellen des LDT & BDT Viewers mit Version, Link und Abrufdatum: KBV LDT 3.2.20 und LDT 5.12, QMS BDT 3.0, Uni Gießen, GDT 2.1, und was fehlt.";
@@ -90,5 +90,5 @@ export default {
   jsonld: [articleLd({ headline: h1, description, path, updated: UPDATED, published: UPDATED }), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
-  llms: "Quellenliste: KBV LDT 3.2.20 (mit Objektkatalog und Testdateien), KBV LDT 5.12, KBV-Prüfpaket, QMS BDT 3.0 V0.96 (Entwurf, archiviert), Uni Gießen (klassischer BDT), QMS GDT 2.1; Lücken (BDT 02/94, BDT-3.0-Objektkatalog) und Vorgehen bei der Extraktion.",
+  llms: "Quellenliste: KBV LDT 3.2.20 (mit Objektkatalog und Testdateien), KBV LDT 5.12, KBV-Prüfpaket, QMS BDT 3.0 V0.96 (archiviert; BDT 3 laut Deutschem Ärzteblatt 2017 freigegeben, Fassung nicht öffentlich), KBV KVDT 6.08, Uni Gießen (klassischer BDT), QMS GDT 2.1, EULUMDAT-Formatbeschreibung (Paul Bourke) und DIAL zur Abgrenzung; Lücken (BDT 02/94, BDT-3.0-Objektkatalog) und Vorgehen bei der Extraktion.",
 };

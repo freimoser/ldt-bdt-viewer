@@ -242,3 +242,52 @@ test("BDT 3.0: Feldlänge 000 bedeutet „nicht angegeben“ und ist kein Fehler
   assert.equal(m.bdtVariant, "3.0");
   assert.ok(!m.issues.some((i) => i.code === "LEN" && i.line === 2), JSON.stringify(m.issues.filter((i) => i.code === "LEN")));
 });
+
+test("EULUMDAT-Lichtdatei wird erkannt und nicht als fehlerhafte Labordatei gemeldet", async () => {
+  const { openFile } = await import("../src/assets/js/core/xdt.js");
+  const txt = ["Ingemann", "2", "0", "20", "18", "37", "5", "VFR-190926-0236-MS", "Prolicht E30-0019", "", "datei.ldt", "26/09/2019", "1245", "240"].join("\r\n");
+  const m = openFile(new TextEncoder().encode(txt), "licht.ldt", {});
+  assert.equal(m.format, "unknown");
+  assert.equal(m.lichtdatei.hersteller, "Ingemann");
+  assert.equal(m.lichtdatei.leuchte, "Prolicht E30-0019");
+  assert.equal(m.issueCounts.fehler, 0);
+});
+
+test("KVDT-Abrechnungsdatei wird erkannt, Satzarten benannt, keine Fehlalarme", () => {
+  const f = fromLines(["8000con0", "910326102026", "91063", "91321", "8000besa", "0201123456700", "8000adt0", "9212ADT1026.01", "80000101", "3000Mustermann", "8000adt9", "8000con9"]);
+  const m = open(f, "Z01123456700_26.10.2026_10.00.CON");
+  assert.equal(m.format, "kvdt");
+  assert.equal(m.version, "ADT1026.01");
+  assert.deepEqual(codes(m), { KVDT_INFO: 1 });
+  assert.equal(m.records.find((r) => r.type === "0101").label, "Ambulante Behandlung");
+});
+
+test("LDT 3: eingebettetes PDF (Obj_0010, Feld 6329) wird gefunden und unverändert dekodiert", async () => {
+  const { anhangBytes } = await import("../src/assets/js/core/xdt.js");
+  const pdf = "%PDF-1.4\n%%EOF\n";
+  const b64 = Buffer.from(pdf, "latin1").toString("base64");
+  const f = fromLines(["80008220", "0001LDT3.2.20", "80008205", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068",
+    "6329" + b64.slice(0, 12), "6329" + b64.slice(12), "8003Obj_0068", "6303PDF", "8003Obj_0010", "80008221"]);
+  const m = open(f, "anhang.ldt");
+  assert.equal(m.format, "ldt3");
+  assert.equal(m.anhaenge.length, 1);
+  assert.equal(m.anhaenge[0].format, "PDF");
+  assert.equal(m.anhaenge[0].typ, "100");
+  assert.equal(new TextDecoder("latin1").decode(anhangBytes(m, m.anhaenge[0])), pdf);
+});
+
+test("Keine unbelegten Mengenangaben über fremde Software in Seiten und Meldungen", async () => {
+  // „viele Praxisprogramme …“, „meist …“ ohne Quelle: Aussagen über das Verhalten anderer müssen belegt oder als Möglichkeit formuliert sein
+  const { readFileSync, readdirSync } = await import("node:fs");
+  const files = [...readdirSync("scripts/pages").map((f) => "scripts/pages/" + f), "src/assets/js/core/xdt.js", "src/assets/js/core/beispiele.js", "src/assets/js/app.js", "scripts/build.mjs"];
+  const ERLAUBT = /beliebig viele|Sehr viele gleichartige|meist die Arztpraxis|in der Regel nicht vorstellig/;
+  const treffer = [];
+  for (const f of files) {
+    readFileSync(f, "utf8").split("\n").forEach((z, i) => {
+      for (const m of z.matchAll(/[^.]{0,40}\b(viele|vielen|meist|meistens|oft|häufig|manche|die meisten|üblich)\b[^.]{0,40}/gi)) {
+        if (!ERLAUBT.test(m[0])) treffer.push(`${f}:${i + 1}: ${m[0].trim()}`);
+      }
+    });
+  }
+  assert.deepEqual(treffer, []);
+});

@@ -1,7 +1,7 @@
 # Quellen
 
 Alle Feldtabellen, Prüfregeln und Faktenaussagen des LDT & BDT Viewers stützen sich auf die folgenden Dokumente.
-Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket, den Objektkatalog und die EULUMDAT-Abgrenzung ergänzt am **12.10.2026**.
+Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket, den Objektkatalog und die EULUMDAT-Abgrenzung ergänzt am **12.10.2026**; um KVDT, die EULUMDAT-Formatbeschreibung und die BDT-3-Freigabe ergänzt am **26.10.2026**.
 
 ## Spezifikationen
 
@@ -16,7 +16,11 @@ Abrufdatum aller Quellen: **08.10.2026**; erneut abgerufen und um das Prüfpaket
 | BDT (klassisch) | Onkologischer BDT – Beschreibung des BDT-Formats (Tabellen 1–3) | ohne Datum | Universität Gießen, Institut für Medizinische Informatik | https://www.uni-giessen.de/de/fbz/fb11/institute/imi/schwerpunkte/kkk/standards/bdt | Sekundärquelle für den klassischen BDT-Aufbau: Satzart im ersten, Satzlänge 8100 im zweiten Feld, Satzart 6100 Patientenstamm |
 | LDT 3.x | Objektkatalog in der LDT 3 Satzbeschreibung (Kap. 11, S. 118–187) | Version 3.2.20 | KBV | (Gesamtdokument, siehe oben) | `data/ldt3-objekte.json`: 50 Objekte mit Feldern, Ebene und Feldart; Prüfung der unbedingten Mussfelder je Objekt |
 | LDT | Prüfpaket Labordatenkommunikation | Version 1.23 vom 15.11.2023 | KBV | https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/KBV_ITA_AHEX_Pruefpaket_LDK.pdf | Prüffälle (Befund- und Auftragsexport) als Vorlage für die Beispieldateien; Hinweis auf offizielle Prüffälle |
-| (Abgrenzung) | DIAL GmbH: LDT Editor | Webseite, abgerufen 12.10.2026 | DIAL GmbH | https://www.dialux.com/de-DE/ldt-editor | Beleg, dass die Endung .ldt auch für EULUMDAT-Dateien der Lichtplanung verwendet wird (Seite /ldt-datei-beispiel/) |
+| (Abgrenzung) | DIAL GmbH: LDT Editor | Webseite, abgerufen 12.10.2026 | DIAL GmbH | https://www.dialux.com/de-DE/ldt-editor | Beleg, dass die Endung .ldt auch für EULUMDAT-Dateien der Lichtplanung verwendet wird (Seiten /ldt-datei-beispiel/ und /ldt-datei-oeffnen/) |
+| (Abgrenzung) | Paul Bourke: ldt EULUMDAT File Format | Webseite mit Feldtabelle und Beispieldatei, April 2021, abgerufen 26.10.2026 | Paul Bourke | https://paulbourke.net/dataformats/ldt/ | Zeilenaufbau von EULUMDAT-Dateien (Zeile 1 Hersteller, Zeile 2 Ityp 0–3, Zeile 3 Isym 0–4, Zeile 4 Mc, Zeile 6 Ng); Grundlage der Lichtdatei-Erkennung im Viewer und der Tabelle auf /ldt-datei-oeffnen/ |
+| KVDT | KBV: Datensatzbeschreibung KVDT, Version 6.08 | PDF, 207 Seiten, Stand 24.08.2026, in Kraft ab Abrechnung Q4/2026, abgerufen 26.10.2026 | KBV, Dezernat Digitalisierung und IT | https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf | Zweck (Kap. 1.1), Datenpakete und Satzarten (Kap. 1.2), Feldaufbau (Kap. 1.2), Zeichensatz (Kap. 1.8), Dateiname (Kap. 1.9.2); Grundlage der KVDT-Erkennung im Viewer und des Abschnitts auf /xdt-gdt-ldt-bdt/ |
+| BDT 3 (Freigabe) | Deutsches Ärzteblatt: „Praxissoftware: Neue Version der Behandlungsdatentransfer-Schnittstelle“ | Nachricht vom 27.09.2017, abgerufen 26.10.2026 | Deutscher Ärzteverlag | https://www.aerzteblatt.de/news/praxissoftware-neue-version-der-behandlungsdatentransfer-schnittstelle-9bd9a2ec-8c1f-42d0-aa14-5bd7602c453b | Freigabe von BDT 3 zur Implementierung Mitte September 2017 und genannte Einsatzzwecke; die freigegebene Fassung selbst ist nicht öffentlich auffindbar (Suche 26.10.2026), deshalb beruhen alle BDT-3.0-Angaben weiter auf Version 0.96 |
+| (Begriff) | tomedo Onlinehilfe „Labordatentransfer (LDT)“ und CGM Knowledge Base „LDT Labordatentransfer“ | Handbuchseiten, abgerufen 26.10.2026 | zollsoft GmbH bzw. CompuGroup Medical | https://support.tomedo.de/handbuch/tomedo/labor/labordatentransfer/ und https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer | Beleg, dass Praxissoftware-Handbücher LDT auch „Labordatentransfer“ nennen (/was-ist-ldt/, /glossar/) |
 | GDT | GDT 2.1 (englische Fassung) | 2.1 | QMS | https://www.qms-standards.de/files/GDT_2_1_0501_english.pdf | Erkennung von GDT-Dateien (Satzarten 6300–6311, Feld 9218 Versionsnummer) |
 
 ## Organisationen
