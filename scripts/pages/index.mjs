@@ -88,7 +88,7 @@ export default {
 <p class="drop-title" id="dropTitle">LDT- oder BDT-Datei hierher ziehen</p>
 <p class="drop-sub">oder auswählen · .ldt, .bdt, .dat, .txt · auch mehrere Dateien</p>
 <button type="button" class="btn btn-primary btn-lg" id="pickBtn">Datei wählen</button>
-<input type="file" id="fileInput" accept=".ldt,.bdt,.dat,.txt,.gdt,text/plain" multiple hidden>
+<input type="file" id="fileInput" accept=".ldt,.bdt,.dat,.txt,.gdt,.con,text/plain" multiple hidden>
 </div>
 <div class="privacy-box">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>

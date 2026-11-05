@@ -64,6 +64,7 @@ export const Q = {
   tomedoLdt: { t: "tomedo Onlinehilfe: Labordatentransfer (LDT)", u: "https://support.tomedo.de/handbuch/tomedo/labor/labordatentransfer/" },
   cgmLdt: { t: "CGM Knowledge Base, CGM TURBOMED: LDT Labordatentransfer", u: "https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer" },
   kbvLdk: { t: "KBV, Update-Verzeichnis Labordatenkommunikation", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/" },
+  chromiumFileHandling: { t: "Chromium, Web App File Handling (Entwicklerdokumentation)", u: "https://github.com/chromium/chromium/blob/main/docs/webapps/file_handling.md" },
   kvdt: { t: "KBV, Datensatzbeschreibung KVDT Version 6.08 (24.08.2026)", u: "https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf" },
   eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };

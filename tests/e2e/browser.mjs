@@ -123,6 +123,22 @@ try {
     await nv.close();
   }
 
+  // 4c) Installierte App: Datei per Doppelklick im Betriebssystem (File Handling API, launchQueue nachgebildet)
+  {
+    const lq = await browser.newPage();
+    await lq.evaluateOnNewDocument(() => {
+      // Chrome bringt eine eigene (leere) launchQueue mit: überschreiben statt zuweisen
+      Object.defineProperty(window, "launchQueue", { configurable: true, value: { setConsumer(fn) {
+        setTimeout(() => fn({ files: [{ getFile: async () => new File(["01380008220\r\n0170001LDT3.2.20\r\n"], "Z01_START.ldt") }] }), 300);
+      } } });
+    });
+    await lq.goto(BASE, { waitUntil: "networkidle0" });
+    const ok = await lq.waitForSelector("#workspace:not([hidden])", { timeout: 15000 }).then(() => true).catch(() => false);
+    const name = ok ? await lq.$eval("#fileName", (e) => e.textContent) : "";
+    check("Installierte App öffnet Datei aus dem Betriebssystem (launchQueue)", name === "Z01_START.ldt", name);
+    await lq.close();
+  }
+
   // 5) Offline
   const off = await browser.newPage();
   off.setDefaultTimeout(120000);

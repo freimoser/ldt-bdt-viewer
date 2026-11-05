@@ -730,6 +730,15 @@ function openWantedExample() {
 openWantedExample();
 window.addEventListener("hashchange", openWantedExample);
 
+// Als App installiert: Dateien, die per Doppelklick im Betriebssystem geöffnet werden (File Handling API)
+if ("launchQueue" in window) {
+  window.launchQueue.setConsumer(async (params) => {
+    if (!params.files || !params.files.length) return;
+    const files = await Promise.all(params.files.map((handle) => handle.getFile()));
+    openFiles(files);
+  });
+}
+
 /* ------------------------------------------------------------ Generator */
 
 const genFormat = $("genFormat"), genCharset = $("genCharset");

@@ -73,7 +73,7 @@ export default {
   ogDescription: "Schritt-für-Schritt-Anleitung: LDT-Datei im Browser öffnen, Laborwerte und Markierungen lesen, Fehler finden. Ohne Upload.",
   ogType: "article",
   minInternalLinks: 3,
-  lastmod: "2026-10-26",
+  lastmod: "2026-11-05",
   llms: "Anleitung in sieben Schritten, wie man eine LDT-Datei (Laborbefund) im Browser öffnet, Werte und Markierungen liest, ein eingebettetes PDF (Obj_0010, Feld 6329) speichert oder den Befund als PDF druckt, LDT-Labordateien von EULUMDAT-Lichtdateien unterscheidet und mit einer Checkliste prüft, warum ein Befund nicht in der Praxissoftware ankommt.",
   jsonld: [
     howToLd({
@@ -82,7 +82,7 @@ export default {
       steps,
       path,
       image: "bilder/ldt-viewer-laborbefund.webp",
-      updated: "2026-10-26",
+      updated: "2026-11-05",
     }),
     faqLd(faq.map((f) => ({ q: f.q, a: f.a.replace(/&amp;/g, "&") }))),
     breadcrumbLd(crumbs),
@@ -147,6 +147,9 @@ ${figureHtml("ldt-viewer-laborbefund.webp", "LDT-Datei im LDT & BDT Viewer geöf
 </ol>
 <p>Eine EULUMDAT-Lichtdatei lässt sich auf diesem Weg nicht in ein PDF umwandeln; dafür sind Lichtplanungsprogramme zuständig (siehe <a href="#lichtdatei">Labordatei oder Lichtdatei?</a>).</p>
 
+
+<h2 id="als-app">Als App installieren und per Doppelklick öffnen</h2>
+<p>Wer LDT-Dateien täglich öffnet, kann den Viewer in einem Chromium-Browser wie Chrome oder Edge am Computer als App installieren, über das Installieren-Symbol in der Adressleiste. Die installierte App meldet sich beim Betriebssystem für die Endungen .ldt, .bdt, .dat und .con an; eine Datei lässt sich dann per Doppelklick oder „Öffnen mit“ direkt im Viewer öffnen. Beim ersten Mal fragt der Browser, ob die App die Datei öffnen darf. Das funktioniert unter Windows, macOS, Linux und ChromeOS. ${src("chromiumFileHandling", "Platform Implementations", "05.11.2026")} Auch dann wird die Datei nur auf Ihrem Rechner gelesen.</p>
 
 <h2 id="befund-kommt-nicht-an">Was tun, wenn ein Laborbefund nicht in der Praxissoftware ankommt?</h2>
 <p>Gehen Sie die Punkte der Reihe nach durch. Ab Punkt 2 öffnen Sie die LDT-Datei im Viewer und schauen in die Karte „Prüfung“.</p>

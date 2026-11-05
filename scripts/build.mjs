@@ -262,6 +262,7 @@ const full = indexable.filter((p) => p.path !== "").map((p) => `---\nQuelle: ${u
 writeFileSync(join(dist, "llms-full.txt"), `# ${SITE.name} – Volltext der Fachseiten\n\n> Erzeugt aus den Seiten von ${url()}. Jede Faktenaussage nennt im Text Stand und Quelle.\n\n${full}\n`);
 
 writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
+  id: SITE.base,
   name: SITE.name,
   short_name: "LDT & BDT",
   description: SITE.tagline,
@@ -275,6 +276,14 @@ writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
     { src: SITE.base + "icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
     { src: SITE.base + "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
     { src: SITE.base + "icon-512-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+  ],
+  categories: ["medical", "utilities"],
+  // Installierte App öffnet LDT-/BDT-Dateien per Doppelklick (File Handling API, Chromium); Datei bleibt lokal
+  file_handlers: [{ action: SITE.base, accept: { "text/plain": [".ldt", ".bdt", ".dat", ".con"] } }],
+  shortcuts: [
+    { name: "Beispieldateien", url: SITE.base + "ldt-datei-beispiel/" },
+    { name: "Feldkennungen nachschlagen", url: SITE.base + "feldkennungen/" },
+    { name: "Fehler in LDT-Dateien", url: SITE.base + "fehler/" },
   ],
 }, null, 2));
 
