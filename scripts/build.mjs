@@ -215,6 +215,32 @@ ${BEISPIELE.map((b) => `- [${b.file}](${url("beispiele/" + b.file)}): ${b.title}
 - [Quellcode](${SITE.repo})
 `;
 writeFileSync(join(dist, "llms.txt"), llms);
+// Atom-Feed der Neuigkeiten (eine Quelle: scripts/lib/news.mjs)
+{
+  const { NEWS } = await import(pathToFileURL(join(root, "scripts", "lib", "news.mjs")).href);
+  const x = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const neu = NEWS.map((n) => n.date).sort().at(-1);
+  writeFileSync(join(dist, "feed.xml"), `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="de">
+  <title>${x(SITE.name)}: Neuigkeiten zu LDT, BDT und KVDT</title>
+  <subtitle>Neue Versionen, Termine und Prüfmodule mit Datum und Quelle</subtitle>
+  <link rel="alternate" type="text/html" href="${url("neuigkeiten/")}"/>
+  <link rel="self" type="application/atom+xml" href="${url("feed.xml")}"/>
+  <id>${url("feed.xml")}</id>
+  <updated>${neu}T00:00:00Z</updated>
+  <author><name>${x(SITE.author.name)}</name><uri>${x(SITE.author.url)}</uri></author>
+${NEWS.map((n) => `  <entry>
+    <title>${x(n.title)}</title>
+    <link rel="alternate" type="text/html" href="${url("neuigkeiten/")}#${n.id}"/>
+    <id>${url("neuigkeiten/")}#${n.id}</id>
+    <published>${n.date}T00:00:00Z</published>
+    <updated>${n.date}T00:00:00Z</updated>
+    <summary>${x(n.text)}</summary>
+  </entry>`).join("\n")}
+</feed>
+`);
+}
+
 
 // llms-full.txt: Volltext der indexierbaren Seiten als einfaches Markdown (nur der Hauptinhalt, Links mit Adresse)
 function toText(html) {
@@ -262,7 +288,7 @@ const files = [];
   }
 })(dist);
 // Bildschirmfotos der Ratgeber braucht der Viewer offline nicht
-const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.startsWith("og/") && !f.endsWith(".map"));
+const precache = files.filter((f) => !/^(sitemap\.xml|llms\.txt|og-image\.png|google.*\.html|llms-full\.txt|feed\.xml|[0-9a-f]{32}\.txt)$/.test(f) && !f.startsWith("bilder/") && !f.startsWith("og/") && !f.endsWith(".map"));
 const hash = createHash("sha256");
 for (const f of precache.sort()) hash.update(f).update(readFileSync(join(dist, f)));
 const version = hash.digest("hex").slice(0, 12);

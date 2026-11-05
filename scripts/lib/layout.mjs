@@ -126,6 +126,7 @@ ${canonical}
 <meta name="theme-color" content="${SITE.themeColor}">
 <meta name="author" content="${esc(SITE.author.name)}">
 <link rel="sitemap" type="application/xml" title="Sitemap" href="${href("sitemap.xml")}">
+<link rel="alternate" type="application/atom+xml" title="Neuigkeiten zu LDT, BDT und KVDT" href="${href("feed.xml")}">
 <link rel="icon" href="${href("favicon.ico")}" sizes="48x48">
 <link rel="icon" href="${href("favicon.svg")}" type="image/svg+xml">
 <link rel="icon" href="${href("favicon-96.png")}" type="image/png" sizes="96x96">
@@ -179,11 +180,11 @@ const TOOLS = [["gdt-viewer", "GDT Viewer"], ["hl7v2-viewer", "HL7 v2 Viewer"], 
 export const SECTIONS = [
   ["Werkzeug", ["", "feldkennungen/"]],
   ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/", "kbv-pruefmodul-testdateien/"]],
-  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "muster-10-laborauftrag/", "xdt-gdt-ldt-bdt/", "glossar/"]],
+  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "muster-10-laborauftrag/", "xdt-gdt-ldt-bdt/", "glossar/", "neuigkeiten/"]],
   ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
   ["Über diese Website", ["ueber/", "quellen/", "inhalt/", "impressum/", "datenschutz/"]],
 ];
-const LABELS = { "": "LDT & BDT Viewer", ...Object.fromEntries(GUIDES.map(([p, l]) => [p, l])), "ueber/": "Über diese Website", "quellen/": "Quellen", "inhalt/": "Alle Seiten", "impressum/": "Impressum", "datenschutz/": "Datenschutz" };
+const LABELS = { "": "LDT & BDT Viewer", ...Object.fromEntries(GUIDES.map(([p, l]) => [p, l])), "ueber/": "Über diese Website", "quellen/": "Quellen", "inhalt/": "Alle Seiten", "impressum/": "Impressum", "datenschutz/": "Datenschutz", "neuigkeiten/": "Neuigkeiten" };
 
 function footer() {
   return `<footer class="site-footer">
