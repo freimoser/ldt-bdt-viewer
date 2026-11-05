@@ -99,6 +99,11 @@ for (const pg of pages) {
   }
   if (TRACKER.test(pg.html) && ds && !TRACKER.test(ds.html)) blocker.push(`${pg.route}: Messwerkzeug eingebunden, die Datenschutzerklärung erwähnt es nicht.`);
 }
+// Jeder Inhabernachweis im Seitenkopf muss in der Datenschutzerklärung stehen (Bing-Tag kam am 16.10.2026 ohne Erwähnung hinzu)
+const NACHWEIS = { "google-site-verification": /Google Search Console/, "msvalidate.01": /Bing Webmaster/, "yandex-verification": /Yandex/, "p:domain_verify": /Pinterest/ };
+for (const [tag, muster] of Object.entries(NACHWEIS)) {
+  if (start && start.html.includes(`name="${tag}"`) && ds && !muster.test(text(ds.html))) blocker.push(`Seitenkopf enthält ${tag}, die Datenschutzerklärung erwähnt den Dienst nicht.`);
+}
 if (ds && !/keine (Analyse|Messung)|nicht gemessen/i.test(text(ds.html)) && !pages.some((p) => TRACKER.test(p.html))) hinweis.push("Datenschutz sagt nicht ausdrücklich, dass nicht gemessen wird.");
 if (!pages.some((p) => TRACKER.test(p.html))) hinweis.push("Keine Messung eingebunden (gewollt: die Datenschutzerklärung sagt das ausdrücklich).");
 

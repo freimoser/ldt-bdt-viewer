@@ -1,7 +1,7 @@
 import { breadcrumbHtml, breadcrumbLd, href, esc, LEGAL } from "../lib/layout.mjs";
 
 const crumbs = [["LDT & BDT Viewer", ""], ["Datenschutz", "datenschutz/"]];
-const STAND = "14.10.2026";
+const STAND = "22.10.2026";
 
 // Abschnittsnummern zentral vergeben, nie von Hand an die Überschriften (sonst doppelte Nummern bei Änderungen)
 const ABSCHNITTE = ["verantwortlicher", "dateien", "hosting", "messung", "searchConsole", "speicherung", "kontakt", "rechte", "automatisiert"];
@@ -39,9 +39,9 @@ ${h2("hosting", "Hosting und Zugriffsdaten (GitHub Pages)")}
 ${h2("messung", "Keine Messung, keine Cookies")}
 <p>Diese Website verwendet keine Analyse- oder Tracking-Werkzeuge, setzt keine Cookies, lädt keine externen Schriften und bindet keine Inhalte von Drittanbietern ein. Es wird nicht gemessen, wer die Website besucht.</p>
 
-${h2("searchConsole", "Google Search Console: keine Verarbeitung über diese Website")}
-<p>Diese Website ist in der Google Search Console angemeldet. <strong>Dabei wird nichts in Ihrem Browser geladen und nichts über Sie an den Betreiber übermittelt.</strong> Es gibt kein Skript, kein Cookie und keinen Zählpixel. Die Daten entstehen bei Google im Rahmen der Suche, also unabhängig davon, ob Sie diese Website je aufrufen, und der Betreiber sieht sie ausschließlich zusammengefasst.</p>
-<p>Der Nachweis, dass die Website dem Betreiber gehört, steht als Kennzeichnung im Quelltext der Seiten (ein sogenanntes Meta-Tag). Es lädt nichts und überträgt nichts. Für eine Auskunft nach Art. 15 DSGVO zu Ihren Suchdaten ist Google der richtige Ansprechpartner.</p>
+${h2("searchConsole", "Google Search Console und Bing Webmaster Tools: keine Verarbeitung über diese Website")}
+<p>Diese Website ist in der Google Search Console und in den Bing Webmaster Tools von Microsoft angemeldet. <strong>Dabei wird nichts in Ihrem Browser geladen und nichts über Sie an den Betreiber übermittelt.</strong> Es gibt kein Skript, kein Cookie und keinen Zählpixel. Die Daten entstehen bei Google und Microsoft im Rahmen der Suche, also unabhängig davon, ob Sie diese Website je aufrufen, und der Betreiber sieht sie ausschließlich zusammengefasst.</p>
+<p>Der Nachweis, dass die Website dem Betreiber gehört, steht als Kennzeichnung im Quelltext der Seiten (sogenannte Meta-Tags). Sie laden nichts und übertragen nichts. Nach jeder neuen Version meldet der Betreiber die geänderten Seitenadressen über das IndexNow-Verfahren an Suchmaschinen; dabei werden nur Adressen dieser Website übermittelt, keine Angaben über Besucher. Für eine Auskunft nach Art. 15 DSGVO zu Ihren Suchdaten sind Google bzw. Microsoft die richtigen Ansprechpartner.</p>
 
 ${h2("speicherung", "Speicherung in Ihrem Browser")}
 <div class="table-wrap"><table>
@@ -52,7 +52,7 @@ ${h2("speicherung", "Speicherung in Ihrem Browser")}
 <tr><td>Local Storage, Session Storage, IndexedDB</td><td>nichts</td><td>–</td><td>–</td></tr>
 <tr><td>Cache des Service Workers</td><td>die öffentlichen Programmdateien dieser Website (HTML, CSS, JavaScript, Feldtabellen, Beispieldateien); keine Angaben über Sie und keine Ihrer Dateien</td><td>Der Viewer funktioniert nach dem ersten Laden auch ohne Internetverbindung.</td><td>bis zur nächsten Version der Website oder bis Sie die Websitedaten im Browser löschen</td></tr>
 </tbody></table></div>
-<p>Der Cache enthält keine Informationen über Sie und wird nicht ausgelesen, um etwas über Sie zu erfahren. Sie können ihn jederzeit in den Einstellungen Ihres Browsers unter „Websitedaten“ löschen.</p>
+<p>Der Cache enthält keine Informationen über Sie und wird nicht ausgelesen, um etwas über Sie zu erfahren. Die Speicherung ist für die von Ihnen genutzte Offline-Funktion unbedingt erforderlich und deshalb nach § 25 Abs. 2 Nr. 2 TDDDG ohne Einwilligung zulässig. Sie können ihn jederzeit in den Einstellungen Ihres Browsers unter „Websitedaten“ löschen.</p>
 
 ${h2("kontakt", "Kontakt per E-Mail")}
 <p>Wenn Sie per E-Mail Kontakt aufnehmen, werden Ihre Adresse und Ihre Nachricht verarbeitet, um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in der Beantwortung Ihrer Anfrage. Die Nachricht wird gelöscht, sobald sie erledigt ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Bitte senden Sie keine Patientendaten per E-Mail; für Support-Anfragen gibt es im Viewer die Funktion „Anonymisieren“.</p>
