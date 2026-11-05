@@ -97,6 +97,7 @@ export const GUIDES = [
   ["ldt-datei-beispiel/", "LDT-Beispieldateien", "Laborbefund Zeile für Zeile erklärt, Beispiele zum Herunterladen."],
   ["bdt-datei-beispiel/", "BDT-Beispieldatei", "Praxisdaten-Export Zeile für Zeile erklärt, zum Herunterladen."],
   ["glossar/", "Glossar", "Satzart, Feldkennung, Objekt, Prüfsumme und weitere Begriffe kurz erklärt."],
+  ["muster-10-laborauftrag/", "Muster 10 und 10A digital", "Laborauftrag mit LDT 3: Formularart, Abrechnung und was die KBV verlangt."],
 ];
 
 /** Dateiname des Vorschaubilds einer Seite (scripts/og-images.mjs). */
@@ -149,7 +150,7 @@ ${ld}
 }
 
 // Seiten ohne eigenen Navigationspunkt markieren ihren Bereich (aria-current="true")
-const BEREICH = { "ldt-2-vs-ldt-3/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
+const BEREICH = { "ldt-2-vs-ldt-3/": "was-ist-ldt/", "muster-10-laborauftrag/": "was-ist-ldt/", "bdt-datei-beispiel/": "ldt-datei-beispiel/" };
 
 // Ein Kopf für alle Seiten: gleiche Breite, beim Scrollen oben fixiert, auf schmalen Bildschirmen waagerecht wischbar
 function nav(path) {
@@ -176,7 +177,7 @@ const TOOLS = [["gdt-viewer", "GDT Viewer"], ["hl7v2-viewer", "HL7 v2 Viewer"], 
 export const SECTIONS = [
   ["Werkzeug", ["", "feldkennungen/"]],
   ["Anleitungen", ["ldt-datei-oeffnen/", "bdt-datei-oeffnen/", "fehler/"]],
-  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "xdt-gdt-ldt-bdt/", "glossar/"]],
+  ["Wissen", ["was-ist-ldt/", "was-ist-bdt/", "ldt-2-vs-ldt-3/", "muster-10-laborauftrag/", "xdt-gdt-ldt-bdt/", "glossar/"]],
   ["Beispieldateien", ["ldt-datei-beispiel/", "bdt-datei-beispiel/"]],
   ["Über diese Website", ["ueber/", "quellen/", "inhalt/", "impressum/", "datenschutz/"]],
 ];

@@ -5,7 +5,7 @@ const crumbs = [["LDT & BDT Viewer", ""], ["Glossar", path]];
 const title = "LDT- und BDT-Glossar: Fachbegriffe der xDT-Formate";
 const description = "Glossar zu LDT, BDT, GDT und KVDT: Satzart, Feldkennung, Objekt, Prüfsumme, Grenzwertindikator und weitere Begriffe kurz erklärt, jeweils mit Quelle.";
 const h1 = "Glossar: Fachbegriffe rund um LDT- und BDT-Dateien";
-const UPDATED = "2026-10-26";
+const UPDATED = "2026-11-05";
 const STAND = "26.10.2026";
 
 // Jede Definition übernimmt eine auf den Fachseiten belegte Aussage; „mehr“ verweist auf die ausführliche Stelle.
@@ -22,8 +22,10 @@ const TERMS = [
   { id: "kvdt", term: "KVDT", text: "Kassenärztliche Vereinigung-Datentransfer: xDT-Format, mit dem die Arztpraxis ihre Abrechnungsdaten an die Kassenärztliche Vereinigung überträgt. Die Datensatzbeschreibung gibt die KBV heraus.", src: src("kvdt", "Kap. 1.1", STAND), more: ["xdt-gdt-ldt-bdt/#kvdt", "KVDT im Überblick"] },
   { id: "ldk", term: "Labordatenkommunikation (LDK)", text: "Oberbegriff der KBV für das ganze Verfahren zwischen Praxis und Labor: den Einsatz der digitalen Muster 10 und 10A sowie von LDT-Auftrag und LDT-Befund.", src: src("faq", "Kap. 1"), more: ["was-ist-ldt/", "Was ist LDT?"] },
   { id: "labordatentransfer", term: "Labordatentransfer", text: "Andere Bezeichnung für LDT, die Handbücher von Praxissoftware wie tomedo verwenden. Die Spezifikation der KBV nennt das Format LaborDatenTräger.", src: `${src("tomedoLdt", "", STAND)} ${src("ldt3", "Kap. 5.1")}`, more: ["was-ist-ldt/", "Was ist LDT?"] },
+  { id: "laborgemeinschaft", term: "Laborgemeinschaft", text: "Gemeinschaft, die für ihre Mitglieder Laborleistungen aus Abschnitt 32.2 des EBM bzw. Abschnitt M II der GOÄ erbringen kann. Aufträge an sie laufen über Muster 10A.", src: `${src("ldt3", "Kap. 3.5")} ${src("ldt3", "Regel E009")}`, more: ["muster-10-laborauftrag/#laborgemeinschaft", "Muster 10 und 10A"] },
   { id: "laengenangabe", term: "Längenangabe", text: "Die ersten drei Ziffern jeder Zeile. Sie zählen die ganze Zeile: Inhalt plus 9 Zeichen für Längenangabe, Feldkennung und Zeilenende CR LF.", src: src("ldt3", "Kap. 6.4.1"), more: ["fehler/", "Fehler in LDT-Dateien"] },
   { id: "ldt", term: "LDT", text: "Labordatenträger, in Handbüchern von Praxissoftware auch Labordatentransfer genannt: Datenformat der Kassenärztlichen Bundesvereinigung (KBV), mit dem Arztpraxen Laboraufträge elektronisch an ein Labor senden und Labore ihre Befunde zurückschicken.", src: src("ldt3", "Kap. 4 und 5.1"), more: ["was-ist-ldt/", "Was ist LDT?"] },
+  { id: "muster-10", term: "Muster 10 und Muster 10A", text: "Muster 10 ist der Überweisungsschein für Laboratoriumsuntersuchungen als Auftragsleistung, Muster 10A der Anforderungsschein bei Laborgemeinschaften. Im LDT-3-Auftrag stehen sie als Wert 27 bzw. 28 in Feld 4239; abrechnungsbegründend ist das Muster, nicht der LDT-Auftrag.", src: `${src("ldt3", "Regel E009")} ${src("faq", "Kap. 2")}`, more: ["muster-10-laborauftrag/", "Muster 10 und 10A digital"] },
   { id: "objekt", term: "Objekt (LDT 3)", text: "Bündel zusammengehöriger Felder innerhalb eines Satzes, etwa alle Angaben zum Patienten. Ein Objekt wird durch ein Objektattribut (Feldkennungen 8100 bis 8299) angekündigt, beginnt mit Feld 8002 (Objekt-ID wie Obj_0060) und endet mit Feld 8003.", src: src("ldt3", "Kap. 6.3"), more: ["ldt-datei-beispiel/", "LDT-3-Beispiel Zeile für Zeile"] },
   { id: "pruefsumme", term: "Prüfsumme (Feld 9300)", text: "SHA-1-Wert über alle Zeichen vor dieser Zeile, Pflicht im Abschluss-Satz einer LDT-3-Datei. Ändert sich nach dem Erstellen auch nur ein Zeichen, passt die Prüfsumme nicht mehr.", src: src("ldt3", "Kap. 6.7"), more: ["fehler/#pruefsumme", "Fehler: Prüfsumme passt nicht"] },
   { id: "satz", term: "Satz und Satzart (Feld 8000)", text: "Ein Satz ist eine Gruppe von Zeilen, die mit Feld 8000 beginnt. Dessen Inhalt, die Satzart, sagt, worum es geht, in LDT 3 etwa 8205 für einen Befund und 8215 für einen Auftrag.", src: src("ldt3", "Kap. 6.2"), more: ["xdt-gdt-ldt-bdt/", "Format an der Satzart erkennen"] },
@@ -106,5 +108,5 @@ export default {
   jsonld: [pageLd, termSetLd, faqLd(faq.map((f) => ({ q: f.q, a: strip(f.a) }))), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
-  llms: "Glossar mit kurzen, belegten Definitionen: Anhang (Obj_0010), BDT, Befundstatus 8401, Datenpaket, EULUMDAT, Feldkennung, GDT, Grenzwertindikator 8422, KVDT, Labordatenkommunikation (LDK), Labordatentransfer, Längenangabe, LDT, Objekt, Prüfsumme 9300, Satz/Satzart 8000, Satzende 8001/8202, Satzlänge 8100, xDT, Zeichensatz 9106; als DefinedTermSet ausgezeichnet.",
+  llms: "Glossar mit kurzen, belegten Definitionen: Anhang (Obj_0010), BDT, Befundstatus 8401, Datenpaket, EULUMDAT, Feldkennung, GDT, Grenzwertindikator 8422, KVDT, Labordatenkommunikation (LDK), Labordatentransfer, Laborgemeinschaft, Längenangabe, LDT, Muster 10/10A, Objekt, Prüfsumme 9300, Satz/Satzart 8000, Satzende 8001/8202, Satzlänge 8100, xDT, Zeichensatz 9106; als DefinedTermSet ausgezeichnet.",
 };

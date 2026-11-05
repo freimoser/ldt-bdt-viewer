@@ -16,7 +16,7 @@ const CHROME = process.env.CHROME || "/Applications/Google Chrome.app/Contents/M
 const tpl = pathToFileURL(join(root, "scripts", "assets", "og-page.html")).href;
 const BEREICH = {
   "ldt-datei-oeffnen/": "Anleitung", "bdt-datei-oeffnen/": "Anleitung", "fehler/": "Anleitung",
-  "was-ist-ldt/": "Wissen", "was-ist-bdt/": "Wissen", "ldt-2-vs-ldt-3/": "Wissen", "xdt-gdt-ldt-bdt/": "Wissen", "glossar/": "Wissen",
+  "was-ist-ldt/": "Wissen", "was-ist-bdt/": "Wissen", "ldt-2-vs-ldt-3/": "Wissen", "xdt-gdt-ldt-bdt/": "Wissen", "glossar/": "Wissen", "muster-10-laborauftrag/": "Wissen",
   "ldt-datei-beispiel/": "Beispieldateien", "bdt-datei-beispiel/": "Beispieldateien", "feldkennungen/": "Referenz",
   "quellen/": "Über diese Website", "inhalt/": "Über diese Website", "ueber/": "Projekt",
 };

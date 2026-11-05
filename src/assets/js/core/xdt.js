@@ -988,7 +988,7 @@ export function extractAuftraege(m) {
   const T = S.ORDER_TEXT;
   for (const rec of m.records) {
     if (rec.type !== "8215") continue;
-    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", material: [], tests: [], notes: [] };
+    const a = { line: rec.start + 1, patient: {}, order: "", date: "", diagnoses: [], billing: "", forms: [], material: [], tests: [], notes: [] };
     let diag = null, test = null;
     for (let i = rec.start; i <= rec.end; i++) {
       const f = m.fk[i];
@@ -1009,6 +1009,7 @@ export function extractAuftraege(m) {
       else if (inner === "Obj_0100" && f === 6001) { diag = { icd: v, certainty: "" }; a.diagnoses.push(diag); }
       else if (inner === "Obj_0100" && f === 6003 && diag) diag.certainty = T.certainty[v] || v;
       else if (inner === "Obj_0027" && f === 7303 && !a.billing) a.billing = T.billing[v] || v;
+      else if (inner === "Obj_0002" && f === 4239 && !a.forms.includes(T.form[v] || v)) a.forms.push(T.form[v] || v);
       else if (inner === "Obj_0037" && f === 8430) a.material.push(v);
       else if (inner === "Obj_0059" && f === 8410) { test = { id: v, name: "", urgent: "" }; a.tests.push(test); }
       else if (inner === "Obj_0059" && f === 8411 && test) test.name = v;

@@ -433,6 +433,7 @@ function orderCard(f, a) {
     ["Diagnose", a.diagnoses.length ? a.diagnoses.map((d) => `${d.certainty ? d.certainty + " " : ""}${d.icd}`).join(", ") : "–"],
     ["Material", a.material.join(", ") || "–"],
     ["Abrechnung", a.billing || "–"],
+    ["Formular", a.forms.join(", ") || "–"],
   ];
   return h("article", { class: "befund" },
     h("header", { class: "befund-head" },
