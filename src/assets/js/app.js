@@ -241,12 +241,20 @@ function kb(bytes) {
 }
 
 async function openAnhang(f, index, save) {
-  const res = await engine.call("anhang", { file: f.key, index });
-  const blob = new Blob([res.buffer], { type: res.mime });
-  if (save) { download(res.name, blob); return; }
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank", "noopener");
-  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  // Fenster noch im Klick öffnen: nach dem Dekodieren zählt der Klick für Popup-Blocker (Safari) nicht mehr
+  const w = save ? null : window.open("", "_blank");
+  if (w) w.opener = null;
+  try {
+    const res = await engine.call("anhang", { file: f.key, index });
+    const blob = new Blob([res.buffer], { type: res.mime });
+    if (save || !w) { download(res.name, blob); return; }
+    const url = URL.createObjectURL(blob);
+    w.location.href = url;
+    setTimeout(() => URL.revokeObjectURL(url), 10 * 60000);
+  } catch (err) {
+    if (w) w.close();
+    showGlobalError(`Der Anhang kann nicht geöffnet werden, er ist vermutlich beschädigt: ${err.message}`);
+  }
 }
 
 function card(label, value, extra) {

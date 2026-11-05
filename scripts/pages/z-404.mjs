@@ -26,7 +26,8 @@ ${GUIDES.map(([p, l, d]) => `<a class="card-link" href="${href(p)}"><h3>${esc(l)
   const ziele = ${JSON.stringify(ZIELE)};
   const base = ${JSON.stringify(SITE.base)};
   const norm = (s) => decodeURIComponent(s).toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const wunsch = norm(location.pathname.replace(base, ""));
+  let wunsch = "";
+  try { wunsch = norm(location.pathname.replace(base, "")); } catch { return; }
   if (!wunsch) return;
   const dist = (a, b) => { const d = Array.from({ length: b.length + 1 }, (_, i) => i); for (let i = 1; i <= a.length; i++) { let prev = d[0]; d[0] = i; for (let j = 1; j <= b.length; j++) { const t = d[j]; d[j] = Math.min(d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = t; } } return d[b.length]; };
   let best = null;

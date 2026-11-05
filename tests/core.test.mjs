@@ -291,3 +291,12 @@ test("Keine unbelegten Mengenangaben über fremde Software in Seiten und Meldung
   }
   assert.deepEqual(treffer, []);
 });
+
+test("Anhang mit zeilenweise aufgefülltem Base64 wird trotzdem richtig dekodiert", async () => {
+  const { anhangBytes } = await import("../src/assets/js/core/xdt.js");
+  const teil1 = Buffer.from("%PDF-1", "latin1").toString("base64"), teil2 = Buffer.from(".4 ende", "latin1").toString("base64");
+  const f = fromLines(["80008220", "0001LDT3.2.20", "80008205", "8002Obj_0010", "9970100", "8242base64-kodierte_Anlage", "8002Obj_0068",
+    "6329" + teil1, "6329" + teil2, "8003Obj_0068", "6303PDF", "8003Obj_0010", "80008221"]);
+  const m = open(f, "a.ldt");
+  assert.equal(new TextDecoder("latin1").decode(anhangBytes(m, m.anhaenge[0])), "%PDF-1.4 ende");
+});

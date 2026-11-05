@@ -233,7 +233,7 @@ const MIME = { PDF: "application/pdf", JPG: "image/jpeg", JPEG: "image/jpeg", PN
 
 /**
  * Eingebettete Anhänge in LDT 3: Obj_0010 mit Dateiformat 6303, Beschreibung 6327, Dokumententyp 9970;
- * der Inhalt steht Base64-kodiert in den Zeilen 6329 des folgenden Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
+ * der Inhalt steht Base64-kodiert in den Zeilen 6329 des darin verschachtelten Obj_0068 (KBV LDT 3.2.20, Kap. 11.10, Regel K100).
  */
 export function listAnhaenge(m) {
   if (m.format !== "ldt3" || !m.objects) return [];
@@ -259,9 +259,11 @@ export function listAnhaenge(m) {
 
 /** Dekodiert einen Anhang aus listAnhaenge zu Bytes. */
 export function anhangBytes(m, a) {
-  let b64 = "";
-  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) b64 += content(m, i).trim();
-  const bin = atob(b64.replace(/[^A-Za-z0-9+/=]/g, ""));
+  const zeilen = [];
+  for (let i = a.start; i <= a.end; i++) if (m.fk[i] === 6329) zeilen.push(content(m, i).replace(/[^A-Za-z0-9+/=]/g, ""));
+  const ganz = zeilen.join("");
+  // Füllt ein Erzeuger jede Zeile einzeln mit „=“ auf, wird zeilenweise dekodiert
+  const bin = /=[^=]/.test(ganz) ? zeilen.map((z) => atob(z)).join("") : atob(ganz);
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;

@@ -149,10 +149,12 @@ for (const pg of pages) {
   else if (navZiele(pg.html) !== navRef) blocker.push(`${pg.route}: Navigation weicht von der Startseite ab.`);
 }
 
-// 7d) Sichtbares Aktualisierungsdatum = Sitemap-lastmod
+// 7d) Jede indexierbare Unterseite zeigt ihr Aktualisierungsdatum (dasselbe wie lastmod, siehe build.mjs)
 for (const pg of pages) {
+  if (pg.route === "/" || /<meta name="robots" content="noindex/.test(pg.html)) continue;
   const t = (pg.html.match(/<p class="meta-line">Aktualisiert: <time datetime="([^"]+)"/) || [])[1];
-  if (t && lastmod.has(pg.route) && t !== lastmod.get(pg.route)) blocker.push(`${pg.route}: sichtbar aktualisiert am ${t}, Sitemap sagt ${lastmod.get(pg.route)}.`);
+  if (!t) blocker.push(`${pg.route}: kein sichtbares Aktualisierungsdatum im Seitenkopf.`);
+  else if (lastmod.has(pg.route) && t !== lastmod.get(pg.route)) blocker.push(`${pg.route}: sichtbar aktualisiert am ${t}, Sitemap sagt ${lastmod.get(pg.route)}.`);
 }
 
 // 7c) Vorschaubild jeder Seite muss im Build liegen (sonst zeigen Teams, LinkedIn und Co. keine Vorschau)

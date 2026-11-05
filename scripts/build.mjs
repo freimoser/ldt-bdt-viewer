@@ -94,7 +94,7 @@ function headingIds(html, withToc) {
     const first = main.indexOf(h2[0][0]);
     main = main.slice(0, first) + toc + main.slice(first);
   }
-  return html.replace(m[0], main);
+  return html.replace(m[0], () => main);
 }
 
 const problems = [];
