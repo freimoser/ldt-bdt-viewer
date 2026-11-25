@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, href, url, esc, SITE, LEGAL, PERSON_LD } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, href, url, esc, src, SITE, LEGAL, PERSON_LD } from "../lib/layout.mjs";
 
 // Herkunft und Arbeitsweise: nur Aussagen, die das Repository selbst belegt (Workflow, Skripte, Lizenzen)
 const path = "ueber/";
@@ -6,8 +6,8 @@ const crumbs = [["LDT & BDT Viewer", ""], ["Über diese Website", path]];
 const title = "Über den LDT & BDT Viewer: Quellen, Prüfung, Grenzen";
 const description = "Wer den LDT & BDT Viewer betreibt, auf welchen Spezifikationen er beruht, wie er vor jeder Veröffentlichung geprüft wird und wo seine Grenzen liegen.";
 const h1 = "Über diese Website: Quellen, Prüfung und Grenzen";
-const UPDATED = "2026-10-26";
-const STAND = "26.10.2026";
+const UPDATED = "2026-11-25";
+const STAND = "25.11.2026";
 const ISSUES = SITE.repo + "/issues";
 
 const body = `<main id="inhalt">
@@ -21,10 +21,14 @@ ${heroHtml({
 <h2 id="betreiber">Wer die Website betreibt</h2>
 <p>Betreiber und Verantwortlicher ist ${esc(LEGAL.operator)}; Anschrift und Kontakt stehen im <a href="${href("impressum/")}">Impressum</a>. Die Website ist kein Angebot eines Praxissoftware-Herstellers, eines Labors oder der KBV und finanziert sich nicht über Werbung. Sie setzt keine Cookies und misst nichts (<a href="${href("datenschutz/")}">Datenschutz</a>).</p>
 
+<h2 id="autor">Über den Autor</h2>
+<p>${esc(LEGAL.operator)} arbeitet hauptberuflich als VP Data Analytics &amp; Automation und baut daneben kostenlose Werkzeuge, die medizinische Datenformate direkt im Browser lesbar machen: neben LDT und BDT auch GDT, HL7 v2, FHIR, HL7 CDA und DICOM. Allen gemeinsam ist das Prinzip dieser Website: Die Datei verlässt das eigene Gerät nicht. ${src("freimoserDe", "Startseite, „Wer ich bin“ und FAQ", "25.11.2026")}</p>
+<p>Profile: <a href="https://freimoser.de/">freimoser.de</a> · <a href="https://www.linkedin.com/in/thomas-freimoser/">LinkedIn</a> · <a href="https://github.com/freimoser">GitHub</a>. Die anderen Viewer stehen im Fußbereich jeder Seite.</p>
+
 <h2 id="quellen">Woher die Inhalte stammen</h2>
 <ul>
 <li><strong>Primärquellen:</strong> die Satz- und Datensatzbeschreibungen der KBV (LDT 3.2.20, LDT 5.12, KVDT 6.08, Prüfpaket und FAQ zur Labordatenkommunikation) und des QMS (BDT 3.0 Version 0.96, GDT 2.1). Wo eine Primärquelle nicht öffentlich ist, etwa BDT 02/94, ist die Ersatzquelle als solche gekennzeichnet.</li>
-<li><strong>Beleg an jeder Aussage:</strong> Jede Faktenaussage nennt im Text Stand und Quelle mit Kapitel, Regel oder Seite. Die vollständige Liste mit Version und Abrufdatum steht unter <a href="${href("quellen/")}">Quellen</a>.</li>
+<li><strong>Beleg an jeder Aussage:</strong> Jede Faktenaussage nennt im Text Quelle und Abrufdatum mit Kapitel, Regel oder Seite. Die vollständige Liste mit Version und Abrufdatum steht unter <a href="${href("quellen/")}">Quellen</a>.</li>
 <li><strong>Feldtabellen aus den PDFs:</strong> Die Feldkennungen, Regeln und der LDT-3-Objektkatalog werden mit Skripten aus den Spezifikationen gelesen, nicht abgetippt. Durchgestrichene Änderungsmarkierungen im BDT-3.0-Dokument werden dabei verworfen.</li>
 <li><strong>Erfundene Beispieldaten:</strong> Alle Beispieldateien und Bildschirmfotos enthalten erfundene Personen und Werte.</li>
 </ul>

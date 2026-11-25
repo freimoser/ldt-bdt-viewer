@@ -65,7 +65,7 @@ ${heroHtml({
 <caption>Dateien im KBV-Verzeichnis Labordatenkommunikation</caption>
 <thead><tr><th scope="col">Datei</th><th scope="col">Inhalt</th><th scope="col">Datum</th><th scope="col">Größe</th></tr></thead>
 <tbody>
-${DATEIEN.map(([f, inhalt, d, g]) => `<tr><td><code>${f}</code></td><td>${inhalt}</td><td>${d}</td><td>${g}</td></tr>`).join("\n")}
+${DATEIEN.map(([f, d, g, inhalt]) => `<tr><td><code>${f}</code></td><td>${inhalt}</td><td>${d}</td><td>${g}</td></tr>`).join("\n")}
 </tbody></table></div>
 <p>${src("kbvLdk", "Verzeichnisliste", ABRUF)} Das Prüfmodul liegt in zwei Paketen vor, „praxis“ und „KV“, beide in Version 2.20.0.</p>
 

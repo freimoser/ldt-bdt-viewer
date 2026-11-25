@@ -2,9 +2,9 @@ import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml
 
 const path = "was-ist-bdt/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Was ist BDT?", path]];
-const title = "BDT Behandlungsdatenträger: Definition und Einsatz";
-const description = "BDT (Behandlungsdatenträger) erklärt: Herkunft vom ZI, BDT 3.0 des QMS, Export beim Praxissoftware-Wechsel, Dateiaufbau mit Beispielen und Grenzen.";
-const h1 = "BDT (Behandlungsdatenträger): Definition, Aufbau und Einsatz";
+const title = "BDT-Datei: Behandlungsdatenträger erkennen und öffnen";
+const description = "BDT-Datei aus der Praxissoftware erkennen und öffnen: Behandlungsdatenträger erklärt, Export beim Praxiswechsel, Dateiaufbau mit Beispielen und Grenzen.";
+const h1 = "BDT-Datei (Behandlungsdatenträger): erkennen, öffnen, verstehen";
 const STAND = "26.10.2026";
 
 const faq = [
@@ -43,6 +43,8 @@ ${heroHtml({
   stand: STAND,
 })}
 <div class="prose">
+<div class="callout"><span class="callout-title">Ist Ihre .bdt-Datei ein Behandlungsdatenträger?</span>
+<p>Ein BDT-Export aus der Praxissoftware ist eine Textdatei, in der jede Zeile mit drei Ziffern Länge und vier Ziffern Feldkennung beginnt, etwa <code>01380006100</code> für den Beginn eines Patientensatzes. ${src("bdt3", "Kap. 3.3")} ${src("giessen")} Dieselbe Endung nutzen auch ganz andere Programme, zum Beispiel Wörterbücher von ABBYY Lingvo oder Spiel-Engines; solche Dateien kann der Viewer nicht lesen. ${src("filextBdt", "", "25.11.2026")} Einen BDT-Export öffnen Sie im <a href="${href()}">LDT &amp; BDT Viewer</a>, ohne Upload; die Schritte stehen unter <a href="${href("bdt-datei-oeffnen/")}">BDT-Datei öffnen</a>.</p></div>
 <h2>Woher kommt BDT?</h2>
 <p>Die wichtigsten Stationen laut der BDT-3.0-Beschreibung des QMS:</p>
 <div class="table-wrap"><table>
@@ -148,8 +150,8 @@ export default {
   ogTitle: "Was ist BDT? Der Behandlungsdatenträger einfach erklärt",
   ogDescription: "BDT-Export beim Wechsel der Praxissoftware: Geschichte, Anwendungsfälle in Feld 0010, klassischer Aufbau und BDT 3.0 mit echten Beispielzeilen sowie die Grenzen des Formats.",
   ogType: "article",
-  lastmod: "2026-10-26",
-  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
+  lastmod: "2026-11-25",
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-11-25" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
   minInternalLinks: 3,
   llms: "Was BDT (Behandlungsdatenträger, Behandlungsdatentransfer) ist: Herkunft beim ZI, Weiterentwicklung durch den QMS (BDT 3 im September 2017 freigegeben, öffentlich nur Version 0.96 von 2015), Einsatzzwecke wie Praxiswechsel, § 630g BGB, Hausarztwechsel und Notdienstdaten, Anwendungsfälle in Feld 0010, klassischer Aufbau mit 8100 und BDT 3.0 mit 8202 sowie Grenzen beim Praxissoftware-Wechsel.",

@@ -2,14 +2,19 @@ import { href, heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, c
 
 const path = "muster-10-laborauftrag/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Muster 10 und 10A digital", path]];
-const title = "Muster 10 und 10A digital: Laborauftrag mit LDT 3";
-const description = "Muster 10 und 10A als digitaler Laborauftrag: was die KBV verlangt, wo die Formularart in der LDT-Datei steht (Feld 4239) und was abrechnungsrelevant ist.";
-const h1 = "Muster 10 und Muster 10A digital: der Laborauftrag mit LDT 3";
-const UPDATED = "2026-11-05";
+const title = "Muster 10 und 10A: ausfüllen und digital per LDT 3";
+const description = "Muster 10 und 10A richtig ausfüllen und digital per LDT übermitteln: die Regeln der KBV, die Formularart in Feld 4239 und was abrechnungsrelevant ist.";
+const h1 = "Muster 10 und Muster 10A: ausfüllen und digital per LDT 3 übermitteln";
+const UPDATED = "2026-11-25";
+const V = (d) => srcAt("kbvVordrucke", d, "25.11.2026");
 const STAND = "12.10.2026";
 const src = (k, d) => srcAt(k, d, STAND);
 
 const faq = [
+  {
+    q: "Wie fülle ich Muster 10A richtig aus?",
+    a: `Leistungsart ankreuzen (kurativ, präventiv oder belegärztlich), bei Unfall das Unfallfeld, bei Schwangerschaft die SSW, Abnahmedatum als TTMMJJ und Abnahmezeit als hhmm eintragen und die Untersuchungen per Strich im Auftragsfeld markieren; nicht vorgedruckte Leistungen des Allgemeinlabors kommen unter „Sonstiges“. Beide Teile füllt der anfordernde Arzt aus. ${srcAt("kbvVordrucke", "Muster 10A, S. 40–41", "25.11.2026")}`,
+  },
   {
     q: "Was ist der Unterschied zwischen Muster 10 und Muster 10A?",
     a: `Muster 10 ist der Überweisungsschein für Laboratoriumsuntersuchungen als Auftragsleistung, Muster 10A der Anforderungsschein für Laboratoriumsuntersuchungen bei Laborgemeinschaften. So stehen beide in der Werteliste der Regel E009 für Feld 4239. ${src("ldt3", "Regel E009")}`,
@@ -36,6 +41,36 @@ ${heroHtml({
   minutes: 6,
 })}
 <div class="prose">
+<h2 id="ausfuellen">Muster 10 und 10A ausfüllen: die Regeln der KBV</h2>
+<p>Für die Praxis entscheidend ist, was die KBV in ihren Erläuterungen zur Vordruckvereinbarung vorgibt. Muster 10 heißt dort „Überweisungsschein für in-vitro-diagnostische Auftragsleistungen“, Muster 10A „Anforderungsschein für Laboratoriumsuntersuchungen bei Laborgemeinschaften“. ${V("Muster 10 und 10A, S. 36–41")}</p>
+<h3 id="beide-muster">Für beide Muster</h3>
+<ul>
+<li><strong>Gesundheitskarte im Quartal:</strong> Der Schein darf nur ausgestellt werden, wenn im betreffenden Quartal eine gültige elektronische Gesundheitskarte vorgelegt wurde. Ausnahmen sind zulässig, etwa wenn die Untersuchung dringend ist oder die Kassenzugehörigkeit zweifelsfrei bekannt ist.</li>
+<li><strong>Zwei Teile, beide vom Arzt:</strong> Der obere Teil dient der Identifikation, der untere ist der Auftragsteil. Beide füllt der überweisende bzw. anfordernde Arzt aus.</li>
+<li><strong>Leistungsart ankreuzen:</strong> kurativ, präventiv oder bei belegärztlicher Behandlung; auf Muster 10 zusätzlich Empfängnisregelung, Sterilisation oder Schwangerschaftsabbruch.</li>
+<li><strong>Unfall:</strong> Ist die Untersuchung Folge eines Unfalls, wird das Unfallfeld angekreuzt, damit die Krankenkasse Kosten gegenüber Dritten geltend machen kann.</li>
+<li><strong>Schwangerschaft:</strong> Bei einer Schwangerschaft wird die Schwangerschaftswoche (SSW) eingetragen.</li>
+<li><strong>Knappschaft:</strong> Knappschaftsärzte tragen bei Knappschaftsversicherten die Ziffer 87777 ein.</li>
+</ul>
+<p>${V("S. 36–41")}</p>
+<h3 id="muster-10a-ausfuellen">Besonderheiten bei Muster 10A</h3>
+<ul>
+<li><strong>Abnahmedatum und -zeit:</strong> Das Abnahmedatum wird als TTMMJJ eingetragen, die Abnahmezeit als hhmm.</li>
+<li><strong>Auftragsfeld:</strong> Die Untersuchungen werden durch Striche im Auftragsfeld markiert. Unter „Sonstiges“ lassen sich Leistungen des Allgemeinlabors anfordern, die nicht vorgedruckt sind.</li>
+<li><strong>Zusätzliche Angaben:</strong> In dieses Feld gehört, was die Laborgemeinschaft für die Untersuchung wissen muss, zum Beispiel Sammelmenge und Sammelzeit des Urins bei einer Kreatinin-Clearance oder wichtige Befunde und Medikamente.</li>
+<li><strong>Nur Angefordertes:</strong> Die Laborgemeinschaft darf nur die Untersuchungen durchführen, die im Auftragsfeld angegeben sind.</li>
+</ul>
+<p>${V("Muster 10A, S. 40–41")}</p>
+<h3 id="muster-10-ausfuellen">Besonderheiten bei Muster 10</h3>
+<ul>
+<li><strong>Wofür:</strong> Muster 10 (nicht Muster 6) gilt für die Überweisung zu in-vitro-diagnostischen Leistungen der Kapitel 11, 19 und 32 EBM und zu laboratoriumsmedizinischen Leistungen der Abschnitte 1.7, 8.5, 8.6 und 30.12.2 EBM. Für die Früherkennung des Zervixkarzinoms nach der Richtlinie für organisierte Krebsfrüherkennungsprogramme gilt Muster 39.</li>
+<li><strong>Diagnose und Auftrag:</strong> Die Diagnose oder Verdachtsdiagnose steht möglichst als ICD-Code auf dem Schein, die Auftragsleistungen werden nach Art und Umfang konkret bezeichnet, also mit Gebührenordnungsposition oder genauer Leistungsbezeichnung.</li>
+<li><strong>Keine Erweiterung ohne Zustimmung:</strong> Das Labor darf nur die angegebenen Untersuchungen durchführen. Eine Erweiterung braucht die Zustimmung des überweisenden Arztes und wird auf dem Vordruck vermerkt.</li>
+<li><strong>Abnahmedatum:</strong> Weicht es vom Ausstellungsdatum ab, wird es als TTMMJJ eingetragen; die Abnahmezeit (hhmm) nur, wenn sie für die Befundung nötig ist.</li>
+<li><strong>Eilig:</strong> Ein eiliger Befund kann gekennzeichnet werden, mit Angabe, ob per Telefon oder Fax und an welche Nummer.</li>
+</ul>
+<p>${V("Muster 10, S. 36–39")}</p>
+
 <h2 id="was-gilt">Was abrechnungsrelevant ist</h2>
 <p>Die wichtigste Regel vorweg: Abrechnungsbegründend ist nur das Muster selbst, auf Papier oder digital, nicht der LDT-Auftrag. ${src("faq", "Kap. 2")} Der LDT-Auftrag überträgt die Anforderung maschinenlesbar an das Labor; das Muster bleibt der Beleg. Ein ausgedrucktes digitales Muster ist dabei kein gültiges Muster. ${src("faq", "Kap. 2")}</p>
 <ul>

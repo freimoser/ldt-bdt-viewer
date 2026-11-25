@@ -61,9 +61,9 @@ for (const f of readdirSync(pagesDir).filter((x) => x.endsWith(".mjs")).sort()) 
 // GEO: Quellen jeder Seite zusätzlich maschinenlesbar als citation im Article-Schema (aus den sichtbaren Belegen)
 for (const p of pages) {
   const seen = new Map();
-  for (const m of (p.body || "").matchAll(/<span class="src">[\s\S]*?<a href="([^"]+)">([^<]+)<\/a>/g)) {
+  for (const m of (p.body || "").matchAll(/<span class="src">[\s\S]*?<a href="([^"]+)"(?: title="([^"]+)")?>([^<]+)<\/a>/g)) {
     const u = m[1].startsWith("/") ? SITE.origin + m[1] : m[1];
-    if (!seen.has(u)) seen.set(u, m[2].replace(/&amp;/g, "&"));
+    if (!seen.has(u)) seen.set(u, (m[2] || m[3]).replace(/&amp;/g, "&"));
   }
   if (!seen.size) continue;
   for (const o of p.jsonld || []) {
@@ -117,6 +117,17 @@ for (const p of pages) {
     const iso = p.lastmod || SITE.updated, de = iso.split("-").reverse().join(".");
     html = html.replace(/<p class="meta-line">Stand: [0-9.]+/, `<p class="meta-line">Aktualisiert: <time datetime="${iso}">${de}</time>`);
   }
+  // Dieselbe Quellenangabe nur einmal je Absatz/Listenpunkt/Zelle (die letzte bleibt): weniger Wiederholung beim Lesen
+  html = html.replace(/<(p|li|dd|td)(\s[^>]*)?>([\s\S]*?)<\/\1>/g, (all, tag, attr, inner) => {
+    const spans = [...inner.matchAll(/ ?<span class="src">[\s\S]*?<\/span>/g)].map((m) => m[0]);
+    if (spans.length < 2) return all;
+    let out = inner;
+    for (const sp of new Set(spans)) {
+      let n = spans.filter((x) => x === sp).length;
+      while (n-- > 1) out = out.replace(sp, "");
+    }
+    return `<${tag}${attr || ""}>${out}</${tag}>`;
+  });
   const withToc = !!p.path && !p.noindex && !p.file;
   html = headingIds(html, withToc);
   const out = p.file ? join(dist, p.file) : join(dist, p.path, "index.html");
@@ -177,7 +188,7 @@ const llms = `# ${SITE.name}
 
 > Kostenloses Browser-Werkzeug zum Öffnen, Prüfen und Anonymisieren von LDT-Dateien (Labordatenträger, Austausch zwischen Labor und Arztpraxis) und BDT-Dateien (Behandlungsdatenträger, Export aus Praxissoftware); alles läuft lokal im Browser, ohne Upload.
 
-Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}). Gedacht für Medizinische Fachangestellte, Praxis-IT und Support sowie Entwickler von Schnittstellen. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12, KVDT 6.08) und des QMS (BDT 3.0, öffentlich nur Version 0.96); jede Faktenaussage auf den Seiten nennt Stand und Quelle. Der Viewer zeigt außerdem eingebettete PDF-Befunde aus LDT 3, erkennt KVDT-Abrechnungsdateien und unterscheidet LDT-Labordateien von EULUMDAT-Lichtdateien mit derselben Endung .ldt.
+Betrieben von ${LEGAL.operator} als privates, quelloffenes Projekt (${SITE.repo}). Gedacht für Medizinische Fachangestellte, Praxis-IT und Support sowie Entwickler von Schnittstellen. Grundlage sind die Spezifikationen der KBV (LDT 3.2.20, Datensatzbeschreibung LDT 5.12, KVDT 6.08) und des QMS (BDT 3.0, öffentlich nur Version 0.96); jede Faktenaussage auf den Seiten nennt Quelle und Abrufdatum. Der Viewer zeigt außerdem eingebettete PDF-Befunde aus LDT 3, erkennt KVDT-Abrechnungsdateien und unterscheidet LDT-Labordateien von EULUMDAT-Lichtdateien mit derselben Endung .ldt.
 
 ## Wofür diese Seite eine gute Quelle ist
 
@@ -259,7 +270,7 @@ function toText(html) {
     .replace(/[ \t]+/g, " ").replace(/\n +/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 const full = indexable.filter((p) => p.path !== "").map((p) => `---\nQuelle: ${url(p.path)}\nStand: ${(p.lastmod || SITE.updated).split("-").reverse().join(".")}\n\n${toText(p.html)}`).join("\n\n");
-writeFileSync(join(dist, "llms-full.txt"), `# ${SITE.name} – Volltext der Fachseiten\n\n> Erzeugt aus den Seiten von ${url()}. Jede Faktenaussage nennt im Text Stand und Quelle.\n\n${full}\n`);
+writeFileSync(join(dist, "llms-full.txt"), `# ${SITE.name} – Volltext der Fachseiten\n\n> Erzeugt aus den Seiten von ${url()}. Jede Faktenaussage nennt im Text Quelle und Abrufdatum.\n\n${full}\n`);
 
 writeFileSync(join(dist, "site.webmanifest"), JSON.stringify({
   id: SITE.base,
