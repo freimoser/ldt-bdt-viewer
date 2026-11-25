@@ -21,7 +21,7 @@ const faq = [
 export default {
   path: "",
   // 26.10.2026: eingebettete PDFs, KVDT- und Lichtdatei-Erkennung
-  lastmod: "2026-10-26",
+  lastmod: "2026-11-25",
   title: "LDT Viewer für Laborbefunde – LDT & BDT ohne Upload öffnen",
   description: "Kostenloser LDT Viewer: LDT- und BDT-Dateien öffnen, Laborwerte lesen, eingebettete PDF-Befunde speichern, Fehler finden. Alles im Browser, kein Upload.",
   ogTitle: "LDT & BDT Viewer – Laborbefunde und Praxis-Exporte lesen",
@@ -31,7 +31,7 @@ export default {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      dateModified: "2026-10-26",
+      dateModified: "2026-11-25",
       name: SITE.name,
       alternateName: ["LDT Viewer", "BDT Viewer"],
       url: url(),
@@ -42,6 +42,7 @@ export default {
       inLanguage: "de-DE",
       isAccessibleForFree: true,
       offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+      screenshot: url("bilder/ldt-viewer-laborbefund.webp"),
       featureList: [
         "LDT 2.x, LDT 3.x und BDT öffnen",
         "Automatische Erkennung von Format, Version und Zeichensatz",
@@ -82,20 +83,20 @@ export default {
 
 <section class="card" aria-labelledby="open-title">
 <h2 id="open-title">Datei öffnen</h2>
-<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst. Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></p>
+<p class="card-intro">Laborbefund (LDT) oder Export aus der Praxissoftware (BDT) auswählen. Der Viewer erkennt Format, Version und Zeichensatz selbst.<span class="intro-extra"> Lichtdateien aus der Lichtplanung (EULUMDAT, ebenfalls .ldt) erkennt er, zeigt sie aber nicht an: <a href="${href("ldt-datei-oeffnen/#lichtdatei")}">Labor- oder Lichtdatei?</a></span></p>
 <div id="dropzone" class="dropzone">
 <div class="drop-icon" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v4a2 2 0 002 2h12a2 2 0 002-2v-4" stroke-linecap="round"/></svg></div>
 <p class="drop-title" id="dropTitle">LDT- oder BDT-Datei hierher ziehen</p>
 <p class="drop-sub">oder auswählen · .ldt, .bdt, .dat, .txt · auch mehrere Dateien</p>
 <button type="button" class="btn btn-primary btn-lg" id="pickBtn">Datei wählen</button>
-<input type="file" id="fileInput" accept=".ldt,.bdt,.dat,.txt,.gdt,.con,text/plain" multiple hidden>
+<input type="file" id="fileInput" aria-label="LDT- oder BDT-Datei auswählen" accept=".ldt,.bdt,.dat,.txt,.gdt,.con,text/plain" multiple hidden>
 </div>
 <div class="privacy-box">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <div>
-<p><strong>Deine Datei bleibt auf deinem Rechner. Es wird nichts hochgeladen.</strong></p>
+<p><strong>Ihre Datei bleibt auf Ihrem Rechner. Es wird nichts hochgeladen.</strong></p>
 <details>
-<summary>So prüfst du das selbst</summary>
+<summary>So prüfen Sie das selbst</summary>
 <ol>
 <li>Diese Seite laden, dann das Internet trennen (WLAN aus oder Netzwerkkabel ziehen). Der Viewer öffnet Dateien weiterhin.</li>
 <li>Oder die Entwicklerwerkzeuge des Browsers öffnen (Taste F12, Reiter „Netzwerk“) und eine Datei öffnen: Es erscheint keine Übertragung der Datei.</li>

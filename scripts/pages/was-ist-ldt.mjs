@@ -1,4 +1,4 @@
-import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src, href } from "../lib/layout.mjs";
+import { heroHtml, breadcrumbLd, articleLd, faqHtml, faqLd, relatedHtml, ctaHtml, src, href, figureHtml } from "../lib/layout.mjs";
 
 const path = "was-ist-ldt/";
 const crumbs = [["LDT & BDT Viewer", ""], ["Was ist LDT?", path]];
@@ -78,6 +78,7 @@ ${heroHtml({
 <tr><td>Befund: Labor → Praxis</td><td>8220 L-Datenpaket-Header (einmal)</td><td>8205 Befund (mindestens einmal, beliebige Reihenfolge)</td><td>8221 L-Datenpaket-Abschluss (einmal)</td></tr>
 </tbody>
 </table></div>
+${figureHtml("ldt-ablauf-praxis-labor.svg", "Ablaufdiagramm: Die Arztpraxis schickt einen Laborauftrag als LDT-Datei mit den Satzarten 8230, 8215 und 8231 an das Labor; das Labor schickt den Befund mit den Satzarten 8220, 8205 und 8221 zurück.", "Auftrag und Befund sind zwei getrennte LDT-Dateien mit eigenen Satzarten.", 960, 420)}
 <p>${src("ldt3", "Kap. 6.2.2 und 6.2.3")}</p>
 <p>Im Praxisalltag sieht das so aus:</p>
 <ol>
@@ -139,9 +140,9 @@ export default {
   ogTitle: "Was ist LDT? Der Labordatenträger einfach erklärt",
   ogDescription: "Labordatenträger LDT: wer ihn pflegt, welche Versionen gelten, wie Auftrag und Befund zwischen Praxis und Labor laufen und wie eine LDT-Datei aufgebaut ist.",
   ogType: "article",
-  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-10-26" }), faqLd(faq), breadcrumbLd(crumbs)],
+  jsonld: [articleLd({ headline: h1, description, path, updated: "2026-11-25" }), faqLd(faq), breadcrumbLd(crumbs)],
   body,
-  lastmod: "2026-10-26",
+  lastmod: "2026-11-25",
   minInternalLinks: 3,
   llms: "Was LDT (Labordatenträger) ist: KBV-Standard für Laboraufträge und Befunde, Versionen LDT 2.x und LDT 3.2.20, Satzarten 8230/8215/8231 und 8220/8205/8221, Feld- und Objektaufbau, Zeichensatz ISO 8859-15 und Dateiname.",
 };

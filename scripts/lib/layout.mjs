@@ -37,7 +37,13 @@ export const SITE = {
 };
 
 /** Autor und Herausgeber im Schema: eine Angabe für alle Seiten; sameAs verknüpft die Person mit ihrem öffentlichen Profil. */
-export const PERSON_LD = { "@type": "Person", name: SITE.author.name, url: SITE.author.url, sameAs: ["https://github.com/freimoser"] };
+// Angaben wie auf freimoser.de veröffentlicht (Startseite und /kontakt/, abgerufen 25.11.2026)
+export const PERSON_LD = {
+  "@type": "Person", "@id": "https://freimoser.de/#person", name: SITE.author.name, url: SITE.author.url,
+  jobTitle: "VP Data Analytics & Automation",
+  knowsAbout: ["LDT", "BDT", "GDT", "xDT", "HL7", "FHIR", "Datenformate im Gesundheitswesen"],
+  sameAs: ["https://github.com/freimoser", "https://www.linkedin.com/in/thomas-freimoser/", "https://x.com/freimoser"],
+};
 export const url = (path = "") => SITE.origin + SITE.base + path;
 export const href = (path = "") => SITE.base + path;
 
@@ -65,14 +71,25 @@ export const Q = {
   cgmLdt: { t: "CGM Knowledge Base, CGM TURBOMED: LDT Labordatentransfer", u: "https://support.cgm.com/CGM_TURBOMED/Handbuch_(Version_25.4.2)/LDT_Labordatentransfer/LDT_Labordatentransfer" },
   kbvLdk: { t: "KBV, Update-Verzeichnis Labordatenkommunikation", u: "https://update.kbv.de/ita-update/Labor/Labordatenkommunikation/" },
   chromiumFileHandling: { t: "Chromium, Web App File Handling (Entwicklerdokumentation)", u: "https://github.com/chromium/chromium/blob/main/docs/webapps/file_handling.md" },
+  kbvVordrucke: { t: "KBV, Erläuterungen zur Vereinbarung über Vordrucke für die vertragsärztliche Versorgung (Stand Januar 2026)", u: "https://www.kbv.de/documents/infothek/rechtsquellen/bundesmantelvertrag/anlage-02-vordruckvereinbarung/02_Erlaeuterungen.pdf" },
+  filextBdt: { t: "filext.com: Dateiendung BDT", u: "https://filext.com/de/dateiendung/BDT" },
+  freimoserDe: { t: "freimoser.de, Über mich und FAQ", u: "https://freimoser.de/" },
   kvdt: { t: "KBV, Datensatzbeschreibung KVDT Version 6.08 (24.08.2026)", u: "https://update.kbv.de/ita-update/Abrechnung/KBV_ITA_VGEX_Datensatzbeschreibung_KVDT.pdf" },
   eulumdatFormat: { t: "Paul Bourke, ldt EULUMDAT File Format (2021)", u: "https://paulbourke.net/dataformats/ldt/" },
 };
 
 /** Sichtbarer Beleg: „Stand …, Quelle: …“ */
+// Kurznamen der häufigsten Quellen für den Fließtext; der volle Titel steht im title-Attribut, im Schema und unter /quellen/
+const KURZ_QUELLE = {
+  ldt3: "KBV LDT 3.2.20", ldt2: "KBV LDT 5.12", bdt3: "QMS BDT 3.0 (V0.96)", faq: "KBV FAQ Labordatenkommunikation",
+  kvdt: "KBV KVDT 6.08", giessen: "Uni Gießen, BDT", gdt: "QMS GDT 2.1", pruefpaket: "KBV Prüfpaket LDK",
+  kbvVordrucke: "KBV, Erläuterungen zu den Vordrucken", kbvLdk: "KBV, Verzeichnis Labordatenkommunikation",
+};
+
 export function src(key, detail = "", stand = SITE.updatedDe) {
   const q = Q[key];
-  return `<span class="src">(Stand ${stand}, Quelle: <a href="${esc(q.u)}">${esc(q.t)}</a>${detail ? ", " + esc(detail) : ""})</span>`;
+  // „abgerufen“ statt „Stand“: das Datum ist der Abruf der Quelle, nicht der Stand der Seite (der steht im Seitenkopf)
+  return `<span class="src">(Quelle: <a href="${esc(q.u)}"${KURZ_QUELLE[key] ? ` title="${esc(q.t)}"` : ""}>${esc(KURZ_QUELLE[key] || q.t)}</a>${detail ? ", " + esc(detail) : ""}; abgerufen ${stand})</span>`;
 }
 
 const NAV = [
